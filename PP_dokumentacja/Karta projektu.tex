@@ -106,15 +106,15 @@ Gra powstawać będzie jako projekt łączony z przedmiotów Projekt Programisty
 	\vspace{5pt}
 \end{center}
 \begin{enumerate}
-	\item Ekran gry właściwej. W jej obrębie znajduje się gracz, wrogowie oraz wszyscy wrogowie. 
-	\item Grywalna postać, porusza się z dołu do góry, unika pocisków oraz strzela do wrogów.
+	\item Ekran gry właściwej. W jej obrębie znajduje się gracz, pociski oraz wszyscy wrogowie. 
+	\item Grywalna postać, porusza się po ekranie gry, unikając pocisków oraz strzelając do wrogów.
 	\item Wrogowie, których należy pokonać.
 	\item Chmara pocisków. Jak widać na rysunku, nie wchodzą ze sobą w żadną interakcję, każdy leci swoim wyznaczonym torem. Sprajty wrogów są niewrażliwe na swoje pociski, nie występuje \textit{friendly fire}.
 	\item Liczba zdobytych punktów oraz porównywanie ich z największym wynikiem.
 	\item Liczba pozostałych żyć. W trakcie gry można zdobywać kolejne. Utrata wszystkich kończy grę.
 	\item Liczba pozostałych bomb. Każda wykorzystana bomba zapewnia kilkusekundową odporność na wrogie pociski oraz umożliwia pojedynczy silniejszy atak. Można je zdobyć w trakcie gry.
 	\item Pasek mocy, napełnia się w trakcie gry wraz ze zdobytymi punktami. Utrata życia skutkuje zmniejszeniem paska o 1 segment.
-	\item Liczba "otrać", czyli uniknięć bardzo blisko pocisku. Aby umożliwić większe wyzwanie, ostateczny wynik pomnożony jest przez licznik Graze.
+	\item Liczba "otarć", czyli uniknięć bardzo blisko pocisku. Aby umożliwić większe wyzwanie, ostateczny wynik pomnożony jest przez licznik Graze.
 \end{enumerate}
 
 
@@ -128,31 +128,37 @@ Gra powstawać będzie jako projekt łączony z przedmiotów Projekt Programisty
 
 \section{Narzędzie do modelowania UML}
 
-{\Large Enterprise Architect} \\
+{\Large Enterprise Architect} \\\\
 Jest to narzędzie, który poznaliśmy semestr wcześniej na projekcie z przedmiotu Inżynieria Oprogramowania. Ponieważ ww. przedmiot kładł bardzo duży nacisk na modelowanie diagramów, większość z nas jest z nim dobrze zaznajomiona. Przejrzystość tego programu może być niezwykle przydatna podczas tworzenia np. diagramu przypadków użycia. Równolegle wykorzystujemy EA do stworzenia diagramów UML dla projektu z przedmiotu Bazy Danych II.
 
 \section{System kontroli wersji}
 
-{\Large GitHub} \\
+{\Large GitHub} \\\\
 Jest to bardzo powszechnie stosowane narzędzie wśród deweloperów pracujących w grupach. Jego zaletami jest m.in. klient aplikacji na system operacyjny Windows, łatwy do przyswojenia i intuicyjny interfejs i łatwość w zarządzaniu starszymi wersjami. Podobnie jak w przypadku Enterprise Architecta, większość z nas miała już wcześniej styczność z GitHubem i korzysta z niego od pewnego czasu.
 
 \section{Narzędzia pracy grupowej}
+
+{\Large Facebook/Skype/Gmail} \\\\
+W celu ułatwienia komunikacji wykorzystane zostaną popularne sieci społecznościowe oraz komunikatory. Ułatwi nam to wspólną współpracę jak i dzielenie się pomysłami oraz dokonanymi zmianami.
 % Takie cuś jest na platformie do opisania. Chyba chodzi o komunikatory. GG, Facebook, Skype? Wuda jako środek transportu do kumpla się liczy? :P %
 %  "Samochód jako miejce dyskusji i źródło inspiracji" %
 \section{Środowisko programistyczne}
-{\Large Microsoft Visual Studio 2012}
+
+{\Large Microsoft Visual Studio 2012} \\\\
+Wybraliśmy to środowisko ze względu na przyjazny interfejs, który nawet w najtrudniejszych sytuacjach potrafi okazać się bardzo pomocny. Pracujemy na nim od dłuższego czasu co ułatwi nam szybki dostęp do potrzebnych narzędzi. Etap debugowania posiada wiele możliwości kontroli naszego programu, co na pewno pozwoli uniknąć kilku czasochłonnych błędów. Ponieważ czasami pojawiają się problemy w kompilacji związane z różnymi wersjami VS, wspólnie wybraliśmy jedną wersję środowiska w celu usunięcia tych przeszkód.
+
 \section{Język programowania}
-{\Large C++ / C\#}
+
+{\Large C++ / C\#} \\\\
+Głównym kryterium wyboru tych języków był wysoki poziom integeracji z platformą programistyczą .NET oraz środowiskiem programistycznym Microsoft Visual Studio. Dzięki temu możemy uniknąć problemów podczas łączenia poszczególnych komponentów naszego projektu. Dodatkowo, język C++ poznaliśmy wcześniej na przedmiocie Programowanie Komputerów, a także używaliśmy go na innych laboratoriach - posiadamy pewne doświadczenie w tworzeniu aplikacji z jego użyciem. Język C\# jest nieco bardziej zaawansowane i na jego użycie zdecydujemy się wtedy, gdy opanujemy go na odpowiednim poziomie.
+
 \section{Biblioteka graficzna}
 {\Large DirectX / OpenGL}
+
 \section{Platforma programistyczna}
-{\Large .NET Framework}
+{\Large .NET Framework} \\\\
 
-
-
-
-
-
+W typ przypadku ponownie zadecydowała integracja z innymi produktami od Microsoftu (VS, język C\#) oraz fakt, że firma parę miesięcy temu udostępniła platformę na zasadach Open Source.
 
 
 \end{document}
