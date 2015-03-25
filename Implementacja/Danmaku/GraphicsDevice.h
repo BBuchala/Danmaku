@@ -5,8 +5,7 @@
  *  @Autor: Mateusz Forczmañski
 \* ======================================================== */
 
-#ifndef GAMEDEVICE_H
-#define GAMEDEVICE_H
+#pragma once
 
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -68,5 +67,3 @@ private:
 	void DrawScene();
 
 };
-
-#endif

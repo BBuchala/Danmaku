@@ -7,8 +7,7 @@
  *  @Autor: Mateusz Forczmañski
 \* ======================================================== */
 
-#ifndef GAMEWINDOW_H
-#define GAMEWINDOW_H
+#pragma once
 
 #include <Windows.h>
 #include "GameWindowInitializationFailedException.h"
@@ -36,5 +35,3 @@ private:
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 };
-
-#endif

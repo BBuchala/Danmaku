@@ -7,7 +7,7 @@ Bullet::Bullet(float const & x, float const & y, float const & speed, char const
 	this->radius = sqrt( pow( x - x_circle, 2) + pow( y - y_circle, 2) );
 	this->theta = D3DXToRadian(speed);
 	this->sprite = new Sprite(x, y);
-	this->sprite->Initialize(device, "Bullet01.png", 40, 40);
+	this->sprite->Initialize(device, "img/Bullet01.png", 40, 40);
 };
 
 

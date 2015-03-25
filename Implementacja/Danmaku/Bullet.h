@@ -5,8 +5,7 @@
  *  @Autor: Mateusz Forczmañski
 \* ======================================================== */
 
-#ifndef BULLET_CIRCLE_H
-#define BULLET_CIRCLE_H
+#pragma once
 
 #include <math.h>
 
@@ -41,5 +40,3 @@ public:
 
 
 };
-
-#endif

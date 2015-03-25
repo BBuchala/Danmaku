@@ -1,5 +1,4 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#pragma once
 
 #include <D3dx9.h>
 #include <D3d9.h>
@@ -32,5 +31,3 @@ public:
 	void setPosition(float const & x, float const & y);
 
 };
-
-#endif

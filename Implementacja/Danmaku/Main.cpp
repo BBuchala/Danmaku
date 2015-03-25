@@ -5,10 +5,6 @@
  *  @Autor: Mateusz Forczmañski
 \* ======================================================== */
 
-// potrzebne do poprawnego dzia³ania bibliotek
-#pragma comment(lib, "d3d9.lib")
-#pragma comment(lib, "d3dx9.lib")
-
 #include <Windows.h>
 #include <math.h>
 
@@ -60,7 +56,7 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 		Bullet * bullet[20];
 		for (int i = 0; i < 20; i++)
 		{
-			bullet[i] = new Bullet( 400, 75, 1, "Bullet01.png", 400, 300, gd->device );
+			bullet[i] = new Bullet( 400, 75, 1, "img/Bullet01.png", 400, 300, gd->device );
 		}
 
 		gd->addBullet(bullet);	// przekazanie pocisków do urzadzenia
