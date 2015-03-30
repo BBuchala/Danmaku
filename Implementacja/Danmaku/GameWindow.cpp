@@ -22,6 +22,8 @@ GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCS
 bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
 		int x, int y, int width, int height, HWND & hWnd)
 {
+	RECT wrect;
+
 	// uzupe³nienie informacji o oknie
 	ZeroMemory(&wincl, sizeof(WNDCLASSEX));	// wyzerowanie informacji
 	wincl.cbSize = sizeof(wincl);
@@ -41,9 +43,14 @@ bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR clas
 		return false;
 	}
 
-	// utworzenie okna
+	// utworzenie okna tak, by rozmiart czêœci klienckiej by³ w³aœciwy 
+	wrect.left = 0;
+	wrect.right = width;
+	wrect.top = 0;
+	wrect.bottom = height;
+	AdjustWindowRectEx(&wrect, WS_CAPTION|WS_SYSMENU | WS_MINIMIZEBOX, FALSE, 0);
 	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPED | WS_SYSMENU | 
-			WS_MINIMIZEBOX, x, y, width, height, NULL, NULL, hInstance, NULL);
+		WS_MINIMIZEBOX, x, y, wrect.right - wrect.left, wrect.bottom - wrect.top, NULL, NULL, hInstance, NULL);
 
 	if (!hWnd)
 	{

@@ -9,15 +9,16 @@ class Sprite
 	// wskaŸniki do wszystkich potrzebnych elementów
 	LPDIRECT3DTEXTURE9 tex;
 	LPD3DXSPRITE sprite;
-	D3DXVECTOR3 position;
 	D3DCOLOR color;
 
 	// czy sprajt wykona³ siê jak nale¿y
 	bool initialized;
 
+	int width;
+	int height;
+
 public:
 	Sprite();
-	Sprite(float x, float y);	// ze wskazaniem po³o¿enia
 	virtual ~Sprite();
 	
 	// utworznie sprajta z zewn¹trz
@@ -25,9 +26,16 @@ public:
 	bool Initialize(LPDIRECT3DDEVICE9 device, std::string file, int width, int height);
 	bool IsInitialized();
 
-	virtual void Update();
-	virtual void Draw();
+	virtual void Draw(D3DXVECTOR3 const & position);
 
-	void setPosition(float const & x, float const & y);
+	inline int GetWidth() const
+	{
+		return this->width;
+	}
+
+	inline int GetHeight() const
+	{
+		return this->height;
+	}
 
 };

@@ -9,34 +9,27 @@
 
 #include <math.h>
 
+#include "GameObject.h"
 #include "Sprite.h"
 
-class Bullet
+class Bullet : public GameObject
 {
-	/* aktualne po³o¿enie pocisku */
-	float x;
-	float y;
-	/* szybkoœæ pocisku w K¥TACH */
-	float speed;
 	/* k¹t w RADIANACH o jaki porusza siê pocisk w jednostce czasu */
 	float theta;
+
 	/* po³o¿enie punktu œrodka okrêgu */
-	float const x_circle;
-	float const y_circle;
+	D3DXVECTOR3 center;
+
 	/* promieñ okrêgu */
 	float radius;
 
 public:
 	// Konstruktor przyjmuje po³o¿enie pocisku, jego szybkoœæ, sprajt oraz po³o¿enie œrodka okrêgu
 	// Promieñ i k¹t teta wyliczane s¹ automatycznie
-	Bullet(float const & x, float const & y, float const & speed, char const * file,
-		   float const & x_circle, float const & y_circle, LPDIRECT3DDEVICE9 device);
+	Bullet(float const & x, float const & y, float const & angular_speed, float const & a, float const & b);
 	virtual ~Bullet();
-
-	Sprite * sprite;
 	
-	void move();
-
-
-
+	// przeci¹¿one funkcje
+	void Update(float const & time) override;
+	bool Initialize(LPDIRECT3DDEVICE9 device, char const * file, int const & width, int const & height) override;
 };

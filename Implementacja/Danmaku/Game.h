@@ -6,12 +6,14 @@
 #include "Bullet.h"
 #include "GameWindow.h"
 #include "GraphicsDevice.h"
+#include "Timer.h"
 
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 #include "SceneInitializationFailedException.h"
 
-#define BULLET_NUMBER 20
+#define BULLET_NUMBER 8
+#define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
 class Game
 {
@@ -21,18 +23,21 @@ class Game
 
 	// obiekty w grze
 	Bullet ** bullet;
+	GameObject * square;
+
+	// zegar gry
+	Timer * timer;
 
 	// zmiana koloru t³a
-	unsigned short red;
-	unsigned short green;
-	unsigned short blue;
-	short incRed;
-	short incGreen;
-	short incBlue;
+	float red;
+	float green;
+	float blue;
+	float incRed;
+	float incGreen;
+	float incBlue;
 
-	// tymczasowy timer
-	unsigned long timer;
-	unsigned int interval;
+	float elapsedTime;
+
 	unsigned bulletNumber;
 
 public:
@@ -43,7 +48,7 @@ public:
 	// funkcje
 	bool Initialize(HWND & hWnd);
 	void Run();
-	void Update();
+	void Update(float const & time);
 	void Draw();
 
 };

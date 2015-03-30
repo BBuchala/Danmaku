@@ -2,27 +2,31 @@
 
 Game::Game()
 {
-	red = 0;
-	green = 0;
-	blue = 0;
-	incRed = 1;
-	incBlue = 2;
-	incGreen = 3;
+	red = green = blue = 0.0f;
+	incRed = 0.3f;
+	incBlue = 0.2f;
+	incGreen = 0.5f;
 
-	timer = 0;
-	interval = 15;
 	bulletNumber = 1;
+
+	elapsedTime = 0.0f;
+
 };
 
 
 Game::~Game()
 {
-	if (this->gDevice)	delete this->gDevice;
+	if (this->gDevice)	
+		delete this->gDevice;
+
 	if (bullet)
+	{
 		for (int i = 0; i < BULLET_NUMBER; i++)
 		{
 			delete bullet[i];
 		}
+		delete[] bullet;
+	}
 };
 
 
@@ -40,12 +44,21 @@ bool Game::Initialize(HWND & hWnd)
 		throw new SceneInitializationFailedException();
 	}
 
+	this->timer = new Timer();
+	if (!this->timer->Start())
+		return false;
+
 	// u³omna implementacja pocisków
 	this->bullet = new Bullet * [BULLET_NUMBER];
 	for (int i = 0; i < BULLET_NUMBER; i++)
 	{
-		bullet[i] = new Bullet( 400, 75, 1, "img/Bullet01.png", 400, 300, this->gDevice->device );
+		bullet[i] = new Bullet( 200, 200, 90, 400, 300 );
+		bullet[i]->Initialize( this->gDevice->device, "img/Bullet01.png", 40, 40 );
 	}
+
+	this->square = new GameObject(100, 0);
+	this->square->Initialize( this->gDevice->device, "img/square.png", 600, 600 );
+
 
 	return true;
 };
@@ -53,33 +66,38 @@ bool Game::Initialize(HWND & hWnd)
 
 void Game::Run()
 {
-	this->Update();
+	this->timer->Update();
+
+	this->Update( timer->elapsedTime );
 	this->Draw();
 };
 
 
-void Game::Update()
+void Game::Update(float const & time)
 {
-	// Inkrementacja licznika
-	// Potem trzeba zrobiæ taki globalnie
-	if (++timer % interval == 0 && bulletNumber < BULLET_NUMBER) bulletNumber++;
+	if (bulletNumber < BULLET_NUMBER)
+	{
+		this->elapsedTime += time;
+		if (this->elapsedTime >= 0.500000f)
+		{
+			bulletNumber++;
+			this->elapsedTime = 0;
+		}
+	}
 
 	// Zmiana kolorów
-	red += incRed;
-	green += incGreen;
-	blue += incBlue;
+	red = red + ( incRed * time );
+	green += ( incGreen * time );
+	blue += ( incBlue * time );
 
-	if (red >= 255 || red <= 0)
-		incRed *= -1;
-	if(green >= 255 || green <= 0)
-		incGreen *= -1;
-	if(blue >= 255 || blue <= 0)
-		incBlue *= -1;
+	if (red >= 1.0f || red <= 0.0f)			incRed *= -1;
+	if (green >= 1.0f || green <= 0.0f)		incGreen *= -1;
+	if (blue >= 1.0f || blue <= 0.0f)		incBlue *= -1;
 
 	// Zmiana po³o¿enia pocisków
-	for (int i = 0; i < bulletNumber; i++)
+	for (unsigned int i = 0; i < bulletNumber; i++)
 	{
-		this->bullet[i]->move();
+		this->bullet[i]->Update(time);
 	}
 };
 
@@ -87,13 +105,15 @@ void Game::Update()
 void Game::Draw()
 {
 	// wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
-	this->gDevice->Clear(D3DCOLOR_XRGB(red, green, blue));
+	this->gDevice->Clear( D3DXCOLOR ( red, green, blue ) );
 	this->gDevice->Begin();
 
-	for (int i = 0; i < this->bulletNumber; i++)
+	this->square->Draw();
+	for (unsigned int i = 0; i < this->bulletNumber; i++)
 	{
-		this->bullet[i]->sprite->Draw();
+		this->bullet[i]->Draw();
 	}
+	
 
 	this->gDevice->End();
 	this->gDevice->Present();
