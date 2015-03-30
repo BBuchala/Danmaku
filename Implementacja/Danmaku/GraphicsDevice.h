@@ -22,21 +22,6 @@ public:
 	LPDIRECT3D9 direct3d;
 
 private:
-	// zmiana koloru t³a
-	unsigned short red;
-	unsigned short green;
-	unsigned short blue;
-	short incRed;
-	short incGreen;
-	short incBlue;
-
-	// pociski
-	Bullet ** bullet;
-
-	// tymczasowy timer
-	unsigned long timer;
-	unsigned int interval;
-	unsigned bulletNumber;
 
 public:
 	GraphicsDevice();
@@ -47,10 +32,6 @@ public:
 	void ReleaseObjects();
 
 	bool InitScene();
-
-	int messageloop();
-
-	void addBullet( Bullet ** bullet );
 
 	// funkcje do prezentacji ekranu
 	void Clear(D3DCOLOR const & color);

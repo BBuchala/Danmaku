@@ -6,18 +6,14 @@
 \* ======================================================== */
 
 #include <Windows.h>
-#include <math.h>
 
 #include "GameWindow.h"
-#include "GraphicsDevice.h"
-#include "Sprite.h"
-#include "Bullet.h"
+#include "Game.h"
 
 // Wyj¹tki
 #include "GameWindowInitializationFailedException.h"
 #include "Direct3DInitializationFailedException.h"
 #include "SceneInitializationFailedException.h"
-
 
 
 //Main windows function
@@ -39,37 +35,28 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 		GameWindow * window = new GameWindow(hInstance, nShowCmd, className, windowTitle, Width,
 				Height, hWnd);
 
-		// mechanizm graficzny
-		GraphicsDevice * gd = new GraphicsDevice();
-
-		if ( !gd->Initialize(hWnd, true )) // przekazanie okna
+		Game * game = new Game();
+		if (game->Initialize(hWnd))
 		{
-			throw new Direct3DInitializationFailedException();
-		}
-
-		if (!gd->InitScene())
-		{
-			throw new SceneInitializationFailedException();
-		}
-
-		// u³omna implementacja pocisków
-		Bullet * bullet[20];
-		for (int i = 0; i < 20; i++)
-		{
-			bullet[i] = new Bullet( 400, 75, 1, "img/Bullet01.png", 400, 300, gd->device );
-		}
-
-		gd->addBullet(bullet);	// przekazanie pocisków do urzadzenia
-
-		gd->messageloop(  );	// pêtla w której wykonuje siê ca³oœæ / wiêkszoœæ gry
-
-		gd->ReleaseObjects();	// zwolenienie pamiêci
-
-		delete window;
-		delete gd;
-		for (int i = 0; i < 20; i++)
-		{
-			delete bullet[i];
+			// pêtla g³ówna, rysuje i aktualizuje
+			MSG msg;
+			ZeroMemory(&msg, sizeof(MSG));
+			while (true)
+			{
+				if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+				{
+					if (msg.message == WM_QUIT) break;
+					TranslateMessage(&msg);	
+					DispatchMessage(&msg);
+				}
+				else
+				{
+					game->Run();
+				}
+			}
+			delete game;
+			delete window;
+			return msg.wParam;
 		}
 	}
 	catch (GameWindowInitializationFailedException e)
