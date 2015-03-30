@@ -93,11 +93,11 @@
 	% --- Strona z założeniami
 	% ************************************************************
 	\part{\huge \textbf{Krótki opis aplikacji}}
-	\textit{Shoot' em up} (w skrócie zwany shmup) jest gatunkiem gier akcji wywodzącym się w prostej linii od gier typu \textit{Space Invaders} lub \textit{River Raid}. Kontrolowana przez gracza postać (np. statek) w pojedynkę stawia czoło przeciwnikom, niszcząc ich za pomocą wystrzeliwanych pocisków, jednocześnie unikając ich ataków. Podgatunek shmupów, zwany \textit{danmaku} (z jap. \textit{ściana pocisków} lub \textit{piekło pocisków}) kładzie większy nacisk na omijanie wrogich ataków, niż na ofensywie. Przykładowymi danmaku są np. \textit{Ikaruga} czy większość gier z uniwersum \textit{Touhou Project}. \\
+		\textit{Shoot' em up} (w skrócie zwany shmup) jest gatunkiem gier akcji wywodzącym się w prostej linii od gier typu \textit{Space Invaders} lub \textit{River Raid}. Kontrolowana przez gracza postać (np. statek) w pojedynkę stawia czoło przeciwnikom, niszcząc ich za pomocą wystrzeliwanych pocisków, jednocześnie unikając ich ataków. Podgatunek shmupów, zwany \textit{danmaku} (z jap. \textit{ściana pocisków} lub \textit{piekło pocisków}) kładzie większy nacisk na omijanie wrogich ataków, niż na ofensywie. Przykładowymi danmaku są np. \textit{Ikaruga} czy większość gier z uniwersum \textit{Touhou Project}. \\
 	
-	Gra powstawać będzie jako projekt łączony z przedmiotów Projekt Programistyczny i Grafika Komputerowa.
+		Gra powstawać będzie jako projekt łączony z przedmiotów Projekt Programistyczny i Grafika Komputerowa.
 	
-	% TO DO: Insert 9000 godzin w Paincie. % 
+		% TO DO: Insert 9000 godzin w Paincie. % 
 	
 	\begin{center}
 		\fbox{%
@@ -123,10 +123,36 @@
 	\part{\huge \textbf{Analiza zadania}}
 	
 	\section{Podstawy teoretyczne problemu}
+		\subsection{Droga pocisków}
+			Jednym z podstawowych problemów w naszym zadaniu jest tor po jakim poruszają się pociski. Obiekty wrogów będą poruszać się w prosty sposób, jednak zbiory pocisków będą układać się w skomplikowane wzory, tworzyć ze sobą specyficzny układ. W naszej grze chcemy zaimplementować pociski, które będą poruszać się m.in. po takich torach jak okrąg i elipsa.\\
+		\subsubsection{Tor okręgu}
+			Wybraliśmy opis w postaci równania parametrycznego, który jest wygodniejszy i bardziej efektywny w implementacji:
+			$$
+				\begin{cases}
+					x=x_0+r\cdot \cos{\alpha}\\
+					y=y_0+r\cdot \sin{\alpha}
+				\end{cases}
+			$$
+			Gdzie punkt $ O(x_0, y_0) $ jest środkiem okręgu, $ r $ promieniem, a parametr $ \alpha \in [0, 2\pi ) $.
+		\subsubsection{Tor elipsy}
+			Podobnie jak wyżej, elipsę zdefiniowaliśmy równaniem parametrycznym:
+			$$
+				\begin{cases}
+					x=x_0+a\cdot \cos{\alpha}\\
+					y=y_0+b\cdot \sin{\alpha}
+				\end{cases}
+			$$
+			Gdzie punkt $ O(x_0, y_0) $ jest środkiem elipsy, $ a,\:b $ długościami półosi, a parametr $ \alpha \in [0, 2\pi ) $.
 	
 	\section{Wykorzystywane zagadnienia grafiki komputerowej}
 	
 	\section{Wykorzystywane biblioteki i narzędzia programistyczne}
+		\subsection{DirectX 9}
+			Jako narzędzie do budowania obiektów graficznych zdecydowaliśmy się na DirectX w wersji 9. Jako alternatywne rozwiązanie rozważaliśmy DirectX 11, jednak nasza gra będzie budowana na scenie 2D, a DirectX 9 oferuje wygodniejsze narzędzia - wciąż operuje na takich klasach jak Sprite lub Texture, które są lepsze dla naszej gry. DirectX 11 wszystkie te klasy zastępuje interfejsem IResource, który wymaga odpowiedniej konwersji (większe nastawienie na grafikę trójwymiarową). By móc wykorzystać DirectX 11 do pracy na zwykłych sprajtach, wymagane byłyby dodatkowe zestawy narzędzi, jak np. DirectX Tool Kit.\\
+			Jako konkurencyjne rozwiązanie dla samego DirectXa rozważaliśmy OpenGL, jednak nasz program będzie zorientowany obiektowo, a DirectX daje lepsze możliwości enkapsulacji.
+			% Czuję się jak prawdziwy Windziarz // Forczu-sama
+		\subsection{Microsoft Visual Studio 2012}
+	
 	
 	\section{Algorytmy, struktury danych, ograniczenia specyfikacji}
 	
@@ -137,6 +163,6 @@
 	\newpage
 	
 	\part{Podział pracy}
-
+	
 	
 \end{document}
