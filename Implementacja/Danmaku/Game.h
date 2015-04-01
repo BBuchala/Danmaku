@@ -4,29 +4,23 @@
 #include <Windows.h>
 
 #include "Bullet.h"
-#include "GameWindow.h"
 #include "GraphicsDevice.h"
+#include "Player.h"
+#include "Playfield.h"
 #include "Timer.h"
 
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
-#include "SceneInitializationFailedException.h"
 
 #define BULLET_NUMBER 8
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
-class Game
+class Game : public Playfield
 {
-	/* === SK£ADOWE ==================== */
-	// obs³uga sprajtów
-	GraphicsDevice * gDevice;
-
 	// obiekty w grze
 	Bullet ** bullet;
 	GameObject * square;
-
-	// zegar gry
-	Timer * timer;
+	Player * player;
 
 	// zmiana koloru t³a
 	float red;
@@ -37,8 +31,10 @@ class Game
 	float incBlue;
 
 	float elapsedTime;
-
 	unsigned bulletNumber;
+
+	bool escape;
+	bool pressed;
 
 public:
 	// Konstruktor, destruktor
@@ -46,10 +42,10 @@ public:
 	virtual ~Game();
 
 	// funkcje
-	bool Initialize(HWND & hWnd);
-	void Run();
-	void Update(float const & time);
-	void Draw();
+	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice) override;
+	void Update(float const & time) override;
+	void Clear() override;
+	void DrawScene() override;
 
 };
 

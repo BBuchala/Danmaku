@@ -3,6 +3,7 @@
 GameObject::GameObject(float const & x, float const & y)
 {
 	this->setPosition(x, y);
+	this->speed = 0;
 };
 
 GameObject::GameObject(float const & x, float const & y, float const & speed)

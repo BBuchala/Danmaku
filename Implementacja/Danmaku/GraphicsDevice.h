@@ -12,7 +12,6 @@
 #include "Bullet.h"
 
 #include "Direct3DInitializationFailedException.h"
-#include "SceneInitializationFailedException.h"
 
 class GraphicsDevice
 {
@@ -31,20 +30,10 @@ public:
 
 	void ReleaseObjects();
 
-	bool InitScene();
-
 	// funkcje do prezentacji ekranu
 	void Clear(D3DCOLOR const & color);
 	void Begin();
 	void End();
 	void Present();
-
-
-private:
-	// aktualizacja ekranu gry
-	void UpdateScene();
-
-	// narysowanie ekranu gry
-	void DrawScene();
 
 };

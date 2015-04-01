@@ -4,7 +4,8 @@
 GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
 		int x, int y, int width, int height, HWND & hWnd)
 {
-	if (!this->InitializeWindow(hInstance, nCmdShow, className, windowTitle, x, y, width, height, hWnd))
+	if (!this->InitializeWindow(hInstance, nCmdShow, className, windowTitle, x, y, width, height, hWnd)
+		|| !this->InitializeInput(hWnd))
 	{
 		throw new GameWindowInitializationFailedException();
 	}
@@ -63,6 +64,23 @@ bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR clas
 	return true;
 };
 
+
+bool GameWindow::InitializeInput(HWND & hWnd)
+{
+	RAWINPUTDEVICE input[1];
+	input[0].usUsagePage = 0x01;	// klawiatura
+	input[0].usUsage = 0x06;		// klawiatura
+	input[0].dwFlags = 0;			// domyœlnie
+	input[0].hwndTarget = 0;		// follow keyboard focus
+
+	if (RegisterRawInputDevices(input, 1, sizeof(input[0])) == FALSE)
+	{
+		return false;
+	}
+	return true;
+};
+
+
 // reakcja okna na input, afaik
 LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -71,9 +89,29 @@ LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
-		case WM_KEYDOWN:
-			if( wParam == VK_ESCAPE ) {
-				DestroyWindow(hWnd);
+		case WM_INPUT:
+			{
+				UINT dwSize;
+				// pobranie rozmiaru informacji
+				GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
+				LPBYTE lpb = new BYTE[dwSize];
+				if (lpb == NULL) return 0;
+				GetRawInputData((HRAWINPUT)lParam, RID_INPUT, lpb, &dwSize, sizeof(RAWINPUTHEADER));
+				RAWINPUT * raw = (RAWINPUT*) lpb;
+				
+				if (raw->header.dwType == RIM_TYPEKEYBOARD)
+				{
+					if (raw->data.keyboard.Message == WM_KEYDOWN || 
+						raw->data.keyboard.Message == WM_SYSKEYDOWN)
+					{
+						 std::string info =
+							 "Pressed VKey: " + std::to_string(raw->data.keyboard.VKey) + 
+							 " ( " + (char) raw->data.keyboard.VKey + " )" + 
+							 " with Flag: " + std::to_string(raw->data.keyboard.Flags) + 
+							 '\n';
+						 OutputDebugString(info.c_str());
+					}
+				}
 			}
 			return 0;
 	}

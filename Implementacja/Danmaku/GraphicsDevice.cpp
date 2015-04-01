@@ -43,13 +43,6 @@ void GraphicsDevice::ReleaseObjects()
 };
 
 
-bool GraphicsDevice::InitScene()
-{
-	// miejsce na definicjê stejd¿y, afaik
-	return true;
-};
-
-
 void GraphicsDevice::Clear(D3DCOLOR const & color)
 {
 	// 2nd param 'NULL' clears the entire back buffer.

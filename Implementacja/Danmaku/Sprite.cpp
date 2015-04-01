@@ -44,7 +44,7 @@ bool Sprite::IsInitialized()
 
 void Sprite::Draw(D3DXVECTOR3 const & position)
 {
-	if(this->sprite && this->tex)
+	if (this->sprite && this->tex)
 	{
 		this->sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
@@ -53,6 +53,19 @@ void Sprite::Draw(D3DXVECTOR3 const & position)
 		this->sprite->End();
 	}
 };
+
+void Sprite::Draw(D3DXVECTOR3 const & position, LPDIRECT3DTEXTURE9 tex)
+{
+	if (this->sprite && tex)
+	{
+		this->sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+		this->sprite->Draw(tex, NULL, NULL, &position, this->color);
+
+		this->sprite->End();
+	}
+};
+
 
 Sprite::~Sprite()
 {

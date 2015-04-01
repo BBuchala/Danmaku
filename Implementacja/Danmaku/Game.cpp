@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game() : Playfield()
 {
 	red = green = blue = 0.0f;
 	incRed = 0.3f;
@@ -11,14 +11,13 @@ Game::Game()
 
 	elapsedTime = 0.0f;
 
+	escape = pressed = false;
+
 };
 
 
 Game::~Game()
 {
-	if (this->gDevice)	
-		delete this->gDevice;
-
 	if (bullet)
 	{
 		for (int i = 0; i < BULLET_NUMBER; i++)
@@ -30,24 +29,9 @@ Game::~Game()
 };
 
 
-bool Game::Initialize(HWND & hWnd)
+bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 {
-	this->gDevice = new GraphicsDevice();
-
-	if ( !this->gDevice->Initialize(hWnd, true )) // przekazanie okna
-	{
-		throw new Direct3DInitializationFailedException();
-	}
-
-	if (!this->gDevice->InitScene())
-	{
-		throw new SceneInitializationFailedException();
-	}
-
-	this->timer = new Timer();
-	if (!this->timer->Start())
-		return false;
-
+	Playfield::Initialize(hWnd, gDevice);
 	// u³omna implementacja pocisków
 	this->bullet = new Bullet * [BULLET_NUMBER];
 	for (int i = 0; i < BULLET_NUMBER; i++)
@@ -59,22 +43,49 @@ bool Game::Initialize(HWND & hWnd)
 	this->square = new GameObject(100, 0);
 	this->square->Initialize( this->gDevice->device, "img/square.png", 600, 600 );
 
+	this->player = new Player();
+	this->player->Initialize( this->gDevice->device, "img/ship.png", 40, 60 );
 
 	return true;
 };
 
 
-void Game::Run()
-{
-	this->timer->Update();
-
-	this->Update( timer->elapsedTime );
-	this->Draw();
-};
-
-
 void Game::Update(float const & time)
 {
+	//// OBS£UGA WYJŒCIA Z GRY
+	if (GetAsyncKeyState(VK_ESCAPE)) {
+		escape = true;
+		pressed = true;
+	} else {
+		pressed = false;
+	}
+
+	if (escape && !pressed) {
+		this->ended = true;
+	}
+
+	//// OBS£UGA GRACZA
+	Move move = Move::NONE;
+	if (GetAsyncKeyState(VK_UP))
+	{
+		move |= Move::UP;
+	}
+	if (GetAsyncKeyState(VK_DOWN))
+	{
+		move |= Move::DOWN;
+	}
+	if (GetAsyncKeyState(VK_LEFT))
+	{
+		move |= Move::LEFT;
+	}
+	if (GetAsyncKeyState(VK_RIGHT))
+	{
+		move |= Move::RIGHT;
+	}
+	this->player->Update(time, move);
+	
+	// OBS£UGA POCISKÓW
+	// Nowe pociski
 	if (bulletNumber < BULLET_NUMBER)
 	{
 		this->elapsedTime += time;
@@ -84,37 +95,48 @@ void Game::Update(float const & time)
 			this->elapsedTime = 0;
 		}
 	}
-
-	// Zmiana kolorów
-	red = red + ( incRed * time );
-	green += ( incGreen * time );
-	blue += ( incBlue * time );
-
-	if (red >= 1.0f || red <= 0.0f)			incRed *= -1;
-	if (green >= 1.0f || green <= 0.0f)		incGreen *= -1;
-	if (blue >= 1.0f || blue <= 0.0f)		incBlue *= -1;
-
 	// Zmiana po³o¿enia pocisków
 	for (unsigned int i = 0; i < bulletNumber; i++)
 	{
 		this->bullet[i]->Update(time);
 	}
+
+	// Zmiana kolorów
+	red += ( incRed * time );
+	green += ( incGreen * time );
+	blue += ( incBlue * time );
+
+	if (red > 1.0f || red < 0.0f)
+	{
+		incRed *= -1;
+		red = red > 1.0f ? 1.0f : 0.0f;
+	}
+	if (green > 1.0f || green < 0.0f)
+	{
+		incGreen *= -1;
+		green = green > 1.0f ? 1.0f : 0.0f;
+	}
+	if (blue > 1.0f || blue < 0.0f)
+	{
+		incBlue *= -1;
+		blue = blue > 1.0f ? 1.0f : 0.0f;
+	}
+
 };
 
 
-void Game::Draw()
+void Game::DrawScene()
 {
-	// wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
-	this->gDevice->Clear( D3DXCOLOR ( red, green, blue ) );
-	this->gDevice->Begin();
-
 	this->square->Draw();
 	for (unsigned int i = 0; i < this->bulletNumber; i++)
 	{
 		this->bullet[i]->Draw();
 	}
-	
+	this->player->Draw();
+};
 
-	this->gDevice->End();
-	this->gDevice->Present();
+// wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
+void Game::Clear()
+{
+	this->gDevice->Clear( D3DXCOLOR ( red, green, blue ) );
 };
