@@ -3,6 +3,7 @@
 #include <d3d9.h>
 #include <Windows.h>
 
+#include "GameWindow.h"
 #include "GraphicsDevice.h"
 #include "Timer.h"
 
@@ -19,6 +20,7 @@ protected:
 	Timer * timer;
 
 	bool ended;
+	bool resetTimer;
 
 public:
 	// Konstruktor, destruktor
@@ -31,6 +33,7 @@ public:
 
 	// uruchomienie pola
 	void Run();
+	void ResetTimer( bool stopTimer);
 
 private:
 	// aktualizacja stanu obiektów na polu

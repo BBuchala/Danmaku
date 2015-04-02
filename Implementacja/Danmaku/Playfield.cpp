@@ -2,7 +2,7 @@
 
 Playfield::Playfield()
 {
-	this->ended = false;
+	this->ended = this->resetTimer = false;
 };
 
 
@@ -24,9 +24,18 @@ bool Playfield::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 };
 
 
+void Playfield::ResetTimer( bool resetTimer)
+{
+	this->resetTimer = resetTimer;
+};
+
 
 void Playfield::Run()
 {
+	////// TIMER
+	if ( this->resetTimer ) {
+		this->timer->Reset();
+	}
 	this->timer->Update();
 	this->Update( timer->elapsedTime );
 	this->Draw();

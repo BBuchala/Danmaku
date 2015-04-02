@@ -1,5 +1,7 @@
 #include "GameWindow.h"
 
+bool GameWindow::noiseOccured = false;
+
 // utworzenie okna wg parametrów
 GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
 		int x, int y, int width, int height, HWND & hWnd)
@@ -23,7 +25,7 @@ GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCS
 bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
 		int x, int y, int width, int height, HWND & hWnd)
 {
-	RECT wrect;
+	RECT wrect = { 0, 0, width, height };
 
 	// uzupe³nienie informacji o oknie
 	ZeroMemory(&wincl, sizeof(WNDCLASSEX));	// wyzerowanie informacji
@@ -43,15 +45,11 @@ bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR clas
 	{
 		return false;
 	}
-
-	// utworzenie okna tak, by rozmiart czêœci klienckiej by³ w³aœciwy 
-	wrect.left = 0;
-	wrect.right = width;
-	wrect.top = 0;
-	wrect.bottom = height;
-	AdjustWindowRectEx(&wrect, WS_CAPTION|WS_SYSMENU | WS_MINIMIZEBOX, FALSE, 0);
-	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPED | WS_SYSMENU | 
-		WS_MINIMIZEBOX, x, y, wrect.right - wrect.left, wrect.bottom - wrect.top, NULL, NULL, hInstance, NULL);
+	 //WS_OVERLAPPED 
+	// utworzenie okna tak, by rozmiart czêœci klienckiej by³ w³aœciwy
+	AdjustWindowRect(&wrect, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, FALSE);
+	hWnd = CreateWindowEx(NULL, className, windowTitle, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, x, y,
+		wrect.right - wrect.left, wrect.bottom - wrect.top, NULL, NULL, hInstance, NULL);
 
 	if (!hWnd)
 	{
@@ -67,13 +65,18 @@ bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR clas
 
 bool GameWindow::InitializeInput(HWND & hWnd)
 {
-	RAWINPUTDEVICE input[1];
-	input[0].usUsagePage = 0x01;	// klawiatura
+	RAWINPUTDEVICE input[2];
+	input[0].usUsagePage = 0x01;	// 
 	input[0].usUsage = 0x06;		// klawiatura
 	input[0].dwFlags = 0;			// domyœlnie
-	input[0].hwndTarget = 0;		// follow keyboard focus
+	input[0].hwndTarget = NULL;		// follow keyboard focus
 
-	if (RegisterRawInputDevices(input, 1, sizeof(input[0])) == FALSE)
+	input[1].usUsagePage = 0x01;	// 
+	input[1].usUsage = 0x02;		// myszka
+	input[1].dwFlags = 0;			// domyœlnie
+	input[1].hwndTarget = 0;		// follow keyboard focus
+
+	if (RegisterRawInputDevices(input, 2, sizeof(input[0])) == FALSE)
 	{
 		return false;
 	}
@@ -84,6 +87,7 @@ bool GameWindow::InitializeInput(HWND & hWnd)
 // reakcja okna na input, afaik
 LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	UINT uHitTest;
 	switch(message)
 	{
 		case WM_DESTROY:
@@ -112,12 +116,33 @@ LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 						 OutputDebugString(info.c_str());
 					}
 				}
+				// zatrzymanie timera, gdy myszka naciska
+				if( raw->header.dwType== RIM_TYPEMOUSE )
+				{
+					if (raw->data.mouse.usButtonFlags == RI_MOUSE_LEFT_BUTTON_DOWN || 
+						raw->data.mouse.usButtonFlags == RI_MOUSE_RIGHT_BUTTON_DOWN)
+					{
+						GameWindow::noiseOccured = true;
+					}
+				}
+
 			}
 			return 0;
-	}
 
-	// przy braku komunikatu, domyœlna procedura
-	return DefWindowProc(hWnd, message, wParam, lParam);
+		// przeci¹ganie okna po klikniêciu na obszar kliencki
+		case WM_NCHITTEST:
+			uHitTest = DefWindowProc(hWnd, WM_NCHITTEST, wParam, lParam);
+			if (uHitTest == HTCLIENT)
+				return HTCAPTION;
+			else
+				return uHitTest;
+
+		// przy braku komunikatu, domyœlna procedura
+		default:
+			return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
+	
 };
 
 

@@ -4,7 +4,7 @@ bool Timer::Start()
 {
 	LARGE_INTEGER li;
 
-	if (!QueryPerformanceFrequency(&li))
+	if ( !QueryPerformanceFrequency( &li ) )
 	{
 		return false;
 	}
@@ -17,12 +17,21 @@ bool Timer::Start()
 	return true;
 };
 
+
 void Timer::Update()
 {
 	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
+	QueryPerformanceCounter( &li );
 	this->elapsedTime = (float) (li.QuadPart - start) / this->frequencySeconds;
-
 	this->start = li.QuadPart;
 	this->totalTime += this->elapsedTime;
+};
+
+
+void Timer::Reset()
+{
+	LARGE_INTEGER li;
+	QueryPerformanceCounter( &li );
+	this->start = li.QuadPart;
+	this->elapsedTime = 0;
 };

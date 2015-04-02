@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include <Windows.h>
+#include <windows.h>
 #include <string>
 #include "GameWindowInitializationFailedException.h"
 
@@ -18,6 +18,7 @@ class GameWindow
 	// informacje o oknie
 	WNDCLASSEX wincl;
 
+	static bool noiseOccured;
 
 public:
 	// tworzy nowe okno wg podanych parametrów
@@ -26,6 +27,17 @@ public:
 	// tworzy nowe okno wg podanych parametrów
 	GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
 		int x, int y, int width, int height, HWND & hWnd);
+
+
+	inline bool didNoiseOccured() const
+	{
+		return noiseOccured;
+	};
+
+	inline void ResetNoise()
+	{
+		this->noiseOccured = false;
+	};
 
 
 private:

@@ -61,7 +61,9 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 				}
 				else
 				{
+					field->ResetTimer( window->didNoiseOccured() );
 					field->Run();
+					window->ResetNoise();
 					// prze³¹czenie tajtola i gejma
 					if (field->isEnded())
 					{
