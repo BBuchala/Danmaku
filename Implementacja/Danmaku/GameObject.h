@@ -2,29 +2,8 @@
 
 #include <d3d9.h>
 
+#include "Move.h"
 #include "Sprite.h"
-
-static enum class Move
-{
-	NONE	= 0x00,
-	UP		= 0x01,
-	DOWN	= 0x02,
-	LEFT	= 0x04,
-	RIGHT	= 0x08
-};
-
-inline Move operator|(Move a, Move b)
-{
-	return static_cast<Move>(static_cast<int>(a) | static_cast<int>(b));
-};
-inline Move & operator|=(Move & a, Move b)
-{
-	return a = a | b;
-};
-inline Move operator&(Move a, Move b)
-{
-	return static_cast<Move>(static_cast<int>(a) & static_cast<int>(b));
-};
 
 class GameObject
 {
@@ -33,13 +12,16 @@ protected:
 	Sprite * sprite;
 
 	D3DXVECTOR3 position;
-	D3DXVECTOR3 velocity;
 
 	float speed;
+	float acceleration;
 
 public:
-	GameObject(float const & x, float const & y);	// pozycja
-	GameObject(float const & x, float const & y, float const & speed);	// pozycja + szybkoœæ
+	/* ==== KONSTRUKTORY ============== */
+	// pozycja + szybkoœæ + przyspieszenie
+	GameObject(float const & x, float const & y, float const & speed = 0, float const & acc = 0);
+
+	// destruktor
 	virtual ~GameObject();
 
 	// funkcja tworz¹ca sprite'a z pliku z zewn¹trz
@@ -47,6 +29,19 @@ public:
 	virtual void Draw();
 	virtual void Update(float const & time);
 
-	void setPosition(float const & x, float const & y);
+	// Settery
+	void SetPosition(float const & x, float const & y);
+	void SetAcceleration(float const & acc);
+	void SetCenterPoint();
 
+	// transformacje
+	void Rotate( float const & angle );
+	void Scale( float const & scale );
+
+
+	// Gettery
+	inline float GetRotation() const
+	{
+		return this->sprite->GetRotation();
+	}
 };

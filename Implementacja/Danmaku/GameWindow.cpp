@@ -122,7 +122,7 @@ LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 					if (raw->data.mouse.usButtonFlags == RI_MOUSE_LEFT_BUTTON_DOWN || 
 						raw->data.mouse.usButtonFlags == RI_MOUSE_RIGHT_BUTTON_DOWN)
 					{
-						GameWindow::noiseOccured = true;
+						GameWindow::noiseOccured = false;
 					}
 				}
 

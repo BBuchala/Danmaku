@@ -81,6 +81,7 @@
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameWindowInitializationFailedException.cpp" />
+    <ClCompile Include="Pattern.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playfield.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -97,6 +98,8 @@
     <ClInclude Include="GraphicsDevice.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GameWindowInitializationFailedException.h" />
+    <ClInclude Include="Move.h" />
+    <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playfield.h" />
     <ClInclude Include="Sprite.h" />

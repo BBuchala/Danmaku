@@ -3,7 +3,7 @@
 #include <d3d9.h>
 #include <Windows.h>
 
-#include "Bullet.h"
+#include "Pattern.h"
 #include "GraphicsDevice.h"
 #include "Player.h"
 #include "Playfield.h"
@@ -12,15 +12,16 @@
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
-#define BULLET_NUMBER 8
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
 class Game : public Playfield
 {
 	// obiekty w grze
-	Bullet ** bullet;
 	GameObject * square;
 	Player * player;
+
+
+	Pattern * pattern;
 
 	// zmiana koloru t³a
 	float red;

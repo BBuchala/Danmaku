@@ -11,8 +11,8 @@
 class TitleScreen : public Playfield
 {
 	Sprite * background;
-
 	Sprite * button;
+
 	LPDIRECT3DTEXTURE9 tex2;
 
 	D3DXVECTOR3 position;
@@ -21,7 +21,11 @@ class TitleScreen : public Playfield
 	bool pressed;
 	bool enter;
 
+	float elapsedTime;
+
 public:
+	virtual ~TitleScreen();
+
 	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice);
 	void Update(float const & time) override;
 	void DrawScene() override;

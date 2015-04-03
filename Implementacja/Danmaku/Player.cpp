@@ -2,9 +2,8 @@
 
 
 
-Player::Player() : GameObject(350.0f, 540.0f, 250.0f)
+Player::Player() : GameObject(POS_X, POS_Y, SPEED)
 {
-
 };
 
 
