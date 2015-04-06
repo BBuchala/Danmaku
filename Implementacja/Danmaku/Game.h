@@ -3,7 +3,8 @@
 #include <d3d9.h>
 #include <Windows.h>
 
-#include "Pattern.h"
+#include "Pattern01.h"
+#include "Pattern02.h"
 #include "GraphicsDevice.h"
 #include "Player.h"
 #include "Playfield.h"
@@ -13,15 +14,34 @@
 #include "Direct3DInitializationFailedException.h"
 
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
+#define BUTTON_NUM	2
+#define TEX_NUM		3
+
+static enum Pattern
+{
+	NONE, A, S
+};
 
 class Game : public Playfield
 {
-	// obiekty w grze
+	// t³o
 	GameObject * square;
+
+	// przyciski
+	GameObject ** button;
+	bool * buttonPressed;
+	int * keyButton;
+
+	int pressedButton;
+	Pattern currentPattern;
+
+	GraphicsDevice * gDevice;
+
+
 	Player * player;
 
 
-	Pattern * pattern;
+	IPattern * pattern;
 
 	// zmiana koloru t³a
 	float red;
@@ -48,5 +68,7 @@ public:
 	void Clear() override;
 	void DrawScene() override;
 
-};
+private:
+	bool IsKeyPressed();
 
+};

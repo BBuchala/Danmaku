@@ -1,7 +1,6 @@
 #include "Player.h"
 
 
-
 Player::Player() : GameObject(POS_X, POS_Y, SPEED)
 {
 };

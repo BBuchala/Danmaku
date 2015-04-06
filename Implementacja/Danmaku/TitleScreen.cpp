@@ -11,7 +11,8 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	Playfield::Initialize(hWnd, gDevice);
 	position.x = position.y = position.z = 0;
 	this->background = new Sprite();
-	if ( !this->background->Initialize(this->gDevice->device, "img/titlescreen.png", 800, 600, this->position ) )
+	if ( !this->background->Initialize(this->gDevice->device,
+		Sprite::GetFilePath( "titlescreen", "png"), 800, 600, this->position ) )
 	{
 		return false;
 	}
@@ -19,10 +20,12 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	buttonP.x = buttonP.y = 300;
 	buttonP.z = 0;
 	this->button = new Sprite();
-	this->button->Initialize( this->gDevice->device, "img/button1.png", 238, 66, buttonP );
-
-	D3DXCreateTextureFromFileEx(this->gDevice->device, "img/button2.png", 238, 66, D3DX_DEFAULT, 0,
-		D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, &this->tex2);
+	std::vector<std::string> buttons;
+	for (int i = 1; i <= 2; i++)
+	{
+		buttons.push_back( Sprite::GetFilePath( "button", i, "png" ) );
+	}
+	this->button->Initialize( this->gDevice->device, buttons, 238, 66, buttonP );
 
 	pressed = enter = false;
 
@@ -30,9 +33,6 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 	return true;
 };
-
-
-
 
 
 void TitleScreen::Update(float const & time)
@@ -63,6 +63,11 @@ void TitleScreen::Update(float const & time)
 	{
 		this->elapsedTime = 0;
 	}
+
+	if (!pressed)
+		this->button->SetCurrentTexture(0);
+	else
+		this->button->SetCurrentTexture(1);
 };
 
 
@@ -70,10 +75,6 @@ void TitleScreen::Update(float const & time)
 void TitleScreen::DrawScene()
 {
 	this->background->Draw(this->position);
-
-	if (!pressed)
-		this->button->Draw(this->buttonP);
-	else
-		this->button->Draw( buttonP, this->tex2 );
+	this->button->Draw(this->buttonP);
 };
 

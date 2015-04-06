@@ -1,6 +1,6 @@
-#include "Pattern.h"
+#include "Pattern01.h"
 
-Pattern::~Pattern()
+Pattern01::~Pattern01()
 {
 	if (hBullet && vBullet)
 	{
@@ -17,25 +17,26 @@ Pattern::~Pattern()
 };
 
 
-void Pattern::Initialize(LPDIRECT3DDEVICE9 device)
+void Pattern01::Initialize(LPDIRECT3DDEVICE9 device)
 {
 	this->bulletNumber = 1;
 	this->elapsedTime = 0.0f;
 	this->scale = true;
 
 	// u³omna implementacja pocisków
-	this->hBullet = new Bullet * [BULLET_NUMBER];
-	this->vBullet = new Bullet * [BULLET_NUMBER];
-	this->mBullet = new Bullet * [BULLET_NUMBER];
-	this->sBullet = new Bullet * [BULLET_NUMBER];
+	this->hBullet = new EnemyBulletElipse * [BULLET_NUMBER];
+	this->vBullet = new EnemyBulletElipse * [BULLET_NUMBER];
+	this->mBullet = new EnemyBulletElipse * [BULLET_NUMBER];
+	this->sBullet = new EnemyBulletElipse * [BULLET_NUMBER];
 	for (int i = 0; i < BULLET_NUMBER; i++)
 	{
-		hBullet[i] = new Bullet( 200, 200, 90 );
-		vBullet[i] = new Bullet( 200, 200, 90 );
-		mBullet[i] = new Bullet( 200, 200, 90 );
-		hBullet[i]->Initialize( device, "img/Bullet02.png", BULLET_WIDTH, BULLET_HEIGHT );
-		vBullet[i]->Initialize( device, "img/Bullet02.png", BULLET_WIDTH, BULLET_HEIGHT );
-		mBullet[i]->Initialize( device, "img/Bullet02.png", BULLET_WIDTH, BULLET_HEIGHT );
+		hBullet[i] = new EnemyBulletElipse( 200, 200, 90 );
+		vBullet[i] = new EnemyBulletElipse( 200, 200, 90 );
+		mBullet[i] = new EnemyBulletElipse( 200, 200, 90 );
+		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
+		hBullet[i]->Initialize( device, file, BULLET_WIDTH, BULLET_HEIGHT );
+		vBullet[i]->Initialize( device, file, BULLET_WIDTH, BULLET_HEIGHT );
+		mBullet[i]->Initialize( device, file, BULLET_WIDTH, BULLET_HEIGHT );
 		hBullet[i]->setElipseTrajectory( 400, 300, 300, 100 );
 		vBullet[i]->setElipseTrajectory( 400, 300, 100, 300 );
 		mBullet[i]->setCircleTrajectory( 400, 300 );
@@ -44,7 +45,7 @@ void Pattern::Initialize(LPDIRECT3DDEVICE9 device)
 
 
 
-void Pattern::Update(float const & time)
+void Pattern01::Update(float const & time)
 {
 	// OBS£UGA POCISKÓW
 	// Nowe pociski
@@ -123,7 +124,7 @@ void Pattern::Update(float const & time)
 };
 
 
-void Pattern::Draw()
+void Pattern01::Draw()
 {
 	for (unsigned int i = 0; i < this->bulletNumber; i++)
 	{
@@ -134,7 +135,7 @@ void Pattern::Draw()
 };
 
 
-void Pattern::SetScale( float const & scale, float const & frac_time )
+void Pattern01::SetScale( float const & scale, float const & frac_time )
 {
 	this->scale = true;
 	this->scale_frac = scale /  frac_time;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <vector>
 
 #include "GraphicsDevice.h"
 #include "Playfield.h"
@@ -12,8 +13,6 @@ class TitleScreen : public Playfield
 {
 	Sprite * background;
 	Sprite * button;
-
-	LPDIRECT3DTEXTURE9 tex2;
 
 	D3DXVECTOR3 position;
 	D3DXVECTOR3 buttonP;

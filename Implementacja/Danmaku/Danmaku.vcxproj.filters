@@ -43,6 +43,12 @@
     <Filter Include="Header Files\Enumerations">
       <UniqueIdentifier>{499a8160-9121-4155-8219-19f5a6cd4c45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Patterns">
+      <UniqueIdentifier>{025ea058-4a74-45da-b2ff-e5b698b6d970}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Patterns">
+      <UniqueIdentifier>{35ebb788-b82e-44a1-bcdb-778a2c5384b3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -75,9 +81,6 @@
     <ClCompile Include="Playfield.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
-    <ClCompile Include="Pattern.cpp">
-      <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -87,6 +90,21 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletElipse.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Pattern01.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Pattern02.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletSpiral.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -94,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="GraphicsDevice.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IException.h">
-      <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="GameWindowInitializationFailedException.h">
       <Filter>Header Files\Exceptions</Filter>
@@ -122,9 +137,6 @@
     <ClInclude Include="Playfield.h">
       <Filter>Header Files\Fields</Filter>
     </ClInclude>
-    <ClInclude Include="Pattern.h">
-      <Filter>Header Files\Bullets</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -136,6 +148,27 @@
     </ClInclude>
     <ClInclude Include="Move.h">
       <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletElipse.h">
+      <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern01.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="IException.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IPattern.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern02.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletSpiral.h">
+      <Filter>Header Files\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
