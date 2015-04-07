@@ -202,6 +202,14 @@ void Game::Update(float const & time)
 	}
 	this->player->Update(time, move);
 
+
+	this->player->SetFocus(false);
+
+	if (GetAsyncKeyState(VK_LSHIFT))
+	{
+		this->player->SetFocus(true);
+	}
+
 	//// Obs³uga pocisków
 	this->pattern->Update( time );
 	
