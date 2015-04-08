@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.12.5)  7 APR 2015 01:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.12.5)  8 APR 2015 22:05
 entering extended mode
 **Karta_projektu.tex
-("F:\Uczelnia\Sem 6\PP\Danmaku\GK_dokumentacja\Karta_projektu.tex"
+(D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -974,85 +974,93 @@ Package floatrow Info: Modified rotfloat package code loaded on input line 473.
 \LTright=\skip76
 \flrow@types=\toks27
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\enumitem\enumitem.sty"
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip77
+\enit@outerparindent=\dimen171
+\enit@toks=\toks28
+\enit@inbox=\box48
+\enitdp@description=\count157
+)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\tools\tabularx.sty"
 Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
-\TX@col@width=\dimen171
-\TX@old@table=\dimen172
-\TX@old@col=\dimen173
-\TX@target=\dimen174
-\TX@delta=\dimen175
-\TX@cols=\count157
-\TX@ftn=\toks28
+\TX@col@width=\dimen172
+\TX@old@table=\dimen173
+\TX@old@col=\dimen174
+\TX@target=\dimen175
+\TX@delta=\dimen176
+\TX@cols=\count158
+\TX@ftn=\toks29
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\titlesec\titlesec.sty"
 Package: titlesec 2011/12/15 v2.10.0 Sectioning titles
-\ttl@box=\box48
-\beforetitleunit=\skip77
-\aftertitleunit=\skip78
-\ttl@plus=\dimen176
-\ttl@minus=\dimen177
-\ttl@toksa=\toks29
-\titlewidth=\dimen178
-\titlewidthlast=\dimen179
-\titlewidthfirst=\dimen180
+\ttl@box=\box49
+\beforetitleunit=\skip78
+\aftertitleunit=\skip79
+\ttl@plus=\dimen177
+\ttl@minus=\dimen178
+\ttl@toksa=\toks30
+\titlewidth=\dimen179
+\titlewidthlast=\dimen180
+\titlewidthfirst=\dimen181
 )
-("F:\Uczelnia\Sem 6\PP\Danmaku\GK_dokumentacja\Karta_projektu.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 50.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 50.
+(D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 51.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 51.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ts1cmr.fd"
 File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 50.
+LaTeX Font Info:    ... okay on input line 51.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count158
-\scratchdimen=\dimen181
-\scratchbox=\box49
-\nofMPsegments=\count159
-\nofMParguments=\count160
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count161
-\MPscratchDim=\dimen182
-\MPnumerator=\count162
-\makeMPintoPDFobject=\count163
-\everyMPtoPDFconversion=\toks31
+\scratchcounter=\count159
+\scratchdimen=\dimen182
+\scratchbox=\box50
+\nofMPsegments=\count160
+\nofMParguments=\count161
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count162
+\MPscratchDim=\dimen183
+\MPnumerator=\count163
+\makeMPintoPDFobject=\count164
+\everyMPtoPDFconversion=\toks32
 )
-\AtBeginShipoutBox=\box50
-Package hyperref Info: Link coloring OFF on input line 50.
+\AtBeginShipoutBox=\box51
+Package hyperref Info: Link coloring OFF on input line 51.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
 ("C:\Program Files\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count164
+\c@section@level=\count165
 )
-LaTeX Info: Redefining \ref on input line 50.
-LaTeX Info: Redefining \pageref on input line 50.
-LaTeX Info: Redefining \nameref on input line 50.
+LaTeX Info: Redefining \ref on input line 51.
+LaTeX Info: Redefining \pageref on input line 51.
+LaTeX Info: Redefining \nameref on input line 51.
 
-("F:\Uczelnia\Sem 6\PP\Danmaku\GK_dokumentacja\Karta_projektu.out")
-("F:\Uczelnia\Sem 6\PP\Danmaku\GK_dokumentacja\Karta_projektu.out")
+(D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.out)
+(D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.out)
 \@outlinefile=\write3
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
@@ -1063,82 +1071,80 @@ Package caption Info: End \AtBeginDocument code.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\floatrow\fr-subfig.sty"
 Package: fr-subfig 2007/12/24 v0.1g (beta) floatrow: additions for subfig
-\FBsc@max=\skip79
-\FBso@max=\skip80
+\FBsc@max=\skip80
+\FBso@max=\skip81
 )
-LaTeX Font Info:    Try loading font information for OML+plm on input line 59.
+LaTeX Font Info:    Try loading font information for OML+plm on input line 60.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\polski\omlplm.fd"
 File: omlplm.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-LaTeX Font Info:    Try loading font information for OMS+plsy on input line 59.
+LaTeX Font Info:    Try loading font information for OMS+plsy on input line 60.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\polski\omsplsy.fd"
 File: omsplsy.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-LaTeX Font Info:    Try loading font information for OMX+plex on input line 59.
+LaTeX Font Info:    Try loading font information for OMX+plex on input line 60.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\polski\omxplex.fd"
 File: omxplex.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <10> on input line 59.
+(Font)              <10> on input line 60.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <7> on input line 59.
+(Font)              <7> on input line 60.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <5> on input line 59.
+(Font)              <5> on input line 60.
 
-<./images/logo.png, id=95, 436.029pt x 440.847pt>
+<./images/logo.png, id=115, 436.029pt x 440.847pt>
 File: ./images/logo.png Graphic file (type png)
  <use ./images/logo.png>
-Package pdftex.def Info: ./images/logo.png used on input line 72.
+Package pdftex.def Info: ./images/logo.png used on input line 73.
 (pdftex.def)             Requested size: 271.78345pt x 274.8022pt.
 
 [1
 
-{C:/Users/Mati/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <F:/Uczelnia/
-Sem 6/PP/Danmaku/GK_dokumentacja/images/logo.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 96--97
+{C:/Users/Mati/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <D:/Repozytor
+ia/Danmaku/GK_dokumentacja/images/logo.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
 
  []
 
-<./images/screen01.pdf, id=107, 642.4pt x 481.8pt>
+<./images/screen01.pdf, id=127, 642.4pt x 481.8pt>
 File: ./images/screen01.pdf Graphic file (type pdf)
  <use ./images/screen01.pdf>
-Package pdftex.def Info: ./images/screen01.pdf used on input line 103.
+Package pdftex.def Info: ./images/screen01.pdf used on input line 104.
 (pdftex.def)             Requested size: 362.37563pt x 271.7911pt.
 
-[2 <F:/Uczelnia/Sem 6/PP/Danmaku/GK_dokumentacja/images/screen01.pdf>] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
+[2 <D:/Repozytoria/Danmaku/GK_dokumentacja/images/screen01.pdf>] [3]
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
 
  []
 
-[4] [5] [6]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 218.
- [7]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 218.
-
-("F:\Uczelnia\Sem 6\PP\Danmaku\GK_dokumentacja\Karta_projektu.aux")
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 218.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 218.
-
+[4] [5] [6] [7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 261.
+ [8]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 261.
+ (D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 261.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 261.
 
 Package rerunfilecheck Warning: File `Karta_projektu.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `Karta_projektu.out':
-(rerunfilecheck)             Before: 9A07CD3E10295768D3893F76BD38F1F5;3932
-(rerunfilecheck)             After:  21006F00C063CCDB79DFCE22512B33B0;3858.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 218.
+(rerunfilecheck)             Before: EC141ADB6E37CBB2BC1BA892B3B3EEE8;4906
+(rerunfilecheck)             After:  D0AA2EDA6D2DD83E9B8B64CE20C74905;5072.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 261.
  ) 
 Here is how much of TeX's memory you used:
- 18748 strings out of 493921
- 309149 string characters out of 3147285
- 369289 words of memory out of 3000000
- 21819 multiletter control sequences out of 15000+200000
+ 19058 strings out of 493921
+ 314077 string characters out of 3147285
+ 377439 words of memory out of 3000000
+ 22098 multiletter control sequences out of 15000+200000
  12361 words of font info for 34 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  68i,17n,98p,10446b,375s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1155,9 +1161,9 @@ ype1/public/pl/plr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plr
 Files/MiKTeX 2.9/fonts/type1/public/pl/plsy10.pfb><C:/Program Files/MiKTeX 2.9/
 fonts/type1/public/pl/plsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
 /pl/plti10.pfb>
-Output written on Karta_projektu.pdf (7 pages, 230358 bytes).
+Output written on Karta_projektu.pdf (8 pages, 240150 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 41 named destinations out of 1000 (max. 500000)
- 195 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 267 PDF objects out of 1000 (max. 8388607)
+ 68 named destinations out of 1000 (max. 500000)
+ 235 words of extra memory for PDF output out of 10000 (max. 10000000)
 

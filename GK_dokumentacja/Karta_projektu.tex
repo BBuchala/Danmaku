@@ -18,6 +18,7 @@
 \usepackage{svg}
 \usepackage{xfrac}
 \usepackage{floatrow}
+\usepackage{enumitem}
 
 \usepackage{multirow,tabularx}
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
@@ -199,9 +200,13 @@
 	\section{Wykorzystywane biblioteki i narzędzia programistyczne}
 		\subsection{DirectX 9}
 			Jako narzędzie do budowania obiektów graficznych zdecydowaliśmy się na DirectX w wersji 9. Jako alternatywne rozwiązanie rozważaliśmy DirectX 11, jednak nasza gra będzie budowana na scenie 2D, a DirectX 9 oferuje wygodniejsze narzędzia - wciąż operuje na takich klasach jak Sprite lub Texture, które są lepsze dla naszej gry. DirectX 11 wszystkie te klasy zastępuje interfejsem IResource, który wymaga odpowiedniej konwersji (większe nastawienie na grafikę trójwymiarową). By móc wykorzystać DirectX 11 do pracy na zwykłych sprajtach, wymagane byłyby dodatkowe zestawy narzędzi, jak np. DirectX Tool Kit.\\
-			Jako konkurencyjne rozwiązanie dla samego DirectXa rozważaliśmy OpenGL, jednak nasz program będzie zorientowany obiektowo, a DirectX daje lepsze możliwości enkapsulacji.
+			Jako konkurencyjne rozwiązanie dla samego DirectXa rozważaliśmy OpenGL, jednak nasz program będzie zorientowany obiektowo, a DirectX daje lepsze możliwości enkapsulacji.\\
+			Ponadto, dzięki DirectXowi wygodniejsze jest pracowanie m.in. z przekształceniami afinicznymi modeli 3D.
 			% Czuję się jak prawdziwy Windziarz // Forczu-sama
 		\subsection{Microsoft Visual Studio 2012}
+			
+		\subsection{Enterprise Architect}
+			Jako narzędzie do zaprojektowania gry w modelu zorientowanym obiektowo wybraliśmy Enterprise Architect. Głównym powodem była nasza znajomość języka UML, którego uczymy się na studiach od ponad roku, a także doświadczenie z tym środowiskiem. Zdecydowaną zaletą wcześniejszego zaprojektowania aplikacji w tym środowisku jest wygoda obsługi, łatwość tworzenia diagramów oraz możliwość generacji kodu. Samo zdecydowanie się na wcześniejsze utworzenie diagramów UML umożliwi nam lepszą kontrolę nad pracą oraz zapewnienie wszystkich potrzebnych możliwości naszej aplikacji.
 	
 	
 	\section{Algorytmy, struktury danych, ograniczenia specyfikacji}
@@ -209,10 +214,48 @@
 	\newpage
 	
 	\part{Plan pracy}
+		\section{Zaprojektowanie gry w języku UML}
+			\begin{enumerate}[label=\alph*.]
+				\item Utworzenie modelu przypadków użycia aktora Gracza
+				\item Utworzenie modelu klas, w postaci diagramu, z wszystkimi potrzebnymi relacjami.
+				\item Zarysowanie scenariuszy pierwszoplanowych.
+			\end{enumerate}
+		\section{Przygotowanie szkieletu aplikacji}
+			\begin{enumerate}[label=\alph*.]
+				\item Napisanie okna w WIN API jako punktu wejściowego aplikacji.
+				\item Inicjalizacja silnika graficznego Direct 3D w celu umożliwienie pisania i testowania obiektów graficznych od samego początku.
+				\item Zdefiniowanie zegara gry, do którego obiektu muszą dostosowywać swoje zachowanie.
+				\item Napisanie klasy nadrzędnej GameObject dla ruchomych obiektów gry - podstawa dla przekształceń afinicznych.
+				\item Klasa Sprite służąca do rysowania i kontroli elementów gry. W późniejszej części pracy, dopóki modele sprajtów końcowych nie będą gotowe, będziemy pracować na prymitywach.
+			\end{enumerate}
+		\section{Części niezależne od siebie}
+			\begin{enumerate}[label=\alph*.]
+				\item Implementacja klasy Gracza, synchronizacja z klawiaturą, umożliwienie strzelania i wykorzystywania bomb.
+				\item Napisanie klasy Pocisk oraz Wzorzec, które kontrolują pociski i układają je we układy oparte na wzorach matematycznych
+				\item Napisanie klas Wrogów oraz integracja ich z typem wrogich pocisków
+				\item Utworzenie ekranu powitalnego (tzw. \emph{title screen}) umożliwiającego zmianę konfiguracji i rozpoczęcie gry.
+				\item Stworzenie uniwersalnej konfiguracji klawiszy - zdefiniowanie kontrolek dla Gracza oraz możliwości ich zmiany przez użytkownika.
+			\end{enumerate}
+		\section{Części zależne od siebie}
+			\begin{enumerate}[label=\alph*.]
+				\item Umożliwienie interakcji Hitboxów - implementacja otarć, kolizji, straty życia.
+				\item Szczegółowa integracja obiektów gry na scenie: określenie w których momentach pojawiają się wrogowie, kiedy strzelają, kiedy zostają wyeliminowani.
+				\item Naliczanie zdobytych punktów
+			\end{enumerate}
+		\section{Wykonanie modeli graficznych}
+			\begin{enumerate}[label=\alph*.]
+				\item Narysowanie obiektu statku w technice 3D.
+				\item Narysowanie tła ekranu powitalnego oraz gry, a także panelu ze statystyką.
+				\item Narysowanie modeli wrogów.
+				\item Narysowanie kształtów pocisków oraz bonusów, opartych o prymitywy.
+			\end{enumerate}
+		
 	
 	\newpage
 	
 	\part{Podział pracy}
+		% --- Słowem wstępu
+		Jako podstawową metodę podziału pracy wybraliśmy oddzielnie pisanie klas programu. Zaczynamy od wspólnego napisania klas wymaganych w sekcji [Przygotowanie szkieletu aplikacji], a następnie każdy przechodzi do niezależnego wykonania pozostałej części swoich zadań. Gdy nadejdzie taka konieczność, klasy będą ze sobą odpowiednio zsynchronizowane.
 	
 	
 \end{document}
