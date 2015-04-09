@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.12.5)  8 APR 2015 22:05
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.12.5)  9 APR 2015 19:50
 entering extended mode
 **Karta_projektu.tex
 (D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.tex
@@ -1098,7 +1098,7 @@ LaTeX Font Info:    External font `plex10' loaded for size
 LaTeX Font Info:    External font `plex10' loaded for size
 (Font)              <5> on input line 60.
 
-<./images/logo.png, id=115, 436.029pt x 440.847pt>
+<./images/logo.png, id=147, 436.029pt x 440.847pt>
 File: ./images/logo.png Graphic file (type png)
  <use ./images/logo.png>
 Package pdftex.def Info: ./images/logo.png used on input line 73.
@@ -1112,7 +1112,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 97--98
 
  []
 
-<./images/screen01.pdf, id=127, 642.4pt x 481.8pt>
+<./images/screen01.pdf, id=159, 642.4pt x 481.8pt>
 File: ./images/screen01.pdf Graphic file (type pdf)
  <use ./images/screen01.pdf>
 Package pdftex.def Info: ./images/screen01.pdf used on input line 104.
@@ -1123,47 +1123,49 @@ Underfull \hbox (badness 10000) in paragraph at lines 145--146
 
  []
 
-[4] [5] [6] [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 261.
- [8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 261.
- (D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 261.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 261.
+[4] [5] <./images/kolizja.pdf, id=209, 88.49947pt x 72.3492pt>
+File: ./images/kolizja.pdf Graphic file (type pdf)
 
-Package rerunfilecheck Warning: File `Karta_projektu.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
+<use ./images/kolizja.pdf>
+Package pdftex.def Info: ./images/kolizja.pdf used on input line 221.
+(pdftex.def)             Requested size: 90.59218pt x 74.06566pt.
+ [6 <D:/Repozytoria/Danmaku/GK_dokumentacja/images/kolizja.pdf>] [7] [8]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 323.
+ [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 323.
 
-Package rerunfilecheck Info: Checksums for `Karta_projektu.out':
-(rerunfilecheck)             Before: EC141ADB6E37CBB2BC1BA892B3B3EEE8;4906
-(rerunfilecheck)             After:  D0AA2EDA6D2DD83E9B8B64CE20C74905;5072.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 261.
+(D:\Repozytoria\Danmaku\GK_dokumentacja\Karta_projektu.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 323.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 323.
+Package rerunfilecheck Info: File `Karta_projektu.out' has not changed.
+(rerunfilecheck)             Checksum: 33B6305D68C912BD1C647CAEB8D197F8;6179.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 323.
  ) 
 Here is how much of TeX's memory you used:
- 19058 strings out of 493921
- 314077 string characters out of 3147285
- 377439 words of memory out of 3000000
- 22098 multiletter control sequences out of 15000+200000
- 12361 words of font info for 34 fonts, out of 3000000 for 9000
+ 19098 strings out of 493921
+ 314590 string characters out of 3147285
+ 378439 words of memory out of 3000000
+ 22115 multiletter control sequences out of 15000+200000
+ 12696 words of font info for 35 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  68i,17n,98p,10446b,375s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/pl/plms.enc}{C:/Program Files/Mi
-KTeX 2.9/fonts/enc/dvips/pl/plmi.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvi
-ps/pl/plme.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/pl/plrm.enc}{C:/Pro
-gram Files/MiKTeX 2.9/fonts/enc/dvips/pl/plit.enc}<C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/pl/plbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publi
-c/pl/plbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plex10.pfb><
-C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plmi10.pfb><C:/Program Files/
-MiKTeX 2.9/fonts/type1/public/pl/plmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/pl/plr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plr
-12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plr7.pfb><C:/Program 
-Files/MiKTeX 2.9/fonts/type1/public/pl/plsy10.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/pl/plsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/pl/plti10.pfb>
-Output written on Karta_projektu.pdf (8 pages, 240150 bytes).
+ <C:\Users\Mati\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\t
+crm1000.pk>{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/pl/plms.enc}{C:/Program
+ Files/MiKTeX 2.9/fonts/enc/dvips/pl/plmi.enc}{C:/Program Files/MiKTeX 2.9/font
+s/enc/dvips/pl/plme.enc}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/pl/plrm.en
+c}{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/pl/plit.enc}<C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/pl/plbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/pl/plbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/ple
+x10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plmi10.pfb><C:/Progr
+am Files/MiKTeX 2.9/fonts/type1/public/pl/plmi7.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/pl/plr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/pl/plr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plr7.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/pl/plsy10.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/pl/plsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/pl/plti10.pfb>
+Output written on Karta_projektu.pdf (9 pages, 259718 bytes).
 PDF statistics:
- 267 PDF objects out of 1000 (max. 8388607)
- 68 named destinations out of 1000 (max. 500000)
- 235 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 327 PDF objects out of 1000 (max. 8388607)
+ 89 named destinations out of 1000 (max. 500000)
+ 304 words of extra memory for PDF output out of 10000 (max. 10000000)
 

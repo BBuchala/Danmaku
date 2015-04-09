@@ -145,32 +145,32 @@
 			Jednym z podstawowych problemów w naszym zadaniu jest tor po jakim poruszają się pociski. Obiekty wrogów będą poruszać się w prosty sposób, jednak zbiory pocisków będą układać się w skomplikowane wzory, tworzyć ze sobą specyficzny układ. W naszej grze chcemy zaimplementować pociski, które będą poruszać się m.in. po takich torach jak okrąg i elipsa.\\
 		
 		\subsubsection{Okrąg}
-			Wybraliśmy opis w postaci równania parametrycznego, który jest wygodniejszy i bardziej efektywny w implementacji:
+%			Wybraliśmy opis w postaci równania parametrycznego, który jest wygodniejszy i bardziej efektywny w implementacji:
 			$$
 				\begin{cases}
-					x=x_0+r\cdot \cos{\alpha}\\
-					y=y_0+r\cdot \sin{\alpha}
+					x=x_0+r\cdot \cos{\theta}\\
+					y=y_0+r\cdot \sin{\theta}
 				\end{cases}
 			$$
-			Gdzie punkt $ O(x_0, y_0) $ jest środkiem okręgu, $ r $ promieniem, a parametr $ \alpha \in [0, 2\pi ) $.
+			Gdzie punkt $ O(x_0, y_0) $ jest środkiem okręgu, $ r $ promieniem, a parametr $ \theta \in [0, 2\pi ) $.
 		\subsubsection{Elipsa}
 			Podobnie jak wyżej, elipsę zdefiniowaliśmy równaniem parametrycznym:
 			$$
 				\begin{cases}
-					x=x_0+a\cdot \cos{\alpha}\\
-					y=y_0+b\cdot \sin{\alpha}
+					x=x_0+a\cdot \cos{\theta}\\
+					y=y_0+b\cdot \sin{\theta}
 				\end{cases}
 			$$
-			Gdzie punkt $ O(x_0, y_0) $ jest środkiem elipsy, $ a,\:b $ długościami półosi, a parametr $ \alpha \in [0, 2\pi ) $.
+			Gdzie punkt $ O(x_0, y_0) $ jest środkiem elipsy, $ a,\:b $ długościami półosi, a parametr $ \theta \in [0, 2\pi ) $.
 		\subsubsection{Spirala}
 			Tor spirali jest zdefiniowany równaniem parametrycznym:
 			$$
 				\begin{cases}
-					x=x_0+a\cdot \alpha \cos{\alpha}\\
-					y=y_0+b\cdot \alpha \sin{\alpha}
+					x=x_0+a\cdot \theta \cdot \cos{\theta}\\
+					y=y_0+b\cdot \theta \cdot \sin{\theta}
 				\end{cases}
 			$$
-			Gdzie punkt $ O(x_0, y_0) $ jest punktem centralnym spirali, $ a,\:b $ długościami półosi, a parametr $ \alpha \in [0, \inf ) $.
+			Gdzie punkt $ O(x_0, y_0) $ jest punktem centralnym spirali, $ a,\:b $ długościami półosi, a parametr $ \theta \in [0, \inf ) $.
 		
 	\newpage
 	\section{Wykorzystywane zagadnienia grafiki komputerowej}
@@ -195,7 +195,35 @@
 					\end{cases}
 				$$
 			\subsection{Obrót}
-				
+			
+		\subsection{Krzywe i powierzchnie parametryczne}
+			W naszym projekcie pojawią się krzywe parametryczne. Będą spełniać rolę toru pocisków. W celu opisania krzywej na przestrzeni $ n $-wymiarowej są potrzebne $ n $ funkcji, które opisują współrzędne punktów tej krzywej. My wykorzystamy z wielomianów 3 stopnia, ponieważ są wystarczająca elastyczne jeśli chodzi o zmianę kształtu krzywej i nie powodują wykonywania dużej ilości dodatkowych obliczeń.
+			Wielomian opisujący segment krzywej:
+			$$ Q(t)=[\:x(t)\:y(t)\:z(t)\:]^T  \:\:\:\:\:\: 0 \leq t \leq 1 $$
+			Gdzie:
+			\begin{itemize}
+				\item $ x(t)= a_x t^3+b_x t^2+c_x t+d_x $
+				\item $ y(t)= a_y t^3+b_y t^2+c_y t+d_y $
+				\item $ z(t)= a_z t^3+b_z t^2+c_z t+d_z $
+			\end{itemize}
+				\subsubsection{Krzywe Beziera}
+				Fragment krzywej Beziera opisywany jest przez dwa punkty końcowe $ P_0 $ i $ P_3 $ (interpolacja) i dwa punkty pośrednie $ P_1 $ i $ P_2 $ (aproksymacja), które decydują o postaci wektorów w punktach końcowych.\\Krzywą Beziera trzeciego stopnia definiuje równanie wielomianowe:
+				$$ Q(t)=(1-t)^3\cdot P_0+3t\cdot(1-t)^2\cdot P_1+3t^2(1-t)\cdot P_2+t^3\cdot P_3 $$
+			
+			
+		\subsection{Wykrywanie kolizji}
+			Jako kolejne zagadnienie wykorzystamy wykrywanie kolizji. Jest ono potrzebne ze względu na zderzenia pocisków z obiektami i przeciwnikami. Naszym zadaniem będzie wykrycie, że kolizja miała miejsce i odpowiednia reakcja na tę sytuację (utrata życia, animacja zderzenia itd.).\\
+			Z dwóch rodzajów kolizji, statycznych i dynamicznych, zdecydowaliśmy się na realizację tych pierwszych. Są prostsze do realizacji, wymagają mniej obliczeń i szerzej omówione w ramach laboratorium. Aby uniknąć potencjalnych problemów związanych ze sprawdzaniem stanu klatka po klatce będziemy ograniczać prędkość pocisków tak, by nie występowało omijanie kolizji.\\
+			W celu optymalizacji tego procesu będziemy stosować zmodyfikowaną metodę sfery otaczającej - zamiast otaczać cały model kulą, będzie się ona znajdować w jego wnętrzu na scenie 2D jako tzw. \emph{Hitbox}. Podobnie jak przy sferze otaczającej, jego środek równy środku sprjata, lecz jego promień będzie odpowiednio mniejszy. Każdy element gry, z którym gracz może wejść w kontakt, będzie posiadał swój Hitbox. Elementy takie jak tło czy pasek życia nie będą go miało i pozostaną tylko rysunkami.\\
+			W celu testowania kolizji będzie stosować prostą metodę \emph{sphere - sphere}.
+			
+			\begin{center}
+				\includegraphics[width=0.2\textwidth]{./images/kolizja}
+			\end{center}
+			Ilustracja: jak widać, chociaż oba sprajty na siebie na nachodzą, do kolizji nie dochodzi gdyż oba Hitboxy są od siebie oddalone.
+		
+	
+	\newpage
 	
 	\section{Wykorzystywane biblioteki i narzędzia programistyczne}
 		\subsection{DirectX 9}
@@ -203,10 +231,13 @@
 			Jako konkurencyjne rozwiązanie dla samego DirectXa rozważaliśmy OpenGL, jednak nasz program będzie zorientowany obiektowo, a DirectX daje lepsze możliwości enkapsulacji.\\
 			Ponadto, dzięki DirectXowi wygodniejsze jest pracowanie m.in. z przekształceniami afinicznymi modeli 3D.
 			% Czuję się jak prawdziwy Windziarz // Forczu-sama
+			
 		\subsection{Microsoft Visual Studio 2012}
+			Wybraliśmy to środowisko ze względu na przyjazny interfejs, który nawet w najtrudniejszych sytuacjach potrafi okazać się bardzo pomocny. Pracujemy na nim od dłuższego czasu co ułatwi nam szybki dostęp do potrzebnych narzędzi. Etap debugowania posiada wiele możliwości kontroli naszego programu, co na pewno pozwoli uniknąć kilku czasochłonnych błędów. Ponieważ czasami pojawiają się problemy w kompilacji związane z różnymi wersjami VS, wspólnie wybraliśmy jedną wersję środowiska w celu usunięcia tych przeszkód.
 			
 		\subsection{Enterprise Architect}
 			Jako narzędzie do zaprojektowania gry w modelu zorientowanym obiektowo wybraliśmy Enterprise Architect. Głównym powodem była nasza znajomość języka UML, którego uczymy się na studiach od ponad roku, a także doświadczenie z tym środowiskiem. Zdecydowaną zaletą wcześniejszego zaprojektowania aplikacji w tym środowisku jest wygoda obsługi, łatwość tworzenia diagramów oraz możliwość generacji kodu. Samo zdecydowanie się na wcześniejsze utworzenie diagramów UML umożliwi nam lepszą kontrolę nad pracą oraz zapewnienie wszystkich potrzebnych możliwości naszej aplikacji.
+		
 	
 	
 	\section{Algorytmy, struktury danych, ograniczenia specyfikacji}
@@ -231,7 +262,7 @@
 		\section{Części niezależne od siebie}
 			\begin{enumerate}[label=\alph*.]
 				\item Implementacja klasy Gracza, synchronizacja z klawiaturą, umożliwienie strzelania i wykorzystywania bomb.
-				\item Napisanie klasy Pocisk oraz Wzorzec, które kontrolują pociski i układają je we układy oparte na wzorach matematycznych
+				\item Napisanie klasy Pocisk oraz Wzorzec, które kontrolują pociski i układają je we układy oparte na funkcjach matematycznych
 				\item Napisanie klas Wrogów oraz integracja ich z typem wrogich pocisków
 				\item Utworzenie ekranu powitalnego (tzw. \emph{title screen}) umożliwiającego zmianę konfiguracji i rozpoczęcie gry.
 				\item Stworzenie uniwersalnej konfiguracji klawiszy - zdefiniowanie kontrolek dla Gracza oraz możliwości ich zmiany przez użytkownika.
@@ -240,7 +271,7 @@
 			\begin{enumerate}[label=\alph*.]
 				\item Umożliwienie interakcji Hitboxów - implementacja otarć, kolizji, straty życia.
 				\item Szczegółowa integracja obiektów gry na scenie: określenie w których momentach pojawiają się wrogowie, kiedy strzelają, kiedy zostają wyeliminowani.
-				\item Naliczanie zdobytych punktów
+				\item Naliczanie zdobytych punktów.
 			\end{enumerate}
 		\section{Wykonanie modeli graficznych}
 			\begin{enumerate}[label=\alph*.]
@@ -255,7 +286,38 @@
 	
 	\part{Podział pracy}
 		% --- Słowem wstępu
-		Jako podstawową metodę podziału pracy wybraliśmy oddzielnie pisanie klas programu. Zaczynamy od wspólnego napisania klas wymaganych w sekcji [Przygotowanie szkieletu aplikacji], a następnie każdy przechodzi do niezależnego wykonania pozostałej części swoich zadań. Gdy nadejdzie taka konieczność, klasy będą ze sobą odpowiednio zsynchronizowane.
+		%Jako podstawową metodę podziału pracy wybraliśmy oddzielnie pisanie klas programu. Zaczynamy od wspólnego napisania klas wymaganych w sekcji [Przygotowanie szkieletu aplikacji], a następnie każdy przechodzi do niezależnego wykonania pozostałej części swoich zadań. Gdy nadejdzie taka konieczność, klasy będą ze sobą odpowiednio zsynchronizowane.
+		
+		\section{Buchała Bartłomiej}
+			\begin{enumerate}[label=\alph*.]
+				\item \textbf{Klasa Player}: uniemożliwienie wyjścia graczowi poza planszę, utworzenie trybu \emph{focus}, umożliwienie mu strzelania pociskami i bombami, narysowanie bomby i pocisków, synchronizacja z klasą Input.
+				\item \textbf{Klasa Game}: narysowanie interfejsu gry, wyświetlenie wszystkich danych: liczby żyć i bomb, przechowywanych w klasie Player oraz wyniku i liczby grejzu, przechowywanych w klasie Game, usunięcie pocisków gracza i wrogów z pamięci gdy wyjdą poza planszę, umożliwienie zatrzymania i zakończenia gry, wejścia do menu oraz zapisania wyniku gry do pamięci.
+				\item \textbf{Klasy typu Bullet}: zrealizowanie ruchu pocisków zgodnie ze wskazanymi torami - domyślnie po prostym wektorze, z możliwością zmiany na wskazany tor, umożliwienie przyspieszenia, silna parametryzacja, narysowanie kilku kształtów pocisków w różnych kolorach.
+			\end{enumerate}
+		
+		\section{Forczmański Mateusz}
+			\begin{enumerate}[label=\alph*.]
+				\item \textbf{Projekt UML}: utworzenie modelu przypadków użycia, zarysowanie scenariuszy pierwszoplanowych, narysowanie diagramu klas z właściwymi relacjami.
+				\item \textbf{Okno gry}: utworzenie okna w języku WinAPI, inicjalizacja i konfiguracja Direct3D 9, implementacja zegara gry.
+				\item \textbf{Klasy Pattern i Spellcard}: generowanie i układanie wzorów z pocisków, reagowanie na usunięcie pocisków gdy wyjdą poza planszę lub zostaną usunięte przez bombę, realizacja bonusów za pokonanie karty czarów bez straty życia.
+				\item \textbf{Klasa Sprite}: rysowanie sprajtów na ekranie gry, implementacja translacji, skalowania i rotacji, umożliwienie przechowywania i wyboru większej liczby tekstur.
+			\end{enumerate}
+		
+		\section{Motyka Marek}
+			\begin{enumerate}[label=\alph*.]
+				\item \textbf{Klasa Input}: enkapsulacja wszystkich funkcji do obsługi klawiatury, synchronizacja z klasami integralnymi (gra oraz ekran powitalny). Stworzenie uniwersalnych klawiszy – \emph{Shoot}, \emph{Bomb}, \emph{Focus} itp., które będą połączone z odpowiadającymi im wartościami z klasy Input.
+				\item \textbf{Klasa Hitbox}: implementacja, narysowanie sprajta hitboxa, zrealizowanie obsługi zdarzeń i styków dwóch hitboxów, wykrywanie \textit{graze} dla hitboxów klas Player i EnemyBullet (poprzez ustawienie pewnej odległości) oraz obsługa utraty życia przy nałożeniu się hitboxów tych klas.
+				\item \textbf{Klasy typu Bonus}: implementacja, narysowanie sprajtów, synchronizacja z klasami Player (zebranie, zwiększenie powera) oraz Game (zwiększenie wyniku), zwolnienie pamięci po zebraniu przez gracza lub wyleceniu z planszy.
+			\end{enumerate}
 	
-	
+		\section{Wudecki Wojciech}
+			\begin{enumerate}[label=\alph*.]
+				\item \textbf{Klasa TitleScreen}: narysowanie ekranu powitalnego, utworzenie menu z wszystkimi możliwościami, utworzenie klasy Menu z szczegółowymi możliwościami zmian, zapisywanie i odczytywanie ustawień z pamięci, utworzenie sprawnego przejścia z ekranu powitalnego do gry i na odwrót.
+				\item \textbf{Klasa Enemy}: implementacja, umożliwienie strzelania i wykorzystywania patternów, realizacja wrażliwości na pociski gracza, narysowanie sprajtów wrogów.
+				\item \textbf{Klasa Stage}: przechowywanie wszystkich obiektów wrogów, decydowanie który jakiego wzoru pocisków używa, silna integracja z timerem – to Stage ma wiedzieć, w której sekundzie pojawiają się wrogowie, kiedy mają strzelić i zejść ze sceny, narysowanie tła.
+				
+			\end{enumerate}
+		
+		
+		
 \end{document}
