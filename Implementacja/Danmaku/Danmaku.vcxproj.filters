@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Patterns">
       <UniqueIdentifier>{35ebb788-b82e-44a1-bcdb-778a2c5384b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Tools">
+      <UniqueIdentifier>{af0f8beb-f8ba-4bc1-98a0-06d34521e8da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{a737e011-a0fd-4301-86e2-734b2ca9b428}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -104,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="EnemyBulletSpiral.cpp">
       <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="EnemyBulletSpiral.h">
       <Filter>Header Files\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

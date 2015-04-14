@@ -88,6 +88,7 @@
     <ClCompile Include="Pattern02.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playfield.cpp" />
+    <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
@@ -111,6 +112,7 @@
     <ClInclude Include="Pattern02.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playfield.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScreen.h" />

@@ -2,25 +2,31 @@
 
 #include <math.h>
 #include "EnemyBullet.h"
+#include "Vector.h"
 
 class EnemyBulletSpiral : public EnemyBullet
 {
-	/* k¹t w RADIANACH o jaki porusza siê pocisk w jednostce czasu */
+	/* obecny k¹t w RADIANACH w uk³adzie wspó³rzêdnych polarnych */
 	float theta;
+
+	/* wspó³czynnik obrotu spirali */
+	float a;
+
+	/* odleg³oœæ miêdzy kolejnymi obrotami */
+	float b;
+
+	/* obrót */
+	float rotation;
 
 	/* po³o¿enie Ÿród³a spirali */
 	D3DXVECTOR3 center;
-
-	/* pó³osie */
-	float radius1;
-	float radius2;
 
 public:
 	EnemyBulletSpiral(float const & x, float const & y, float const & angular_speed);
 	virtual ~EnemyBulletSpiral();
 
-	void SetRadius( float const & rad );
-	void SetRadius( float const & r1, float const & r2 );
+	void SetParameters( float const & a, float const & b );
 
+	void Rotate( float const & angle );
 	void Update(float const & time) override;
 };

@@ -3,13 +3,14 @@
 #include "IPattern.h"
 #include "EnemyBulletSpiral.h"
 
-#define BULLET_NUMBER 80
-#define BULLET_WIDTH  40
-#define BULLET_HEIGHT 40
+#define BULLET_NUMBER 160
+#define BULLET_WIDTH  14
+#define BULLET_HEIGHT 14
 
 class Pattern02 : public IPattern
 {
-	EnemyBulletSpiral ** bullet;
+	EnemyBulletSpiral ** bullet1;
+	EnemyBulletSpiral ** bullet2;
 
 	float elapsedTime;
 	unsigned int bulletNumber;
