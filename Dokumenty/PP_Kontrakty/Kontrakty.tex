@@ -89,12 +89,36 @@
 
 \part{\huge \textbf{Model interakcji}}
 
-// TO DO
-
+\begin{figure}[h!]
+	\hspace{-25mm}
+		\includegraphics[width=1.15\textwidth, trim={0 10cm 2cm 0}]{./images/Bomba.pdf}
+	\caption{{\large Diagram przepływu przypadku użycia bomby}}
+\end{figure}
 
 \newpage
 
+\begin{figure}[h!]
+	\includegraphics[width=1.1\textwidth]{./images/Fragment.pdf}
+	\caption{{\large Fragment diagramu klas}} 
+\end{figure}
+
+\vspace*{2\baselineskip}
+
 \part{\huge \textbf{Podmodel klas}}
+
+\section{Klasy użyte w modelu interakcji}
+
+\begin{enumerate}
+	
+	\item \textbf{Klasa Player}: uniemożliwienie wyjścia graczowi poza planszę, utworzenie trybu \emph{focus}, umożliwienie mu strzelania pociskami i bombami, narysowanie bomby i pocisków, synchronizacja z klasą Input.	
+	
+	\item \textbf{Klasa Bomb}: implementacja, reakcja na akcję ze strony gracza, narysowanie efektu graficznego, integracja z Timerem (czas trwania bomby, a jej efekt na znajdujące się na mapie pociski/efekt graficzny).
+	
+\end{enumerate} 
+
+\newpage
+
+\section{Inne klasy}
 
 \begin{enumerate}
 	
@@ -108,21 +132,19 @@
 	
 	\item \textbf{Klasa Input}: enkapsulacja wszystkich funkcji do obsługi klawiatury, synchronizacja z klasami integralnymi (gra oraz ekran powitalny). Stworzenie uniwersalnych klawiszy – \emph{Shoot}, \emph{Bomb}, \emph{Focus} itp., które będą połączone z odpowiadającymi im wartościami z klasy Input.
 	
-	\item \textbf{Klasa Player}: uniemożliwienie wyjścia graczowi poza planszę, utworzenie trybu \emph{focus}, umożliwienie mu strzelania pociskami i bombami, narysowanie bomby i pocisków, synchronizacja z klasą Input.	
-
 	\item \textbf{Klasy typu Bullet}: zrealizowanie ruchu pocisków zgodnie ze wskazanymi torami - domyślnie po prostym wektorze, z możliwością zmiany na wskazany tor, umożliwienie przyspieszenia, silna parametryzacja, narysowanie kilku kształtów pocisków w różnych kolorach.
 
 	\item \textbf{Klasy Pattern i Spellcard}: generowanie i układanie wzorów z pocisków, reagowanie na usunięcie pocisków gdy wyjdą poza planszę lub zostaną usunięte przez bombę, realizacja bonusów za pokonanie karty czarów bez straty życia.
 
 	\item \textbf{Klasa Hitbox}: implementacja, narysowanie sprajta hitboxa, zrealizowanie obsługi zdarzeń i styków dwóch hitboxów, wykrywanie \textit{graze} dla hitboxów klas Player i EnemyBullet (poprzez ustawienie pewnej odległości) oraz obsługa utraty życia przy nałożeniu się hitboxów tych klas.
 	
-	\item \textbf{Klasa Bomb}: implementacja, reakcja na akcję ze strony gracza, narysowanie efektu graficznego, integracja z Timerem (czas trwania bomby, a jej efekt na znajdujące się na mapie pociski/efekt graficzny). 
-
 	\item \textbf{Klasy typu Bonus}: implementacja, narysowanie sprajtów, synchronizacja z klasami Player (zebranie, zwiększenie powera) oraz Game (zwiększenie wyniku), zwolnienie pamięci po zebraniu przez gracza lub wyleceniu z planszy.
 
 	\item \textbf{Klasa Enemy}: implementacja, umożliwienie strzelania i wykorzystywania patternów, realizacja wrażliwości na pociski gracza, narysowanie sprajtów wrogów.
 
 	\item \textbf{Klasa Stage}: przechowywanie wszystkich obiektów wrogów, decydowanie który jakiego wzoru pocisków używa, silna integracja z timerem – to Stage ma wiedzieć, w której sekundzie pojawiają się wrogowie, kiedy mają strzelić i zejść ze sceny, narysowanie tła.
+	
+	\item \textbf{Klasa Timer}: implementacja, odliczanie czasu rzeczywistego z określoną częstotliwością, reakcja na zmiany z zewnątrz (przesunięcie okna gry, minimalizajca itp.).
 \end{enumerate}
 
 \newpage
@@ -134,7 +156,15 @@
 \begin{itemize}
 	\item \textbf{Wykorzystywany w:} Klasie Sprite.
 	\item \textbf{Założenie:} Obiekt klasy implementującej ten interfejs może zostać wyświetlany na ekranie 
-	\item \textbf{Funkcjonalności} Metoda Draw() będzie odpowiedzialna za przedstawienie elementu klasy na ekranie. Dodatkowo, implementacja tego interfejsu będzie oznaczała, że klasa będzie powiązana z plikami graficznymi (np. teksturami, modelami 3D).
+	\item \textbf{Funkcjonalności:} Metoda Draw() będzie odpowiedzialna za przedstawienie elementu klasy na ekranie. Dodatkowo, implementacja tego interfejsu będzie oznaczała, że klasa będzie powiązana z plikami graficznymi (np. teksturami, modelami 3D).
+\end{itemize}
+
+\section{Transformable}
+
+\begin{itemize}
+	\item \textbf{Wykorzystywany w:} Klasie Sprite
+	\item \textbf{Założenie:} Rozszerzenie klasy Rysowalnej o nowe funkcjonalności.
+	\item \textbf{Funkcjonalności:} Klasa używająca interfejsu Transformable będzie mogła dodatkowo wykonać szereg operacji na sprajcie według sposobu zaimplementowanego przez programistę. Rotate() wykona obrót grafiki, Scale() - zmianę rozmiaru, natomiast Translate() przesunie sprajt względem okna aplikacji.
 \end{itemize}
 
 \section{IPattern}
@@ -162,7 +192,7 @@
 		\hline
 		\multicolumn{1}{|c|}{\textit{\textbf{Student}}} & \multicolumn{1}{c|}{\textit{\textbf{Klasy do zaprojektowania}}}                                                               \\ \hline
 		\textbf{Bartłomiej Buchała}                     & \begin{tabular}[c]{@{}l@{}}a) Klasa Player\\ b) Klasa Game\\ c) Klasy typu Bullet\\ d) Klasa Bomb\end{tabular}                                \\ \hline
-		\textbf{Mateusz Forczmański}                    & \begin{tabular}[c]{@{}l@{}}a) Model UML\\ b) Okno Gry\\ b) Klasy Pattern \\ c) Klasa Spellcard\\ d) Klasa Sprite\end{tabular} \\ \hline
+		\textbf{Mateusz Forczmański}                    & \begin{tabular}[c]{@{}l@{}}a) Model UML\\ b) Okno Gry\\ c) Klasy Pattern \\ d) Klasa Spellcard\\ e) Klasa Sprite\\ f) Klasa Timer\end{tabular} \\ \hline
 		\textbf{Marek Motyka}                           & \begin{tabular}[c]{@{}l@{}}a) Klasa Input\\ b) Klasa Hitbox\\ c) Klasy typu Bonus\end{tabular}                                \\ \hline
 		\textbf{Wojciech Wudecki}                       & \begin{tabular}[c]{@{}l@{}}a) Klasa TitleScreen\\ b) Klasa Enemy\\ c) Klasa Stage\end{tabular}                                \\ \hline
 	\end{tabular}
