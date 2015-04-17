@@ -12,14 +12,14 @@ Sprite::Sprite()
 	this->initialized = false;
 };
 
-bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height, D3DXVECTOR3 const & position )
+bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height, D3DXVECTOR2 const & position )
 {
 	std::vector<std::string> v;
 	v.push_back(file);
 	return this->Initialize( device, v, width, height, position );
 };
 
-bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, int width, int height, D3DXVECTOR3 const & position)
+bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, int width, int height, D3DXVECTOR2 const & position)
 {
 	this->texNumber = file.size();
 	this->tex = new LPDIRECT3DTEXTURE9[this->texNumber];
@@ -61,22 +61,21 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 };
 
 
-void Sprite::SetCenterPoint( D3DXVECTOR3 const & position )
+void Sprite::SetCenterPoint( D3DXVECTOR2 const & position )
 {
-	this->SetCenterPoint( position.x + this->GetWidth() / 2, position.y + this->GetHeight() / 2, position.z );
+	this->SetCenterPoint( position.x + this->GetWidth() / 2, position.y + this->GetHeight() / 2 );
 };
 
 
-void Sprite::SetCenterPoint( float const & x0, float const & y0, float const & z0 )
+void Sprite::SetCenterPoint( float const & x0, float const & y0 )
 {
 	this->center.x = x0;
 	this->center.y = y0;
-	this->center.z = z0;
 };
 
 
 // position - górny, lewy róg sprajta
-void Sprite::Draw(D3DXVECTOR3 const & position)
+void Sprite::Draw(D3DXVECTOR2 const & position)
 {
 	if (this->sprite && tex)
 	{
@@ -84,14 +83,14 @@ void Sprite::Draw(D3DXVECTOR3 const & position)
 
 		D3DXMATRIX mat;
 		D3DXVECTOR2 center2D( center.x, center.y );
-		D3DXVECTOR2 position2D( position.x, position.y );
+		D3DXVECTOR3 position3D( position.x, position.y, 0.0f );
 
 		// skalowanie i obrót
 		D3DXMatrixTransformation2D( &mat, &center2D, NULL, new D3DXVECTOR2( scale, scale ), &center2D, rotation, NULL );
 
 		this->sprite->SetTransform( &mat );
 
-		this->sprite->Draw(tex[this->currentTex], NULL, NULL, &position, this->color);
+		this->sprite->Draw(tex[this->currentTex], NULL, NULL, &position3D, this->color);
 
 		this->sprite->End();
 	}

@@ -9,7 +9,7 @@ TitleScreen::~TitleScreen()
 bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 {
 	Playfield::Initialize(hWnd, gDevice);
-	position.x = position.y = position.z = 0;
+	position.x = position.y = 0;
 	this->background = new Sprite();
 	if ( !this->background->Initialize(this->gDevice->device,
 		Sprite::GetFilePath( "titlescreen", "png"), 800, 600, this->position ) )
@@ -18,7 +18,6 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	}
 	
 	buttonP.x = buttonP.y = 300;
-	buttonP.z = 0;
 	this->button = new Sprite();
 	std::vector<std::string> buttons;
 	for (int i = 1; i <= 2; i++)

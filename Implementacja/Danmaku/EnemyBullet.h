@@ -17,6 +17,6 @@ protected:
 	bool isGrazed;
 
 public:
-	EnemyBullet(float const & x, float const & y);
+	EnemyBullet( float const & speed );
 	virtual ~EnemyBullet();
 };

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "IPattern.h"
-#include "EnemyBulletSpiral.h"
+#include "EnemyBullet.h"
 
 #define BULLET_NUMBER 160
 #define BULLET_WIDTH  14
@@ -9,8 +9,7 @@
 
 class Pattern02 : public IPattern
 {
-	EnemyBulletSpiral ** bullet1;
-	EnemyBulletSpiral ** bullet2;
+	EnemyBullet ** bullet;
 
 	float elapsedTime;
 	unsigned int bulletNumber;

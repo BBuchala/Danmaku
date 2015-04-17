@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{a737e011-a0fd-4301-86e2-734b2ca9b428}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Trajectories">
+      <UniqueIdentifier>{7852da6d-0d58-4c77-b5e4-74cd223ce010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Trajectories">
+      <UniqueIdentifier>{37e141b3-a75b-43dc-b033-2dd1ea4415bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -99,20 +105,26 @@
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBulletElipse.cpp">
-      <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
     <ClCompile Include="Pattern01.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="Pattern02.cpp">
       <Filter>Source Files\Patterns</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBulletSpiral.cpp">
-      <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
     <ClCompile Include="Vector.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Trajectory.cpp">
+      <Filter>Source Files\Trajectories</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryElipse.cpp">
+      <Filter>Source Files\Trajectories</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectorySpiral.cpp">
+      <Filter>Source Files\Trajectories</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryLine.cpp">
+      <Filter>Source Files\Trajectories</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,9 +142,6 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawable.h">
-      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\Bullets</Filter>
@@ -161,9 +170,6 @@
     <ClInclude Include="EnemyBullet.h">
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBulletElipse.h">
-      <Filter>Header Files\Bullets</Filter>
-    </ClInclude>
     <ClInclude Include="Pattern01.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
@@ -176,11 +182,29 @@
     <ClInclude Include="Pattern02.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBulletSpiral.h">
-      <Filter>Header Files\Bullets</Filter>
-    </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Trajectory.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryElipse.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySpiral.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="ITrajectory.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryLine.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="ITransformable.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="IDrawable.h">
+      <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

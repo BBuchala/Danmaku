@@ -59,7 +59,7 @@ void GameObject::Update(float const & time)
 };
 
 
-void GameObject::SetPosition(D3DXVECTOR3 const & v)
+void GameObject::SetPosition(D3DXVECTOR2 const & v)
 {
 	this->position = v;
 };
@@ -69,7 +69,6 @@ void GameObject::SetPosition(float const & x, float const & y)
 {
 	this->position.x = x;
 	this->position.y = y;
-	this->position.z = 0;
 };
 
 void GameObject::SetAcceleration(float const & acc)
@@ -98,15 +97,14 @@ void GameObject::Scale( float const & scale )
 
 
 
-void GameObject::Translate( float const & dx, float const & dy, float const & dz )
+void GameObject::Translate( float const & dx, float const & dy )
 {
 	this->position.x += dx;
 	this->position.y += dy;
-	this->position.z += dz;
 };
 
 
-void GameObject::Translate( D3DXVECTOR3 dv )
+void GameObject::Translate( D3DXVECTOR2 dv )
 {
 	this->position += dv;
 };

@@ -14,8 +14,8 @@ class TitleScreen : public Playfield
 	Sprite * background;
 	Sprite * button;
 
-	D3DXVECTOR3 position;
-	D3DXVECTOR3 buttonP;
+	D3DXVECTOR2 position;
+	D3DXVECTOR2 buttonP;
 
 	bool pressed;
 	bool enter;

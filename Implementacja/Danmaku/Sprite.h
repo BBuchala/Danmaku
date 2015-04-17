@@ -5,11 +5,11 @@
 #include <vector>
 #include <string>
 
-#include "Drawable.h"
+#include "IDrawable.h"
 
 #define IMG_PATH "img/"
 
-class Sprite : public Drawable
+class Sprite : public IDrawable
 {
 	//////// SK£ADOWE ////////////////////////////
 	// Elementy graficzne
@@ -27,7 +27,7 @@ private:
 	int height;
 
 	// Pozycja sprajta - punkt œrodkowy rysunku
-	D3DXVECTOR3 center;
+	D3DXVECTOR2 center;
 
 	// obrót rysunku w RADIANACH
 	float rotation;
@@ -46,15 +46,15 @@ public:
 	
 	// utworznie sprajta z zewn¹trz
 	// pobiera uchwyt do urz¹dznia, œcie¿kê do pliku, szerokoœæ i wysokoœæ
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height, D3DXVECTOR3 const & position );
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int width, int height, D3DXVECTOR3 const & position );
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height, D3DXVECTOR2 const & position );
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int width, int height, D3DXVECTOR2 const & position );
 
 	// utworzenie punktu œrodkowego
-	void SetCenterPoint( D3DXVECTOR3 const & position );
-	void SetCenterPoint( float const & x0, float const & y0, float const & z0 );
+	void SetCenterPoint( D3DXVECTOR2 const & position );
+	void SetCenterPoint( float const & x0, float const & y0 );
 
 	////// RYSOWANIE SPRAJTA W OKNIE
-	void Draw(D3DXVECTOR3 const & position) override;
+	void Draw(D3DXVECTOR2 const & position) override;
 
 	////// TRANSFORMACJE
 	// obrót sprajta w miejscu, k¹ty podane w radianach

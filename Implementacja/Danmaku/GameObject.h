@@ -10,7 +10,7 @@ protected:
 	/* === Sk³adowe === */
 	Sprite * sprite;
 
-	D3DXVECTOR3 position;
+	D3DXVECTOR2 position;
 
 	float speed;
 	float acceleration;
@@ -31,13 +31,13 @@ public:
 
 	// Settery
 	void SetPosition(float const & x, float const & y);
-	void SetPosition(D3DXVECTOR3 const & v);
+	void SetPosition(D3DXVECTOR2 const & v);
 	void SetAcceleration(float const & acc);
 	void SetCenterPoint();
 
 	// transformacje
-	void Translate( float const & dx, float const & dy, float const & dz = 0 );
-	void Translate( D3DXVECTOR3 dv );
+	void Translate( float const & dx, float const & dy );
+	void Translate( D3DXVECTOR2 dv );
 	void Rotate( float const & angle );
 	void Scale( float const & scale );
 

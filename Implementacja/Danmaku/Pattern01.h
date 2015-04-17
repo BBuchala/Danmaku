@@ -2,27 +2,24 @@
 
 #include "IPattern.h"
 
-#include "EnemyBulletElipse.h"
+#include "EnemyBullet.h"
 #include "GraphicsDevice.h"
+#include "TrajectoryElipse.h"
 
-#define BULLET_NUMBER 8
+#define BULLET_JUMP	  8
+#define BULLET_NUMBER 3 * BULLET_JUMP
 #define BULLET_WIDTH  40
 #define BULLET_HEIGHT 40
 
 class Pattern01 : public IPattern
 {
 	// obiekty w grze
-	EnemyBulletElipse ** hBullet;
-	EnemyBulletElipse ** vBullet;
-	EnemyBulletElipse ** mBullet;
-	EnemyBulletElipse ** sBullet;
+	EnemyBullet ** bullet;
 
 	// kontrolki
-	unsigned int bulletNumber;
 	float elapsedTime;
-
-	bool scale;
-	float scale_frac;
+	float bulletTime;
+	int bulletNumber;
 
 public:
 	virtual ~Pattern01();	// destruktor

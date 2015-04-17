@@ -76,8 +76,6 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
-    <ClCompile Include="EnemyBulletElipse.cpp" />
-    <ClCompile Include="EnemyBulletSpiral.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsDevice.cpp" />
@@ -88,6 +86,10 @@
     <ClCompile Include="Pattern02.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playfield.cpp" />
+    <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="TrajectoryElipse.cpp" />
+    <ClCompile Include="TrajectoryLine.cpp" />
+    <ClCompile Include="TrajectorySpiral.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -96,10 +98,8 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
-    <ClInclude Include="Drawable.h" />
+    <ClInclude Include="IDrawable.h" />
     <ClInclude Include="EnemyBullet.h" />
-    <ClInclude Include="EnemyBulletElipse.h" />
-    <ClInclude Include="EnemyBulletSpiral.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="IException.h" />
@@ -107,11 +107,17 @@
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GameWindowInitializationFailedException.h" />
     <ClInclude Include="IPattern.h" />
+    <ClInclude Include="ITrajectory.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Pattern01.h" />
     <ClInclude Include="Pattern02.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playfield.h" />
+    <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="TrajectoryElipse.h" />
+    <ClInclude Include="TrajectoryLine.h" />
+    <ClInclude Include="TrajectorySpiral.h" />
+    <ClInclude Include="ITransformable.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
