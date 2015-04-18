@@ -52,4 +52,9 @@ public:
 		return this->sprite;
 	}
 
+	D3DXVECTOR2 GetPosition()
+	{
+		return this->position;
+	}
+
 };

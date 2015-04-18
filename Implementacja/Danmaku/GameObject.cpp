@@ -108,3 +108,4 @@ void GameObject::Translate( D3DXVECTOR2 dv )
 {
 	this->position += dv;
 };
+

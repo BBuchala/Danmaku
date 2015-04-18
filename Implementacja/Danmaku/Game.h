@@ -16,6 +16,8 @@
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 #define BUTTON_NUM	2
 #define TEX_NUM		3
+#define RECT_WIDTH  600
+#define RECT_HEIGHT 600
 
 static enum Pattern
 {
@@ -70,5 +72,6 @@ public:
 
 private:
 	bool IsKeyPressed();
+	bool PlayerWithinBounds(Move direction);
 
 };

@@ -44,7 +44,7 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	this->gDevice = gDevice;
 
 	this->square = new GameObject(100, 0);
-	this->square->Initialize( this->gDevice->device, "img/square.png", 600, 600 );
+	this->square->Initialize( this->gDevice->device, "img/square.png", RECT_HEIGHT, RECT_WIDTH );
 
 	this->player = new Player();
 	this->player->Initialize( this->gDevice->device, "img/ship.png", 40, 60 );
@@ -184,23 +184,31 @@ void Game::Update(float const & time)
 
 	//// OBS£UGA RUCHU GRACZA
 	Move move = Move::NONE;
-	if (GetAsyncKeyState(VK_UP))
+
+
 	{
-		move |= Move::UP;
+		if (GetAsyncKeyState(VK_UP))
+		{
+			if (PlayerWithinBounds(Move::UP))
+				move |= Move::UP;
+		}
+		if (GetAsyncKeyState(VK_DOWN))
+		{
+			if (PlayerWithinBounds(Move::DOWN))
+				move |= Move::DOWN;
+		}
+		if (GetAsyncKeyState(VK_LEFT))
+		{
+			if (PlayerWithinBounds(Move::LEFT))
+				move |= Move::LEFT;
+		}
+		if (GetAsyncKeyState(VK_RIGHT))
+		{
+			if (PlayerWithinBounds(Move::RIGHT))
+				move |= Move::RIGHT;
+		}
+		this->player->Update(time, move);
 	}
-	if (GetAsyncKeyState(VK_DOWN))
-	{
-		move |= Move::DOWN;
-	}
-	if (GetAsyncKeyState(VK_LEFT))
-	{
-		move |= Move::LEFT;
-	}
-	if (GetAsyncKeyState(VK_RIGHT))
-	{
-		move |= Move::RIGHT;
-	}
-	this->player->Update(time, move);
 
 
 	this->player->SetFocus(false);
@@ -271,4 +279,36 @@ bool Game::IsKeyPressed()
 		}
 	}
 	return false;
+};
+
+// Move - kierunek z Enuma, który sprawdzamy. Zwraca fa³sz, je¿eli gracz nie mo¿e siê poruszaæ dalej.
+bool Game::PlayerWithinBounds(Move direction)
+{
+	
+	D3DXVECTOR2 actualPosition = this->player->GetPosition();
+
+	switch (direction)
+	{
+		case Move::UP:
+			if (actualPosition.y <= 0)
+				return false;
+			break;
+
+		case Move::DOWN:
+			if (actualPosition.y >= RECT_HEIGHT)
+				return false;
+			break;
+
+		case Move::LEFT:
+			if (actualPosition.x <= 100)
+				return false;
+			break;
+
+		case Move::RIGHT:
+			if (actualPosition.x >= (RECT_WIDTH + 100))
+				return false;
+			break;
+	}
+
+	return true;
 };

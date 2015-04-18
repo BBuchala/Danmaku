@@ -4,6 +4,8 @@
 Player::Player() : GameObject(POS_X, POS_Y, SPEED)
 {
 	isFocused = false;
+	center.x = (int) SIZE_X/2;
+	center.y = (int) SIZE_Y/2;
 };
 
 
@@ -36,4 +38,10 @@ bool Player::GetFocus()
 void Player::SetFocus(bool focus)
 {
 	this->isFocused = focus;
+}
+
+// Przeci¹¿ona metoda zwracaj¹ca œrodkowy punkt (piksel) gracza. PóŸniej do zast¹pienia hitboxem.
+D3DXVECTOR2 Player::GetPosition()
+{
+	return this->position + center;
 }
