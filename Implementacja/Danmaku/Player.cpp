@@ -40,8 +40,3 @@ void Player::SetFocus(bool focus)
 	this->isFocused = focus;
 }
 
-// Przeci¹¿ona metoda zwracaj¹ca œrodkowy punkt (piksel) gracza. PóŸniej do zast¹pienia hitboxem.
-D3DXVECTOR2 Player::GetPosition()
-{
-	return this->position + center;
-}

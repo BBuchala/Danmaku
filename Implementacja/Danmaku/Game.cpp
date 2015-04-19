@@ -184,31 +184,23 @@ void Game::Update(float const & time)
 
 	//// OBS£UGA RUCHU GRACZA
 	Move move = Move::NONE;
-
-
+	if ( GetAsyncKeyState(VK_UP) && IsPlayerWithinBounds(Move::UP) )
 	{
-		if (GetAsyncKeyState(VK_UP))
-		{
-			if (PlayerWithinBounds(Move::UP))
-				move |= Move::UP;
-		}
-		if (GetAsyncKeyState(VK_DOWN))
-		{
-			if (PlayerWithinBounds(Move::DOWN))
-				move |= Move::DOWN;
-		}
-		if (GetAsyncKeyState(VK_LEFT))
-		{
-			if (PlayerWithinBounds(Move::LEFT))
-				move |= Move::LEFT;
-		}
-		if (GetAsyncKeyState(VK_RIGHT))
-		{
-			if (PlayerWithinBounds(Move::RIGHT))
-				move |= Move::RIGHT;
-		}
-		this->player->Update(time, move);
+		move |= Move::UP;
 	}
+	if ( GetAsyncKeyState(VK_DOWN) && IsPlayerWithinBounds(Move::DOWN) )
+	{
+		move |= Move::DOWN;
+	}
+	if ( GetAsyncKeyState(VK_LEFT) && IsPlayerWithinBounds(Move::LEFT) )
+	{
+		move |= Move::LEFT;
+	}
+	if ( GetAsyncKeyState(VK_RIGHT) && IsPlayerWithinBounds(Move::RIGHT) )
+	{
+		move |= Move::RIGHT;
+	}
+	this->player->Update(time, move);
 
 
 	this->player->SetFocus(false);
@@ -282,7 +274,7 @@ bool Game::IsKeyPressed()
 };
 
 // Move - kierunek z Enuma, który sprawdzamy. Zwraca fa³sz, je¿eli gracz nie mo¿e siê poruszaæ dalej.
-bool Game::PlayerWithinBounds(Move direction)
+bool Game::IsPlayerWithinBounds(Move direction)
 {
 	
 	D3DXVECTOR2 actualPosition = this->player->GetPosition();
@@ -290,7 +282,7 @@ bool Game::PlayerWithinBounds(Move direction)
 	switch (direction)
 	{
 		case Move::UP:
-			if (actualPosition.y <= 0)
+			if (actualPosition.y <= this->square->GetPosition().y )
 				return false;
 			break;
 
@@ -300,7 +292,7 @@ bool Game::PlayerWithinBounds(Move direction)
 			break;
 
 		case Move::LEFT:
-			if (actualPosition.x <= 100)
+			if (actualPosition.x <= this->square->GetPosition().x )
 				return false;
 			break;
 

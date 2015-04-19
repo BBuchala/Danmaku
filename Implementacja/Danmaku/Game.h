@@ -72,6 +72,6 @@ public:
 
 private:
 	bool IsKeyPressed();
-	bool PlayerWithinBounds(Move direction);
+	bool IsPlayerWithinBounds(Move direction);
 
 };

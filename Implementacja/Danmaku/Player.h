@@ -28,9 +28,14 @@ public:
 
 	// Gettery
 	bool GetFocus();
-	D3DXVECTOR2 GetPosition();
 	
 	// Settery
 	void SetFocus(bool focus);
+
+	// Przeci¹¿ona metoda zwracaj¹ca œrodkowy punkt (piksel) gracza. PóŸniej do zast¹pienia hitboxem.
+	inline D3DXVECTOR2 GetPosition()
+	{
+		return this->position + center;
+	};
 	
 };
