@@ -41,7 +41,7 @@ void Bullet::Update(float const & time)
 
 void Bullet::SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b )
 {
-	this->trajectory = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory(trajectory, position, a, b ) );
+	this->trajectory = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory(trajectory, position, a, b ) );
 };
 
 void Bullet::SetTrajectory( Trajectory * trajectory )

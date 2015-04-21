@@ -1,8 +1,6 @@
 #pragma once
 
-#include "TrajectoryElipse.h"
-#include "TrajectoryLine.h"
-#include "TrajectorySpiral.h"
+#include "Trajectory.h"
 
 #include <map>
 
@@ -24,7 +22,7 @@ class TrajectoryFactory
 
 public:
 	// zwrócenie instancji fabryki
-	static TrajectoryFactory * Instance();
+	static TrajectoryFactory & Instance();
 
 	// zwrócenie nowego obiektu trajektorii
 	Trajectory * CreateTrajectory( Road trajecory, D3DXVECTOR2 const & position, float const & a, float const & b );

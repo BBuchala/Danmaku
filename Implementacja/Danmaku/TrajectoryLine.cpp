@@ -1,9 +1,4 @@
 #include "TrajectoryLine.h"
-#include "TrajectoryFactory.h"
-
-Road const TrajectoryLine::tracId = Road::LINE;
-bool const TrajectoryLine::registrered = TrajectoryFactory::Instance()->RegisterTrajectory( tracId, CreateTrajectoryLine );
-
 
 TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & tmp )
 {

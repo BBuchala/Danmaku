@@ -23,9 +23,9 @@ void Pattern01::Initialize(LPDIRECT3DDEVICE9 device)
 	this->bullet = new EnemyBullet * [BULLET_NUMBER];
 	// utworzenie torów dla pocisków
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;	// definicja wspólnego wskaŸnika na tor
-	TrajectoryPtr vElipse = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory( Road::ELIPSE, center, 300, 100 ) );
-	TrajectoryPtr hElipse = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory( Road::ELIPSE, center, 100, 300 ) );
-	TrajectoryPtr circle = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory( Road::ELIPSE, center, 220, 220 ) );
+	TrajectoryPtr vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, center, 300, 100 ) );
+	TrajectoryPtr hElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, center, 100, 300 ) );
+	TrajectoryPtr circle = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, center, 220, 220 ) );
 	
 	for (int i = 0; i < BULLET_NUMBER; i++)
 	{

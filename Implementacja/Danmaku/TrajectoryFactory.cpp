@@ -3,13 +3,13 @@
 TrajectoryFactory * TrajectoryFactory::pInstance_ = 0;
 
 
-TrajectoryFactory * TrajectoryFactory::Instance()
+TrajectoryFactory & TrajectoryFactory::Instance()
 {
 	if (!pInstance_)
 	{
 		pInstance_ = new TrajectoryFactory();
 	}
-	return pInstance_;
+	return *pInstance_;
 };
 
 Trajectory * TrajectoryFactory::CreateTrajectory( Road tracId, D3DXVECTOR2 const & position, float const & a, float const & b )
