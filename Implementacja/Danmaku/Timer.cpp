@@ -3,8 +3,8 @@
 bool Timer::Start()
 {
 	bool result = true;
-	result *= this->SetCountsPerSecond();
-	result *= this->SetPreviousTime();
+	result &= this->SetCountsPerSecond();
+	result &= this->SetPreviousTime();
 	return result;
 };
 
