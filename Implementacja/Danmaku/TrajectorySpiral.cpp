@@ -1,4 +1,8 @@
 #include "TrajectorySpiral.h"
+#include "TrajectoryFactory.h"
+
+Road const TrajectorySpiral::tracId = Road::SPIRAL;
+bool const TrajectorySpiral::registrered = TrajectoryFactory::Instance()->RegisterTrajectory( tracId, CreateTrajectorySpiral );
 
 
 TrajectorySpiral::TrajectorySpiral( D3DXVECTOR2 const & center, float const & a, float const & b )

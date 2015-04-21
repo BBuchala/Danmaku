@@ -17,9 +17,16 @@ void Pattern01::Initialize(LPDIRECT3DDEVICE9 device)
 {
 	this->elapsedTime = bulletTime = 0.0f;
 	bulletNumber = 1;
-	// u³omna implementacja pocisków
-	this->bullet = new EnemyBullet * [BULLET_NUMBER];
+	// œrodek ekranu
 	D3DXVECTOR2 center( 400, 300 );
+	// zaalokowanie pocisków
+	this->bullet = new EnemyBullet * [BULLET_NUMBER];
+	// utworzenie torów dla pocisków
+	typedef std::shared_ptr<Trajectory> TrajectoryPtr;	// definicja wspólnego wskaŸnika na tor
+	TrajectoryPtr vElipse = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory( Road::ELIPSE, center, 300, 100 ) );
+	TrajectoryPtr hElipse = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory( Road::ELIPSE, center, 100, 300 ) );
+	TrajectoryPtr circle = TrajectoryPtr( TrajectoryFactory::Instance()->CreateTrajectory( Road::ELIPSE, center, 220, 220 ) );
+	
 	for (int i = 0; i < BULLET_NUMBER; i++)
 	{
 		bullet[i] = new EnemyBullet( D3DXToRadian( 90.0f ) );
@@ -28,15 +35,15 @@ void Pattern01::Initialize(LPDIRECT3DDEVICE9 device)
 
 		if ( i < 1 * BULLET_JUMP )
 		{
-			bullet[i]->SetTrajectory( Road::ELIPSE, center, 300, 100 );
+			bullet[i]->SetTrajectory( vElipse );
 		}
 		else if ( i < 2 * BULLET_JUMP )
 		{
-			bullet[i]->SetTrajectory( Road::ELIPSE, center, 100, 300 );
+			bullet[i]->SetTrajectory( hElipse );
 		}
 		else
 		{
-			bullet[i]->SetTrajectory( Road::ELIPSE, center, 220, 220 );
+			bullet[i]->SetTrajectory( circle );
 		}
 		bullet[i]->SetDistance( D3DXToRadian( i * 45.0f ) );
 	}

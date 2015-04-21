@@ -116,6 +116,7 @@
     <ClInclude Include="Pattern02.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playfield.h" />
+    <ClInclude Include="Road.h" />
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="TrajectoryElipse.h" />
     <ClInclude Include="TrajectoryFactory.h" />

@@ -218,5 +218,8 @@
     <ClInclude Include="TrajectoryFactory.h">
       <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
+    <ClInclude Include="Road.h">
+      <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

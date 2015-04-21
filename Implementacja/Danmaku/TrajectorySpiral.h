@@ -24,4 +24,13 @@ public:
 	void Translate( D3DXVECTOR2 const & translate ) override;
 	void Scale( float const & scale ) override;
 	void Rotate( float const & theta ) override;
+
+private:
+	// zarejestrowanie toru w Fabryce
+	static Trajectory * CreateTrajectorySpiral( D3DXVECTOR2 const & center, float const & a, float const & b )
+	{
+		return new TrajectorySpiral( center, a, b );
+	}
+	static Road const tracId;
+	static bool const registrered;
 };

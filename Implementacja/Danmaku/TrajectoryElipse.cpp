@@ -1,4 +1,8 @@
 #include "TrajectoryElipse.h"
+#include "TrajectoryFactory.h"
+
+Road const TrajectoryElipse::tracId = Road::ELIPSE;
+bool const TrajectoryElipse::registrered = TrajectoryFactory::Instance()->RegisterTrajectory( tracId, CreateTrajectoryElipse );
 
 TrajectoryElipse::TrajectoryElipse( D3DXVECTOR2 const & center, float const & a, float const & b )
 {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Road.h"
 #include "ITrajectory.h"
 #include "ITransformable.h"
 

@@ -26,6 +26,9 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 	{
 		e.ToMessageBox();
 	}
+	catch ( std::runtime_error e )
+	{
+	}
 
 	return 0;
 }

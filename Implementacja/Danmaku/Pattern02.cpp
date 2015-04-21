@@ -21,7 +21,7 @@ void Pattern02::Initialize(LPDIRECT3DDEVICE9 device)
 	D3DXVECTOR2 center( 400, 300 );
 
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
-	TrajectoryPtr traj = TrajectoryPtr(TrajectoryFactory::GetTrajectory(Road::SPIRAL, center, 6, 12));
+	TrajectoryPtr traj = TrajectoryPtr(TrajectoryFactory::Instance()->CreateTrajectory(Road::SPIRAL, center, 6, 12));
 	
 	for (int i = 0; i < BULLET_NUMBER; i++)
 	{

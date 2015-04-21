@@ -30,4 +30,13 @@ public:
 	void Scale( float const & scale ) override;
 	void Rotate( float const & theta ) override;
 
+private:
+	// zarejestrowanie toru w Fabryce
+	static Trajectory * CreateTrajectoryElipse( D3DXVECTOR2 const & center, float const & a, float const & b )
+	{
+		return new TrajectoryElipse( center, a, b );
+	}
+	static Road const tracId;
+	static bool const registrered;
+
 };

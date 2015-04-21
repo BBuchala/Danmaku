@@ -1,6 +1,11 @@
 #include "TrajectoryLine.h"
+#include "TrajectoryFactory.h"
 
-TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle )
+Road const TrajectoryLine::tracId = Road::LINE;
+bool const TrajectoryLine::registrered = TrajectoryFactory::Instance()->RegisterTrajectory( tracId, CreateTrajectoryLine );
+
+
+TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & tmp )
 {
 	/* Wartosci vectora s¹ w przedziale [0, 1] */
 	D3DXVECTOR2 dv;

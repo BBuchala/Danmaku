@@ -15,6 +15,7 @@
 
 class Bullet : public GameObject
 {
+	// definicja wspólnego wskaŸnika na tor
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
 	TrajectoryPtr trajectory;
 
@@ -29,6 +30,7 @@ public:
 	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height) override;
 
 	void SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b = 0 );
+	void SetTrajectory( Trajectory * trajectory );
 	void SetTrajectory( TrajectoryPtr trajectory );
 	void SetDistance( float const & distance );
 

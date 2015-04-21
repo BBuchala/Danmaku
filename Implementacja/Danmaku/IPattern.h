@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d9.h>
+#include "TrajectoryFactory.h"
 
 class IPattern
 {
