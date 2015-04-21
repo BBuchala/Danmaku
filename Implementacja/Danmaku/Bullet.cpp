@@ -13,7 +13,7 @@ Bullet::Bullet( float const & speed ) : GameObject( 0.0f, 0.0f, speed )
 
 Bullet::~Bullet()
 {
-	if (trajectory) delete trajectory;
+	//if (trajectory) delete trajectory;
 };
 
 
@@ -41,7 +41,13 @@ void Bullet::Update(float const & time)
 
 void Bullet::SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b )
 {
-	this->trajectory = TrajectoryFactory::GetTrajectory(trajectory, position, a, b );
+	this->trajectory = TrajectoryPtr( TrajectoryFactory::GetTrajectory(trajectory, position, a, b ) );
+};
+
+
+void Bullet::SetTrajectory( TrajectoryPtr trajectory )
+{
+	this->trajectory = TrajectoryPtr(trajectory);
 };
 
 

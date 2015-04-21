@@ -10,13 +10,15 @@
 #include "GameObject.h"
 #include "TrajectoryFactory.h"
 
+#include <memory>
+
 
 class Bullet : public GameObject
 {
-	Trajectory * trajectory;
+	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
+	TrajectoryPtr trajectory;
 
 	float distance;
-
 
 public:
 	Bullet( float const & speed );
@@ -27,11 +29,12 @@ public:
 	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height) override;
 
 	void SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b = 0 );
+	void SetTrajectory( TrajectoryPtr trajectory );
 	void SetDistance( float const & distance );
 
 	inline Trajectory * GetTrajectory() const
 	{
-		return trajectory;
+		return trajectory.get();
 	}
 
 	void Update(float const & time) override;

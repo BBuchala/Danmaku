@@ -19,12 +19,16 @@ void Pattern02::Initialize(LPDIRECT3DDEVICE9 device)
 	this->elapsedTime = 0.0f;
 	this->bullet = new EnemyBullet * [BULLET_NUMBER];
 	D3DXVECTOR2 center( 400, 300 );
+
+	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
+	TrajectoryPtr traj = TrajectoryPtr(TrajectoryFactory::GetTrajectory(Road::SPIRAL, center, 6, 12));
+	
 	for (int i = 0; i < BULLET_NUMBER; i++)
 	{
 		bullet[i] = new EnemyBullet( center, D3DXToRadian(180.0f) );
 		std::string file = Sprite::GetFilePath( "Bullet0", 3, "png" );
 		bullet[i]->Initialize( device, file, BULLET_WIDTH, BULLET_HEIGHT );
-		bullet[i]->SetTrajectory( Road::SPIRAL, center, 6, 12 );
+		bullet[i]->SetTrajectory( traj );
 		bullet[i]->SetDistance( D3DXToRadian( i * 0.0f ) );
 		bullet[i]->SetAcceleration( -0.05f );
 	}
