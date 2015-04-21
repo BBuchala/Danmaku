@@ -6,6 +6,7 @@
 \* ======================================================== */
 
 #include <Windows.h>
+#include <sstream>
 
 #include "GameWindow.h"
 #include "GraphicsDevice.h"
@@ -16,6 +17,28 @@
 #include "GameWindowInitializationFailedException.h"
 #include "Direct3DInitializationFailedException.h"
 
+#define DEBUG
+
+short m_FPS = 0;
+std::string windowTitle = "Danmaku";
+
+void CalculateFPS( HWND hwnd, float const & dt )
+{
+	static int frameCount;
+	static float elapsedTime;
+
+	frameCount++;
+	elapsedTime += dt;
+
+	if ( elapsedTime >= 1.0000000f )
+	{
+		m_FPS = frameCount;
+		std::stringstream ss;
+		ss << windowTitle << " FPS: " << frameCount;
+		SetWindowText( hwnd, ss.str().c_str() );
+		frameCount = elapsedTime = 0;
+	}
+}
 
 //Main windows function
 int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLine, int nShowCmd)
@@ -26,15 +49,15 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 	 */
 	const short Width  = 1024;
 	const short Height = 768;
-	const char * windowTitle = "Ekran poczatkowy";
+	const char * title;
+	title = windowTitle.c_str();
 	const LPCSTR className = "danmakuWindow";
 	HWND hWnd = NULL;	// uchwyt do okna, przekazywany do Device
 
 	try
 	{
 		// inicjalizacja okna
-		GameWindow * window = new GameWindow(hInstance, nShowCmd, className, windowTitle, Width,
-				Height, hWnd);
+		GameWindow * window = new GameWindow(hInstance, nShowCmd, className, title, Width, Height, hWnd);
 
 		GraphicsDevice * gDevice = new GraphicsDevice();
 
@@ -67,6 +90,9 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 				{
 					if (window->didNoiseOccured()) timer->Reset();
 					timer->Update();
+#ifdef DEBUG
+					CalculateFPS( hWnd, timer->elapsedTime );
+#endif
 					field->Run( timer->elapsedTime );
 					window->ResetNoise();
 					// prze³¹czenie tajtola i gejma

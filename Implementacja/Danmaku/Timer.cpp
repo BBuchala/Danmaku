@@ -2,36 +2,50 @@
 
 bool Timer::Start()
 {
-	LARGE_INTEGER li;
+	bool result = true;
+	result *= this->SetCountsPerSecond();
+	result *= this->SetPreviousTime();
+	return result;
+};
 
-	if ( !QueryPerformanceFrequency( &li ) )
+bool Timer::SetCountsPerSecond()
+{
+	LARGE_INTEGER countsPerSecond;
+	if (QueryPerformanceFrequency( &countsPerSecond ))
 	{
-		return false;
+		this->frequencySeconds = (float) (countsPerSecond.QuadPart);
+		return true;
 	}
-	this->frequencySeconds = (float) (li.QuadPart);
+	return false;
+};
 
-	QueryPerformanceCounter(&li);
-	this->start = li.QuadPart;
-	this->totalTime = this->elapsedTime = 0;
-
-	return true;
+bool Timer::SetPreviousTime()
+{
+	LARGE_INTEGER prevTime;
+	if ( QueryPerformanceCounter(&prevTime) )
+	{
+		this->prevTime = prevTime.QuadPart;
+		this->totalTime = this->elapsedTime = 0;
+		return true;
+	}
+	return false;
 };
 
 
 void Timer::Update()
 {
-	LARGE_INTEGER li;
-	QueryPerformanceCounter( &li );
-	this->elapsedTime = (float) (li.QuadPart - start) / this->frequencySeconds;
-	this->start = li.QuadPart;
+	LARGE_INTEGER curTime;
+	QueryPerformanceCounter( &curTime );
+	this->elapsedTime = (float) (curTime.QuadPart - prevTime) / this->frequencySeconds;
+	this->prevTime = curTime.QuadPart;
 	this->totalTime += this->elapsedTime;
 };
 
 
 void Timer::Reset()
 {
-	LARGE_INTEGER li;
-	QueryPerformanceCounter( &li );
-	this->start = li.QuadPart;
+	LARGE_INTEGER curTime;
+	QueryPerformanceCounter( &curTime );
+	this->prevTime = curTime.QuadPart;
 	this->elapsedTime = 0;
 };

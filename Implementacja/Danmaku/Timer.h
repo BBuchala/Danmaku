@@ -9,8 +9,11 @@ public:
 	float totalTime;
 
 private:
-	long long int start;
+	long long int prevTime;
 	float frequencySeconds;
+
+	bool SetCountsPerSecond();
+	bool SetPreviousTime();
 
 public:
 	bool Start();
