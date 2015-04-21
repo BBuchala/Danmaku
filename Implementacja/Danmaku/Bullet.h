@@ -27,6 +27,7 @@ class Bullet : public GameObject
 
 public:
 	Bullet( float const & speed );
+	Bullet( D3DXVECTOR2 const & position, float const & speed = 0 );
 	virtual ~Bullet();
 
 	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height) override;

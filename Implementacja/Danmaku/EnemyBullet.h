@@ -18,5 +18,6 @@ protected:
 
 public:
 	EnemyBullet( float const & speed );
+	EnemyBullet( D3DXVECTOR2 const & position, float const & speed = 0 );
 	virtual ~EnemyBullet();
 };

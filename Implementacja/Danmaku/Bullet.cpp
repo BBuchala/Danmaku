@@ -1,5 +1,10 @@
 #include "Bullet.h"
 
+Bullet::Bullet( D3DXVECTOR2 const & position, float const & speed ) : GameObject( position.x, position.y, speed )
+{
+	this->distance = 0.0f;
+};
+
 Bullet::Bullet( float const & speed ) : GameObject( 0.0f, 0.0f, speed )
 {
 	this->distance = 0.0f;
