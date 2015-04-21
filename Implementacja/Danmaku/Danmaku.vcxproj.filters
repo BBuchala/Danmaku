@@ -129,6 +129,9 @@
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TrajectoryFactory.cpp">
+      <Filter>Source Files\Trajectories</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="Application.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryFactory.h">
+      <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

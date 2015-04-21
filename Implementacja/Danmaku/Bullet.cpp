@@ -39,23 +39,9 @@ void Bullet::Update(float const & time)
 };
 
 
-bool Bullet::SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b )
+void Bullet::SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b )
 {
-	switch(trajectory)
-	{
-	case Road::LINE:
-		this->trajectory = new TrajectoryLine( position, a );
-		return true;
-	case Road::ELIPSE:
-		this->trajectory = new TrajectoryElipse( position, a, b );
-		return true;
-	case Road::SPIRAL:
-		this->trajectory = new TrajectorySpiral( position, a, b );
-		return true;
-	default:
-		return false;
-	};
-	return false;
+	this->trajectory = TrajectoryFactory::GetTrajectory(trajectory, position, a, b );
 };
 
 

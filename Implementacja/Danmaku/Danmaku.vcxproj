@@ -89,6 +89,7 @@
     <ClCompile Include="Playfield.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="TrajectoryElipse.cpp" />
+    <ClCompile Include="TrajectoryFactory.cpp" />
     <ClCompile Include="TrajectoryLine.cpp" />
     <ClCompile Include="TrajectorySpiral.cpp" />
     <ClCompile Include="Vector.cpp" />
@@ -117,6 +118,7 @@
     <ClInclude Include="Playfield.h" />
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="TrajectoryElipse.h" />
+    <ClInclude Include="TrajectoryFactory.h" />
     <ClInclude Include="TrajectoryLine.h" />
     <ClInclude Include="TrajectorySpiral.h" />
     <ClInclude Include="ITransformable.h" />

@@ -4,7 +4,7 @@
 
 #include "EnemyBullet.h"
 #include "GraphicsDevice.h"
-#include "TrajectoryElipse.h"
+#include "TrajectoryFactory.h"
 
 #define BULLET_JUMP	  8
 #define BULLET_NUMBER 3 * BULLET_JUMP

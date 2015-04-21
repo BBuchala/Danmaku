@@ -2,6 +2,7 @@
 
 #include "IPattern.h"
 #include "EnemyBullet.h"
+#include "TrajectoryFactory.h"
 
 #define BULLET_NUMBER 160
 #define BULLET_WIDTH  14
