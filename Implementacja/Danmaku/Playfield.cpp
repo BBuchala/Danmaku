@@ -8,36 +8,19 @@ Playfield::Playfield()
 
 Playfield::~Playfield()
 {
-	if (this->timer) delete this->timer;
 };
 
 
 bool Playfield::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 {
 	this->gDevice = gDevice;
-	this->timer = new Timer();
-	if (!this->timer->Start())
-	{
-		return false;
-	}
 	return true;
 };
 
 
-void Playfield::ResetTimer( bool resetTimer)
+void Playfield::Run( float const & dt )
 {
-	this->resetTimer = resetTimer;
-};
-
-
-void Playfield::Run()
-{
-	////// TIMER
-	if ( this->resetTimer ) {
-		this->timer->Reset();
-	}
-	this->timer->Update();
-	this->Update( timer->elapsedTime );
+	this->Update( dt );
 	this->Draw();
 };
 

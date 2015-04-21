@@ -16,9 +16,6 @@ protected:
 	// obs³uga sprajtów
 	GraphicsDevice * gDevice;
 
-	// zegar gry
-	Timer * timer;
-
 	bool ended;
 	bool resetTimer;
 
@@ -32,7 +29,7 @@ public:
 	virtual bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice);
 
 	// uruchomienie pola
-	void Run();
+	void Run( float const & dt );
 	void ResetTimer( bool stopTimer);
 
 private:

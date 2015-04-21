@@ -24,8 +24,8 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 	 *  Jednak oba musza byæ tego samego rozmiaru oraz mieæ dostêp do tej samej "przestrzeni",
 	 *  wiêc czêœæ rzeczy jest wspólna.
 	 */
-	const short Width  = 800;
-	const short Height = 600;
+	const short Width  = 1024;
+	const short Height = 768;
 	const char * windowTitle = "Ekran poczatkowy";
 	const LPCSTR className = "danmakuWindow";
 	HWND hWnd = NULL;	// uchwyt do okna, przekazywany do Device
@@ -42,6 +42,10 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 		{
 			throw new Direct3DInitializationFailedException();
 		}
+
+		// zegar gry
+		Timer * timer = new Timer();
+		timer->Start();
 
 		bool game = false;
 		Playfield * field = new TitleScreen();
@@ -61,8 +65,9 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 				}
 				else
 				{
-					field->ResetTimer( window->didNoiseOccured() );
-					field->Run();
+					if (window->didNoiseOccured()) timer->Reset();
+					timer->Update();
+					field->Run( timer->elapsedTime );
 					window->ResetNoise();
 					// prze³¹czenie tajtola i gejma
 					if (field->isEnded())
