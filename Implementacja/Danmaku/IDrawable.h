@@ -5,6 +5,7 @@
 class IDrawable
 {
 public:
+	virtual ~IDrawable() {};
 	virtual void Draw(D3DXVECTOR2 const & position) = 0;
 
 };

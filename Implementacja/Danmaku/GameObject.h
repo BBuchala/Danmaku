@@ -33,7 +33,6 @@ public:
 	void SetPosition(float const & x, float const & y);
 	void SetPosition(D3DXVECTOR2 const & v);
 	void SetAcceleration(float const & acc);
-	void SetCenterPoint();
 
 	// transformacje
 	void Translate( float const & dx, float const & dy );
@@ -52,9 +51,14 @@ public:
 		return this->sprite;
 	}
 
-	D3DXVECTOR2 GetPosition()
+	inline D3DXVECTOR2 GetPosition()
 	{
 		return this->position;
+	}
+
+	inline D3DXVECTOR2 GetCenterPoint()
+	{
+		return this->position + this->GetSprite()->GetCenterPoint();
 	}
 
 };

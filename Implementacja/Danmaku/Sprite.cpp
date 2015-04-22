@@ -12,14 +12,14 @@ Sprite::Sprite()
 	this->initialized = false;
 };
 
-bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height, D3DXVECTOR2 const & position )
+bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height )
 {
 	std::vector<std::string> v;
 	v.push_back(file);
-	return this->Initialize( device, v, width, height, position );
+	return this->Initialize( device, v, width, height );
 };
 
-bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, int width, int height, D3DXVECTOR2 const & position)
+bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, int width, int height)
 {
 	this->texNumber = file.size();
 	this->tex = new LPDIRECT3DTEXTURE9[this->texNumber];
@@ -50,7 +50,7 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 	this->width = width;
 	this->height = height;
 
-	this->SetCenterPoint( position );
+	this->SetCenterPoint();
 
 	this->SetRotation( 0.0f );
 	this->SetScale( 1.0f );
@@ -61,17 +61,12 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 };
 
 
-void Sprite::SetCenterPoint( D3DXVECTOR2 const & position )
+void Sprite::SetCenterPoint( )
 {
-	this->SetCenterPoint( position.x + this->GetWidth() / 2, position.y + this->GetHeight() / 2 );
+	this->center.x = this->GetWidth() / 2;
+	this->center.y = this->GetHeight() / 2;
 };
 
-
-void Sprite::SetCenterPoint( float const & x0, float const & y0 )
-{
-	this->center.x = x0;
-	this->center.y = y0;
-};
 
 
 // position - górny, lewy róg sprajta
@@ -82,7 +77,7 @@ void Sprite::Draw(D3DXVECTOR2 const & position)
 		this->sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
 		D3DXMATRIX mat;
-		D3DXVECTOR2 center2D( center.x, center.y );
+		D3DXVECTOR2 center2D( position.x + center.x, position.y + center.y );
 		D3DXVECTOR3 position3D( position.x, position.y, 0.0f );
 
 		// skalowanie i obrót

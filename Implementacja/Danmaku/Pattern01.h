@@ -23,7 +23,7 @@ class Pattern01 : public IPattern
 
 public:
 	virtual ~Pattern01();	// destruktor
-	void Initialize(LPDIRECT3DDEVICE9 device) override;
+	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void Update(float const & time) override;
 	void Draw() override;
 

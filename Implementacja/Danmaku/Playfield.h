@@ -9,6 +9,9 @@
 
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
+#define SCREEN_WIDTH  1024
+#define SCREEN_HEIGHT 768
+
 class Playfield
 {
 protected:

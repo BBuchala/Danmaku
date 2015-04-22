@@ -22,7 +22,7 @@ void TrajectoryLine::SetDirection( D3DXVECTOR2 const & direction )
 };
 
 
-D3DXVECTOR2 TrajectoryLine::GetPosition( float const & distance ) const
+D3DXVECTOR2 TrajectoryLine::GetPosition( float const & distance )
 {
 	D3DXVECTOR2 position;
 	position.x = this->startPoint.x + this->direction.x * distance;

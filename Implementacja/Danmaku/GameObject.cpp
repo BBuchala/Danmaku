@@ -22,10 +22,11 @@ bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, 
 	if (!this->sprite)
 	{
 		this->sprite = new Sprite();
-		if ( !this->sprite->Initialize(device, file, width, height, this->position) )
+		if ( !this->sprite->Initialize(device, file, width, height) )
 		{
 			return false;
 		}
+
 	}
 	return true;
 };
@@ -36,7 +37,7 @@ bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> c
 	if (!this->sprite)
 	{
 		this->sprite = new Sprite();
-		if ( !this->sprite->Initialize(device, fileVect, width, height, this->position) )
+		if ( !this->sprite->Initialize(device, fileVect, width, height) )
 		{
 			return false;
 		}
@@ -55,7 +56,6 @@ void GameObject::Draw()
 void GameObject::Update(float const & time)
 {
 	this->speed += this->acceleration * time;
-	this->SetCenterPoint();
 };
 
 
@@ -74,12 +74,6 @@ void GameObject::SetPosition(float const & x, float const & y)
 void GameObject::SetAcceleration(float const & acc)
 {
 	this->acceleration = acc;
-};
-
-
-void GameObject::SetCenterPoint()
-{
-	this->sprite->SetCenterPoint( this->position );
 };
 
 

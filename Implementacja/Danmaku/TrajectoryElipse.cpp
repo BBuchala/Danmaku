@@ -35,11 +35,13 @@ void TrajectoryElipse::SetCenterPoint( D3DXVECTOR2 const & center )
 };
 
 
-D3DXVECTOR2 TrajectoryElipse::GetPosition( float const & t ) const
+D3DXVECTOR2 TrajectoryElipse::GetPosition( float const & t )
 {
 	D3DXVECTOR2 position;
-	position.x = this->center.x + ( a * cos(t) * cos(theta) - b * sin(t) * sin(theta) );
-	position.y = this->center.y + ( b * sin(t) * cos(theta) + a * cos(t) * sin(theta) );
+	position.x = a * cos(t);
+	position.y = b * sin(t);
+	GetRotation(position, theta);
+	position += center;
 	return position;
 };
 

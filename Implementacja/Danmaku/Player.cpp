@@ -1,11 +1,9 @@
 #include "Player.h"
 
 
-Player::Player() : GameObject(POS_X, POS_Y, SPEED)
+Player::Player( D3DXVECTOR2 const & pos ) : GameObject(pos.x, pos.y, SPEED)
 {
 	isFocused = false;
-	center.x = (int) SIZE_X/2;
-	center.y = (int) SIZE_Y/2;
 };
 
 

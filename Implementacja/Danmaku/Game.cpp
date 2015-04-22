@@ -43,10 +43,12 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 	this->gDevice = gDevice;
 
-	this->square = new GameObject(100, 0);
-	this->square->Initialize( this->gDevice->device, "img/square.png", RECT_HEIGHT, RECT_WIDTH );
+	this->gameScreen = new GameObject(0, 0);
+	this->gameScreen->Initialize( this->gDevice->device, "img/gameScreen.png", SCREEN_WIDTH, SCREEN_HEIGHT );
 
-	this->player = new Player();
+	float playerX = STAGE_POS_X + STAGE_WIDTH / 2;
+	float playerY = STAGE_POS_Y + STAGE_HEIGHT - 50.0f;
+	this->player = new Player( D3DXVECTOR2( playerX, playerY ) );
 	this->player->Initialize( this->gDevice->device, "img/ship.png", 40, 60 );
 
 	switch(this->currentPattern)
@@ -57,12 +59,12 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 		this->pattern = new Pattern02(); break;
 	}
 	
-	this->pattern->Initialize(this->gDevice->device);
+	this->pattern->Initialize(this->gDevice->device, D3DXVECTOR2( this->GetStageCenter().x, this->GetStageCenter().y - 200));
 
 	this->button = new GameObject * [BUTTON_NUM];
 	for (int i = 0; i < BUTTON_NUM; i++)
 	{
-		this->button[i] = new GameObject(10, i * 80.0f + 20.f);
+		this->button[i] = new GameObject(STAGE_POS_X + 10, STAGE_POS_Y + i * 80.0f + 20.f);
 	}
 
 	std::vector<Vector> mainVect;
@@ -157,7 +159,7 @@ void Game::Update(float const & time)
 			this->pattern = new Pattern02();
 			break;
 		}
-		this->pattern->Initialize( gDevice->device );
+		this->pattern->Initialize( gDevice->device, D3DXVECTOR2( this->GetStageCenter().x, this->GetStageCenter().y - 200) );
 	}
 
 	// Narysowanie wciœniêtych i odciœniêtych przycisków
@@ -240,7 +242,6 @@ void Game::Update(float const & time)
 
 void Game::DrawScene()
 {
-	this->square->Draw();
 	this->pattern->Draw();
 	this->player->Draw();
 
@@ -248,7 +249,7 @@ void Game::DrawScene()
 	{
 		this->button[i]->Draw();
 	}
-	
+	this->gameScreen->Draw();
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
@@ -277,27 +278,27 @@ bool Game::IsKeyPressed()
 bool Game::IsPlayerWithinBounds(Move direction)
 {
 	
-	D3DXVECTOR2 actualPosition = this->player->GetPosition();
+	D3DXVECTOR2 actualPosition = this->player->GetCenterPoint();
 
 	switch (direction)
 	{
 		case Move::UP:
-			if (actualPosition.y <= this->square->GetPosition().y )
+			if (actualPosition.y <= STAGE_POS_Y )
 				return false;
 			break;
 
 		case Move::DOWN:
-			if (actualPosition.y >= RECT_HEIGHT)
+			if (actualPosition.y >= STAGE_POS_Y + STAGE_HEIGHT )
 				return false;
 			break;
 
 		case Move::LEFT:
-			if (actualPosition.x <= this->square->GetPosition().x )
+			if (actualPosition.x <= STAGE_POS_X )
 				return false;
 			break;
 
 		case Move::RIGHT:
-			if (actualPosition.x >= (RECT_WIDTH + 100))
+			if (actualPosition.x >=  STAGE_POS_X + STAGE_WIDTH )
 				return false;
 			break;
 	}

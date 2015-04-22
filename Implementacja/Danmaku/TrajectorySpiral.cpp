@@ -22,28 +22,29 @@ void TrajectorySpiral::SetParameters( float const & a, float const & b )
 };
 
 
-D3DXVECTOR2 TrajectorySpiral::GetPosition( float const & theta ) const
+D3DXVECTOR2 TrajectorySpiral::GetPosition( float const & t )
 {
-	float radius = this->a + this->b * theta;
-	D3DXVECTOR2 position = startPoint + Vector::Polar(radius, theta);
+	float radius = this->a + this->b * t;
+	D3DXVECTOR2 position = Vector::Polar(radius, t);
+	GetRotation(position, theta);
+	position += startPoint;
 	return position;
 };
 
 
 void TrajectorySpiral::Translate( D3DXVECTOR2 const & translate )
 {
-	// TODO
+	startPoint += translate;
 };
 
 
 void TrajectorySpiral::Scale( float const & scale )
 {
-	this->a *= scale;
 	this->b *= scale;
 };
 
 
 void TrajectorySpiral::Rotate( float const & theta )
 {
-	// TODO
+	this->theta += theta;
 };

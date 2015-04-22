@@ -19,7 +19,7 @@ namespace
 
 	public:
 		/* ==== Przeci¹¿one interfejsy ==== */
-		D3DXVECTOR2 GetPosition( float const & distance ) const override;
+		D3DXVECTOR2 GetPosition( float const & distance ) override;
 		void Translate( D3DXVECTOR2 const & translate ) override;
 		void Scale( float const & scale ) override;
 		void Rotate( float const & theta ) override;

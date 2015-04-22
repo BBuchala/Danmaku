@@ -3,8 +3,6 @@
 #include "GameObject.h"
 #include "Move.h"
 
-#define POS_X 620.0f
-#define POS_Y 500.0f
 #define SPEED 500.0f
 #define FOCUS_SPEED 250.0f
 
@@ -20,10 +18,8 @@ protected:
 
 	bool isFocused;
 
-	D3DXVECTOR2 center;				// Przesuniêcie punktu œrodkowego wzglêdem lewego górnego rogu
-
 public:
-	Player();
+	Player( D3DXVECTOR2 const & pos );
 	void Update(float const & time, Move & move);
 
 	// Gettery
@@ -33,9 +29,9 @@ public:
 	void SetFocus(bool focus);
 
 	// Przeci¹¿ona metoda zwracaj¹ca œrodkowy punkt (piksel) gracza. PóŸniej do zast¹pienia hitboxem.
-	inline D3DXVECTOR2 GetPosition()
-	{
-		return this->position + center;
-	};
+	//inline D3DXVECTOR2 GetPosition()
+	//{
+	//	return this->position + center;
+	//};
 	
 };

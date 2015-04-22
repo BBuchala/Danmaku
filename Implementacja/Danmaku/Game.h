@@ -16,8 +16,11 @@
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 #define BUTTON_NUM	2
 #define TEX_NUM		3
-#define RECT_WIDTH  600
-#define RECT_HEIGHT 600
+
+#define STAGE_POS_X 63
+#define STAGE_POS_Y 32
+#define STAGE_WIDTH 614
+#define STAGE_HEIGHT 706
 
 static enum Pattern
 {
@@ -27,7 +30,7 @@ static enum Pattern
 class Game : public Playfield
 {
 	// t³o
-	GameObject * square;
+	GameObject * gameScreen;
 
 	// przyciski
 	GameObject ** button;
@@ -73,5 +76,10 @@ public:
 private:
 	bool IsKeyPressed();
 	bool IsPlayerWithinBounds(Move direction);
+
+	inline D3DXVECTOR2 GetStageCenter()
+	{
+		return D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT / 2 );
+	}
 
 };

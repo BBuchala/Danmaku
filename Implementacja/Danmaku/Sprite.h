@@ -26,7 +26,7 @@ private:
 	int width;
 	int height;
 
-	// Pozycja sprajta - punkt œrodkowy rysunku
+	// Przesuniêcie punktu œrodkowego wzglêdem lewego górnego rogu
 	D3DXVECTOR2 center;
 
 	// obrót rysunku w RADIANACH
@@ -46,12 +46,11 @@ public:
 	
 	// utworznie sprajta z zewn¹trz
 	// pobiera uchwyt do urz¹dznia, œcie¿kê do pliku, szerokoœæ i wysokoœæ
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height, D3DXVECTOR2 const & position );
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int width, int height, D3DXVECTOR2 const & position );
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height );
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int width, int height );
 
 	// utworzenie punktu œrodkowego
-	void SetCenterPoint( D3DXVECTOR2 const & position );
-	void SetCenterPoint( float const & x0, float const & y0 );
+	void SetCenterPoint();
 
 	////// RYSOWANIE SPRAJTA W OKNIE
 	void Draw(D3DXVECTOR2 const & position) override;
@@ -65,7 +64,6 @@ public:
 	void Scale ( float const & scale );
 
 	void SetCurrentTexture( short const & number );
-
 
 	////////// GETTERY ////////////////////
 	
@@ -88,10 +86,16 @@ public:
 	};
 
 	// czy prawid³owo siê wykona³
-	inline bool IsInitialized()
+	inline bool IsInitialized() const
 	{
 		return this->initialized;
 	};
+
+	// zwraca po³o¿enie œrodka obiektu (i tym samym hitboxa)
+	inline D3DXVECTOR2 GetCenterPoint() const
+	{
+		return this->center;
+	}
 
 
 

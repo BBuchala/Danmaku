@@ -6,8 +6,10 @@
 class IPattern
 {
 public:
+	virtual ~IPattern() {};
+
 	// zainicjalizowanie patternu
-	virtual void Initialize(LPDIRECT3DDEVICE9 device) = 0;
+	virtual void Initialize( LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position ) = 0;
 
 	// zaktualizowanie stanu
 	virtual void Update(float const & time) = 0;

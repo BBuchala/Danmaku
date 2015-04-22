@@ -11,6 +11,8 @@
 class IException
 {
 public:
+	virtual ~IException() {};
+
 	// zwrócenie komunikatu
 	virtual const char * ToString() = 0;
 

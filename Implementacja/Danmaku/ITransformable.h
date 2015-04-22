@@ -5,12 +5,13 @@
 class ITransformable
 {
 public:
+	virtual ~ITransformable() {};
+
 	/**
 	 * Przesuwa ca³y obiekt zgodnie z przekazanym wektorem
 	 */
 	virtual void Translate( D3DXVECTOR2 const & translate ) = 0;
 
-public:
 	/**
 	 * Skalouje obiekt. Kszta³t siê nie zmienia,
 	 * dalej operuje na punktach, jednak jest ich wiêcej
