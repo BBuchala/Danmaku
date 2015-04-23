@@ -60,6 +60,14 @@ class Game : public Playfield
 	unsigned short int graze;
 	Font * grazeText;
 
+	/////// ¯YCIA I BOMBY
+	BYTE lifes;
+	Sprite * lifeSprite;
+	D3DXVECTOR2 lifePos;
+	BYTE bombs;
+	Sprite * bombSprite;
+	D3DXVECTOR2 bombPos;
+
 	// zmiana koloru t³a
 	float red;
 	float green;

@@ -5,6 +5,12 @@ Game::Game() : Playfield()
 	////// Dane liczbowe po prawej stronie
 	score = hiScore = power = graze = 0;
 
+	///// Liczby ¿yæ i bomb
+	lifes = 2;
+	bombs = 1;
+	lifePos = D3DXVECTOR2( 830, 115 );
+	bombPos = D3DXVECTOR2( 830, 140 );
+
 
 	red = green = blue = 0.0f;
 	incRed = 0.3f;
@@ -97,6 +103,12 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
 	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
 	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+
+	/////// Inicjalizacja sprajtów ¿ycia i bomby
+	this->lifeSprite = new Sprite();
+	this->lifeSprite->Initialize( gDevice->device, "img/life.png", 20, 20 );
+	this->bombSprite = new Sprite();
+	this->bombSprite->Initialize( gDevice->device, "img/bomb.png", 20, 20 );
 
 	return true;
 };
@@ -280,6 +292,17 @@ void Game::DrawScene()
 	this->hiScoreText->Draw(hiScore, SCORE_PADDING);
 	this->powerText->Draw(power, 0);
 	this->grazeText->Draw(graze, 0);
+
+	//// ¯YCIA I BOMBY
+	for (int i = 0; i < lifes; i++)
+	{
+		this->lifeSprite->Draw( D3DXVECTOR2( lifePos.x + i * 25, lifePos.y ) );
+	}
+	for (int i = 0; i < bombs; i++)
+	{
+		this->bombSprite->Draw( D3DXVECTOR2( bombPos.x + i * 25, bombPos.y ) );
+	}
+
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
