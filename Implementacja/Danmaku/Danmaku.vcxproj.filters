@@ -132,6 +132,9 @@
     <ClCompile Include="TrajectoryFactory.cpp">
       <Filter>Source Files\Trajectories</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="Road.h">
       <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

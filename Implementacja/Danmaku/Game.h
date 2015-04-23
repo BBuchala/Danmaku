@@ -8,7 +8,7 @@
 #include "GraphicsDevice.h"
 #include "Player.h"
 #include "Playfield.h"
-#include "Timer.h"
+#include "Font.h"
 
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
@@ -21,6 +21,9 @@
 #define STAGE_POS_Y 32
 #define STAGE_WIDTH 614
 #define STAGE_HEIGHT 706
+
+#define SCORE_PADDING 10
+
 
 static enum Pattern
 {
@@ -45,8 +48,17 @@ class Game : public Playfield
 
 	Player * player;
 
-
 	IPattern * pattern;
+
+	//////// NAPISY
+	unsigned long int score;
+	Font * scoreText;
+	unsigned long int hiScore;
+	Font * hiScoreText;
+	unsigned short int power;
+	Font * powerText;
+	unsigned short int graze;
+	Font * grazeText;
 
 	// zmiana koloru t³a
 	float red;
@@ -81,5 +93,7 @@ private:
 	{
 		return D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT / 2 );
 	}
+
+	void DrawString();
 
 };

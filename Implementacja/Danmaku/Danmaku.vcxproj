@@ -51,6 +51,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,6 +78,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsDevice.cpp" />
@@ -101,6 +103,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="Game.h" />

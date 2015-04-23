@@ -2,6 +2,10 @@
 
 Game::Game() : Playfield()
 {
+	////// Dane liczbowe po prawej stronie
+	score = hiScore = power = graze = 0;
+
+
 	red = green = blue = 0.0f;
 	incRed = 0.3f;
 	incBlue = 0.2f;
@@ -30,6 +34,12 @@ Game::~Game()
 	if (this->pattern) delete this->pattern;
 	if (this->buttonPressed) delete this->buttonPressed;
 	if (this->keyButton) delete this->keyButton;
+
+	// usuniêcie danych liczbowych
+	if (scoreText) delete scoreText;
+	if (hiScoreText) delete hiScoreText;
+	if (powerText) delete powerText;
+	if (grazeText) delete grazeText;
 };
 
 
@@ -78,12 +88,26 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 		this->button[i]->Initialize( this->gDevice->device, mainVect[i], 80, 40 );
 	}
 
+	//////// INICJALIZACJA DANYCH LICZBOWYCH
+	this->scoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
+	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
+	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
+	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
+	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+
 	return true;
 };
 
 
 void Game::Update(float const & time)
 {
+	///// Obs³uga danych liczbowych
+	
+
+
 	// OBS£UGA WYJŒCIA Z GRY
 	if (GetAsyncKeyState(VK_ESCAPE))
 	{
@@ -250,6 +274,12 @@ void Game::DrawScene()
 		this->button[i]->Draw();
 	}
 	this->gameScreen->Draw();
+
+	//// DANE LICZBOWE
+	this->scoreText->Draw(score, SCORE_PADDING);
+	this->hiScoreText->Draw(hiScore, SCORE_PADDING);
+	this->powerText->Draw(power, 0);
+	this->grazeText->Draw(graze, 0);
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
