@@ -6,20 +6,28 @@
 #include "GraphicsDevice.h"
 #include "TrajectoryFactory.h"
 
-#define BULLET_JUMP	  8
-#define BULLET_NUMBER 3 * BULLET_JUMP
+#define BULLET_INC	  3
+#define BULLET_JUMP	  16
+#define BULLET_NUMBER BULLET_INC * BULLET_JUMP
 #define BULLET_WIDTH  40
 #define BULLET_HEIGHT 40
 
 class Pattern01 : public IPattern
 {
-	// obiekty w grze
-	EnemyBullet ** bullet;
+	//// POCISKI
+	EBulletQue bullet;
+
+	//// TORY
+	typedef std::shared_ptr<Trajectory> TrajectoryPtr;	// definicja wspólnego wskaŸnika na tor
+	TrajectoryPtr vElipse;
+	TrajectoryPtr hElipse;
+	TrajectoryPtr circle;
 
 	// kontrolki
 	float elapsedTime;
 	float bulletTime;
-	int bulletNumber;
+
+	LPDIRECT3DDEVICE9 device;
 
 public:
 	virtual ~Pattern01();	// destruktor
@@ -27,5 +35,10 @@ public:
 	void Update(float const & time) override;
 	void Draw() override;
 
-	void SetScale( float const & radius, float const & frac_time );
+	void Add();
+
+	inline EBulletQue const & GetBullets() const override
+	{
+		return bullet;
+	};
 };

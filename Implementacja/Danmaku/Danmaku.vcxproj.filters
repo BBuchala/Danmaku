@@ -90,9 +90,6 @@
     <ClCompile Include="TitleScreen.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
-    <ClCompile Include="Playfield.cpp">
-      <Filter>Source Files\Fields</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -134,6 +131,12 @@
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitbox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Playfield.cpp">
+      <Filter>Source Files\Fields</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +228,9 @@
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Hitbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

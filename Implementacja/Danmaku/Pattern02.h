@@ -14,16 +14,25 @@ class Pattern02 : public IPattern
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
 	TrajectoryPtr traj1, traj2;
 
-	EnemyBullet ** bullet;
+	EBulletQue bullet;
 
 	float elapsedTime;
 	float scaleTime;
-	unsigned int bulletNumber;
+
+	LPDIRECT3DDEVICE9 device;
 
 public:
 	virtual ~Pattern02();	// destruktor
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void Update(float const & time) override;
 	void Draw() override;
+
+	void Add();
+
+
+	inline EBulletQue const & GetBullets() const override
+	{
+		return bullet;
+	};
 
 };
