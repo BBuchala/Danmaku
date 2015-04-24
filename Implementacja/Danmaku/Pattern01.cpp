@@ -39,7 +39,7 @@ void Pattern01::Update(float const & time)
 		for ( unsigned int i = 0 ; i < bullet.size(); i++ )
 		{
 			this->bullet[i]->SetAcceleration(1);
-			switch(i)
+			switch(i % BULLET_INC_A)
 			{
 			case 2:
 				this->bullet[i]->Scale ( 1.008f / 1.000f );
@@ -56,7 +56,7 @@ void Pattern01::Update(float const & time)
 		for ( unsigned  int i = 0 ; i < bullet.size(); i++ )
 		{
 			this->bullet[i]->SetAcceleration(-1);
-			switch(i)
+			switch(i % BULLET_INC_A)
 			{
 			case 2:
 				this->bullet[i]->Scale ( 1.000f / 1.008f );

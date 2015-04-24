@@ -116,7 +116,12 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 void Game::Update(float const & time)
 {
-	///// Obs³uga danych liczbowych
+	/* ===== SUPER ZABEZPIECZENIE WSZYSTKIEGO PRZED LAGAMI!! ====== */
+	//// Je¿eli otrzymany czas przekracza 1 klatkê, NIC SIÊ NIE DZIEJE!!
+	if ( 60.0f * time > 1.10f )
+		return;
+	//// ^Kwiat mojej kaiery programistycznej.
+	//// Sasuga ore.
 	
 
 
