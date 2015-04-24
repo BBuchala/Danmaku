@@ -49,9 +49,15 @@ bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> c
 void GameObject::Draw()
 {
 	if (this->sprite)
+	{
+
 		this->sprite->Draw(this->position);
-	if (this->hitbox->UseSprite())
-		this->hitbox->Draw( this->GetCenterPoint() );
+
+		if (this->hitbox->UseSprite())
+		{
+			this->hitbox->Draw( this->GetCenterPoint() );
+		}
+	}
 };
 
 

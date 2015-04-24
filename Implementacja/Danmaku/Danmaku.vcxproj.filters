@@ -138,6 +138,9 @@
     <ClCompile Include="Playfield.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
+    <ClCompile Include="CPattern.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="Hitbox.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPattern.h">
+      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

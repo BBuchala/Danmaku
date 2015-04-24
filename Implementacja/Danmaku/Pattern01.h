@@ -1,7 +1,6 @@
 #pragma once
 
-#include "IPattern.h"
-
+#include "CPattern.h"
 #include "EnemyBullet.h"
 #include "GraphicsDevice.h"
 #include "TrajectoryFactory.h"
@@ -12,34 +11,19 @@
 #define BULLET_WIDTH_A		40
 #define BULLET_HEIGHT_A		40
 
-class Pattern01 : public IPattern
+class Pattern01 : public CPattern
 {
-	//// POCISKI
-	EBulletQue bullet;
-
 	//// TORY
-	typedef std::shared_ptr<Trajectory> TrajectoryPtr;	// definicja wspólnego wskaŸnika na tor
 	TrajectoryPtr vElipse;
 	TrajectoryPtr hElipse;
 	TrajectoryPtr circle;
 	TrajectoryPtr line1, line2;
 
-	// kontrolki
-	float elapsedTime;
 	float bulletTime;
 
-	LPDIRECT3DDEVICE9 device;
-
 public:
-	virtual ~Pattern01();	// destruktor
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void Update(float const & time) override;
-	void Draw() override;
 
 	void Add();
-
-	inline EBulletQue const & GetBullets() const override
-	{
-		return bullet;
-	};
 };

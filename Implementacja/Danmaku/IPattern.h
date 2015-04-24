@@ -21,7 +21,7 @@ public:
 	virtual void Update(float const & time) = 0;
 
 	// narysowanie pocisków
-	virtual void Draw() = 0;
+	virtual void Draw( short const & x, short const & y, short const & width, short const & height ) = 0;
 
 	// pobranie wszystkich pocisków
 	virtual EBulletQue const & GetBullets() const = 0;

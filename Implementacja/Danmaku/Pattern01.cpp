@@ -1,24 +1,16 @@
 #include "Pattern01.h"
 
-Pattern01::~Pattern01()
-{
-	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
-	{
-		delete *it;
-	}
-};
-
 
 void Pattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	this->elapsedTime = bulletTime = 0.0f;
+	bulletTime = 0.0f;
+	CPattern::Initialize(device);
 	// utworzenie torów dla pocisków
 	this->vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 500, 200 ) );
 	this->hElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 200, 500 ) );
 	this->circle = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 330, 330 ) );
 	this->line1 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) );
 	this->line2 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) );
-	this->device = device;
 };
 
 
@@ -89,15 +81,6 @@ void Pattern01::Update(float const & time)
 	for ( it = bullet.begin(); it != bullet.end(); it++ )
 	{
 		(*it)->Update(time);
-	}
-};
-
-
-void Pattern01::Draw()
-{
-	for ( unsigned int i = 0; i < bullet.size(); i++)
-	{
-		this->bullet[i]->Draw();
 	}
 };
 

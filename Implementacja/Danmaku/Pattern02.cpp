@@ -1,23 +1,13 @@
 #include "Pattern02.h"
 
-Pattern02::~Pattern02()
-{
-	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
-	{
-		delete *it;
-	}
-};
-
 
 void Pattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	this->elapsedTime = this->scaleTime = 0.0f;
-
+	this->scaleTime = 0.0f;
+	CPattern::Initialize(device);
 	this->traj1 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory(Road::SPIRAL, position, 0, 24));
 	this->traj2 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory(Road::SPIRAL, position, 0, 24));
 	traj2->Rotate( D3DXToRadian( 180.0f ) );
-
-	this->device = device;	// roboczo
 };
 
 
@@ -48,14 +38,6 @@ void Pattern02::Update(float const & time)
 	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
 		(*it)->Update(time);
-	}
-};
-
-void Pattern02::Draw()
-{
-	for (unsigned int i = 0; i < bullet.size(); i++)
-	{
-		this->bullet[i]->Draw();
 	}
 };
 

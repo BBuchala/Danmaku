@@ -281,7 +281,7 @@ void Game::Update(float const & time)
 
 void Game::DrawScene()
 {
-	this->pattern->Draw();
+	this->pattern->Draw( STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT );
 	this->player->Draw();
 
 	for (int i = 0; i < BUTTON_NUM; i++)
