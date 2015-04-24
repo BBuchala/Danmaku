@@ -6,14 +6,15 @@ GameObject::GameObject(float const & x, float const & y, float const & speed, fl
 	this->SetPosition(x, y);
 	this->speed = speed < 0 ? 0 : speed;
 	this->acceleration = acc;
+	this->hitbox = new Hitbox();
 };
 
 
 ////////// DESTRUKTOR ///////////////////////
 GameObject::~GameObject()
 {
-	if (this->sprite)
-		delete this->sprite;
+	if (sprite) delete sprite;
+	if (hitbox) delete hitbox;
 };
 
 
@@ -26,7 +27,6 @@ bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, 
 		{
 			return false;
 		}
-
 	}
 	return true;
 };
@@ -50,6 +50,8 @@ void GameObject::Draw()
 {
 	if (this->sprite)
 		this->sprite->Draw(this->position);
+	if (this->hitbox->UseSprite())
+		this->hitbox->Draw( this->GetCenterPoint() );
 };
 
 
@@ -87,6 +89,7 @@ void GameObject::Rotate( float const & angle )
 void GameObject::Scale( float const & scale )
 {
 	this->sprite->Scale( scale );
+	this->hitbox->Scale( scale );
 };
 
 

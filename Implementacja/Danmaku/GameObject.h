@@ -2,6 +2,7 @@
 
 #include <d3d9.h>
 
+#include "Hitbox.h"
 #include "Sprite.h"
 
 class GameObject
@@ -9,6 +10,7 @@ class GameObject
 protected:
 	/* === Sk³adowe === */
 	Sprite * sprite;
+	Hitbox * hitbox;
 
 	D3DXVECTOR2 position;
 
@@ -59,6 +61,11 @@ public:
 	inline D3DXVECTOR2 GetCenterPoint()
 	{
 		return this->position + this->GetSprite()->GetCenterPoint();
+	}
+
+	inline Hitbox * GetHitbox() const
+	{
+		return hitbox;
 	}
 
 };

@@ -20,6 +20,9 @@ protected:
 
 public:
 	Player( D3DXVECTOR2 const & pos );
+
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height);
+
 	void Update(float const & time, Move & move);
 
 	// Gettery
