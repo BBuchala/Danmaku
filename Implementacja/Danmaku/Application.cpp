@@ -89,6 +89,7 @@ void Application::CalculateFPS( float const & dt )
 		std::stringstream ss;
 		ss << windowTitle << " FPS: " << frameCount;
 		SetWindowText( hWnd, ss.str().c_str() );
-		frameCount = elapsedTime = 0.0f;
+		frameCount = 0;
+		elapsedTime = 0.0f;
 	}
 };

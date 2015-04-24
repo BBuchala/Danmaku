@@ -63,8 +63,8 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 
 void Sprite::SetCenterPoint( )
 {
-	this->center.x = this->GetWidth() / 2;
-	this->center.y = this->GetHeight() / 2;
+	this->center.x = this->GetWidth() / 2.0f;
+	this->center.y = this->GetHeight() / 2.0f;
 };
 
 

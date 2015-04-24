@@ -96,13 +96,13 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH
 	this->scoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
-	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
-	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
 	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
-	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
 	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
-	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, 0xFFFFFFFFF );
+	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
 
 	/////// Inicjalizacja sprajtów ¿ycia i bomby
 	this->lifeSprite = new Sprite();

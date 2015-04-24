@@ -27,7 +27,7 @@ void Pattern01::Update(float const & time)
 	// Nowe pociski
 	this->elapsedTime += time;
 	this->bulletTime += time;
-	if ( bulletTime >= 0.25f && bullet.size() < BULLET_NUMBER  )
+	if ( bulletTime >= 0.25f && bullet.size() < BULLET_NUMBER_A  )
 	{
 		Add();
 		bulletTime = 0.0f;
@@ -45,7 +45,7 @@ void Pattern01::Update(float const & time)
 		for ( unsigned int i = 0 ; i < bullet.size(); i++ )
 		{
 			this->bullet[i]->SetAcceleration(1);
-			if ( i % BULLET_INC == 2 )
+			if ( i % BULLET_INC_A == 2 )
 			{
 				this->bullet[i]->Scale ( 1.008f / 1.000f );
 				this->bullet[i]->GetTrajectory()->Scale ( 1.0003f / 1.000f );
@@ -59,7 +59,7 @@ void Pattern01::Update(float const & time)
 		for ( unsigned  int i = 0 ; i < bullet.size(); i++ )
 		{
 			this->bullet[i]->SetAcceleration(-1);
-			if ( i % BULLET_INC == 2 )
+			if ( i % BULLET_INC_A == 2 )
 			{
 				this->bullet[i]->Scale ( 1.000f / 1.008f );
 				this->bullet[i]->GetTrajectory()->Scale ( 1.000f / 1.0003f );
@@ -97,12 +97,12 @@ void Pattern01::Draw()
 void Pattern01::Add()
 {
 	// po 3 naraz
-	for (int i = 0; i < BULLET_INC; i++)
+	for (int i = 0; i < BULLET_INC_A; i++)
 	{
 		// nowy pocisk z pewn¹ prêdkoœci¹
 		EnemyBullet * newBullet = new EnemyBullet( D3DXToRadian( 90.0f ) );
 		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
-		newBullet->Initialize( device, file, BULLET_WIDTH, BULLET_HEIGHT );
+		newBullet->Initialize( device, file, BULLET_WIDTH_A, BULLET_HEIGHT_A );
 
 		switch(i)
 		{

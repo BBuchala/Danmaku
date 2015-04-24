@@ -4,7 +4,7 @@
 Font::Font( D3DXVECTOR2 const & fieldPosition, unsigned short const & fieldWidth, unsigned short const & fieldHeight )
 	: fieldWidth(fieldWidth), fieldHeight(fieldHeight), fieldPosition(fieldPosition)
 {
-	SetRect(&rect, fieldPosition.x, fieldPosition.y, fieldWidth, fieldHeight);
+	SetRect(&rect, (int) fieldPosition.x, (int) fieldPosition.y, fieldWidth, fieldHeight);
 };
 
 
@@ -22,9 +22,13 @@ bool Font::Initialize( GraphicsDevice const * gDevice, short unsigned const & fo
 		short unsigned const & fontWidth, char const * font, bool bold, bool italic, D3DXCOLOR const & color )
 {
 	this->color = color;
-	return D3DXCreateFont( gDevice->device, fontHeight, fontWidth, bold ? FW_BOLD : FW_NORMAL, 1, italic,
-			DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
-			font, &text );
+	if (D3DXCreateFont( gDevice->device, fontHeight, fontWidth, bold ? FW_BOLD : FW_NORMAL, 1, italic,
+		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
+		font, &text ))
+	{
+		return true;
+	}
+	return false;
 };
 
 

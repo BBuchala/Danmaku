@@ -4,9 +4,9 @@
 #include "EnemyBullet.h"
 #include "TrajectoryFactory.h"
 
-#define BULLET_NUMBER 1000
-#define BULLET_WIDTH  14
-#define BULLET_HEIGHT 14
+#define BULLET_NUMBER_S 1000
+#define BULLET_WIDTH_S  14
+#define BULLET_HEIGHT_S 14
 
 class Pattern02 : public IPattern
 {

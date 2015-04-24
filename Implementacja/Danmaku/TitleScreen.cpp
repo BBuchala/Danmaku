@@ -13,7 +13,7 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	BGposition = D3DXVECTOR2( (SCREEN_WIDTH - BG_Size.x) / 2 , (SCREEN_HEIGHT - BG_Size.y) / 2);
 	this->background = new Sprite();
 	if ( !this->background->Initialize(this->gDevice->device,
-		Sprite::GetFilePath( "titlescreen", "png"), BG_Size.x, BG_Size.y ) )
+		Sprite::GetFilePath( "titlescreen", "png"), (int) BG_Size.x, (int) BG_Size.y ) )
 	{
 		return false;
 	}
@@ -26,7 +26,7 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	{
 		buttons.push_back( Sprite::GetFilePath( "button", i, "png" ) );
 	}
-	this->button->Initialize( this->gDevice->device, buttons, Button_Size.x, Button_Size.y );
+	this->button->Initialize( this->gDevice->device, buttons, (int) Button_Size.x, (int) Button_Size.y );
 
 	pressed = enter = false;
 
