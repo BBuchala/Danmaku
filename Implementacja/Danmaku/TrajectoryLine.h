@@ -9,9 +9,10 @@ namespace
 	class TrajectoryLine : public Trajectory
 	{
 		D3DXVECTOR2 direction;
+		short length;
 
 	public:
-		TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & tmp = 0 );
+		TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & length );
 		virtual ~TrajectoryLine();
 
 	private:
@@ -26,9 +27,9 @@ namespace
 	};
 
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & tmp )
+	Trajectory * CreateTrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & length )
 	{
-		return new TrajectoryLine( startPoint, angle, tmp );
+		return new TrajectoryLine( startPoint, angle, length );
 	};
 	Road const tracId = Road::LINE;
 	bool const registrered = TrajectoryFactory::Instance().RegisterTrajectory( tracId, CreateTrajectoryLine );

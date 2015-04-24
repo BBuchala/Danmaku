@@ -6,7 +6,7 @@
 #include "GraphicsDevice.h"
 #include "TrajectoryFactory.h"
 
-#define BULLET_INC_A		3
+#define BULLET_INC_A		5
 #define BULLET_JUMP_A		16
 #define BULLET_NUMBER_A		BULLET_INC_A * BULLET_JUMP_A
 #define BULLET_WIDTH_A		40
@@ -22,6 +22,7 @@ class Pattern01 : public IPattern
 	TrajectoryPtr vElipse;
 	TrajectoryPtr hElipse;
 	TrajectoryPtr circle;
+	TrajectoryPtr line1, line2;
 
 	// kontrolki
 	float elapsedTime;

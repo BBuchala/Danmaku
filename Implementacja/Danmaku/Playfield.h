@@ -7,7 +7,7 @@
 #include "GraphicsDevice.h"
 #include "Timer.h"
 
-#define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
+#define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
 #define SCREEN_WIDTH  1024
 #define SCREEN_HEIGHT 768

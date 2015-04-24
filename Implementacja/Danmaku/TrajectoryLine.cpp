@@ -1,11 +1,12 @@
 #include "TrajectoryLine.h"
 
-TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & tmp )
+TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & length )
+	: length((short)length)
 {
 	/* Wartosci vectora s¹ w przedziale [0, 1] */
 	D3DXVECTOR2 dv;
 	dv.x = std::cos( angle );
-	dv.y = - std::sin( angle );
+	dv.y = -std::sin( angle );
 	this->SetDirection( dv );
 	this->SetStartPoint( startPoint );
 };
@@ -25,8 +26,10 @@ void TrajectoryLine::SetDirection( D3DXVECTOR2 const & direction )
 D3DXVECTOR2 TrajectoryLine::GetPosition( float const & distance )
 {
 	D3DXVECTOR2 position;
-	position.x = this->startPoint.x + this->direction.x * distance;
-	position.y = this->startPoint.y + this->direction.y * distance;
+	if (length != 0)
+		position = startPoint + direction * (float) fmod(distance, length);
+	else
+		position = startPoint + direction * distance;
 	return position;
 };
 

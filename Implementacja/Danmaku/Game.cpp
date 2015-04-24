@@ -96,13 +96,13 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH
 	this->scoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
-	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
+	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
-	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
+	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
-	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
+	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
-	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(255, 255, 255) );
+	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
 	/////// Inicjalizacja sprajtów ¿ycia i bomby
 	this->lifeSprite = new Sprite();
@@ -311,7 +311,7 @@ void Game::DrawScene()
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
 void Game::Clear()
 {
-	this->gDevice->Clear( D3DXCOLOR ( red, green, blue ) );
+	this->gDevice->Clear( MYCOLOR ( red, green, blue ) );
 };
 
 

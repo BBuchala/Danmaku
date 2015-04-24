@@ -16,6 +16,8 @@ void Pattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & positio
 	this->vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 500, 200 ) );
 	this->hElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 200, 500 ) );
 	this->circle = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 330, 330 ) );
+	this->line1 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) );
+	this->line2 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) );
 	this->device = device;
 };
 
@@ -40,35 +42,41 @@ void Pattern01::Update(float const & time)
 		(*it)->GetTrajectory()->Rotate(0.001f);
 	}
 
-	if (this->elapsedTime > 4.000000000f && this->elapsedTime < 6.000000000f)
+	if (this->elapsedTime > 5.000000000f && this->elapsedTime < 7.000000000f)
 	{
 		for ( unsigned int i = 0 ; i < bullet.size(); i++ )
 		{
 			this->bullet[i]->SetAcceleration(1);
-			if ( i % BULLET_INC_A == 2 )
+			switch(i)
 			{
+			case 2:
 				this->bullet[i]->Scale ( 1.008f / 1.000f );
 				this->bullet[i]->GetTrajectory()->Scale ( 1.0003f / 1.000f );
-			}
-			else
+				break;
+			case 0: case 1:
 				this->bullet[i]->GetTrajectory()->Scale( 9.9900f / 10.0f );
+				break;
+			}
 		}
 	}
-	else if (this->elapsedTime > 6.000000000f && this->elapsedTime < 8.00000000f)
+	else if (this->elapsedTime > 7.000000000f && this->elapsedTime < 9.00000000f)
 	{
 		for ( unsigned  int i = 0 ; i < bullet.size(); i++ )
 		{
 			this->bullet[i]->SetAcceleration(-1);
-			if ( i % BULLET_INC_A == 2 )
+			switch(i)
 			{
+			case 2:
 				this->bullet[i]->Scale ( 1.000f / 1.008f );
 				this->bullet[i]->GetTrajectory()->Scale ( 1.000f / 1.0003f );
-			}
-			else
+				break;
+			case 0: case 1:
 				this->bullet[i]->GetTrajectory()->Scale ( 10.0f / 9.9900f );
+				break;
+			}
 		}
 	}
-	else if (this->elapsedTime > 8.00000000f)
+	else if (this->elapsedTime > 9.00000000f)
 	{
 		this->elapsedTime = 0.0f;
 		for ( it = bullet.begin(); it != bullet.end(); it++ )
@@ -96,11 +104,20 @@ void Pattern01::Draw()
 
 void Pattern01::Add()
 {
-	// po 3 naraz
+	// po parê naraz
 	for (int i = 0; i < BULLET_INC_A; i++)
 	{
 		// nowy pocisk z pewn¹ prêdkoœci¹
-		EnemyBullet * newBullet = new EnemyBullet( D3DXToRadian( 90.0f ) );
+		EnemyBullet * newBullet;
+		switch(i)
+		{
+		// pewna prêdkoœæ k¹towa dla pocisków na elipsach
+		case 0: case 1: case 2:
+			newBullet = new EnemyBullet( D3DXToRadian( 90.0f ) ); break;
+		// dla tych po linii
+		default:
+			newBullet = new EnemyBullet( 180.0f ); break;
+		}
 		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
 		newBullet->Initialize( device, file, BULLET_WIDTH_A, BULLET_HEIGHT_A );
 
@@ -114,6 +131,12 @@ void Pattern01::Add()
 			break;
 		case 2:
 			newBullet->SetTrajectory( circle );
+			break;
+		case 3:
+			newBullet->SetTrajectory( line1 );
+			break;
+		case 4:
+			newBullet->SetTrajectory( line2 );
 			break;
 		}
 		newBullet->SetDistance( D3DXToRadian( 45.0f ) );

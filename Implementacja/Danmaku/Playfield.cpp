@@ -37,7 +37,7 @@ void Playfield::Draw()
 
 void Playfield::Clear()
 {
-	this->gDevice->Clear( D3DXCOLOR ( 0, 0, 0 ) );
+	this->gDevice->Clear( MYCOLOR ( 0, 0, 0 ) );
 };
 
 

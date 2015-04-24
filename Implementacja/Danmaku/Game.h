@@ -14,7 +14,7 @@
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
-#define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
+#define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 #define BUTTON_NUM	2
 #define TEX_NUM		3
 
