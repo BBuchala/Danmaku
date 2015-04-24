@@ -20,4 +20,11 @@ public:
 	EnemyBullet( float const & speed );
 	EnemyBullet( D3DXVECTOR2 const & position, float const & speed = 0 );
 	virtual ~EnemyBullet();
+
+	void SetGrazed( bool isGrazed );
+
+	inline bool IsGrazed() const
+	{
+		return isGrazed;
+	};
 };

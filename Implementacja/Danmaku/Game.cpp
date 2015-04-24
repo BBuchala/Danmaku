@@ -220,6 +220,9 @@ void Game::Update(float const & time)
 		break;
 	}
 
+	//// SPRAWDZENIE KOLIZJI
+	this->CheckCollisions();
+
 	//// OBS£UGA RUCHU GRACZA
 	Move move = Move::NONE;
 	if ( GetAsyncKeyState(VK_UP) && IsPlayerWithinBounds(Move::UP) )
@@ -357,4 +360,55 @@ bool Game::IsPlayerWithinBounds(Move direction)
 	}
 
 	return true;
+};
+
+
+
+void Game::CheckCollisions()
+{
+	std::deque<EnemyBullet*> ebList = this->pattern->GetBullets();
+	std::deque<EnemyBullet*>::const_iterator it;
+	// sprawdŸ graze
+	for ( it = ebList.begin() ; it != ebList.end() ; it++ )
+	{
+		if ( CheckGraze(*it))
+		{
+			this->graze++;
+		}
+	}
+	// sprawdŸ kolizje
+	for ( it = ebList.begin() ; it != ebList.end() ; it++ )
+	{
+		if ( CheckCollisiion(*it))
+		{
+			this->lifes--;
+		}
+	}
+};
+
+
+bool Game::CheckGraze( EnemyBullet * const eb )
+{
+	// najpierw sprawdzamy czy pocisk by³ ju¿ grejzowany
+	// dopiero potem bawimy siê w sprawdzanie odleg³oœci
+	if (!eb->IsGrazed())
+	{
+		// odleg³oœæ miêdzy œrodkami dwóch obiektów
+		float grazeDistance = Vector::Length( eb->GetCenterPoint(), this->player->GetCenterPoint() );
+
+		// jeœli dystans ³apie siê w granicê miêdzy dwoma hitboxami, a hitboxami + graze_distance
+		if (grazeDistance <= eb->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() + GRAZE_DISTANCE && 
+			grazeDistance >= eb->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius())
+		{
+			eb->SetGrazed( true );
+			return true;
+		}
+	}
+	return false;
+};
+
+
+bool Game::CheckCollisiion( EnemyBullet * const eb )
+{
+	return false;
 };

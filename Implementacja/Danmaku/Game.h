@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Playfield.h"
 #include "Font.h"
+#include "Vector.h"
 
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
@@ -23,6 +24,8 @@
 #define STAGE_HEIGHT 706
 
 #define SCORE_PADDING 10
+
+#define GRAZE_DISTANCE 3
 
 
 static enum Pattern
@@ -87,7 +90,10 @@ public:
 	Game();
 	virtual ~Game();
 
-	// funkcje
+	//////// FUNKCJE GAME
+	void CheckCollisions();
+
+	/////// FUNKCJE PLAYFIELD
 	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice) override;
 	void Update(float const & time) override;
 	void Clear() override;
@@ -103,5 +109,8 @@ private:
 	}
 
 	void DrawString();
+
+	bool CheckGraze( EnemyBullet * const eb );
+	bool CheckCollisiion( EnemyBullet * const eb );
 
 };
