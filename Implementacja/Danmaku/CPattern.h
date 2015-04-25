@@ -19,6 +19,7 @@ protected:
 	LPDIRECT3DDEVICE9 device;
 
 public:
+	CPattern();
 	virtual ~CPattern();
 	
 	// przekazanie uchwytu

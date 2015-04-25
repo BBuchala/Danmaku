@@ -1,5 +1,10 @@
 #include "CPattern.h"
 
+CPattern::CPattern() : elapsedTime(0.0f)
+{
+};
+
+
 CPattern::~CPattern()
 {
 	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
@@ -11,7 +16,6 @@ CPattern::~CPattern()
 
 void CPattern::Initialize(LPDIRECT3DDEVICE9 device)
 {
-	this->elapsedTime = 0.0f;
 	this->device = device;
 };
 

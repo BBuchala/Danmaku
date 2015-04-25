@@ -1,9 +1,12 @@
 #include "Pattern02.h"
 
+Pattern02::Pattern02() : scaleTime(0.0f)
+{
+}
+
 
 void Pattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	this->scaleTime = 0.0f;
 	CPattern::Initialize(device);
 	this->traj1 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory(Road::SPIRAL, position, 0, 24));
 	this->traj2 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory(Road::SPIRAL, position, 0, 24));

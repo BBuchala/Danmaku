@@ -21,7 +21,6 @@ protected:
 	GraphicsDevice * gDevice;
 
 	bool ended;
-	bool resetTimer;
 
 public:
 	// Konstruktor, destruktor

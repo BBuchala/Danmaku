@@ -23,6 +23,7 @@ class Pattern01 : public CPattern
 	float bulletTime;
 
 public:
+	Pattern01();
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void Update(float const & time) override;
 

@@ -1,9 +1,8 @@
 #include "Trajectory.h"
 
 
-Trajectory::Trajectory()
+Trajectory::Trajectory() : theta(0.0f)
 {
-	this->theta = 0.0f;
 };
 
 

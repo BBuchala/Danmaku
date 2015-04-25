@@ -1,9 +1,12 @@
 #include "Pattern01.h"
 
+Pattern01::Pattern01() : bulletTime(0.0f)
+{
+};
+
 
 void Pattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	bulletTime = 0.0f;
 	CPattern::Initialize(device);
 	// utworzenie torów dla pocisków
 	this->vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 500, 200 ) );

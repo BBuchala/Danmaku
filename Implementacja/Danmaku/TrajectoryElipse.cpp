@@ -6,7 +6,6 @@ TrajectoryElipse::TrajectoryElipse( D3DXVECTOR2 const & center, float const & a,
 	this->SetElipseRadius( a, b );
 	// punktem pocz¹tkowym jest punkt przy 0.0 stopni
 	this->SetStartPoint( this->GetPosition( 0.0f ) );
-	this->theta = 0.0f;
 };
 
 TrajectoryElipse::~TrajectoryElipse()

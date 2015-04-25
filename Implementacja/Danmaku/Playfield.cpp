@@ -1,8 +1,7 @@
 #include "Playfield.h"
 
-Playfield::Playfield()
+Playfield::Playfield() : ended(false)
 {
-	this->ended = this->resetTimer = false;
 };
 
 

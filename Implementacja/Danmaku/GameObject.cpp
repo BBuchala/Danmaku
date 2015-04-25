@@ -2,11 +2,11 @@
 
 ////////// KONSTRUKTOR ///////////////////////
 GameObject::GameObject(float const & x, float const & y, float const & speed, float const & acc)
+	: acceleration(acc)
 {
 	///// Przydzielenie wartoœci sk³adowym
 	this->SetPosition(x, y);
 	this->speed = speed < 0 ? 0 : speed;
-	this->acceleration = acc;
 	this->hitbox = NULL;
 
 	///// Przydzielenie pamiêci obiektom klas

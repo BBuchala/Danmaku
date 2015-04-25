@@ -1,13 +1,11 @@
 #include "EnemyBullet.h"
 
-EnemyBullet::EnemyBullet( D3DXVECTOR2 const & position, float const & speed ) : Bullet(position, speed)
+EnemyBullet::EnemyBullet( D3DXVECTOR2 const & position, float const & speed ) : Bullet(position, speed), isGrazed(false)
 {
-	this->SetGrazed(false);
 };
 
-EnemyBullet::EnemyBullet( float const & speed ) : Bullet(speed)
+EnemyBullet::EnemyBullet( float const & speed ) : Bullet(speed), isGrazed(false)
 {
-	this->SetGrazed(false);
 };
 
 

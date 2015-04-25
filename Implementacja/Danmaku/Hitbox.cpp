@@ -1,18 +1,16 @@
 #include "Hitbox.h"
 
-Hitbox::Hitbox()
+Hitbox::Hitbox() : theta(0.0f)
 {
 	SetRadius(0.0f);
 	SetUseSprite(false);
-	this->theta = 0.0f;
 	this->sprite = NULL;
 };
 
-Hitbox::Hitbox( float const & radius, bool useSprite )
+Hitbox::Hitbox( float const & radius, bool useSprite ) : theta(0.0f)
 {
 	SetRadius(radius);
 	SetUseSprite(useSprite);
-	this->theta = 0.0f;
 	if (useSprite)
 		this->sprite = new Sprite();
 	else

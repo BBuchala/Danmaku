@@ -1,9 +1,8 @@
 #include "Player.h"
 
 
-Player::Player( D3DXVECTOR2 const & pos ) : GameObject( pos.x, pos.y, SPEED )
+Player::Player( D3DXVECTOR2 const & pos ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
 {
-	isFocused = false;
 };
 
 bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)

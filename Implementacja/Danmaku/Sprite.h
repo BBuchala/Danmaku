@@ -42,6 +42,7 @@ private:
 	///////// METODY /////////////////////////////////
 public:
 	Sprite();
+	Sprite(Sprite const & sprite);
 	virtual ~Sprite();
 	
 	// utworznie sprajta z zewn¹trz

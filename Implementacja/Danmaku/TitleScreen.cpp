@@ -1,6 +1,6 @@
 #include "TitleScreen.h"
 
-TitleScreen::TitleScreen()
+TitleScreen::TitleScreen() : pressed(false), enter (false), elapsedTime(0.0f)
 {
 	this->background = new Sprite();
 	this->button = new Sprite();
@@ -33,10 +33,6 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 		buttons.push_back( Sprite::GetFilePath( "button", i, "png" ) );
 	}
 	this->button->Initialize( this->gDevice->device, buttons, static_cast<int>(Button_Size.x), static_cast<int>(Button_Size.y) );
-
-	pressed = enter = false;
-
-	elapsedTime = 0.0f;
 
 	return true;
 };

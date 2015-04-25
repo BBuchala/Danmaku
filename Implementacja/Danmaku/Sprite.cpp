@@ -4,16 +4,27 @@
 const std::string Sprite::IMG_PATH = "img/";
 
 /* ---- KONSTRUKTOR --------------- */
-Sprite::Sprite()
+Sprite::Sprite() : initialized(false)
 {
 	// When color is set to white, what you see is exactly what the image looks like.
 	this->color = D3DCOLOR_ARGB(255, 255, 255, 255);
 
 	// znullowanie wskaŸnika na tekstury
 	this->tex = NULL;
+};
 
-	// We are not initialized yet
-	this->initialized = false;
+
+Sprite::Sprite(Sprite const & sprite)
+{
+	//this->currentTex = sprite.currentTex;
+	//this->texNumber = sprite.texNumber;
+	//this->color = sprite.color;
+	//this->width = sprite.width;
+	//this->height = sprite.height;
+	//this->center = sprite.center;
+	//this->rotation = sprite.rotation;
+	//this->scale = sprite.scale;
+	//this->initialized = sprite.initialized;
 };
 
 Sprite::~Sprite()
