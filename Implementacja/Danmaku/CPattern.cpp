@@ -20,7 +20,7 @@ void CPattern::Initialize(LPDIRECT3DDEVICE9 device)
 };
 
 
-void CPattern::Draw( short const & x, short const & y, short const & width, short const & height )
+void CPattern::Draw( short const x, short const y, short const width, short const height )
 {
 	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{

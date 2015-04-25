@@ -8,7 +8,7 @@ class GameWindowInitializationFailedException : IException
 {
 public:
 	// zwrócenie komunikatu
-	const std::string ToString() const override;
+	std::string ToString() const override;
 
 	// pokazanie message boxa
 	void ToMessageBox() override;

@@ -22,22 +22,22 @@ class Bullet : public GameObject
 	float distance;
 
 public:
-	Bullet( float const & speed );
-	Bullet( D3DXVECTOR2 const & position, float const & speed = 0 );
+	Bullet( float const speed );
+	Bullet( D3DXVECTOR2 const & position, float const speed = 0 );
 	Bullet( Bullet const & bullet );
 	virtual ~Bullet();
 
-	void SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b = 0 );
-	void SetTrajectory( Trajectory * trajectory );
-	void SetTrajectory( TrajectoryPtr trajectory );
-	void SetDistance( float const & distance );
+	void SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b = 0 );
+	void SetTrajectory( Trajectory * const trajectory );
+	void SetTrajectory( TrajectoryPtr const & trajectory );
+	void SetDistance( float const distance );
 
-	inline Trajectory * GetTrajectory() const
+	inline Trajectory * const GetTrajectory() const
 	{
 		return trajectory.get();
 	}
 
-	void Update(float const & time) override;
+	void Update(float const time) override;
 
 };
 

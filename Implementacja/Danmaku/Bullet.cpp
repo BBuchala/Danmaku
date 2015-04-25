@@ -1,11 +1,11 @@
 #include "Bullet.h"
 
-Bullet::Bullet( D3DXVECTOR2 const & position, float const & speed )
+Bullet::Bullet( D3DXVECTOR2 const & position, float const speed )
 	: GameObject( position.x, position.y, speed ), distance(0.0f)
 {
 };
 
-Bullet::Bullet( float const & speed ) : GameObject( 0.0f, 0.0f, speed ), distance(0.0f)
+Bullet::Bullet( float const speed ) : GameObject( 0.0f, 0.0f, speed ), distance(0.0f)
 {
 };
 
@@ -19,7 +19,7 @@ Bullet::~Bullet()
 {
 };
 
-void Bullet::Update(float const & time)
+void Bullet::Update(float const time)
 {
 	this->distance += this->speed * time;
 	this->position = this->GetTrajectory()->GetPosition( distance );
@@ -29,24 +29,24 @@ void Bullet::Update(float const & time)
 };
 
 
-void Bullet::SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b )
+void Bullet::SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b )
 {
 	this->trajectory = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory(trajectory, position, a, b ) );
 };
 
-void Bullet::SetTrajectory( Trajectory * trajectory )
+void Bullet::SetTrajectory( Trajectory * const trajectory )
 {
 	this->trajectory = TrajectoryPtr( trajectory );
 };
 
 
-void Bullet::SetTrajectory( TrajectoryPtr trajectory )
+void Bullet::SetTrajectory( TrajectoryPtr const & trajectory )
 {
 	this->trajectory = TrajectoryPtr(trajectory);
 };
 
 
-void Bullet::SetDistance( float const & distance )
+void Bullet::SetDistance( float const distance )
 {
 	this->distance = distance;
 };

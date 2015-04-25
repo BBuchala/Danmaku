@@ -2,8 +2,8 @@
 
 
 // utworzenie okna wg parametrów
-GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
-		int x, int y, int width, int height, HWND & hWnd)
+GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
+					   LPCSTR const windowTitle, int const x, int const y, int const width, int const height, HWND & hWnd)
 {
 	if (!this->InitializeWindow(hInstance, nCmdShow, className, windowTitle, x, y, width, height, hWnd)
 		|| !this->InitializeInput(hWnd))
@@ -12,8 +12,8 @@ GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCS
 	}
 };
 
-GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
-		int width, int height, HWND & hWnd)
+GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
+					   LPCSTR const windowTitle, int const width, int const height, HWND & hWnd)
 {
 	// je¿eli nie zosta³y podane punkty na osi wspó³rzêdnych, okno bêdzie na œrodku
 	GameWindow(hInstance, nCmdShow, className, windowTitle,
@@ -21,8 +21,8 @@ GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCS
 		width, height, hWnd);
 };
 
-bool GameWindow::InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
-		int x, int y, int width, int height, HWND & hWnd)
+bool GameWindow::InitializeWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
+								  LPCSTR const windowTitle, int const x, int const y, int const width, int const height, HWND & hWnd)
 {
 	RECT wrect = { 0, 0, width, height };
 

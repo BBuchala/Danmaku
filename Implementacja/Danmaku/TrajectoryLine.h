@@ -12,22 +12,22 @@ namespace
 		short length;
 
 	public:
-		TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & length );
-		virtual ~TrajectoryLine();
+		TrajectoryLine( D3DXVECTOR2 const & startPoint, float const angle, float const length );
+		~TrajectoryLine();
 
 	private:
 		void SetDirection( D3DXVECTOR2 const & direction );
 
 	public:
 		/* ==== Przeci¹¿one interfejsy ==== */
-		D3DXVECTOR2 GetPosition( float const & distance ) override;
+		D3DXVECTOR2 GetPosition( float const distance ) override;
 		void Translate( D3DXVECTOR2 const & translate ) override;
-		void Scale( float const & scale ) override;
-		void Rotate( float const & theta ) override;
+		void Scale( float const scale ) override;
+		void Rotate( float const theta ) override;
 	};
 
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & length )
+	Trajectory * CreateTrajectoryLine( D3DXVECTOR2 const & startPoint, float const angle, float const length )
 	{
 		return new TrajectoryLine( startPoint, angle, length );
 	};

@@ -43,12 +43,12 @@ private:
 public:
 	Sprite();
 	Sprite(Sprite const & sprite);
-	virtual ~Sprite();
+	~Sprite();
 	
 	// utworznie sprajta z zewn¹trz
 	// pobiera uchwyt do urz¹dznia, œcie¿kê do pliku, szerokoœæ i wysokoœæ
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height );
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int width, int height );
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height );
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const width, int const height );
 
 	// utworzenie punktu œrodkowego
 	void SetCenterPoint();
@@ -58,53 +58,53 @@ public:
 
 	////// TRANSFORMACJE
 	// obrót sprajta w miejscu, k¹ty podane w radianach
-	void SetRotation( float const & angle );
-	void Rotate( float const & angle );
+	void SetRotation( float const angle );
+	void Rotate( float const angle );
 	// skalowanie sprajta
-	void SetScale( float const & scale );
-	void Scale ( float const & scale );
+	void SetScale( float const scale );
+	void Scale ( float const scale );
 
-	void SetCurrentTexture( short const & number );
+	void SetCurrentTexture( short const number );
 
 	////////// GETTERY ////////////////////
 	
 	// szerokoœæ
-	inline int GetWidth() const
+	inline const int GetWidth() const
 	{
 		return this->width;
 	};
 
 	// wysokoœæ
-	inline int GetHeight() const
+	inline const int GetHeight() const
 	{
 		return this->height;
 	};
 
 	// obrót
-	inline float GetRotation() const
+	inline const float GetRotation() const
 	{
 		return this->rotation;
 	};
 
 	// czy prawid³owo siê wykona³
-	inline bool IsInitialized() const
+	inline const bool IsInitialized() const
 	{
 		return this->initialized;
 	};
 
 	// zwraca po³o¿enie œrodka obiektu (i tym samym hitboxa)
-	inline D3DXVECTOR2 GetCenterPoint() const
+	inline const D3DXVECTOR2& GetCenterPoint() const
 	{
 		return this->center;
 	}
 
 	///// FUNKCJE TWORZ¥CE ŒCIE¯KI DO SPRAJTÓW
-	inline static std::string GetFilePath( std::string const & name, int const & i, int const & j, std::string const & ext )
+	inline static std::string GetFilePath( std::string const & name, int const i, int const j, std::string const & ext )
 	{
 		return IMG_PATH + name + std::to_string(i) + std::to_string(j) + '.' + ext;
 	};
 
-	inline static std::string GetFilePath( std::string const & name, int const & number, std::string const & ext )
+	inline static std::string GetFilePath( std::string const & name, int const number, std::string const & ext )
 	{
 		return IMG_PATH + name + std::to_string(number) + '.' + ext;
 	};

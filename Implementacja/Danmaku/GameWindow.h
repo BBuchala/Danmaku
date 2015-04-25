@@ -20,16 +20,16 @@ class GameWindow
 
 public:
 	// tworzy nowe okno wg podanych parametrów
-	GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
-		int width, int height, HWND & hWnd);
+	GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className, LPCSTR const windowTitle,
+		int const width, int const height, HWND & hWnd);
 	// tworzy nowe okno wg podanych parametrów
-	GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
-		int x, int y, int width, int height, HWND & hWnd);
+	GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className, LPCSTR const windowTitle,
+		int const x, int const y, int const width, int const height, HWND & hWnd);
 
 private:
 	// funkcja tworz¹ca okno i zwracaj¹ca informacjê, czy siê to uda³o
-	bool InitializeWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
-		int x, int y, int width, int height, HWND & hWnd);
+	bool InitializeWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className, LPCSTR const windowTitle,
+		int const x, int const y, int const width, int const height, HWND & hWnd);
 
 	// klawiatura
 	bool InitializeInput(HWND & hWnd);

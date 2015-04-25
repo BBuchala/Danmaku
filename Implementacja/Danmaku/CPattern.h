@@ -26,7 +26,7 @@ public:
 	void Initialize(LPDIRECT3DDEVICE9 device);
 
 	// narysowanie wszystkich pocisków
-	void Draw( short const & x, short const & y, short const & width, short const & height ) override;
+	void Draw( short const x, short const y, short const width, short const height ) override;
 
 	inline EBulletQue const & GetBullets() const override
 	{

@@ -26,7 +26,7 @@ public:
 	GraphicsDevice();
 
 	// utworzenie w³aœciwego obiektu Device
-	bool Initialize(HWND & hWnd, bool windowed);
+	bool Initialize(HWND & hWnd, bool const windowed);
 
 	void ReleaseObjects();
 

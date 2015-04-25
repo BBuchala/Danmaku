@@ -1,7 +1,7 @@
 #include "TrajectorySpiral.h"
 
 
-TrajectorySpiral::TrajectorySpiral( D3DXVECTOR2 const & center, float const & a, float const & b )
+TrajectorySpiral::TrajectorySpiral( D3DXVECTOR2 const & center, float const a, float const b )
 {
 	this->SetParameters( a, b );
 	// punktem pocz¹tkowym jest Ÿród³o spirali
@@ -15,14 +15,14 @@ TrajectorySpiral::~TrajectorySpiral()
 
 
 
-void TrajectorySpiral::SetParameters( float const & a, float const & b )
+void TrajectorySpiral::SetParameters( float const a, float const b )
 {
 	this->a = a;
 	this->b = b;
 };
 
 
-D3DXVECTOR2 TrajectorySpiral::GetPosition( float const & t )
+D3DXVECTOR2 TrajectorySpiral::GetPosition( float const t )
 {
 	float radius = this->a + this->b * t;
 	D3DXVECTOR2 position = Vector::Polar(radius, t);
@@ -38,13 +38,13 @@ void TrajectorySpiral::Translate( D3DXVECTOR2 const & translate )
 };
 
 
-void TrajectorySpiral::Scale( float const & scale )
+void TrajectorySpiral::Scale( float const scale )
 {
 	this->b *= scale;
 };
 
 
-void TrajectorySpiral::Rotate( float const & theta )
+void TrajectorySpiral::Rotate( float const theta )
 {
 	this->theta += theta;
 };

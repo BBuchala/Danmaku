@@ -12,7 +12,7 @@ TrajectoryFactory & TrajectoryFactory::Instance()
 	return *pInstance_;
 };
 
-Trajectory * TrajectoryFactory::CreateTrajectory( Road tracId, D3DXVECTOR2 const & position, float const & a, float const & b)
+Trajectory * const TrajectoryFactory::CreateTrajectory( Road tracId, D3DXVECTOR2 const & position, float const a, float const b)
 {
 	CallbackMap::const_iterator it = callbacks_.find( tracId );
 	if ( it == callbacks_.end())
@@ -22,13 +22,13 @@ Trajectory * TrajectoryFactory::CreateTrajectory( Road tracId, D3DXVECTOR2 const
 	return (it->second)(position, a, b);
 };
 
-bool TrajectoryFactory::RegisterTrajectory( Road const & tracId, CreateTrajectoryCallback createFn )
+bool TrajectoryFactory::RegisterTrajectory( Road const tracId, CreateTrajectoryCallback createFn )
 {
 	return this->callbacks_.insert( CallbackMap::value_type( tracId, createFn )).second;
 };
 
 
-bool TrajectoryFactory::UnregisterTrajectory( Road const & tracId )
+bool TrajectoryFactory::UnregisterTrajectory( Road const tracId )
 {
 	return this->callbacks_.erase( tracId ) == 1;
 };

@@ -19,17 +19,17 @@ class Font
 
 public:
 	//// Konstruktor i destruktor
-	Font( D3DXVECTOR2 const & fieldPosition, unsigned short const & fieldWidth, unsigned short const & fieldHeight );
+	Font( D3DXVECTOR2 const & fieldPosition, unsigned short const fieldWidth, unsigned short const fieldHeight );
 	~Font();
 
 	//// Inicjalizacja i utowrzenie w³aœciwej instacji czcionki
-	bool Initialize( GraphicsDevice const * gDevice, short unsigned const & fontHeight, 
-			short unsigned const & fontWidth, std::string const & font, bool bold, bool italic,
+	bool Initialize( GraphicsDevice * const gDevice, short unsigned const fontHeight, 
+			short unsigned const fontWidth, std::string const & font, bool bold, bool italic,
 			D3DXCOLOR const & color );
 
 	//// Narysowanie tekstu na ekranie
 	void Draw( std::string const & str );
 
 	//// narysowanie liczby w formie tekstu ze wskazanym wype³nieniem zerami
-	void Draw( int const & number, short unsigned const & padding );
+	void Draw( int const number, short unsigned const padding );
 };

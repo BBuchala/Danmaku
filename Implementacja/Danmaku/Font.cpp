@@ -1,7 +1,7 @@
 #include "Font.h"
 
 
-Font::Font( D3DXVECTOR2 const & fieldPosition, unsigned short const & fieldWidth, unsigned short const & fieldHeight )
+Font::Font( D3DXVECTOR2 const & fieldPosition, unsigned short const fieldWidth, unsigned short const fieldHeight )
 	: fieldWidth(fieldWidth), fieldHeight(fieldHeight), fieldPosition(fieldPosition)
 {
 	SetRect(&rect, static_cast<int>(fieldPosition.x), static_cast<int>(fieldPosition.y), fieldWidth, fieldHeight);
@@ -18,8 +18,8 @@ Font::~Font()
 };
 
 
-bool Font::Initialize( GraphicsDevice const * gDevice, short unsigned const & fontHeight, 
-		short unsigned const & fontWidth, std::string const & font, bool bold, bool italic, D3DXCOLOR const & color )
+bool Font::Initialize( GraphicsDevice * const gDevice, short unsigned const fontHeight, 
+		short unsigned const fontWidth, std::string const & font, bool bold, bool italic, D3DXCOLOR const & color )
 {
 	this->color = color;
 	if (D3DXCreateFont( gDevice->device, fontHeight, fontWidth, bold ? FW_BOLD : FW_NORMAL, 1, italic,
@@ -38,7 +38,7 @@ void Font::Draw( std::string const & str )
 };
 
 
-void Font::Draw( int const & number, short unsigned const & padding )
+void Font::Draw( int const number, short unsigned const padding )
 {
 	std::stringstream ss;
 	ss << std::setw(padding) << std::setfill('0') << number;

@@ -24,11 +24,11 @@ class TitleScreen : public Playfield
 
 public:
 	TitleScreen();
-	virtual ~TitleScreen();
+	~TitleScreen();
 
 	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice);
 	void Clear();
-	void Update(float const & time) override;
+	void Update(float const time) override;
 	void DrawScene() override;
 
 };

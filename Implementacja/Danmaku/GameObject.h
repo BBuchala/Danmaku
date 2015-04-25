@@ -22,58 +22,58 @@ protected:
 public:
 	/* ==== KONSTRUKTORY ============== */
 	// pozycja + szybkoœæ + przyspieszenie
-	GameObject(float const & x, float const & y, float const & speed = 0, float const & acc = 0);
+	GameObject(float const x, float const y, float const speed = 0, float const acc = 0);
 	GameObject( GameObject const & go );
 
 	// destruktor
 	virtual ~GameObject();
 
 	// funkcja tworz¹ca sprite'a z pliku z zewn¹trz
-	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height);
-	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height);
+	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height);
+	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const width, int const height);
 	virtual bool InitializeSprite( SpritePtr const & sprite );
 	virtual void Draw();
-	virtual void Update(float const & time);
+	virtual void Update(float const time);
 
-	bool InitializeHitbox( float const & radius, bool useSprite );
+	bool InitializeHitbox( float const radius, bool const useSprite );
 
 	// Settery
-	void SetPosition(float const & x, float const & y);
+	void SetPosition(float const x, float const y);
 	void SetPosition(D3DXVECTOR2 const & v);
-	void SetAcceleration(float const & acc);
-	void SetSprite( SpritePtr sprite )
+	void SetAcceleration(float const acc);
+	void SetSprite( SpritePtr const & sprite )
 	{
 		this->sprite = sprite;
 	}
 
 	// transformacje
-	void Translate( float const & dx, float const & dy );
-	void Translate( D3DXVECTOR2 dv );
-	void Rotate( float const & angle );
-	void Scale( float const & scale );
+	void Translate( float const dx, float const dy );
+	void Translate( D3DXVECTOR2 const & dv );
+	void Rotate( float const angle );
+	void Scale( float const scale );
 
 	// Gettery
-	inline float GetRotation() const
+	inline const float GetRotation() const
 	{
 		return this->sprite->GetRotation();
 	}
 
-	inline SpritePtr const GetSprite() const
+	inline const SpritePtr& GetSprite() const
 	{
 		return this->sprite;
 	}
 
-	inline D3DXVECTOR2 GetPosition()
+	inline const D3DXVECTOR2& GetPosition() const
 	{
 		return this->position;
 	}
 
-	inline D3DXVECTOR2 GetCenterPoint()
+	inline D3DXVECTOR2 GetCenterPoint() const
 	{
 		return this->position + this->GetSprite()->GetCenterPoint();
 	}
 
-	inline Hitbox * GetHitbox() const
+	inline Hitbox * const GetHitbox() const
 	{
 		return hitbox.get();
 	}

@@ -132,7 +132,7 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 };
 
 
-void Game::Update(float const & time)
+void Game::Update(float const time)
 {
 	// OBS£UGA WYJŒCIA Z GRY
 	if (GetAsyncKeyState(VK_ESCAPE))
@@ -345,9 +345,8 @@ bool Game::IsKeyPressed()
 };
 
 // Move - kierunek z Enuma, który sprawdzamy. Zwraca fa³sz, je¿eli gracz nie mo¿e siê poruszaæ dalej.
-bool Game::IsPlayerWithinBounds(Move direction)
+bool Game::IsPlayerWithinBounds(Move const direction)
 {
-	
 	D3DXVECTOR2 actualPosition = this->player->GetCenterPoint();
 
 	switch (direction)

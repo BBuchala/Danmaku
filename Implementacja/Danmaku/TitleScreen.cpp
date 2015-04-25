@@ -38,7 +38,7 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 };
 
 
-void TitleScreen::Update(float const & time)
+void TitleScreen::Update(float const time)
 {
 	this->elapsedTime += time;
 	if (GetAsyncKeyState(VK_RETURN))	// to je ENTER XDD

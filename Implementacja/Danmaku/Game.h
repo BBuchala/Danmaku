@@ -87,22 +87,22 @@ class Game : public Playfield
 public:
 	// Konstruktor, destruktor
 	Game();
-	virtual ~Game();
+	~Game();
 
 	//////// FUNKCJE GAME
 	void CheckCollisions();
 
 	/////// FUNKCJE PLAYFIELD
 	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice) override;
-	void Update(float const & time) override;
+	void Update(float const time) override;
 	void Clear() override;
 	void DrawScene() override;
 
 private:
 	bool IsKeyPressed();
-	bool IsPlayerWithinBounds(Move direction);
+	bool IsPlayerWithinBounds(Move const direction);
 
-	inline D3DXVECTOR2 GetStageCenter()
+	inline const D3DXVECTOR2 GetStageCenter() const
 	{
 		return D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT / 2 );
 	}

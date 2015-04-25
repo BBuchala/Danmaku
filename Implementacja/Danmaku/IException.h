@@ -13,10 +13,10 @@
 class IException
 {
 public:
-	virtual ~IException() {};
+	virtual ~IException() = 0 {};
 
 	// zwrócenie komunikatu
-	virtual const std::string ToString() const = 0;
+	virtual std::string ToString() const = 0;
 
 	// pokazanie message boxa
 	virtual void ToMessageBox() = 0;

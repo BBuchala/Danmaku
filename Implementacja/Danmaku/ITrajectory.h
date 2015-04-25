@@ -5,12 +5,12 @@
 class ITrajectory
 {
 public:
-	virtual ~ITrajectory() {};
+	virtual ~ITrajectory() = 0 {};
 
 	/**
 	 * Funkcja zwraca pozycjê obiektu na torze, po przebyciu
 	 * wskazanego dystansu (od punktu pocz¹tkowego)
 	 */
-	virtual D3DXVECTOR2 GetPosition( float const & distance ) = 0;
+	virtual D3DXVECTOR2 GetPosition( float const distance ) = 0;
 
 };

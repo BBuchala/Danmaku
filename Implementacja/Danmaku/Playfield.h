@@ -32,12 +32,11 @@ public:
 	virtual bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice);
 
 	// uruchomienie pola
-	void Run( float const & dt );
-	void ResetTimer( bool stopTimer);
+	void Run( float const dt );
 
 private:
 	// aktualizacja stanu obiektów na polu
-	virtual void Update(float const & time) = 0;
+	virtual void Update(float const time) = 0;
 	
 	// wyczyszczenie sceny
 	virtual void Clear();
@@ -52,7 +51,7 @@ private:
 	void EndScene();
 
 public:
-	inline bool isEnded() const
+	inline const bool isEnded() const
 	{
 		return this->ended;
 	};

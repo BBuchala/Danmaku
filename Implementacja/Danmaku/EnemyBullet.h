@@ -17,13 +17,13 @@ protected:
 	bool isGrazed;
 
 public:
-	EnemyBullet( float const & speed );
-	EnemyBullet( D3DXVECTOR2 const & position, float const & speed = 0 );
-	virtual ~EnemyBullet();
+	EnemyBullet( float const speed );
+	EnemyBullet( D3DXVECTOR2 const & position, float const speed = 0 );
+	~EnemyBullet();
 
-	void SetGrazed( bool isGrazed );
+	void SetGrazed( bool const isGrazed );
 
-	inline bool IsGrazed() const
+	inline const bool IsGrazed() const
 	{
 		return isGrazed;
 	};

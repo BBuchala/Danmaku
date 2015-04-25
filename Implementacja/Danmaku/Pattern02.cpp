@@ -14,7 +14,7 @@ void Pattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & positio
 };
 
 
-void Pattern02::Update(float const & time)
+void Pattern02::Update(float const time)
 {
 	// Nowe pociski
 	if (bullet.size() < BULLET_NUMBER_S)

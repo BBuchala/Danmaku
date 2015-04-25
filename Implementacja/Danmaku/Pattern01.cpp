@@ -18,7 +18,7 @@ void Pattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & positio
 
 
 
-void Pattern01::Update(float const & time)
+void Pattern01::Update(float const time)
 {
 	// OBS£UGA POCISKÓW
 	// Nowe pociski

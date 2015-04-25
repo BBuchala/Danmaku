@@ -15,22 +15,22 @@ namespace
 		float b;
 
 	public:
-		TrajectorySpiral( D3DXVECTOR2 const & center, float const & a, float const & b );
-		virtual ~TrajectorySpiral();
+		TrajectorySpiral( D3DXVECTOR2 const & center, float const a, float const b );
+		~TrajectorySpiral();
 
 	private:
-		void SetParameters( float const & a, float const & b );
+		void SetParameters( float const a, float const b );
 
 	public:
 		/* ==== Przeci¹¿one interfejsy ==== */
-		D3DXVECTOR2 GetPosition( float const & theta ) override;
+		D3DXVECTOR2 GetPosition( float const theta ) override;
 		void Translate( D3DXVECTOR2 const & translate ) override;
-		void Scale( float const & scale ) override;
-		void Rotate( float const & theta ) override;
+		void Scale( float const scale ) override;
+		void Rotate( float const theta ) override;
 	};
 
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectorySpiral( D3DXVECTOR2 const & center, float const & a, float const & b )
+	Trajectory * CreateTrajectorySpiral( D3DXVECTOR2 const & center, float const a, float const b )
 	{
 		return new TrajectorySpiral( center, a, b );
 	}

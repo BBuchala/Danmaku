@@ -25,7 +25,7 @@ class Application
 	Playfield * field;
 
 public:
-	Application( HINSTANCE hInstance, int const & nShowCmd );
+	Application( HINSTANCE hInstance, int const nShowCmd );
 	~Application();
 
 	void Initialize();
@@ -33,6 +33,6 @@ public:
 	
 
 private:
-	void CalculateFPS( float const & dt );
+	void CalculateFPS( float const dt );
 
 };

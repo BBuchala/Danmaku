@@ -1,7 +1,7 @@
 #include "GameWindowInitializationFailedException.h"
 
 // zwrócenie komunikatu
-const std::string GameWindowInitializationFailedException::ToString() const
+std::string GameWindowInitializationFailedException::ToString() const
 {
 	return "Unable to create new window. Gomen :(";
 };

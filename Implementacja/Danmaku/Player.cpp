@@ -5,7 +5,7 @@ Player::Player( D3DXVECTOR2 const & pos ) : GameObject( pos.x, pos.y, SPEED ), i
 {
 };
 
-bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
+bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height)
 {
 	if ( !GameObject::InitializeSprite( device, file, width, height ))
 	{
@@ -16,7 +16,7 @@ bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file
 };
 
 
-void Player::Update(float const & time, Move & move)
+void Player::Update(float const time, Move const move)
 {
 	if (isFocused == true)
 	{
@@ -43,12 +43,12 @@ void Player::Update(float const & time, Move & move)
 		
 };
 
-bool Player::GetFocus()
+bool Player::GetFocus() const
 {
 	return this->isFocused;
 }
 
-void Player::SetFocus(bool focus)
+void Player::SetFocus(bool const focus)
 {
 	this->isFocused = focus;
 }

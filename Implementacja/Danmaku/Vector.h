@@ -7,7 +7,7 @@ class Vector
 {
 public:
 
-	static D3DXVECTOR2 Polar( float const & radius, float const & theta );
+	static D3DXVECTOR2 Polar( float const radius, float const theta );
 
 	static float Length( D3DXVECTOR2 const & vector );
 

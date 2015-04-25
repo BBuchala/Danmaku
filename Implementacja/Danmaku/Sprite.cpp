@@ -146,31 +146,31 @@ void Sprite::Draw(D3DXVECTOR2 const & position)
 };
 
 
-void Sprite::SetRotation(float const & rotation )
+void Sprite::SetRotation(float const rotation )
 {
 	this->rotation = rotation;
 };
 
 
-void Sprite::Rotate( float const & angle )
+void Sprite::Rotate( float const angle )
 {
 	this->rotation += angle;
 };
 
 
-void Sprite::SetScale( float const & scale )
+void Sprite::SetScale( float const scale )
 {
 	this->scale = scale;
 };
 
 
-void Sprite::Scale( float const & scale )
+void Sprite::Scale( float const scale )
 {
 	this->scale *= scale;
 };
 
 
-void Sprite::SetCurrentTexture( short const & number )
+void Sprite::SetCurrentTexture( short const number )
 {
 	this->currentTex = number;
 };

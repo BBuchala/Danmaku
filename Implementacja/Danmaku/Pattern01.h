@@ -25,7 +25,7 @@ class Pattern01 : public CPattern
 public:
 	Pattern01();
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
-	void Update(float const & time) override;
+	void Update(float const time) override;
 
 	void Add();
 };

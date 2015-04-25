@@ -17,7 +17,7 @@ bool Playfield::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 };
 
 
-void Playfield::Run( float const & dt )
+void Playfield::Run( float const dt )
 {
 	this->Update( dt );
 	this->Draw();

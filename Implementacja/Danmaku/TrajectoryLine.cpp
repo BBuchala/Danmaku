@@ -1,6 +1,6 @@
 #include "TrajectoryLine.h"
 
-TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const & angle, float const & length )
+TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const angle, float const length )
 	: length((short)length)
 {
 	/* Wartosci vectora s¹ w przedziale [0, 1] */
@@ -23,7 +23,7 @@ void TrajectoryLine::SetDirection( D3DXVECTOR2 const & direction )
 };
 
 
-D3DXVECTOR2 TrajectoryLine::GetPosition( float const & distance )
+D3DXVECTOR2 TrajectoryLine::GetPosition( float const distance )
 {
 	D3DXVECTOR2 position;
 	if (length != 0)
@@ -40,13 +40,13 @@ void TrajectoryLine::Translate( D3DXVECTOR2 const & translate )
 };
 
 
-void TrajectoryLine::Scale( float const & scale )
+void TrajectoryLine::Scale( float const scale )
 {
 	this->direction *= scale;
 };
 
 
-void TrajectoryLine::Rotate( float const & theta )
+void TrajectoryLine::Rotate( float const theta )
 {
 	// TODO
 };

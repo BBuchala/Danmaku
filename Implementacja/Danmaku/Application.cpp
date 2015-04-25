@@ -3,7 +3,7 @@
 unsigned int Application::m_FPS = 60;
 
 
-Application::Application(HINSTANCE hInstance, int const & nShowCmd)
+Application::Application(HINSTANCE hInstance, int const nShowCmd)
 {
 	LPCSTR const className = "danmakuWindow";
 	this->windowTitle = "Danmaku";
@@ -79,7 +79,7 @@ void Application::Run()
 };
 
 
-void Application::CalculateFPS( float const & dt )
+void Application::CalculateFPS( float const dt )
 {
 	static int frameCount;
 	static float elapsedTime;

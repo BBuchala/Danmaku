@@ -18,37 +18,32 @@ public:
 
 	// Konstruktor - przyjmuje pozycjê, promieñ i widocznoœæ
 	// Nastêpnie nale¿y zainicjalizowaæ sprajt
-	explicit Hitbox( float const & radius, bool useSprite );
+	explicit Hitbox( float const radius, bool const useSprite );
 	
 	// Inicjalizacja sprajta
-	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const & width );
+	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const width );
 
 	//////// TRANSFORMABLE
 	void Translate( D3DXVECTOR2 const & translate ) override;
-	void Scale( float const & scale ) override;
-	void Rotate( float const & theta ) override;
+	void Scale( float const scale ) override;
+	void Rotate( float const theta ) override;
 
 	//////// DRAWABLE
 	void Draw(D3DXVECTOR2 const & position) override;
 
 	//////// SETTERY
-	void SetRadius( float const & radius );
+	void SetRadius( float const radius );
 	void SetPosition( D3DXVECTOR2 const & position );
 	void SetUseSprite( bool useSprite );
 
 
 	//////// GETTERY
-	inline float GetRadius() const
+	inline const float GetRadius() const
 	{
 		return radius;
 	};
 
-	//inline D3DXVECTOR2 GetPosition() const
-	//{
-	//	return position;
-	//}
-
-	inline bool UseSprite() const
+	inline const bool UseSprite() const
 	{
 		return useSprite;
 	}

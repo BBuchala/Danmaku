@@ -20,20 +20,14 @@ protected:
 public:
 	Player( D3DXVECTOR2 const & pos );
 
-	bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height);
+	bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height);
 
-	void Update(float const & time, Move & move);
+	void Update(float const time, Move const move);
 
 	// Gettery
-	bool GetFocus();
+	bool GetFocus() const;
 	
 	// Settery
-	void SetFocus(bool focus);
-
-	// Przeci¹¿ona metoda zwracaj¹ca œrodkowy punkt (piksel) gracza. PóŸniej do zast¹pienia hitboxem.
-	//inline D3DXVECTOR2 GetPosition()
-	//{
-	//	return this->position + center;
-	//};
+	void SetFocus(bool const focus);
 	
 };
