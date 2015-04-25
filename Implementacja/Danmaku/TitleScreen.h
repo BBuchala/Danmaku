@@ -11,11 +11,14 @@
 
 class TitleScreen : public Playfield
 {
+	//// Liczba przycisków
+	static const unsigned short BUTTON_CNT = 4;
+
 	Sprite * background;
-	Sprite * button;
+	Sprite ** button;
 
 	D3DXVECTOR2 BGposition;
-	D3DXVECTOR2 buttonP;
+	D3DXVECTOR2 * buttonPos;
 
 	bool pressed;
 	bool enter;

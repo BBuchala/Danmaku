@@ -3,37 +3,53 @@
 TitleScreen::TitleScreen() : pressed(false), enter (false), elapsedTime(0.0f)
 {
 	this->background = new Sprite();
-	this->button = new Sprite();
+	this->button = new Sprite * [BUTTON_CNT];
+	for (int i = 0; i < BUTTON_CNT; i++)
+	{
+		this->button[i] = new Sprite();
+	}
+	this->buttonPos = new D3DXVECTOR2[BUTTON_CNT];
 };
 
 
 TitleScreen::~TitleScreen()
 {
 	if (this->background) delete this->background;
-	if (this->button) delete this->button;
+	if (this->buttonPos) delete this->buttonPos;
+	if (this->button)
+	{
+		for (int i = 0; i < BUTTON_CNT; i++)
+		{
+			delete this->button[i];
+		}
+		delete[] this->button;
+	}
 };
 
 
 bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 {
 	Playfield::Initialize(hWnd, gDevice);
-	D3DXVECTOR2 BG_Size(800, 600);
-	BGposition = D3DXVECTOR2( (SCREEN_WIDTH - BG_Size.x) / 2 , (SCREEN_HEIGHT - BG_Size.y) / 2);
+	D3DXVECTOR2 BG_Size(SCREEN_WIDTH, SCREEN_HEIGHT);
+	BGposition = D3DXVECTOR2( ( SCREEN_WIDTH - BG_Size.x ) / 2 , ( SCREEN_HEIGHT - BG_Size.y ) / 2);
 	if ( !this->background->Initialize(this->gDevice->device,
 		Sprite::GetFilePath( "titlescreen", "png"), static_cast<int>(BG_Size.x), static_cast<int>(BG_Size.y) ) )
 	{
 		return false;
 	}
 	
-	D3DXVECTOR2 Button_Size(238, 66);
-	buttonP = D3DXVECTOR2( BGposition.x + (BG_Size.x - Button_Size.x) / 2, BGposition.y + (BG_Size.y - Button_Size.y) / 2 );
-	std::vector<std::string> buttons;
-	for (int i = 1; i <= 2; i++)
+	D3DXVECTOR2 Button_Size(251, 70);
+	for (int i = 0; i < BUTTON_CNT; i++)
 	{
-		buttons.push_back( Sprite::GetFilePath( "button", i, "png" ) );
+		std::vector<std::string> buttonFiles;
+		// przygotowanie wektora œcie¿ek do sprajtów dla 1 buttona
+		for (int j = 0; j < 2; j++)
+		{
+			buttonFiles.push_back( Sprite::GetFilePath( "button", i, j, "png" ) );
+		}
+		this->buttonPos[i] = D3DXVECTOR2( SCREEN_WIDTH - Button_Size.x - 50.0f, 250.0f + i * (Button_Size.y + 50.0f));
+		this->button[i]->Initialize( this->gDevice->device, buttonFiles, static_cast<int>(Button_Size.x), static_cast<int>(Button_Size.y) );
 	}
-	this->button->Initialize( this->gDevice->device, buttons, static_cast<int>(Button_Size.x), static_cast<int>(Button_Size.y) );
-
 	return true;
 };
 
@@ -56,11 +72,11 @@ void TitleScreen::Update(float const time)
 
 	if (elapsedTime > 0.0000000f && elapsedTime < 1.0000000f)
 	{
-		this->button->Scale( 100.0f / 99.50f );
+		this->button[0]->Scale( 100.0f / 99.75f );
 	}
 	else if (elapsedTime < 2.0000000f)
 	{
-		this->button->Scale( 99.50f / 100.0f );
+		this->button[0]->Scale( 99.75f / 100.0f );
 	}
 	else
 	{
@@ -68,9 +84,9 @@ void TitleScreen::Update(float const time)
 	}
 
 	if (!pressed)
-		this->button->SetCurrentTexture(0);
+		this->button[0]->SetCurrentTexture(0);
 	else
-		this->button->SetCurrentTexture(1);
+		this->button[0]->SetCurrentTexture(1);
 };
 
 
@@ -78,8 +94,12 @@ void TitleScreen::Update(float const time)
 void TitleScreen::DrawScene()
 {
 	this->background->Draw(this->BGposition);
-	this->button->Draw(this->buttonP);
+	for (int i = 0; i < BUTTON_CNT; i++)
+	{
+		this->button[i]->Draw(this->buttonPos[i]);
+	}
 };
+	
 
 
 void TitleScreen::Clear()
