@@ -18,8 +18,6 @@ class GameWindow
 	// informacje o oknie
 	WNDCLASSEX wincl;
 
-	static bool noiseOccured;
-
 public:
 	// tworzy nowe okno wg podanych parametrów
 	GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
@@ -27,18 +25,6 @@ public:
 	// tworzy nowe okno wg podanych parametrów
 	GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
 		int x, int y, int width, int height, HWND & hWnd);
-
-
-	inline bool didNoiseOccured() const
-	{
-		return noiseOccured;
-	};
-
-	inline void ResetNoise()
-	{
-		this->noiseOccured = false;
-	};
-
 
 private:
 	// funkcja tworz¹ca okno i zwracaj¹ca informacjê, czy siê to uda³o

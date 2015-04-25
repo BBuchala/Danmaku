@@ -1,16 +1,16 @@
 #include "Application.h"
 
-unsigned int Application::m_FPS;
+unsigned int Application::m_FPS = 60;
 
 
-Application::Application(HINSTANCE hInstance, int const & nShowCmd, short const & width, short const & height) : width(width), height(height)
+Application::Application(HINSTANCE hInstance, int const & nShowCmd)
 {
 	LPCSTR const className = "danmakuWindow";
 	this->windowTitle = "Danmaku";
 	this->hWnd = NULL;
 
 	// inicjalizacja okna
-	this->window = new GameWindow(hInstance, nShowCmd, className, this->windowTitle, WIDTH, HEIGHT, hWnd);
+	this->window = new GameWindow(hInstance, nShowCmd, className, this->windowTitle.c_str(), WIDTH, HEIGHT, hWnd);
 	this->gDevice = new GraphicsDevice();
 	this->timer = new Timer();
 	this->field = new TitleScreen();
@@ -53,11 +53,15 @@ void Application::Run()
 			}
 			else
 			{
-				if (window->didNoiseOccured()) timer->Reset();
 				timer->Update();
 				CalculateFPS( timer->elapsedTime );
+				/* ===== SUPER ZABEZPIECZENIE WSZYSTKIEGO PRZED LAGAMI!! ====== */
+				//// Je¿eli otrzymany czas przekracza 1 klatkê, NIC SIÊ NIE DZIEJE!!
+				if ( m_FPS * timer->elapsedTime > 1.50f )
+					continue;
+				//// ^Kwiat mojej kaiery programistycznej.
+				//// Sasuga ore.
 				field->Run( timer->elapsedTime );
-				window->ResetNoise();
 				// prze³¹czenie tajtola i gejma
 				if (field->isEnded())
 				{

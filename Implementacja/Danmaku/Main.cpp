@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 {
 	try
 	{
-		Application app = Application( hInstance, nShowCmd, WIDTH, HEIGHT );
+		Application app = Application( hInstance, nShowCmd );
 		app.Initialize();
 		app.Run();
 	}

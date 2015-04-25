@@ -1,6 +1,5 @@
 #include "GameWindow.h"
 
-bool GameWindow::noiseOccured = false;
 
 // utworzenie okna wg parametrów
 GameWindow::GameWindow(HINSTANCE hInstance, int nCmdShow, LPCSTR className, LPCSTR windowTitle,
@@ -116,16 +115,6 @@ LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 						 OutputDebugString(info.c_str());
 					}
 				}
-				// zatrzymanie timera, gdy myszka naciska
-				if( raw->header.dwType== RIM_TYPEMOUSE )
-				{
-					if (raw->data.mouse.usButtonFlags == RI_MOUSE_LEFT_BUTTON_DOWN || 
-						raw->data.mouse.usButtonFlags == RI_MOUSE_RIGHT_BUTTON_DOWN)
-					{
-						GameWindow::noiseOccured = true;
-					}
-				}
-
 			}
 			return 0;
 

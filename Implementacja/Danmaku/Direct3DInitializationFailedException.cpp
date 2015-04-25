@@ -1,7 +1,7 @@
 #include "Direct3DInitializationFailedException.h"
 
 // zwrócenie komunikatu
-const char * Direct3DInitializationFailedException::ToString()
+const std::string Direct3DInitializationFailedException::ToString() const
 {
 	return "Direct3D initialization failed.";
 };
@@ -10,5 +10,5 @@ const char * Direct3DInitializationFailedException::ToString()
 // pokazanie message boxa
 void Direct3DInitializationFailedException::ToMessageBox()
 {
-	MessageBox(NULL, this->ToString(), "Error!", MB_OK | MB_ICONERROR);
+	MessageBox(NULL, this->ToString().c_str(), "Error!", MB_OK | MB_ICONERROR);
 };

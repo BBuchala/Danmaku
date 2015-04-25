@@ -15,17 +15,6 @@
 #include "Direct3DInitializationFailedException.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
-#define BUTTON_NUM	2
-#define TEX_NUM		3
-
-#define STAGE_POS_X 63
-#define STAGE_POS_Y 32
-#define STAGE_WIDTH 614
-#define STAGE_HEIGHT 706
-
-#define SCORE_PADDING 10
-
-#define GRAZE_DISTANCE 3
 
 
 static enum Pattern
@@ -35,6 +24,16 @@ static enum Pattern
 
 class Game : public Playfield
 {
+	//// ==== STA£E
+	static const unsigned short BUTTON_NUM		= 2;
+	static const unsigned short TEX_NUM			= 3;
+	static const unsigned short STAGE_POS_X		= 63;
+	static const unsigned short STAGE_POS_Y		= 32;
+	static const unsigned short STAGE_WIDTH		= 614;
+	static const unsigned short STAGE_HEIGHT	= 706;
+	static const unsigned short SCORE_PADDING	= 10;
+	static const unsigned short GRAZE_DISTANCE	= 3;
+
 	// t³o
 	GameObject * gameScreen;
 

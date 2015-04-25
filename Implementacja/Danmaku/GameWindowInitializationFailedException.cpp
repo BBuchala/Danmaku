@@ -1,7 +1,7 @@
 #include "GameWindowInitializationFailedException.h"
 
 // zwrócenie komunikatu
-const char * GameWindowInitializationFailedException::ToString()
+const std::string GameWindowInitializationFailedException::ToString() const
 {
 	return "Unable to create new window. Gomen :(";
 };
@@ -10,5 +10,5 @@ const char * GameWindowInitializationFailedException::ToString()
 // pokazanie message boxa
 void GameWindowInitializationFailedException::ToMessageBox()
 {
-	MessageBox(NULL, this->ToString(), "Error!", MB_OK | MB_ICONERROR);
+	MessageBox(NULL, this->ToString().c_str(), "Error!", MB_OK | MB_ICONERROR);
 };

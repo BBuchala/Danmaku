@@ -6,23 +6,31 @@ GameObject::GameObject(float const & x, float const & y, float const & speed, fl
 	this->SetPosition(x, y);
 	this->speed = speed < 0 ? 0 : speed;
 	this->acceleration = acc;
-	this->hitbox = new Hitbox();
+	this->hitbox = NULL;
 };
 
 
 ////////// DESTRUKTOR ///////////////////////
 GameObject::~GameObject()
 {
-	if (sprite) delete sprite;
-	if (hitbox) delete hitbox;
 };
 
 
-bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
+GameObject::GameObject( GameObject const & go )
+{
+	this->position = go.position;
+	this->speed = go.speed;
+	this->acceleration = go.acceleration;
+	this->sprite = SpritePtr(go.GetSprite());
+	this->hitbox = HitboxPtr(go.GetHitbox());
+};
+
+
+bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
 {
 	if (!this->sprite)
 	{
-		this->sprite = new Sprite();
+		this->sprite = SpritePtr(new Sprite());
 		if ( !this->sprite->Initialize(device, file, width, height) )
 		{
 			return false;
@@ -32,11 +40,11 @@ bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, 
 };
 
 
-bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height)
+bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height)
 {
 	if (!this->sprite)
 	{
-		this->sprite = new Sprite();
+		this->sprite = SpritePtr(new Sprite());
 		if ( !this->sprite->Initialize(device, fileVect, width, height) )
 		{
 			return false;
@@ -46,14 +54,27 @@ bool GameObject::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> c
 };
 
 
+bool GameObject::InitializeSprite( SpritePtr const & sprite )
+{
+	this->sprite = SpritePtr(sprite);
+	return true;
+};
+
+
+bool GameObject::InitializeHitbox( float const & radius, bool useSprite )
+{
+	this->hitbox = HitboxPtr(new Hitbox( radius, useSprite ));
+	return true;
+};
+
+
 void GameObject::Draw()
 {
 	if (this->sprite)
 	{
-
 		this->sprite->Draw(this->position);
 
-		if (this->hitbox->UseSprite())
+		if (this->hitbox != NULL && this->hitbox->UseSprite())
 		{
 			this->hitbox->Draw( this->GetCenterPoint() );
 		}

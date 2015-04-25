@@ -102,7 +102,8 @@ void Pattern01::Add()
 			newBullet = new EnemyBullet( 180.0f ); break;
 		}
 		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
-		newBullet->Initialize( device, file, BULLET_WIDTH_A, BULLET_HEIGHT_A );
+		newBullet->InitializeSprite( device, file, BULLET_WIDTH_A, BULLET_HEIGHT_A );
+		newBullet->InitializeHitbox( BULLET_WIDTH_A, false );
 
 		switch(i)
 		{

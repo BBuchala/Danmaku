@@ -6,13 +6,13 @@ Player::Player( D3DXVECTOR2 const & pos ) : GameObject( pos.x, pos.y, SPEED )
 	isFocused = false;
 };
 
-bool Player::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
+bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
 {
-	if ( !GameObject::Initialize( device, file, width, height ))
+	if ( !GameObject::InitializeSprite( device, file, width, height ))
 	{
 		return false;
 	}
-	this->hitbox = new Hitbox( GetCenterPoint(), true );
+	GameObject::InitializeHitbox( static_cast<float>(width), true );
 	return this->hitbox->InitializeSprite( device, "img/hitbox.png", width );
 };
 

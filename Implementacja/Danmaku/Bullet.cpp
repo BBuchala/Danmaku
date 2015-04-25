@@ -11,29 +11,15 @@ Bullet::Bullet( float const & speed ) : GameObject( 0.0f, 0.0f, speed )
 };
 
 
+Bullet::Bullet( Bullet const & bullet ) : GameObject(bullet)
+{
+	this->distance = bullet.distance;
+};
+
+
 Bullet::~Bullet()
 {
 };
-
-
-bool Bullet::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
-{
-	if ( !GameObject::Initialize(device, file, width, height))
-	{
-		return false;
-	}
-	///// ZAK£ADAMY, ¯E WSZYSTKIE POCISKI S¥ PROPORCJONALNE
-	this->hitbox = new Hitbox( this->GetCenterPoint(), (float) width );
-	return true;
-};
-
-
-bool Bullet::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect,
-						int const & width, int const & height)
-{
-	return GameObject::Initialize(device, fileVect, width, height);
-};
-
 
 void Bullet::Update(float const & time)
 {

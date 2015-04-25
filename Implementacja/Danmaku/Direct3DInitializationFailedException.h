@@ -8,7 +8,7 @@ class Direct3DInitializationFailedException : IException
 {
 public:
 	// zwrócenie komunikatu
-	const char * ToString() override;
+	const std::string ToString() const override;
 
 	// pokazanie message boxa
 	void ToMessageBox() override;

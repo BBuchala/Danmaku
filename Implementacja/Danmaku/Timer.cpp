@@ -13,7 +13,7 @@ bool Timer::SetCountsPerSecond()
 	LARGE_INTEGER countsPerSecond;
 	if (QueryPerformanceFrequency( &countsPerSecond ))
 	{
-		this->frequencySeconds = (float) (countsPerSecond.QuadPart);
+		this->frequencySeconds = static_cast<float>(countsPerSecond.QuadPart);
 		return true;
 	}
 	return false;
@@ -36,7 +36,7 @@ void Timer::Update()
 {
 	LARGE_INTEGER curTime;
 	QueryPerformanceCounter( &curTime );
-	this->elapsedTime = (float) (curTime.QuadPart - prevTime) / this->frequencySeconds;
+	this->elapsedTime = static_cast<float>(curTime.QuadPart - prevTime) / this->frequencySeconds;
 	this->prevTime = curTime.QuadPart;
 	this->totalTime += this->elapsedTime;
 };

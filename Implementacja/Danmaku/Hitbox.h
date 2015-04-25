@@ -16,12 +16,9 @@ public:
 	// domyœlny, zeruj¹cy wartoœci
 	Hitbox();
 
-	// Konstruktor dla widocznego hitboxa - przyjmuje pozycjê i widocznoœæ
+	// Konstruktor - przyjmuje pozycjê, promieñ i widocznoœæ
 	// Nastêpnie nale¿y zainicjalizowaæ sprajt
-	explicit Hitbox( D3DXVECTOR2 const & position, bool useSprite );
-
-	// Konstruktor dla niewidocznego hitboxa - przyjmuje pozycjê i promieñ
-	explicit Hitbox( D3DXVECTOR2 const & position, float const & radius );
+	explicit Hitbox( float const & radius, bool useSprite );
 	
 	// Inicjalizacja sprajta
 	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const & width );

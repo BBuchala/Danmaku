@@ -1,5 +1,6 @@
 #include "Game.h"
 
+/* ---- KONSTRUKTOR --------------------------------------- */
 Game::Game() : Playfield()
 {
 	////// Dane liczbowe po prawej stronie
@@ -60,12 +61,12 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	this->gDevice = gDevice;
 
 	this->gameScreen = new GameObject(0, 0);
-	this->gameScreen->Initialize( this->gDevice->device, "img/gameScreen.png", SCREEN_WIDTH, SCREEN_HEIGHT );
+	this->gameScreen->InitializeSprite( this->gDevice->device, "img/gameScreen.png", SCREEN_WIDTH, SCREEN_HEIGHT );
 
 	float playerX = STAGE_POS_X + STAGE_WIDTH / 2;
 	float playerY = STAGE_POS_Y + STAGE_HEIGHT - 50.0f;
 	this->player = new Player( D3DXVECTOR2( playerX, playerY ) );
-	this->player->Initialize( this->gDevice->device, "img/ship.png", 40, 60 );
+	this->player->InitializeSprite( this->gDevice->device, "img/ship.png", 40, 60 );
 
 	switch(this->currentPattern)
 	{
@@ -91,7 +92,7 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 		{
 			mainVect[i].push_back( Sprite::GetFilePath( "Pattern", i, j, "png" ) );
 		}
-		this->button[i]->Initialize( this->gDevice->device, mainVect[i], 80, 40 );
+		this->button[i]->InitializeSprite( this->gDevice->device, mainVect[i], 80, 40 );
 	}
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH
@@ -116,15 +117,6 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 void Game::Update(float const & time)
 {
-	/* ===== SUPER ZABEZPIECZENIE WSZYSTKIEGO PRZED LAGAMI!! ====== */
-	//// Je¿eli otrzymany czas przekracza 1 klatkê, NIC SIÊ NIE DZIEJE!!
-	if ( 60.0f * time > 1.10f )
-		return;
-	//// ^Kwiat mojej kaiery programistycznej.
-	//// Sasuga ore.
-	
-
-
 	// OBS£UGA WYJŒCIA Z GRY
 	if (GetAsyncKeyState(VK_ESCAPE))
 	{

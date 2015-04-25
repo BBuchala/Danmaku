@@ -8,13 +8,15 @@
 #ifndef EX_H
 #define EX_H
 
+#include <string>
+
 class IException
 {
 public:
 	virtual ~IException() {};
 
 	// zwrócenie komunikatu
-	virtual const char * ToString() = 0;
+	virtual const std::string ToString() const = 0;
 
 	// pokazanie message boxa
 	virtual void ToMessageBox() = 0;

@@ -1,5 +1,9 @@
 #include "Sprite.h"
 
+/* ---- STA£E ---------------------- */
+const std::string Sprite::IMG_PATH = "img/";
+
+/* ---- KONSTRUKTOR --------------- */
 Sprite::Sprite()
 {
 	// When color is set to white, what you see is exactly what the image looks like.

@@ -24,7 +24,7 @@ public:
 
 	//// Inicjalizacja i utowrzenie w³aœciwej instacji czcionki
 	bool Initialize( GraphicsDevice const * gDevice, short unsigned const & fontHeight, 
-			short unsigned const & fontWidth, char const * font, bool bold, bool italic,
+			short unsigned const & fontWidth, std::string const & font, bool bold, bool italic,
 			D3DXCOLOR const & color );
 
 	//// Narysowanie tekstu na ekranie

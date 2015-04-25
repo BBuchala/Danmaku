@@ -7,13 +7,13 @@
 
 #include "IDrawable.h"
 
-#define IMG_PATH "img/"
-
 class Sprite : public IDrawable
 {
 	//////// SK£ADOWE ////////////////////////////
 	// Elementy graficzne
 private:
+	static const std::string IMG_PATH;
+
 	LPD3DXSPRITE sprite;			// wskaŸnik na sprajt
 	LPDIRECT3DTEXTURE9 * tex;		// wskaŸnika na tablicê wskaŸników na tekstury
 
@@ -97,41 +97,19 @@ public:
 		return this->center;
 	}
 
-
-
-
-
-
-	static std::string GetFilePath( char const * const name, int const & i, int const & j, char const * const ext )
+	///// FUNKCJE TWORZ¥CE ŒCIE¯KI DO SPRAJTÓW
+	inline static std::string GetFilePath( std::string const & name, int const & i, int const & j, std::string const & ext )
 	{
-		std::string filepath;
-		filepath += IMG_PATH;
-		filepath += name;
-		filepath += std::to_string(i);
-		filepath += std::to_string(j);
-		filepath += '.';
-		filepath += ext;
-		return filepath;
+		return IMG_PATH + name + std::to_string(i) + std::to_string(j) + '.' + ext;
 	};
 
-	static std::string GetFilePath( char const * const name, int const & number, char const * const ext )
+	inline static std::string GetFilePath( std::string const & name, int const & number, std::string const & ext )
 	{
-		std::string filepath;
-		filepath += IMG_PATH;
-		filepath += name;
-		filepath += std::to_string(number);
-		filepath += '.';
-		filepath += ext;
-		return filepath;
+		return IMG_PATH + name + std::to_string(number) + '.' + ext;
 	};
 
-	static std::string GetFilePath( char const * const name, char const * const ext )
+	inline static std::string GetFilePath( std::string const & name, std::string const & ext )
 	{
-		std::string filepath;
-		filepath += IMG_PATH;
-		filepath += name;
-		filepath += '.';
-		filepath += ext;
-		return filepath;
+		return IMG_PATH + name + '.' + ext;
 	};
 };

@@ -9,12 +9,13 @@
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
-#define SCREEN_WIDTH  1024
-#define SCREEN_HEIGHT 768
-
 class Playfield
 {
 protected:
+	/* === STA£E ======================= */
+	static const unsigned short SCREEN_WIDTH	= 1024;
+	static const unsigned short SCREEN_HEIGHT	= 768;
+
 	/* === SK£ADOWE ==================== */
 	// obs³uga sprajtów
 	GraphicsDevice * gDevice;

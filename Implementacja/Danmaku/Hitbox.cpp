@@ -4,20 +4,18 @@ Hitbox::Hitbox()
 {
 	SetRadius(0.0f);
 	SetUseSprite(false);
+	this->theta = 0.0f;
+	this->sprite = NULL;
 };
 
-Hitbox::Hitbox( D3DXVECTOR2 const & position, float const & radius )
+Hitbox::Hitbox( float const & radius, bool useSprite )
 {
 	SetRadius(radius);
-	SetUseSprite(false);
-};
-
-
-Hitbox::Hitbox( D3DXVECTOR2 const & position, bool useSprite )
-{
-	SetRadius(0.0f);
 	SetUseSprite(useSprite);
+	this->theta = 0.0f;
+	this->sprite = NULL;
 };
+
 
 
 bool Hitbox::InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const & width )

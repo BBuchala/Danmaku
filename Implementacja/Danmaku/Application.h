@@ -8,14 +8,12 @@
 #include "Game.h"
 #include "TitleScreen.h"
 
-#define WIDTH 1024
-#define HEIGHT 768
-
 class Application
 {
-	short const width;
-	short const height;
-	char * windowTitle;
+	static const unsigned short WIDTH	= 1024;
+	static const unsigned short HEIGHT	= 768;
+
+	std::string windowTitle;
 
 	static unsigned int m_FPS;
 
@@ -27,7 +25,7 @@ class Application
 	Playfield * field;
 
 public:
-	Application(HINSTANCE hInstance, int const & nShowCmd, short const & width, short const & height);
+	Application( HINSTANCE hInstance, int const & nShowCmd );
 	~Application();
 
 	void Initialize();

@@ -24,10 +24,8 @@ class Bullet : public GameObject
 public:
 	Bullet( float const & speed );
 	Bullet( D3DXVECTOR2 const & position, float const & speed = 0 );
+	Bullet( Bullet const & bullet );
 	virtual ~Bullet();
-
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height) override;
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height) override;
 
 	void SetTrajectory( Road const & trajectory, D3DXVECTOR2 const & position, float const & a, float const & b = 0 );
 	void SetTrajectory( Trajectory * trajectory );

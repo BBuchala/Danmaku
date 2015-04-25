@@ -45,10 +45,21 @@ void Pattern02::Update(float const & time)
 void Pattern02::Add()
 {
 	// nowy pocisk o zerowej prêdkoœci
-	EnemyBullet * newBullet = new EnemyBullet( 0.0f );
-	// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go
-	std::string file = Sprite::GetFilePath( "Bullet0", 3, "png" );
-	newBullet->Initialize( device, file, BULLET_WIDTH_S, BULLET_HEIGHT_S );
+	EnemyBullet * newBullet;
+	newBullet = new EnemyBullet( 0.0f );
+	if ( bullet.size() == 0 )
+	{
+		// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go
+		std::string file = Sprite::GetFilePath( "Bullet0", 3, "png" );
+		newBullet->InitializeSprite( device, file, BULLET_WIDTH_S, BULLET_HEIGHT_S );
+	}
+	else
+	{
+		newBullet->SetSprite( bullet[0]->GetSprite() );
+	}
+
+	newBullet->InitializeHitbox( BULLET_WIDTH_S, false );
+	
 	// wybór trajektorii
 	newBullet->SetTrajectory( bullet.size() % 2 == 0 ? traj1 : traj2 );
 	// odleg³oœæ od ogniska spirali
