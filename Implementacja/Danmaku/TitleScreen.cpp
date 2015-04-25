@@ -1,17 +1,24 @@
 #include "TitleScreen.h"
 
+TitleScreen::TitleScreen()
+{
+	this->background = new Sprite();
+	this->button = new Sprite();
+};
+
+
 TitleScreen::~TitleScreen()
 {
 	if (this->background) delete this->background;
 	if (this->button) delete this->button;
-}
+};
+
 
 bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 {
 	Playfield::Initialize(hWnd, gDevice);
 	D3DXVECTOR2 BG_Size(800, 600);
 	BGposition = D3DXVECTOR2( (SCREEN_WIDTH - BG_Size.x) / 2 , (SCREEN_HEIGHT - BG_Size.y) / 2);
-	this->background = new Sprite();
 	if ( !this->background->Initialize(this->gDevice->device,
 		Sprite::GetFilePath( "titlescreen", "png"), static_cast<int>(BG_Size.x), static_cast<int>(BG_Size.y) ) )
 	{
@@ -20,7 +27,6 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	
 	D3DXVECTOR2 Button_Size(238, 66);
 	buttonP = D3DXVECTOR2( BGposition.x + (BG_Size.x - Button_Size.x) / 2, BGposition.y + (BG_Size.y - Button_Size.y) / 2 );
-	this->button = new Sprite();
 	std::vector<std::string> buttons;
 	for (int i = 1; i <= 2; i++)
 	{

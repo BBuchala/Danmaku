@@ -3,10 +3,14 @@
 ////////// KONSTRUKTOR ///////////////////////
 GameObject::GameObject(float const & x, float const & y, float const & speed, float const & acc)
 {
+	///// Przydzielenie wartoœci sk³adowym
 	this->SetPosition(x, y);
 	this->speed = speed < 0 ? 0 : speed;
 	this->acceleration = acc;
 	this->hitbox = NULL;
+
+	///// Przydzielenie pamiêci obiektom klas
+	this->sprite = SpritePtr(new Sprite());
 };
 
 
@@ -28,13 +32,9 @@ GameObject::GameObject( GameObject const & go )
 
 bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const & width, int const & height)
 {
-	if (!this->sprite)
+	if ( !this->sprite || !this->sprite->Initialize(device, file, width, height) )
 	{
-		this->sprite = SpritePtr(new Sprite());
-		if ( !this->sprite->Initialize(device, file, width, height) )
-		{
-			return false;
-		}
+		return false;
 	}
 	return true;
 };
@@ -42,13 +42,9 @@ bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & 
 
 bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const & width, int const & height)
 {
-	if (!this->sprite)
+	if ( !this->sprite || !this->sprite->Initialize(device, fileVect, width, height) )
 	{
-		this->sprite = SpritePtr(new Sprite());
-		if ( !this->sprite->Initialize(device, fileVect, width, height) )
-		{
-			return false;
-		}
+		return false;
 	}
 	return true;
 };
@@ -63,7 +59,7 @@ bool GameObject::InitializeSprite( SpritePtr const & sprite )
 
 bool GameObject::InitializeHitbox( float const & radius, bool useSprite )
 {
-	this->hitbox = HitboxPtr(new Hitbox( radius, useSprite ));
+	this->hitbox = HitboxPtr( new Hitbox( radius, useSprite ) );
 	return true;
 };
 
@@ -73,7 +69,6 @@ void GameObject::Draw()
 	if (this->sprite)
 	{
 		this->sprite->Draw(this->position);
-
 		if (this->hitbox != NULL && this->hitbox->UseSprite())
 		{
 			this->hitbox->Draw( this->GetCenterPoint() );

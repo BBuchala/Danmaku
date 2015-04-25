@@ -13,22 +13,21 @@ Hitbox::Hitbox( float const & radius, bool useSprite )
 	SetRadius(radius);
 	SetUseSprite(useSprite);
 	this->theta = 0.0f;
-	this->sprite = NULL;
+	if (useSprite)
+		this->sprite = new Sprite();
+	else
+		this->sprite = NULL;
 };
 
 
 
 bool Hitbox::InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const & width )
 {
-	if (!this->sprite)
+	if (!this->sprite || !this->sprite->Initialize(device, file, width, width) )
 	{
-		this->sprite = new Sprite();
-		if ( !this->sprite->Initialize(device, file, width, width) )
-		{
-			return false;
-		}
-		this->SetRadius( width / 4.0f );
+		return false;
 	}
+	this->SetRadius( width / 4.0f );
 	return true;
 };
 

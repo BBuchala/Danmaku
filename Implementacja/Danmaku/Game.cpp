@@ -3,50 +3,85 @@
 /* ---- KONSTRUKTOR --------------------------------------- */
 Game::Game() : Playfield()
 {
+	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
 	score = hiScore = power = graze = 0;
-
 	///// Liczby ¿yæ i bomb
 	lifes = 2;
 	bombs = 1;
 	lifePos = D3DXVECTOR2( 830, 115 );
 	bombPos = D3DXVECTOR2( 830, 140 );
-
-
+	// T³o
 	red = green = blue = 0.0f;
 	incRed = 0.3f;
 	incBlue = 0.2f;
 	incGreen = 0.5f;
-
+	// przyciski
 	escape = pressed = false;
+	pressedButton = -1;
+	this->currentPattern = Pattern::A;
 
-	this->buttonPressed = new bool[BUTTON_NUM];
+	/* ==== PRZYDZIELENIE PAMIÊCI OBIEKTOM KLAS ======= */
+	// ekran gry
+	this->gameScreen = new GameObject(0, 0);
+	// gracz
+	this->player = new Player( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ) );
+	// pierwszy wzór
+	switch(this->currentPattern)
+	{
+	case A:
+		this->pattern = new Pattern01(); break;
+	case S:
+		this->pattern = new Pattern02(); break;
+	}
+	// przyciski
+	this->button = new GameObject * [BUTTON_NUM];
 	for (int i = 0; i < BUTTON_NUM; i++)
 	{
-		this->buttonPressed[i] = false;
+		this->button[i] = new GameObject(STAGE_POS_X + 10, STAGE_POS_Y + i * 80.0f + 20.f);
 	}
-
+	this->buttonPressed = new bool[BUTTON_NUM];
 	this->keyButton = new int [BUTTON_NUM];
-	this->keyButton[0] = 0x41;
-	this->keyButton[1] = 0x53;
+	// dane liczbowe
+	this->scoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
+	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
+	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
+	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
+	// sprjaty ¿ycia i bomby
+	this->lifeSprite = new Sprite();
+	this->bombSprite = new Sprite();
 
-	pressedButton = -1;
-
-	this->currentPattern = Pattern::A;
+	
 };
 
-
+/* ---- DESTRUKTOR ---------------------------------------- */
 Game::~Game()
 {
-	if (this->pattern) delete this->pattern;
-	if (this->buttonPressed) delete this->buttonPressed;
-	if (this->keyButton) delete this->keyButton;
+	if (gameScreen) delete gameScreen;
+	if (player) delete player;
+	if (pattern) delete pattern;
+	
+	// przyciski
+	if (button)
+	{
+		for (int i = 0; i < BUTTON_NUM; i++)
+		{
+			delete button[i];
+		}
+		delete[] button;
+	}
+	if (buttonPressed) delete[] buttonPressed;
+	if (keyButton) delete[] keyButton;
 
 	// usuniêcie danych liczbowych
 	if (scoreText) delete scoreText;
 	if (hiScoreText) delete hiScoreText;
 	if (powerText) delete powerText;
 	if (grazeText) delete grazeText;
+
+	// sprajty
+	if (lifeSprite) delete lifeSprite;
+	if (bombSprite) delete bombSprite;
 };
 
 
@@ -57,32 +92,20 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 
 	/////// INICJALIZACJA
 	Playfield::Initialize(hWnd, gDevice);
-
 	this->gDevice = gDevice;
 
-	this->gameScreen = new GameObject(0, 0);
+	// Poszczególne obiekty
 	this->gameScreen->InitializeSprite( this->gDevice->device, "img/gameScreen.png", SCREEN_WIDTH, SCREEN_HEIGHT );
-
-	float playerX = STAGE_POS_X + STAGE_WIDTH / 2;
-	float playerY = STAGE_POS_Y + STAGE_HEIGHT - 50.0f;
-	this->player = new Player( D3DXVECTOR2( playerX, playerY ) );
 	this->player->InitializeSprite( this->gDevice->device, "img/ship.png", 40, 60 );
-
-	switch(this->currentPattern)
-	{
-	case A:
-		this->pattern = new Pattern01(); break;
-	case S:
-		this->pattern = new Pattern02(); break;
-	}
-	
 	this->pattern->Initialize(this->gDevice->device, D3DXVECTOR2( this->GetStageCenter().x, this->GetStageCenter().y - 200));
 
-	this->button = new GameObject * [BUTTON_NUM];
+	///// Przyciski
 	for (int i = 0; i < BUTTON_NUM; i++)
 	{
-		this->button[i] = new GameObject(STAGE_POS_X + 10, STAGE_POS_Y + i * 80.0f + 20.f);
+		this->buttonPressed[i] = false;
 	}
+	this->keyButton[0] = 0x41;
+	this->keyButton[1] = 0x53;
 
 	std::vector<Vector> mainVect;
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -96,19 +119,13 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	}
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH
-	this->scoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
 	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
 	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
 	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
 	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
 	/////// Inicjalizacja sprajtów ¿ycia i bomby
-	this->lifeSprite = new Sprite();
 	this->lifeSprite->Initialize( gDevice->device, "img/life.png", 20, 20 );
-	this->bombSprite = new Sprite();
 	this->bombSprite->Initialize( gDevice->device, "img/bomb.png", 20, 20 );
 
 	return true;

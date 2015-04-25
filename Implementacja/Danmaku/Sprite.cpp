@@ -16,6 +16,23 @@ Sprite::Sprite()
 	this->initialized = false;
 };
 
+Sprite::~Sprite()
+{
+	if (sprite)
+	{
+		sprite->Release();
+		sprite = 0;
+	}
+	if (tex)
+	{
+		for (int i = 0; i < this->texNumber; i++)
+		{
+			tex[i]->Release();
+		}
+		delete[] tex;
+	}
+};
+
 bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height )
 {
 	std::vector<std::string> v;
@@ -115,25 +132,6 @@ void Sprite::Draw(D3DXVECTOR2 const & position)
 		D3DXMATRIX mat;
 		D3DXMatrixTransformation(&mat, NULL, NULL, NULL, &center, &quat, NULL);
 	*/
-};
-
-
-Sprite::~Sprite()
-{
-	if (sprite)
-	{
-		sprite->Release();
-		sprite = 0;
-	}
-
-	if (tex)
-	{
-		for (int i = 0; i < this->texNumber; i++)
-		{
-			tex[i]->Release();
-		}
-		tex = 0;
-	}
 };
 
 

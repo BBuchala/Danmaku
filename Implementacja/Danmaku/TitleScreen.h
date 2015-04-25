@@ -23,6 +23,7 @@ class TitleScreen : public Playfield
 	float elapsedTime;
 
 public:
+	TitleScreen();
 	virtual ~TitleScreen();
 
 	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice);
