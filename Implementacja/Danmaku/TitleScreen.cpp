@@ -80,6 +80,7 @@ void TitleScreen::Update(float const time)
 	}
 	else
 	{
+		this->button[0]->SetScale(1.0f);
 		this->elapsedTime = 0;
 	}
 
