@@ -6,11 +6,7 @@ Game::Game() : Playfield()
 	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
 	score = hiScore = power = graze = 0;
-	///// Liczby ¿yæ i bomb
-	lifes = 2;
-	bombs = 1;
-	lifePos = D3DXVECTOR2( 830, 115 );
-	bombPos = D3DXVECTOR2( 830, 140 );
+
 	// T³o
 	red = green = blue = 0.0f;
 	incRed = 0.3f;
@@ -25,7 +21,7 @@ Game::Game() : Playfield()
 	// ekran gry
 	this->gameScreen = new GameObject(0, 0);
 	// gracz
-	this->player = new Player( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ) );
+	this->player = new Player( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ), 3 );
 	// pierwszy wzór
 	switch(this->currentPattern)
 	{
@@ -47,9 +43,9 @@ Game::Game() : Playfield()
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
 	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
 	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
-	// sprjaty ¿ycia i bomby
-	this->lifeSprite = new Sprite();
-	this->bombSprite = new Sprite();
+	// paski ¿ycia i bomb
+	this->lifeBar = new Bar(D3DXVECTOR2( 830, 115 ), this->player->GetLifeCount());
+	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
 	
 };
@@ -80,8 +76,8 @@ Game::~Game()
 	if (grazeText) delete grazeText;
 
 	// sprajty
-	if (lifeSprite) delete lifeSprite;
-	if (bombSprite) delete bombSprite;
+	if (lifeBar) delete lifeBar;
+	if (bombBar) delete bombBar;
 };
 
 
@@ -124,9 +120,9 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
-	/////// Inicjalizacja sprajtów ¿ycia i bomby
-	this->lifeSprite->Initialize( gDevice->device, "img/life.png", 20, 20 );
-	this->bombSprite->Initialize( gDevice->device, "img/bomb.png", 20, 20 );
+	/////// Inicjalizacja pasków ¿ycia i bomby
+	this->lifeBar->Initialize( gDevice->device, "img/life.png" );
+	this->bombBar->Initialize( gDevice->device, "img/bomb.png" );
 
 	return true;
 };
@@ -263,6 +259,7 @@ void Game::Update(float const time)
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		this->player->SetFocus(true);
+		this->player->DecrementLifeCount();
 	}
 
 	//// Obs³uga pocisków
@@ -311,15 +308,8 @@ void Game::DrawScene()
 	this->grazeText->Draw(graze, 0);
 
 	//// ¯YCIA I BOMBY
-	for (int i = 0; i < lifes; i++)
-	{
-		this->lifeSprite->Draw( D3DXVECTOR2( lifePos.x + i * 25, lifePos.y ) );
-	}
-	for (int i = 0; i < bombs; i++)
-	{
-		this->bombSprite->Draw( D3DXVECTOR2( bombPos.x + i * 25, bombPos.y ) );
-	}
-
+	this->lifeBar->Draw();
+	this->bombBar->Draw();
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
@@ -394,7 +384,8 @@ void Game::CheckCollisions()
 	{
 		if ( CheckCollisiion(*it))
 		{
-			this->lifes--;
+			this->lifeBar--;
+			this->player->DecrementLifeCount();
 		}
 	}
 };

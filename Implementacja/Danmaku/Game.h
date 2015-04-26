@@ -10,6 +10,7 @@
 #include "Playfield.h"
 #include "Font.h"
 #include "Vector.h"
+#include "Bar.h"
 
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
@@ -63,12 +64,9 @@ class Game : public Playfield
 	Font * grazeText;
 
 	/////// ¯YCIA I BOMBY
-	BYTE lifes;
-	Sprite * lifeSprite;
-	D3DXVECTOR2 lifePos;
-	BYTE bombs;
-	Sprite * bombSprite;
-	D3DXVECTOR2 bombPos;
+	Bar * lifeBar;
+	Bar * bombBar;
+
 
 	// zmiana koloru t³a
 	float red;
