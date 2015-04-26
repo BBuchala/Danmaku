@@ -16,9 +16,12 @@ protected:
 	static const unsigned short SIZE_Y		= 60;
 
 	bool isFocused;
+	BYTE lifeCount;
+	BYTE bombCount;
 
 public:
-	Player( D3DXVECTOR2 const & pos );
+	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
+	Player( D3DXVECTOR2 const & pos, BYTE lifeCount );
 
 	bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height);
 
@@ -26,8 +29,18 @@ public:
 
 	// Gettery
 	bool GetFocus() const;
+	BYTE GetLifeCount();
+	BYTE GetBombCount();
 	
 	// Settery
 	void SetFocus(bool const focus);
+	void SetLifeCount(const BYTE lifeCount);
+	void SetBombCount(const BYTE bombCount);
+	
+	// Incrementy i Decrementy
+	void IncrementLifeCount();
+	void IncrementBombCount();
+	void DecrementLifeCount();					// to mo¿na wykorzystaæ przy sprawdzaniu warunku koñca gry - if (player->lifeCount <= 0) ...
+	void DecrementBombCount();					// t¹ jedn¹ wsadzi siê do jakiej wiêkszej metody UseBomb() - ze sprawdzaniem czasu deathbomby, efektem graficznym itp.
 	
 };

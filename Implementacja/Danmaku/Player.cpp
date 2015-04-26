@@ -1,8 +1,16 @@
 #include "Player.h"
 
 
-Player::Player( D3DXVECTOR2 const & pos ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
+Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
 {
+	lifeCount = lc;
+	bombCount = bc;
+};
+
+Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
+{
+	lifeCount = lc;
+	bombCount = 3;
 };
 
 bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height)
@@ -48,8 +56,47 @@ bool Player::GetFocus() const
 	return this->isFocused;
 }
 
+BYTE Player::GetLifeCount()
+{
+	return this->lifeCount;
+}
+
+BYTE Player::GetBombCount()
+{
+	return this->bombCount;
+}
+
 void Player::SetFocus(bool const focus)
 {
 	this->isFocused = focus;
 }
 
+void Player::SetLifeCount(BYTE const lifecount)
+{
+	this->lifeCount = lifecount;
+}
+
+void Player::SetBombCount(BYTE const bombcount)
+{
+	this->bombCount = bombcount;
+}
+
+void Player::IncrementLifeCount()
+{
+	this->lifeCount++;
+}
+
+void Player::DecrementLifeCount()
+{
+	this->lifeCount--;
+}
+
+void Player::IncrementBombCount()
+{
+	this->bombCount++;
+}
+
+void Player::DecrementBombCount()
+{
+	this->bombCount--;
+}
