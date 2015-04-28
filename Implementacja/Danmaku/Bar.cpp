@@ -25,28 +25,14 @@ void Bar::Draw()
 	}
 }
 
-Bar & Bar::operator++()
+void Bar::IncrementCount()
 {
-	count++;
-	return *this;
+	if (count <8)
+		count++;
 }
 
-Bar & Bar::operator++(int)
+void Bar::DecrementCount()
 {
-	Bar tmp = (*this);
-	++count;
-	return tmp;
-}
-
-Bar & Bar::operator--()
-{
-	count--;
-	return *this;
-}
-
-Bar & Bar::operator--(int)
-{
-	Bar tmp = (*this);
-	--count;
-	return tmp;
+	if (count > 0)
+		count--;
 }

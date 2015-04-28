@@ -83,20 +83,24 @@ void Player::SetBombCount(BYTE const bombcount)
 
 void Player::IncrementLifeCount()
 {
-	this->lifeCount++;
+	if (lifeCount < 8)
+		this->lifeCount++;
 }
 
 void Player::DecrementLifeCount()
 {
-	this->lifeCount--;
+	if (lifeCount > 0)
+		this->lifeCount--;
 }
 
 void Player::IncrementBombCount()
 {
-	this->bombCount++;
+	if (bombCount < 8)
+		this->bombCount++;
 }
 
 void Player::DecrementBombCount()
 {
-	this->bombCount--;
+	if (bombCount > 0)							// to powinno siê sprawdzaæ przy metodzie UseBomb()
+		this->bombCount--;
 }

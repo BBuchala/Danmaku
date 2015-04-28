@@ -20,10 +20,7 @@ public:
 
 	void Draw();
 
-	Bar & operator++();
-	Bar & operator++(int);
-
-	Bar & operator--();
-	Bar & operator--(int);
+	void IncrementCount();
+	void DecrementCount();
 	 
 };
