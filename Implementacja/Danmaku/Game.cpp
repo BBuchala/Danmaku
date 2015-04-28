@@ -256,8 +256,6 @@ void Game::Update(float const time)
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
 		this->player->SetFocus(true);
-		this->player->DecrementLifeCount();
-		this->lifeBar->DecrementCount();
 	}
 
 	//// Obs³uga pocisków

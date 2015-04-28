@@ -5,12 +5,16 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x,
 {
 	lifeCount = lc;
 	bombCount = bc;
+	power = 0.00f;
+	powerLevel = 1;
 };
 
 Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
 {
 	lifeCount = lc;
 	bombCount = 3;
+	power = 0.00f;
+	powerLevel = 1;
 };
 
 
@@ -93,4 +97,9 @@ void Player::DecrementBombCount()
 {
 	if (bombCount > 0)							// to powinno siê sprawdzaæ przy metodzie UseBomb()
 		this->bombCount--;
+}
+
+void Player::CalculatePowerLevel()
+{
+	this->powerLevel = ((int) power / 1) + 1;			// metodê wywo³ujemy tylko przy zebraniu bonusu/utracie ¿ycie (zmianie stanu pola power)
 }

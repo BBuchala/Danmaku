@@ -144,6 +144,9 @@
     <ClCompile Include="Bar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>Source Files\Bullets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="Bar.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Header Files\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
