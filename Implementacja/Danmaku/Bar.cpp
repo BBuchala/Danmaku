@@ -14,7 +14,7 @@ bool Bar::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int con
 
 bool Bar::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file)
 {
-	return this->sprite.Initialize( device, file, 20, 20);
+	return this->sprite.Initialize( device, file );
 }
 
 void Bar::Draw()
@@ -27,7 +27,7 @@ void Bar::Draw()
 
 void Bar::IncrementCount()
 {
-	if (count <8)
+	if (count < 8)
 		count++;
 }
 

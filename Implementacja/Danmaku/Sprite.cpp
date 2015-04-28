@@ -1,7 +1,7 @@
 #include "Sprite.h"
 
 /* ---- STA£E ---------------------- */
-const std::string Sprite::IMG_PATH = "img/";
+const std::string Sprite::IMG_PATH	= "img/";
 
 /* ---- KONSTRUKTOR --------------- */
 Sprite::Sprite() : initialized(false)
@@ -44,14 +44,16 @@ Sprite::~Sprite()
 	}
 };
 
-bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int width, int height )
+
+bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const width, UINT const height )
 {
 	std::vector<std::string> v;
 	v.push_back(file);
 	return this->Initialize( device, v, width, height );
 };
 
-bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, int width, int height)
+
+bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, UINT const width, UINT const height )
 {
 	this->texNumber = file.size();
 	this->tex = new LPDIRECT3DTEXTURE9[this->texNumber];
@@ -68,9 +70,22 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 			return false;
 		}
 	}
+	// przypisanie odpowiedniej wysokoœci i szerokoœci
+	if ( width == D3DX_DEFAULT_NONPOW2 || height == D3DX_DEFAULT_NONPOW2 )
+	{
+		D3DXIMAGE_INFO info;
+		D3DXGetImageInfoFromFile(file[0].c_str(), &info);
+		this->width = info.Width;
+		this->height = info.Height;
+	}
+	else
+	{
+		this->width = width;
+		this->height = height;
+	}
 
 	//Attempt to create the sprite
-	if(!SUCCEEDED(D3DXCreateSprite(device, &sprite)))
+	if (!SUCCEEDED(D3DXCreateSprite(device, &sprite)))
 	{
 		MessageBox(NULL, "There was an issue creating the Sprite.", NULL, NULL);
 		return false;
@@ -78,9 +93,6 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 
 	this->SetCurrentTexture( 0 );
 	this->texNumber = file.size();
-
-	this->width = width;
-	this->height = height;
 
 	this->SetCenterPoint();
 

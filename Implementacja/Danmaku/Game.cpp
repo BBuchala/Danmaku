@@ -1,7 +1,7 @@
 #include "Game.h"
 
 /* ---- KONSTRUKTOR --------------------------------------- */
-Game::Game() : Playfield()
+Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 {
 	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
@@ -81,18 +81,15 @@ Game::~Game()
 };
 
 
-bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
+bool Game::Initialize()
 {
 	//////// DEFINICJA WEKTORA
 	typedef std::vector<std::string> Vector;
 
-	/////// INICJALIZACJA
-	Playfield::Initialize(hWnd, gDevice);
-	this->gDevice = gDevice;
-
 	// Poszczególne obiekty
-	this->gameScreen->InitializeSprite( this->gDevice->device, "img/gameScreen.png", SCREEN_WIDTH, SCREEN_HEIGHT );
-	this->player->InitializeSprite( this->gDevice->device, "img/ship.png", 40, 60 );
+	this->gameScreen->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("gameScreen", "png"), SCREEN_WIDTH, SCREEN_HEIGHT );
+	this->player->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("ship", "png") );
+	this->player->InitializeHitbox( DEFAULT_HITBOX_RADIUS, Sprite::GetFilePath("hitbox", "png"), this->gDevice );
 	this->pattern->Initialize(this->gDevice->device, D3DXVECTOR2( this->GetStageCenter().x, this->GetStageCenter().y - 200));
 
 	///// Przyciski
@@ -111,7 +108,7 @@ bool Game::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 		{
 			mainVect[i].push_back( Sprite::GetFilePath( "Pattern", i, j, "png" ) );
 		}
-		this->button[i]->InitializeSprite( this->gDevice->device, mainVect[i], 80, 40 );
+		this->button[i]->InitializeSprite( this->gDevice->device, mainVect[i] );
 	}
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH

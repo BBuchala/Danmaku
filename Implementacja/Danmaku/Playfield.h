@@ -24,12 +24,12 @@ protected:
 
 public:
 	// Konstruktor, destruktor
-	Playfield();
+	Playfield( GraphicsDevice * const gDevice );
 	virtual ~Playfield();
 
 	/* === Funkcje =================== */
 	// inicjalizacja nowego pola
-	virtual bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice);
+	virtual bool Initialize() = 0;
 
 	// uruchomienie pola
 	void Run( float const dt );

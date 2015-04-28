@@ -46,9 +46,6 @@ class Game : public Playfield
 	int pressedButton;
 	Pattern currentPattern;
 
-	GraphicsDevice * gDevice;
-
-
 	Player * player;
 
 	IPattern * pattern;
@@ -83,14 +80,14 @@ class Game : public Playfield
 
 public:
 	// Konstruktor, destruktor
-	Game();
+	Game( GraphicsDevice * const gDevice );
 	~Game();
 
 	//////// FUNKCJE GAME
 	void CheckCollisions();
 
 	/////// FUNKCJE PLAYFIELD
-	bool Initialize(HWND & hWnd, GraphicsDevice * const gDevice) override;
+	bool Initialize() override;
 	void Update(float const time) override;
 	void Clear() override;
 	void DrawScene() override;

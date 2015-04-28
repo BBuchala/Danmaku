@@ -54,14 +54,14 @@ void Pattern02::Add()
 	{
 		// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go
 		std::string file = Sprite::GetFilePath( "Bullet0", 3, "png" );
-		newBullet->InitializeSprite( device, file, BULLET_WIDTH_S, BULLET_HEIGHT_S );
+		newBullet->InitializeSprite( device, file );
 	}
 	else
 	{
 		newBullet->SetSprite( bullet[0]->GetSprite() );
 	}
 
-	newBullet->InitializeHitbox( BULLET_WIDTH_S, false );
+	newBullet->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
 	
 	// wybór trajektorii
 	newBullet->SetTrajectory( bullet.size() % 2 == 0 ? traj1 : traj2 );

@@ -1,31 +1,25 @@
 #include "Hitbox.h"
 
-Hitbox::Hitbox() : theta(0.0f)
+Hitbox::Hitbox()
 {
-	SetRadius(0.0f);
-	SetUseSprite(false);
-	this->sprite = NULL;
+	Hitbox(0.0f);
 };
 
-Hitbox::Hitbox( float const radius, bool const useSprite ) : theta(0.0f)
+Hitbox::Hitbox( float const radius ) : theta(0.0f), radius(radius), useSprite(false)
 {
-	SetRadius(radius);
-	SetUseSprite(useSprite);
-	if (useSprite)
-		this->sprite = new Sprite();
-	else
-		this->sprite = NULL;
+	this->sprite = nullptr;
 };
 
 
 
-bool Hitbox::InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const width )
+bool Hitbox::InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
 {
-	if (!this->sprite || !this->sprite->Initialize(device, file, width, width) )
+	this->sprite = new Sprite();
+	this->useSprite = true;
+	if ( !this->sprite || !this->sprite->Initialize(device, file, 4 * radius, 4 * radius ) )
 	{
 		return false;
 	}
-	this->SetRadius( width / 4.0f );
 	return true;
 };
 

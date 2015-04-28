@@ -8,8 +8,6 @@ class Pattern02 : public CPattern
 {
 	//// STA£E
 	static const unsigned short BULLET_NUMBER_S	= 1000;
-	static const unsigned short BULLET_WIDTH_S	= 14;
-	static const unsigned short BULLET_HEIGHT_S	= 14;
 
 	//// TORY
 	TrajectoryPtr traj1, traj2;

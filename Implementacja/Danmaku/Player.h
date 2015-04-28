@@ -23,8 +23,6 @@ public:
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount );
 
-	bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height);
-
 	void Update(float const time, Move const move);
 
 	// Gettery

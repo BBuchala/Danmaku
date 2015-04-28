@@ -30,9 +30,9 @@ GameObject::GameObject( GameObject const & go )
 };
 
 
-bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height)
+bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const width, UINT const height)
 {
-	if ( !this->sprite || !this->sprite->Initialize(device, file, width, height) )
+	if ( !this->sprite || !this->sprite->Initialize(device, file, width, height ) )
 	{
 		return false;
 	}
@@ -40,7 +40,7 @@ bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & 
 };
 
 
-bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const width, int const height)
+bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, UINT const width, UINT const height)
 {
 	if ( !this->sprite || !this->sprite->Initialize(device, fileVect, width, height) )
 	{
@@ -57,9 +57,26 @@ bool GameObject::InitializeSprite( SpritePtr const & sprite )
 };
 
 
-bool GameObject::InitializeHitbox( float const radius, bool const useSprite )
+bool GameObject::InitializeHitbox( BYTE const radius )
 {
-	this->hitbox = HitboxPtr( new Hitbox( radius, useSprite ) );
+	float newRadius;
+	if (radius == DEFAULT_HITBOX_RADIUS)
+		newRadius = min( this->sprite->GetWidth(), this->sprite->GetHeight() ) / 4.0f;
+	else
+		newRadius = static_cast<float>(radius);
+	this->hitbox = HitboxPtr( new Hitbox( newRadius ) );
+	return true;
+};
+
+
+bool GameObject::InitializeHitbox( BYTE const radius, std::string const & spritePath,
+								   GraphicsDevice * const gDevice )
+{
+	this->InitializeHitbox(radius);
+	if (!spritePath.empty() && gDevice != nullptr )
+	{
+		this->hitbox->InitializeSprite( gDevice->device, spritePath );
+	}
 	return true;
 };
 

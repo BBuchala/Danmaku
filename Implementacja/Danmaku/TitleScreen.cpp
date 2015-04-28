@@ -1,6 +1,7 @@
 #include "TitleScreen.h"
 
-TitleScreen::TitleScreen() : pressed(false), enter (false), elapsedTime(0.0f)
+TitleScreen::TitleScreen( GraphicsDevice * const gDevice ) : Playfield(gDevice),
+	pressed(false), enter (false), elapsedTime(0.0f)
 {
 	this->background = new Sprite();
 	this->button = new Sprite * [BUTTON_CNT];
@@ -27,13 +28,11 @@ TitleScreen::~TitleScreen()
 };
 
 
-bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
+bool TitleScreen::Initialize()
 {
-	Playfield::Initialize(hWnd, gDevice);
 	D3DXVECTOR2 BG_Size(SCREEN_WIDTH, SCREEN_HEIGHT);
 	BGposition = D3DXVECTOR2( ( SCREEN_WIDTH - BG_Size.x ) / 2 , ( SCREEN_HEIGHT - BG_Size.y ) / 2);
-	if ( !this->background->Initialize(this->gDevice->device,
-		Sprite::GetFilePath( "titlescreen", "png"), static_cast<int>(BG_Size.x), static_cast<int>(BG_Size.y) ) )
+	if ( !this->background->Initialize(gDevice->device, Sprite::GetFilePath( "titlescreen", "png") ) )
 	{
 		return false;
 	}
@@ -48,7 +47,7 @@ bool TitleScreen::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
 			buttonFiles.push_back( Sprite::GetFilePath( "button", i, j, "png" ) );
 		}
 		this->buttonPos[i] = D3DXVECTOR2( SCREEN_WIDTH - Button_Size.x - 50.0f, 250.0f + i * (Button_Size.y + 50.0f));
-		this->button[i]->Initialize( this->gDevice->device, buttonFiles, static_cast<int>(Button_Size.x), static_cast<int>(Button_Size.y) );
+		this->button[i]->Initialize( gDevice->device, buttonFiles );
 	}
 	return true;
 };

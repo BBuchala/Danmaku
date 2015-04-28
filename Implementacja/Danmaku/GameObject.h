@@ -3,8 +3,11 @@
 #include <d3d9.h>
 #include <memory>
 
+#include "GraphicsDevice.h"
 #include "Hitbox.h"
 #include "Sprite.h"
+
+#define DEFAULT_HITBOX_RADIUS 0
 
 class GameObject
 {
@@ -29,13 +32,22 @@ public:
 	virtual ~GameObject();
 
 	// funkcja tworz¹ca sprite'a z pliku z zewn¹trz
-	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height);
-	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const width, int const height);
+	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file,
+		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
+	virtual bool InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect,
+		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
 	virtual bool InitializeSprite( SpritePtr const & sprite );
+
+	// utworzenie hitboxa
+	// jeœli chce siê utworzyæ go razem ze sprajtem, nale¿y zast¹piæ domyslne parametry
+	bool InitializeHitbox( BYTE const radius );
+	bool InitializeHitbox( BYTE const radius, std::string const & spritePath,
+		GraphicsDevice * const gDevice );
+
+
 	virtual void Draw();
 	virtual void Update(float const time);
 
-	bool InitializeHitbox( float const radius, bool const useSprite );
 
 	// Settery
 	void SetPosition(float const x, float const y);

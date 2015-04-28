@@ -13,16 +13,6 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, S
 	bombCount = 3;
 };
 
-bool Player::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height)
-{
-	if ( !GameObject::InitializeSprite( device, file, width, height ))
-	{
-		return false;
-	}
-	GameObject::InitializeHitbox( static_cast<float>(width), true );
-	return this->hitbox->InitializeSprite( device, "img/hitbox.png", width );
-};
-
 
 void Player::Update(float const time, Move const move)
 {

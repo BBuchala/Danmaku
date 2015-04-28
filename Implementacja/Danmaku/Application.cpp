@@ -13,7 +13,6 @@ Application::Application(HINSTANCE hInstance, int const nShowCmd)
 	this->window = new GameWindow(hInstance, nShowCmd, className, this->windowTitle.c_str(), WIDTH, HEIGHT, hWnd);
 	this->gDevice = new GraphicsDevice();
 	this->timer = new Timer();
-	this->field = new TitleScreen();
 };
 
 
@@ -31,6 +30,7 @@ void Application::Initialize()
 	{
 		throw new Direct3DInitializationFailedException();
 	}
+	this->field = new TitleScreen( gDevice );
 	this->timer->Start();
 };
 
@@ -38,7 +38,7 @@ void Application::Initialize()
 void Application::Run()
 {
 	bool game = false;
-	if (field->Initialize(hWnd, gDevice))
+	if (field->Initialize())
 	{
 		// pêtla g³ówna, rysuje i aktualizuje
 		MSG msg;
@@ -68,10 +68,10 @@ void Application::Run()
 					game = !game;
 					delete field;
 					if (game)
-						field = new Game();
+						field = new Game(gDevice);
 					else
-						field = new TitleScreen();
-					field->Initialize(hWnd, gDevice);
+						field = new TitleScreen(gDevice);
+					field->Initialize();
 				}
 			}
 		}

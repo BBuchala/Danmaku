@@ -1,19 +1,12 @@
 #include "Playfield.h"
 
-Playfield::Playfield() : ended(false)
+Playfield::Playfield( GraphicsDevice * const gDevice ) : gDevice(gDevice), ended(false)
 {
 };
 
 
 Playfield::~Playfield()
 {
-};
-
-
-bool Playfield::Initialize(HWND & hWnd, GraphicsDevice * const gDevice)
-{
-	this->gDevice = gDevice;
-	return true;
 };
 
 

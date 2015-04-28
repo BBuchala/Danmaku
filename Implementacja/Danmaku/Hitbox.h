@@ -18,10 +18,10 @@ public:
 
 	// Konstruktor - przyjmuje pozycjê, promieñ i widocznoœæ
 	// Nastêpnie nale¿y zainicjalizowaæ sprajt
-	explicit Hitbox( float const radius, bool const useSprite );
+	Hitbox( float const radius );
 	
 	// Inicjalizacja sprajta
-	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file, short const width );
+	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file );
 
 	//////// TRANSFORMABLE
 	void Translate( D3DXVECTOR2 const & translate ) override;
@@ -46,7 +46,7 @@ public:
 	inline const bool UseSprite() const
 	{
 		return useSprite;
-	}
+	};
 	
 
 };

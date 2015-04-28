@@ -11,7 +11,6 @@ class Sprite : public IDrawable
 {
 	//////// SK£ADOWE ////////////////////////////
 	// Elementy graficzne
-private:
 	static const std::string IMG_PATH;
 
 	LPD3DXSPRITE sprite;			// wskaŸnik na sprajt
@@ -47,8 +46,11 @@ public:
 	
 	// utworznie sprajta z zewn¹trz
 	// pobiera uchwyt do urz¹dznia, œcie¿kê do pliku, szerokoœæ i wysokoœæ
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height );
-	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, int const width, int const height );
+	// jeœli wysokoœæ i szerokoœæ nie s¹ podane, pobiera dane z pliku
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file,
+		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
+	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect,
+		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2 );
 
 	// utworzenie punktu œrodkowego
 	void SetCenterPoint();
