@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "Move.h"
-
+#include "IPattern.h"
 
 class Player : public GameObject
 {
@@ -18,6 +18,12 @@ protected:
 	bool isFocused;
 	BYTE lifeCount;
 	BYTE bombCount;
+
+	BYTE powerLevel;				// Oznacza aktualn¹ moc z jak¹ gracz napieprza wró¿ki/statki/whatever (1, 2, 3, 4)
+	float power;					// Odzwierciedla wartoœæ uzbieranych bonusów (np 2.15)
+
+	IPattern * playerPattern;
+
 
 public:
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
@@ -43,4 +49,7 @@ public:
 	void DecrementLifeCount();					// to mo¿na wykorzystaæ przy sprawdzaniu warunku koñca gry - if (player->lifeCount <= 0) ...
 	void DecrementBombCount();					// t¹ jedn¹ wsadzi siê do jakiej wiêkszej metody UseBomb() - ze sprawdzaniem czasu deathbomby, efektem graficznym itp.
 	
+	// Strzelanie
+	void CalculatePowerLevel();
+
 };
