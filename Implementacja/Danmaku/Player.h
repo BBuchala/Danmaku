@@ -2,7 +2,8 @@
 
 #include "GameObject.h"
 #include "Move.h"
-#include "IPattern.h"
+#include "PlayerPattern.h"
+
 
 class Player : public GameObject
 {
@@ -22,10 +23,13 @@ protected:
 	BYTE powerLevel;				// Oznacza aktualn¹ moc z jak¹ gracz napieprza wró¿ki/statki/whatever (1, 2, 3, 4)
 	float power;					// Odzwierciedla wartoœæ uzbieranych bonusów (np 2.15)
 
-	IPattern * playerPattern;
+	bool isShooting;
 
 
 public:
+
+	PlayerPattern * playerPattern;
+
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount );
 
@@ -35,11 +39,13 @@ public:
 	bool GetFocus() const;
 	BYTE GetLifeCount();
 	BYTE GetBombCount();
+	bool IsShooting();
 	
 	// Settery
 	void SetFocus(bool const focus);
 	void SetLifeCount(const BYTE lifeCount);
 	void SetBombCount(const BYTE bombCount);
+	void SetIsShooting(const bool isShooting);
 	
 	// Incrementy i Decrementy
 	void IncrementLifeCount();
@@ -49,5 +55,7 @@ public:
 	
 	// Strzelanie
 	void CalculatePowerLevel();
+
+	void Shoot(LPDIRECT3DDEVICE9 device);
 
 };

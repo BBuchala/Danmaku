@@ -47,7 +47,7 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->lifeBar = new Bar(D3DXVECTOR2( 830, 115 ), this->player->GetLifeCount());
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
-	
+	this->player->playerPattern = new PlayerPattern();
 };
 
 /* ---- DESTRUKTOR ---------------------------------------- */
@@ -120,6 +120,8 @@ bool Game::Initialize()
 	/////// Inicjalizacja pasków ¿ycia i bomby
 	this->lifeBar->Initialize( gDevice->device, "img/life.png" );
 	this->bombBar->Initialize( gDevice->device, "img/bomb.png" );
+
+	this->player->playerPattern->Initialize( gDevice->device, player->GetCenterPoint());
 
 	return true;
 };
@@ -258,9 +260,17 @@ void Game::Update(float const time)
 		this->player->SetFocus(true);
 	}
 
+	this->player->SetIsShooting(false);
+
+	if (GetAsyncKeyState(0x5A))
+	{
+		this->player->SetIsShooting(true);
+	}
+
 	//// Obs³uga pocisków
 	this->pattern->Update( time );
-	
+
+	this->player->playerPattern->Update( time, this->player->IsShooting(), this->player->GetCenterPoint());
 
 	// Zmiana kolorów
 	red += ( incRed * time );
@@ -289,6 +299,10 @@ void Game::Update(float const time)
 void Game::DrawScene()
 {
 	this->pattern->Draw( STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT );
+	
+	
+	this->player->playerPattern->Draw( STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT );
+	
 	this->player->Draw();
 
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -306,6 +320,8 @@ void Game::DrawScene()
 	//// ¯YCIA I BOMBY
 	this->lifeBar->Draw();
 	this->bombBar->Draw();
+
+	
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a

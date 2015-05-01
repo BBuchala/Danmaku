@@ -5,6 +5,7 @@
 
 #include "Pattern01.h"
 #include "Pattern02.h"
+#include "PlayerPattern.h"
 #include "GraphicsDevice.h"
 #include "Player.h"
 #include "Playfield.h"

@@ -7,6 +7,7 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x,
 	bombCount = bc;
 	power = 0.00f;
 	powerLevel = 1;
+	isShooting = false;
 };
 
 Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
@@ -15,6 +16,7 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, S
 	bombCount = 3;
 	power = 0.00f;
 	powerLevel = 1;
+	isShooting = false;
 };
 
 
@@ -73,6 +75,16 @@ void Player::SetLifeCount(BYTE const lifecount)
 void Player::SetBombCount(BYTE const bombcount)
 {
 	this->bombCount = bombcount;
+}
+
+bool Player::IsShooting()
+{
+	return this->isShooting;
+}
+
+void Player::SetIsShooting(bool isShooting)
+{
+	this->isShooting = isShooting;
 }
 
 void Player::IncrementLifeCount()
