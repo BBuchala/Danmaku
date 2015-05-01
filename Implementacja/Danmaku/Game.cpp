@@ -39,8 +39,8 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->buttonPressed = new bool[BUTTON_NUM];
 	this->keyButton = new int [BUTTON_NUM];
 	// dane liczbowe
-	this->scoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
-	this->hiScoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
+	this->hiScoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
+	this->scoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
 	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
 	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
 	// paski ¿ycia i bomb
@@ -48,6 +48,13 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
 	this->player->playerPattern = new PlayerPattern();
+
+	// bonusy
+	bonusy.push_back(new PowerBonus	( D3DXVECTOR2(200,100)	));
+	bonusy.push_back(new PowerBonus	( D3DXVECTOR2(400,50)	));
+	bonusy.push_back(new ScoreBonus	( D3DXVECTOR2(500,250)	));
+	bonusy.push_back(new LifeBonus	( D3DXVECTOR2(80,80)	));
+	bonusy.push_back(new BombBonus	( D3DXVECTOR2(650,100)	));
 };
 
 /* ---- DESTRUKTOR ---------------------------------------- */
@@ -70,14 +77,20 @@ Game::~Game()
 	if (keyButton) delete[] keyButton;
 
 	// usuniêcie danych liczbowych
-	if (scoreText) delete scoreText;
 	if (hiScoreText) delete hiScoreText;
+	if (scoreText) delete scoreText;
 	if (powerText) delete powerText;
 	if (grazeText) delete grazeText;
 
 	// sprajty
 	if (lifeBar) delete lifeBar;
 	if (bombBar) delete bombBar;
+
+	// bonusy
+	for (unsigned int i = 0; i < bonusy.size(); i++)			// nieporównywalnie czytelniej ni¿ na iteratorach, a wydajnoœæ taka sama
+		delete bonusy[i];
+
+	bonusy.clear();
 };
 
 
@@ -112,8 +125,8 @@ bool Game::Initialize()
 	}
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH
-	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
@@ -122,6 +135,13 @@ bool Game::Initialize()
 	this->bombBar->Initialize( gDevice->device, "img/bomb.png" );
 
 	this->player->playerPattern->Initialize( gDevice->device, player->GetCenterPoint());
+
+	/////// Inicjalizacja bonusów
+	for (unsigned int i = 0; i < bonusy.size(); i++)
+	{
+		bonusy[i]->Initialize( gDevice->device );
+		bonusy[i]->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+	}
 
 	return true;
 };
@@ -293,6 +313,9 @@ void Game::Update(float const time)
 		blue = blue > 1.0f ? 1.0f : 0.0f;
 	}
 
+	//// Obs³uga bonusów
+	for (unsigned int i = 0; i < bonusy.size(); i++)
+		bonusy[i]->Update(time);
 };
 
 
@@ -321,7 +344,9 @@ void Game::DrawScene()
 	this->lifeBar->Draw();
 	this->bombBar->Draw();
 
-	
+	//// BONUSY
+	for (unsigned int i = 0; i < bonusy.size(); i++)
+		bonusy[i]->Draw();
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
@@ -330,6 +355,18 @@ void Game::Clear()
 	this->gDevice->Clear( MYCOLOR ( red, green, blue ) );
 };
 
+void Game::clearOutOfBoundsObjects()
+{
+	// Tymczasowo obs³uguje wy³¹cznie bonusy. Jeœli siê przyjmie, mo¿na funkcjonalnoœæ rozszerzyæ o coœ wiêcej
+	for (unsigned int i = 0; i < bonusy.size(); i++)
+	{
+		if ( !bonusy[i]->isBonusWithinBounds(STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT) )
+		{
+			delete bonusy[i];
+			bonusy.erase( bonusy.begin() + i );
+		}
+	}
+}
 
 
 
@@ -400,7 +437,49 @@ void Game::CheckCollisions()
 			this->player->DecrementLifeCount();
 		}
 	}
+
+	// sprawdŸ kolizje z bonusami
+	for (unsigned int i = 0; i < bonusy.size(); i++)
+	{
+		if ( CheckBonusCollision(bonusy[i]) )
+		{
+			switch ( bonusy[i]->getBonusCode() )
+			{
+					case Power:
+						power++;
+						break;
+
+					case Score:
+						score += 69;			// :>
+						break;
+
+					case Life:
+						this->lifeBar->IncrementCount();
+						this->player->IncrementLifeCount();
+						break;
+
+					case Bomb:
+						this->bombBar->IncrementCount();
+						this->player->IncrementBombCount();
+						break;
+			}
+		
+			delete bonusy[i];
+			bonusy.erase( bonusy.begin() + i );
+		}
+	}
 };
+
+bool Game::CheckBonusCollision( Bonus * b )
+{
+	// odleg³oœæ miêdzy œrodkami dwóch obiektów
+	float grazeDistance = Vector::Length( b->GetCenterPoint(), this->player->GetCenterPoint() );
+	
+	if ( grazeDistance <= b->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() )
+		return true;
+
+	return false;
+}
 
 
 bool Game::CheckGraze( EnemyBullet * const eb )

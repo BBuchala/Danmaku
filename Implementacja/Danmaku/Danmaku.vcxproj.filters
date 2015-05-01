@@ -61,6 +61,12 @@
     <Filter Include="Header Files\Trajectories">
       <UniqueIdentifier>{37e141b3-a75b-43dc-b033-2dd1ea4415bd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Bonuses">
+      <UniqueIdentifier>{d9cae3f4-6a18-462c-9bcc-639479b96c97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Bonuses">
+      <UniqueIdentifier>{923092d8-8759-418c-9351-cb4994361bf0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -149,6 +155,21 @@
     </ClCompile>
     <ClCompile Include="PlayerPattern.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BombBonus.cpp">
+      <Filter>Source Files\Bonuses</Filter>
+    </ClCompile>
+    <ClCompile Include="Bonus.cpp">
+      <Filter>Source Files\Bonuses</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeBonus.cpp">
+      <Filter>Source Files\Bonuses</Filter>
+    </ClCompile>
+    <ClCompile Include="PowerBonus.cpp">
+      <Filter>Source Files\Bonuses</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreBonus.cpp">
+      <Filter>Source Files\Bonuses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +277,21 @@
     </ClInclude>
     <ClInclude Include="PlayerPattern.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BombBonus.h">
+      <Filter>Header Files\Bonuses</Filter>
+    </ClInclude>
+    <ClInclude Include="Bonus.h">
+      <Filter>Header Files\Bonuses</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeBonus.h">
+      <Filter>Header Files\Bonuses</Filter>
+    </ClInclude>
+    <ClInclude Include="PowerBonus.h">
+      <Filter>Header Files\Bonuses</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreBonus.h">
+      <Filter>Header Files\Bonuses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,7 @@ void Playfield::Run( float const dt )
 {
 	this->Update( dt );
 	this->Draw();
+	this->clearOutOfBoundsObjects();
 };
 
 

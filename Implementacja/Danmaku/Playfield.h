@@ -41,6 +41,10 @@ private:
 	// wyczyszczenie sceny
 	virtual void Clear();
 
+	// wyczyszczenie zbêdnych obiektów, których pozycja wysz³a poza obrêb planszy.
+	// Myœlê, ¿e siê przyda
+	virtual void clearOutOfBoundsObjects() { }
+
 	// narysowanie nowej sceny
 public:
 	void Draw();

@@ -13,11 +13,20 @@
 #include "Vector.h"
 #include "Bar.h"
 
+#include "PowerBonus.h"
+#include "ScoreBonus.h"
+#include "LifeBonus.h"
+#include "BombBonus.h"
+
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
+#define Power 1
+#define Score 2
+#define Life 3
+#define Bomb 4
 
 static enum Pattern
 {
@@ -65,6 +74,9 @@ class Game : public Playfield
 	Bar * lifeBar;
 	Bar * bombBar;
 
+	/////// BONUSY
+	std::vector<Bonus *> bonusy;
+
 	// zmiana koloru t³a
 	float red;
 	float green;
@@ -92,6 +104,7 @@ public:
 	void Update(float const time) override;
 	void Clear() override;
 	void DrawScene() override;
+	void clearOutOfBoundsObjects() override;
 
 private:
 	bool IsKeyPressed();
@@ -106,5 +119,5 @@ private:
 
 	bool CheckGraze( EnemyBullet * const eb );
 	bool CheckCollisiion( EnemyBullet * const eb );
-
+	bool CheckBonusCollision ( Bonus * b );
 };
