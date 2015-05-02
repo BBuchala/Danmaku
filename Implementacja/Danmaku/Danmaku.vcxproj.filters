@@ -67,6 +67,12 @@
     <Filter Include="Header Files\Bonuses">
       <UniqueIdentifier>{923092d8-8759-418c-9351-cb4994361bf0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Enemies">
+      <UniqueIdentifier>{4f3f4cbe-e12c-48dd-bc40-2f5fbebd9f7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemies">
+      <UniqueIdentifier>{2a3c785c-91fd-4cbd-ab11-880140aacba4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -144,9 +150,6 @@
     <ClCompile Include="Playfield.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
-    <ClCompile Include="CPattern.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
     <ClCompile Include="Bar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -170,6 +173,12 @@
     </ClCompile>
     <ClCompile Include="ScoreBonus.cpp">
       <Filter>Source Files\Bonuses</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EPattern.cpp">
+      <Filter>Source Files\Patterns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -266,9 +275,6 @@
     <ClInclude Include="Hitbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CPattern.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="Bar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -292,6 +298,15 @@
     </ClInclude>
     <ClInclude Include="ScoreBonus.h">
       <Filter>Header Files\Bonuses</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EPattern.h">
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern.h">
+      <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

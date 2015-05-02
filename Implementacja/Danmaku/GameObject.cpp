@@ -81,9 +81,9 @@ bool GameObject::InitializeHitbox( BYTE const radius, std::string const & sprite
 };
 
 
-void GameObject::Draw()
+void GameObject::Draw( RECT const & rect )
 {
-	if (this->sprite)
+	if (this->sprite && IsObjectWithinBounds(rect))
 	{
 		this->sprite->Draw(this->position);
 		if (this->hitbox != NULL && this->hitbox->UseSprite())
@@ -91,6 +91,24 @@ void GameObject::Draw()
 			this->hitbox->Draw( this->GetCenterPoint() );
 		}
 	}
+};
+
+
+bool GameObject::IsObjectWithinBounds( RECT const & rect )
+{
+	D3DXVECTOR2 center = this->GetCenterPoint();
+	D3DXVECTOR2 diffPos = center - this->GetPosition();
+	// je¿eli ca³y sprajt 
+	if (center.x + diffPos.x < rect.left	||	// jest za lew¹ œcian¹ lub
+		center.y + diffPos.y < rect.top		||	// jest za górn¹ œcian¹ lub
+		center.x - diffPos.x > rect.right	||	// jest za praw¹ œcian¹ lub
+		center.y - diffPos.y > rect.bottom		// jest za doln¹ œcian¹
+		)
+	{
+		return false;	// nie rysuj go
+	}
+	// jak widac to rysuj, dozo~
+	return true;
 };
 
 
@@ -111,6 +129,13 @@ void GameObject::SetPosition(float const x, float const y)
 	this->position.x = x;
 	this->position.y = y;
 };
+
+
+void GameObject::SetSpeed(float const speed)
+{
+	this->speed = speed;
+};
+
 
 void GameObject::SetAcceleration(float const acc)
 {

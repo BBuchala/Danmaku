@@ -7,7 +7,7 @@ Pattern02::Pattern02() : scaleTime(0.0f)
 
 void Pattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	CPattern::Initialize(device);
+	EPattern::Initialize(device, position);
 	this->traj1 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory(Road::SPIRAL, position, 0, 24));
 	this->traj2 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory(Road::SPIRAL, position, 0, 24));
 	traj2->Rotate( D3DXToRadian( 180.0f ) );
@@ -69,4 +69,11 @@ void Pattern02::Add()
 	newBullet->SetDistance( D3DXToRadian( bullet.size() * 5.0f ) );
 	// dodanie pocisku
 	this->bullet.push_back(newBullet);
+};
+
+
+void Pattern02::SetPosition(D3DXVECTOR2 const & pos)
+{
+	this->traj1->SetStartPoint(pos);
+	this->traj2->SetStartPoint(pos);
 };

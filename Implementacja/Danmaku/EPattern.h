@@ -1,11 +1,15 @@
 #pragma once
 
 #include "IPattern.h"
+#include "EnemyBullet.h"
 
 //// konkretna klasa ka¿dego Patternu
-class CPattern : public IPattern
+class EPattern : public IPattern
 {
 protected:
+	/// Definicja kolejki wrogich pocisków
+	typedef std::deque<EnemyBullet*> EBulletQue;
+
 	//// POCISKI
 	EBulletQue bullet;
 
@@ -18,17 +22,22 @@ protected:
 	// uchyt do diwajsa, dla generacji nowych pocisków w czasie
 	LPDIRECT3DDEVICE9 device;
 
+	// pozycja wzoru
+	D3DXVECTOR2 position;
+
 public:
-	CPattern();
-	virtual ~CPattern();
+	EPattern();
+	virtual ~EPattern();
 	
 	// przekazanie uchwytu
-	void Initialize(LPDIRECT3DDEVICE9 device);
+	virtual void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position );
+
+	virtual void SetPosition(D3DXVECTOR2 const & pos);
 
 	// narysowanie wszystkich pocisków
-	void Draw( short const x, short const y, short const width, short const height ) override;
+	void Draw(RECT const & rect) override;
 
-	inline EBulletQue const & GetBullets() const override
+	inline EBulletQue const & GetBullets() const
 	{
 		return bullet;
 	};

@@ -7,11 +7,11 @@ Pattern01::Pattern01() : bulletTime(0.0f)
 
 void Pattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	CPattern::Initialize(device);
+	EPattern::Initialize(device, position);
 	// utworzenie torów dla pocisków
-	this->vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 500, 200 ) );
-	this->hElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 200, 500 ) );
-	this->circle = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 330, 330 ) );
+	this->vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 300, 100 ) );
+	this->hElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 100, 300 ) );
+	this->circle = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 220, 220 ) );
 	this->line1 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) );
 	this->line2 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) );
 };
@@ -129,4 +129,14 @@ void Pattern01::Add()
 		newBullet->SetDistance( D3DXToRadian( 45.0f ) );
 		this->bullet.push_back(newBullet);
 	}
+};
+
+
+void Pattern01::SetPosition(D3DXVECTOR2 const & pos)
+{
+	this->vElipse->SetStartPoint(pos);
+	this->hElipse->SetStartPoint(pos);
+	this->circle->SetStartPoint(pos);
+	this->line1->SetStartPoint(pos);
+	this->line2->SetStartPoint(pos);
 };

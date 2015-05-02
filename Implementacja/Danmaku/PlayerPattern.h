@@ -1,8 +1,8 @@
 #pragma once
-#include "cpattern.h"
+#include "EPattern.h"
 #include "PlayerBullet.h"
 
-class PlayerPattern : public CPattern
+class PlayerPattern : public EPattern
 {
 private:
 	TrajectoryPtr line1;

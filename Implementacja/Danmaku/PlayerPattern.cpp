@@ -12,7 +12,7 @@ PlayerPattern::~PlayerPattern(void)
 
 void PlayerPattern::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	CPattern::Initialize(device);
+	EPattern::Initialize(device, position);
 	this->line1 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(90) ) );
 }
 

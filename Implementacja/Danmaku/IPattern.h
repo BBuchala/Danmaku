@@ -3,13 +3,13 @@
 #include <d3d9.h>
 #include <deque>
 
-#include "EnemyBullet.h"
+#include "Bullet.h"
 #include "TrajectoryFactory.h"
 
 class IPattern
 {
 protected:
-	typedef std::deque<EnemyBullet*> EBulletQue;
+	typedef std::deque<Bullet*> BulletQue;
 
 public:
 	virtual ~IPattern() = 0 {};
@@ -21,8 +21,8 @@ public:
 	virtual void Update(float const time) = 0;
 
 	// narysowanie pocisków
-	virtual void Draw( short const x, short const y, short const width, short const height ) = 0;
+	virtual void Draw(RECT const & rect) = 0;
 
 	// pobranie wszystkich pocisków
-	virtual EBulletQue const & GetBullets() const = 0;
+	// virtual BulletQue const & GetBullets() const = 0;
 };

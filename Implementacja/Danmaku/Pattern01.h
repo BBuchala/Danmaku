@@ -1,11 +1,11 @@
 #pragma once
 
-#include "CPattern.h"
+#include "EPattern.h"
 #include "EnemyBullet.h"
 #include "GraphicsDevice.h"
 #include "TrajectoryFactory.h"
 
-class Pattern01 : public CPattern
+class Pattern01 : public EPattern
 {
 	//// STA£E
 	static const unsigned short BULLET_INC_A	= 5;
@@ -23,6 +23,7 @@ class Pattern01 : public CPattern
 public:
 	Pattern01();
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
+	void SetPosition(D3DXVECTOR2 const & pos);
 	void Update(float const time) override;
 
 	void Add();

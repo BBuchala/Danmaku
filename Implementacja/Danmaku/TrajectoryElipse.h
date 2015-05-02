@@ -18,7 +18,6 @@ namespace
 		TrajectoryElipse( D3DXVECTOR2 const & center, float const a, float const b );
 		~TrajectoryElipse();
 
-	private:
 		// tor elipsy, przyjmuje jako parametr wielkoœci pó³osi
 		void SetElipseRadius( float const a, float const b );
 

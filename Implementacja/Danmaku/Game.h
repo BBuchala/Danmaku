@@ -3,8 +3,6 @@
 #include <d3d9.h>
 #include <Windows.h>
 
-#include "Pattern01.h"
-#include "Pattern02.h"
 #include "PlayerPattern.h"
 #include "GraphicsDevice.h"
 #include "Player.h"
@@ -12,6 +10,8 @@
 #include "Font.h"
 #include "Vector.h"
 #include "Bar.h"
+#include "Enemy.h"
+#include "Pattern.h"
 
 #include "PowerBonus.h"
 #include "ScoreBonus.h"
@@ -28,10 +28,6 @@
 #define Life 3
 #define Bomb 4
 
-static enum Pattern
-{
-	NONE, A, S
-};
 
 class Game : public Playfield
 {
@@ -44,6 +40,8 @@ class Game : public Playfield
 	static const unsigned short STAGE_HEIGHT	= 706;
 	static const unsigned short SCORE_PADDING	= 10;
 	static const unsigned short GRAZE_DISTANCE	= 3;
+	// prostok¹t definuj¹cy pole gry
+	static const RECT GAME_FIELD;
 
 	// t³o
 	GameObject * gameScreen;
@@ -58,7 +56,7 @@ class Game : public Playfield
 
 	Player * player;
 
-	IPattern * pattern;
+	Enemy * enemy;
 
 	//////// NAPISY
 	unsigned long int score;
@@ -120,4 +118,5 @@ private:
 	bool CheckGraze( EnemyBullet * const eb );
 	bool CheckCollisiion( EnemyBullet * const eb );
 	bool CheckBonusCollision ( Bonus * b );
+	void CheckEnemyCollisions();
 };

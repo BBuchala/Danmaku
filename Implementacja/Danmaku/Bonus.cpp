@@ -31,20 +31,20 @@ void Bonus::Update(float const time)
 	GameObject::Update(time);
 };
 
-bool Bonus::isBonusWithinBounds(const short x, const short y, const short width, const short height)
-{
-	D3DXVECTOR2 center = this->GetCenterPoint();
-	D3DXVECTOR2 diffPos = center - this->GetPosition();
-
-	// je¿eli ca³y sprajt 
-	if (center.x - diffPos.x > x			&&	// jest za lew¹ œcian¹ i
-		center.y - diffPos.y > y			&&	// jest pod górn¹ œcian¹ i
-		center.x + diffPos.x < x + width	&&	// jest przed praw¹ œcian¹ i
-		center.y + diffPos.y < y + height		// jest nad doln¹ œcian¹,
-		)
-	{
-		return true;							// oznacza to, i¿ bonus znajduje siê w obrêbie ekranu gry
-	}
-
-	return false;
-}
+//bool Bonus::isBonusWithinBounds(const short x, const short y, const short width, const short height)
+//{
+//	D3DXVECTOR2 center = this->GetCenterPoint();
+//	D3DXVECTOR2 diffPos = center - this->GetPosition();
+//
+//	// je¿eli ca³y sprajt 
+//	if (center.x + diffPos.x > x			&&	// jest za lew¹ œcian¹ i
+//		center.y + diffPos.y > y			&&	// jest pod górn¹ œcian¹ i
+//		center.x - diffPos.x < x + width	&&	// jest przed praw¹ œcian¹ i
+//		center.y - diffPos.y < y + height		// jest nad doln¹ œcian¹,
+//		)
+//	{
+//		return true;							// oznacza to, i¿ bonus znajduje siê w obrêbie ekranu gry
+//	}
+//
+//	return false;
+//}

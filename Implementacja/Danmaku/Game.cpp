@@ -1,5 +1,7 @@
 #include "Game.h"
 
+const RECT Game::GAME_FIELD = {STAGE_POS_X, STAGE_POS_Y, STAGE_POS_X + STAGE_WIDTH, STAGE_POS_Y + STAGE_HEIGHT};
+
 /* ---- KONSTRUKTOR --------------------------------------- */
 Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 {
@@ -15,21 +17,16 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	// przyciski
 	escape = pressed = false;
 	pressedButton = -1;
-	this->currentPattern = Pattern::A;
+	this->currentPattern = Pattern::NONE;
+	this->elapsedTime = 0.0f;
 
 	/* ==== PRZYDZIELENIE PAMIÊCI OBIEKTOM KLAS ======= */
 	// ekran gry
 	this->gameScreen = new GameObject(0, 0);
 	// gracz
 	this->player = new Player( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ), 3 );
-	// pierwszy wzór
-	switch(this->currentPattern)
-	{
-	case A:
-		this->pattern = new Pattern01(); break;
-	case S:
-		this->pattern = new Pattern02(); break;
-	}
+	// wróg
+	this->enemy = new Enemy( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2.0f, 0.0f), 200, 30.0f);
 	// przyciski
 	this->button = new GameObject * [BUTTON_NUM];
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -62,7 +59,7 @@ Game::~Game()
 {
 	if (gameScreen) delete gameScreen;
 	if (player) delete player;
-	if (pattern) delete pattern;
+	if (enemy) delete enemy;
 	
 	// przyciski
 	if (button)
@@ -103,7 +100,9 @@ bool Game::Initialize()
 	this->gameScreen->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("gameScreen", "png"), SCREEN_WIDTH, SCREEN_HEIGHT );
 	this->player->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("ship", "png") );
 	this->player->InitializeHitbox( DEFAULT_HITBOX_RADIUS, Sprite::GetFilePath("hitbox", "png"), this->gDevice );
-	this->pattern->Initialize(this->gDevice->device, D3DXVECTOR2( this->GetStageCenter().x, this->GetStageCenter().y - 200));
+	this->enemy->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("enemy", 0, 1, "png") );
+	this->enemy->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+	this->enemy->SetTrajectory(Road::LINE, this->enemy->GetPosition(), D3DXToRadian(-90) );
 
 	///// Przyciski
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -149,6 +148,8 @@ bool Game::Initialize()
 
 void Game::Update(float const time)
 {
+	this->elapsedTime += time;
+
 	// OBS£UGA WYJŒCIA Z GRY
 	if (GetAsyncKeyState(VK_ESCAPE))
 	{
@@ -210,21 +211,25 @@ void Game::Update(float const time)
 		}
 	}
 
+	//// Obs³uga pocisków
+	if (elapsedTime > 3.0f)
+	{
+		this->enemy->SetIsShooting(true);
+		if (currentPattern == NONE)
+		{
+			change = A;
+		}
+	}
+	if (elapsedTime > 8.0f)
+		this->enemy->SetSpeed(0.0f);
+	this->enemy->Update( time );
+
 	// Wykonanie zmiany patternu
 	if ( change != Pattern::NONE )
 	{
-		delete this->pattern;
 		this->currentPattern = change;
-		switch(change)
-		{
-		case A:
-			this->pattern = new Pattern01();
-			break;
-		case S:
-			this->pattern = new Pattern02();
-			break;
-		}
-		this->pattern->Initialize( gDevice->device, D3DXVECTOR2( this->GetStageCenter().x, this->GetStageCenter().y - 200) );
+		this->enemy->SetPattern( change );
+		this->enemy->InitializePattern( gDevice->device, this->enemy->GetPosition() );
 	}
 
 	// Narysowanie wciœniêtych i odciœniêtych przycisków
@@ -250,7 +255,11 @@ void Game::Update(float const time)
 	}
 
 	//// SPRAWDZENIE KOLIZJI
-	this->CheckCollisions();
+	if (currentPattern != Pattern::NONE)
+	{
+		this->CheckCollisions();
+		this->CheckEnemyCollisions();
+	}
 
 	//// OBS£UGA RUCHU GRACZA
 	Move move = Move::NONE;
@@ -287,9 +296,6 @@ void Game::Update(float const time)
 		this->player->SetIsShooting(true);
 	}
 
-	//// Obs³uga pocisków
-	this->pattern->Update( time );
-
 	this->player->playerPattern->Update( time, this->player->IsShooting(), this->player->GetCenterPoint());
 
 	// Zmiana kolorów
@@ -321,18 +327,17 @@ void Game::Update(float const time)
 
 void Game::DrawScene()
 {
-	this->pattern->Draw( STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT );
+	this->enemy->Draw(GAME_FIELD);
 	
+	this->player->playerPattern->Draw(GAME_FIELD);
 	
-	this->player->playerPattern->Draw( STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT );
-	
-	this->player->Draw();
+	this->player->Draw(GAME_FIELD);
 
 	for (int i = 0; i < BUTTON_NUM; i++)
 	{
-		this->button[i]->Draw();
+		this->button[i]->Draw(GAME_FIELD);
 	}
-	this->gameScreen->Draw();
+	this->gameScreen->Draw(GAME_FIELD);
 
 	//// DANE LICZBOWE
 	this->scoreText->Draw(score, SCORE_PADDING);
@@ -346,7 +351,7 @@ void Game::DrawScene()
 
 	//// BONUSY
 	for (unsigned int i = 0; i < bonusy.size(); i++)
-		bonusy[i]->Draw();
+		bonusy[i]->Draw(GAME_FIELD);
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
@@ -360,7 +365,7 @@ void Game::clearOutOfBoundsObjects()
 	// Tymczasowo obs³uguje wy³¹cznie bonusy. Jeœli siê przyjmie, mo¿na funkcjonalnoœæ rozszerzyæ o coœ wiêcej
 	for (unsigned int i = 0; i < bonusy.size(); i++)
 	{
-		if ( !bonusy[i]->isBonusWithinBounds(STAGE_POS_X, STAGE_POS_Y, STAGE_WIDTH, STAGE_HEIGHT) )
+		if ( !bonusy[i]->IsObjectWithinBounds(GAME_FIELD))
 		{
 			delete bonusy[i];
 			bonusy.erase( bonusy.begin() + i );
@@ -418,19 +423,17 @@ bool Game::IsPlayerWithinBounds(Move const direction)
 
 void Game::CheckCollisions()
 {
-	std::deque<EnemyBullet*> ebList = this->pattern->GetBullets();
+	std::deque<EnemyBullet*> ebList = this->enemy->GetBullets();
 	std::deque<EnemyBullet*>::const_iterator it;
-	// sprawdŸ graze
+	// dla wszystkich pocisków
 	for ( it = ebList.begin() ; it != ebList.end() ; it++ )
 	{
+		// sprawdŸ graze
 		if ( CheckGraze(*it))
 		{
 			this->graze++;
 		}
-	}
-	// sprawdŸ kolizje
-	for ( it = ebList.begin() ; it != ebList.end() ; it++ )
-	{
+		// sprawdŸ kolizje
 		if ( CheckCollisiion(*it))
 		{
 			this->lifeBar->DecrementCount();
@@ -470,6 +473,7 @@ void Game::CheckCollisions()
 	}
 };
 
+
 bool Game::CheckBonusCollision( Bonus * b )
 {
 	// odleg³oœæ miêdzy œrodkami dwóch obiektów
@@ -506,4 +510,10 @@ bool Game::CheckGraze( EnemyBullet * const eb )
 bool Game::CheckCollisiion( EnemyBullet * const eb )
 {
 	return false;
+};
+
+
+void Game::CheckEnemyCollisions()
+{
+
 };

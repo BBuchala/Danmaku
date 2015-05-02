@@ -79,8 +79,9 @@
     <ClCompile Include="BombBonus.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="CPattern.cpp" />
+    <ClCompile Include="EPattern.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -115,8 +116,9 @@
     <ClInclude Include="BombBonus.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Bullet.h" />
-    <ClInclude Include="CPattern.h" />
+    <ClInclude Include="EPattern.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="IDrawable.h" />
@@ -133,6 +135,7 @@
     <ClInclude Include="Move.h" />
     <ClInclude Include="Pattern01.h" />
     <ClInclude Include="Pattern02.h" />
+    <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerPattern.h" />

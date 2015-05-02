@@ -44,14 +44,18 @@ public:
 	bool InitializeHitbox( BYTE const radius, std::string const & spritePath,
 		GraphicsDevice * const gDevice );
 
-
-	virtual void Draw();
+	// funkcje obs³uguj¹ce obiekt w grze
+	virtual void Draw( RECT const & rect );
 	virtual void Update(float const time);
+
+	// kontrola
+	bool IsObjectWithinBounds( RECT const & rect );
 
 
 	// Settery
 	void SetPosition(float const x, float const y);
 	void SetPosition(D3DXVECTOR2 const & v);
+	void SetSpeed(float const speed);
 	void SetAcceleration(float const acc);
 	void SetSprite( SpritePtr const & sprite )
 	{
