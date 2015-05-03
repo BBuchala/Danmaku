@@ -32,9 +32,9 @@ void PlayerPattern01::Update(float const time)
 	}
 }
 
-void PlayerPattern01::Update(float const time, bool pressedKey, D3DXVECTOR2 const & playerPos)
+void PlayerPattern01::Update(float const time, bool pressedKey, D3DXVECTOR2 & playerPos)
 {
-	if (this->elapsedTime >= 0.05000f)
+	if (this->elapsedTime >= 0.07000f)
 		{
 			if (pressedKey)
 				Add(playerPos);
@@ -49,10 +49,10 @@ void PlayerPattern01::Update(float const time, bool pressedKey, D3DXVECTOR2 cons
 	}
 }
 
-void PlayerPattern01::Add(D3DXVECTOR2 const & playerPos)
+void PlayerPattern01::Add(D3DXVECTOR2 & playerPos)
 {
 	PlayerBullet * newBullet;
-	newBullet = new PlayerBullet( 1000.0f, 50 );
+	newBullet = new PlayerBullet( 800.0f, 50 );
 	if ( bullet.size() == 0 )
 	{
 		// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go

@@ -44,3 +44,10 @@ void Font::Draw( int const number, short unsigned const padding )
 	ss << std::setw(padding) << std::setfill('0') << number;
 	text->DrawText( NULL, ss.str().c_str(), -1, &rect, DT_LEFT | DT_NOCLIP, color );
 };
+
+void Font::Draw( float const number, short unsigned const padding, short unsigned const precision )
+{
+	std::stringstream ss;
+	ss << std::setw(padding) << std::setfill('0') << std::setprecision(precision) << number;
+	text->DrawText( NULL, ss.str().c_str(), -1, &rect, DT_LEFT | DT_NOCLIP, color );
+};

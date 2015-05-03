@@ -104,6 +104,16 @@ void Player::SetIsShooting(bool isShooting)
 	this->isShooting = isShooting;
 }
 
+bool Player::HasPatternChanged()
+{
+	return this->hasPatternChanged;
+}
+
+void Player::SetHasPatternChanged(bool hasPatterChanged)
+{
+	this->hasPatternChanged = hasPatterChanged;
+}
+
 void Player::IncrementLifeCount()
 {
 	if (lifeCount < 8)
@@ -128,9 +138,49 @@ void Player::DecrementBombCount()
 		this->bombCount--;
 }
 
+// Metodê wywo³ujemy tylko przy zebraniu bonusu/utracie ¿ycia (zmianie stanu pola power)
 void Player::CalculatePowerLevel()
 {
-	this->powerLevel = ((int) power / 1) + 1;			// metodê wywo³ujemy tylko przy zebraniu bonusu/utracie ¿ycie (zmianie stanu pola power)
+	BYTE tmp = this->powerLevel;
+	this->powerLevel = ((int) power / 1) + 1;
+
+	if (tmp != this->powerLevel)
+	{
+		ChangePlayerPattern();
+	}
+}
+
+void Player::AddToPower(const float value)
+{
+	this->power += value;
+	CalculatePowerLevel();
+}
+
+void Player::SubFromPower(const float value)
+{
+	this->power -= value;
+	CalculatePowerLevel();
+}
+
+void Player::ChangePlayerPattern()
+{
+	if (playerPattern)
+		playerPattern.release();
+
+	switch(powerLevel)
+	{
+		case 1:
+			this->playerPattern = PPatternPtr(new PlayerPattern01());
+			break;
+
+		case 2:
+			this->playerPattern = PPatternPtr(new PlayerPattern02());
+			break;
+
+		default:
+			break;
+	}
+	hasPatternChanged = true;
 }
 
 void Player::Shoot( float const time )

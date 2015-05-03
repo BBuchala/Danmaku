@@ -3,13 +3,16 @@
 #include "PlayerBullet.h"
 #include "PPattern.h"
 
-class PlayerPattern01 : public PPattern
+class PlayerPattern02 : public PPattern
 {
 private:
 
+	// Przesuniêcia dla miejsc z których wystrzeliwane bêd¹ pociski wzglêdem œrodka gracza
+	D3DXVECTOR2 leftShift, rightShift;
+
 public:
-	PlayerPattern01(void);
-	~PlayerPattern01(void);
+	PlayerPattern02(void);
+	~PlayerPattern02(void);
 
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void Update(float const time) override;

@@ -282,7 +282,7 @@ void Game::Update(float const time)
 
 	if (GetAsyncKeyState(VK_LSHIFT))
 	{
-		this->player->SetFocus(true);
+		this->player->SetFocus(true);		
 	}
 
 	this->player->SetIsShooting(false);
@@ -291,7 +291,7 @@ void Game::Update(float const time)
 	{
 		this->player->SetIsShooting(true);
 	}
-		
+
 	this->player->Update(time, move);
 
 
@@ -338,7 +338,7 @@ void Game::DrawScene()
 	//// DANE LICZBOWE
 	this->scoreText->Draw(score, SCORE_PADDING);
 	this->hiScoreText->Draw(hiScore, SCORE_PADDING);
-	this->powerText->Draw(power, 0);
+	this->powerText->Draw(this->player->GetPower(), 0, 2);
 	this->grazeText->Draw(graze, 0);
 
 	//// ¯YCIA I BOMBY
@@ -446,6 +446,12 @@ void Game::CheckCollisions()
 			{
 					case Power:
 						power++;
+						this->player->AddToPower(0.5f);
+						if (this->player->HasPatternChanged())
+						{
+							this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+							this->player->SetHasPatternChanged(false);
+						}
 						break;
 
 					case Score:

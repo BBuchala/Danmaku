@@ -32,4 +32,6 @@ public:
 
 	//// narysowanie liczby w formie tekstu ze wskazanym wype³nieniem zerami
 	void Draw( int const number, short unsigned const padding );
+
+	void Draw( float const number, short unsigned const padding, short unsigned const precision );
 };

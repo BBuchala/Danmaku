@@ -73,6 +73,18 @@
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{2a3c785c-91fd-4cbd-ab11-880140aacba4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Patterns\EnemyPatterns">
+      <UniqueIdentifier>{5f10f7fb-0d1a-4b4e-85a1-2a530dd8eaf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Patterns\PlayerPatterns">
+      <UniqueIdentifier>{fdeba899-2f79-43c5-ba9b-c4432540268c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Patterns\EnemyPatterns">
+      <UniqueIdentifier>{b7f12920-c93a-4bb8-a6dc-c58dfbe539fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Patterns\PlayerPatterns">
+      <UniqueIdentifier>{7f7f835b-8b9f-4e1b-89f8-c92f95dcd333}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -113,12 +125,6 @@
     </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
-    </ClCompile>
-    <ClCompile Include="Pattern01.cpp">
-      <Filter>Source Files\Patterns</Filter>
-    </ClCompile>
-    <ClCompile Include="Pattern02.cpp">
-      <Filter>Source Files\Patterns</Filter>
     </ClCompile>
     <ClCompile Include="Vector.cpp">
       <Filter>Source Files\Tools</Filter>
@@ -175,13 +181,22 @@
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="EPattern.cpp">
-      <Filter>Source Files\Patterns</Filter>
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Pattern02.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Pattern01.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
     <ClCompile Include="PPattern.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
     <ClCompile Include="PlayerPattern01.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPattern02.cpp">
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -227,17 +242,11 @@
     <ClInclude Include="EnemyBullet.h">
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
-    <ClInclude Include="Pattern01.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="IException.h">
       <Filter>Header Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="IPattern.h">
       <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Pattern02.h">
-      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Header Files\Tools</Filter>
@@ -302,17 +311,26 @@
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="EPattern.h">
-      <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
     <ClInclude Include="Pattern.h">
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
-    <ClInclude Include="PPattern.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Pattern02.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Pattern01.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="EPattern.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPattern01.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PPattern.h">
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPattern02.h">
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

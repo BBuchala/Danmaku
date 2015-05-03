@@ -35,7 +35,7 @@ public:
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
 	
-	virtual void Update(float const time, bool pressedKey, D3DXVECTOR2 const & playerPos);
+	virtual void Update(float const time, bool pressedKey, D3DXVECTOR2 & playerPos);
 
 	inline PBulletQue const & GetBullets() const
 	{
