@@ -5,6 +5,7 @@
 #include "PPattern.h"
 #include "PlayerPattern01.h"
 #include "PlayerPattern02.h"
+#include "PlayerPattern03.h"
 
 
 class Player : public GameObject

@@ -1,0 +1,24 @@
+#pragma once
+#include "ppattern.h"
+
+
+class PlayerPattern03 : public PPattern
+{
+private:
+
+	// Przesuniêcia dla miejsc z których wystrzeliwane bêd¹ pociski wzglêdem œrodka gracza
+	D3DXVECTOR2 leftShift, rightShift;
+
+public:
+	PlayerPattern03(void);
+	~PlayerPattern03(void);
+
+	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
+
+	void Update(float const time) override;
+	void Update(float const time, bool pressedKey, D3DXVECTOR2 & position);
+
+	void Add(D3DXVECTOR2 & position);
+
+};
+

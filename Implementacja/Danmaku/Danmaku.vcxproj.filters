@@ -198,6 +198,9 @@
     <ClCompile Include="PlayerPattern02.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPattern03.cpp">
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -330,6 +333,9 @@
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPattern02.h">
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPattern03.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
   </ItemGroup>

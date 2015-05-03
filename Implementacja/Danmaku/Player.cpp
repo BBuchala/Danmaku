@@ -152,13 +152,15 @@ void Player::CalculatePowerLevel()
 
 void Player::AddToPower(const float value)
 {
-	this->power += value;
+	if((this->power += value) > 4)
+		this->power = 4.0f;
 	CalculatePowerLevel();
 }
 
 void Player::SubFromPower(const float value)
 {
-	this->power -= value;
+	if((this->power -= value) < 0)
+		this->power = 0.0f;
 	CalculatePowerLevel();
 }
 
@@ -177,7 +179,12 @@ void Player::ChangePlayerPattern()
 			this->playerPattern = PPatternPtr(new PlayerPattern02());
 			break;
 
+		case 3:
+			this->playerPattern = PPatternPtr(new PlayerPattern03());
+			break;
+
 		default:
+			this->playerPattern = PPatternPtr(new PlayerPattern01());
 			break;
 	}
 	hasPatternChanged = true;

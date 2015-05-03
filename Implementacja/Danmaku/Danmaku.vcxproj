@@ -98,6 +98,7 @@
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerPattern01.cpp" />
     <ClCompile Include="PlayerPattern02.cpp" />
+    <ClCompile Include="PlayerPattern03.cpp" />
     <ClCompile Include="PPattern.cpp" />
     <ClCompile Include="Playfield.cpp" />
     <ClCompile Include="PowerBonus.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerPattern01.h" />
     <ClInclude Include="PlayerPattern02.h" />
+    <ClInclude Include="PlayerPattern03.h" />
     <ClInclude Include="PPattern.h" />
     <ClInclude Include="Playfield.h" />
     <ClInclude Include="PowerBonus.h" />

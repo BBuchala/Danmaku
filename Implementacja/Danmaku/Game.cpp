@@ -446,7 +446,7 @@ void Game::CheckCollisions()
 			{
 					case Power:
 						power++;
-						this->player->AddToPower(0.5f);
+						this->player->AddToPower(1.0f);
 						if (this->player->HasPatternChanged())
 						{
 							this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
