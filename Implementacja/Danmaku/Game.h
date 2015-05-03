@@ -3,7 +3,7 @@
 #include <d3d9.h>
 #include <Windows.h>
 
-#include "PlayerPattern.h"
+#include "PPattern.h"
 #include "GraphicsDevice.h"
 #include "Player.h"
 #include "Playfield.h"

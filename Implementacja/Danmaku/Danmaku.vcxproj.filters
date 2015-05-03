@@ -156,9 +156,6 @@
     <ClCompile Include="PlayerBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerPattern.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BombBonus.cpp">
       <Filter>Source Files\Bonuses</Filter>
     </ClCompile>
@@ -179,6 +176,12 @@
     </ClCompile>
     <ClCompile Include="EPattern.cpp">
       <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PPattern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPattern01.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -281,9 +284,6 @@
     <ClInclude Include="PlayerBullet.h">
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerPattern.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BombBonus.h">
       <Filter>Header Files\Bonuses</Filter>
     </ClInclude>
@@ -307,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="Pattern.h">
       <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="PPattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPattern01.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

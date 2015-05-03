@@ -2,7 +2,8 @@
 
 #include "GameObject.h"
 #include "Move.h"
-#include "PlayerPattern.h"
+#include "PPattern.h"
+#include "PlayerPattern01.h"
 
 
 class Player : public GameObject
@@ -25,15 +26,21 @@ protected:
 
 	bool isShooting;
 
+	typedef std::unique_ptr<PPattern> PPatternPtr;
+
+	PPatternPtr playerPattern;
 
 public:
 
-	PlayerPattern * playerPattern;
+
 
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount );
 
+	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
+
 	void Update(float const time, Move const move);
+	void Draw(RECT const & rect);
 
 	// Gettery
 	bool GetFocus() const;
@@ -56,6 +63,6 @@ public:
 	// Strzelanie
 	void CalculatePowerLevel();
 
-	void Shoot(LPDIRECT3DDEVICE9 device);
+	void Shoot(float const time);
 
 };

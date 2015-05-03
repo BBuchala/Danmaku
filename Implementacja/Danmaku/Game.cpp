@@ -44,8 +44,6 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->lifeBar = new Bar(D3DXVECTOR2( 830, 115 ), this->player->GetLifeCount());
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
-	this->player->playerPattern = new PlayerPattern();
-
 	// bonusy
 	bonusy.push_back(new PowerBonus	( D3DXVECTOR2(200,100)	));
 	bonusy.push_back(new PowerBonus	( D3DXVECTOR2(400,50)	));
@@ -132,8 +130,8 @@ bool Game::Initialize()
 	/////// Inicjalizacja pasków ¿ycia i bomby
 	this->lifeBar->Initialize( gDevice->device, "img/life.png" );
 	this->bombBar->Initialize( gDevice->device, "img/bomb.png" );
-
-	this->player->playerPattern->Initialize( gDevice->device, player->GetCenterPoint());
+	 
+	this->player->InitializePattern( gDevice-> device, player->GetCenterPoint());
 
 	/////// Inicjalizacja bonusów
 	for (unsigned int i = 0; i < bonusy.size(); i++)
@@ -279,8 +277,6 @@ void Game::Update(float const time)
 	{
 		move |= Move::RIGHT;
 	}
-	this->player->Update(time, move);
-
 
 	this->player->SetFocus(false);
 
@@ -295,8 +291,10 @@ void Game::Update(float const time)
 	{
 		this->player->SetIsShooting(true);
 	}
+		
+	this->player->Update(time, move);
 
-	this->player->playerPattern->Update( time, this->player->IsShooting(), this->player->GetCenterPoint());
+
 
 	// Zmiana kolorów
 	red += ( incRed * time );
@@ -328,9 +326,7 @@ void Game::Update(float const time)
 void Game::DrawScene()
 {
 	this->enemy->Draw(GAME_FIELD);
-	
-	this->player->playerPattern->Draw(GAME_FIELD);
-	
+
 	this->player->Draw(GAME_FIELD);
 
 	for (int i = 0; i < BUTTON_NUM; i++)

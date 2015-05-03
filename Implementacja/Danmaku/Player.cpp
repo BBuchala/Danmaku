@@ -8,6 +8,8 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x,
 	power = 0.00f;
 	powerLevel = 1;
 	isShooting = false;
+
+	playerPattern = PPatternPtr(new PlayerPattern01());
 };
 
 Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
@@ -17,8 +19,15 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, S
 	power = 0.00f;
 	powerLevel = 1;
 	isShooting = false;
+
+	playerPattern = PPatternPtr(new PlayerPattern01());
 };
 
+bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+{
+	playerPattern->Initialize(device, this->GetCenterPoint());
+	return true;
+};
 
 void Player::Update(float const time, Move const move)
 {
@@ -45,6 +54,14 @@ void Player::Update(float const time, Move const move)
 	if ((move & Move::RIGHT) == Move::RIGHT)
 		this->position.x += time * speed;
 		
+	this->Shoot( time );
+};
+
+void Player::Draw(RECT const & rect)
+{
+	if (playerPattern != nullptr)
+		playerPattern->Draw(rect);
+	GameObject::Draw(rect);
 };
 
 bool Player::GetFocus() const
@@ -114,4 +131,9 @@ void Player::DecrementBombCount()
 void Player::CalculatePowerLevel()
 {
 	this->powerLevel = ((int) power / 1) + 1;			// metodê wywo³ujemy tylko przy zebraniu bonusu/utracie ¿ycie (zmianie stanu pola power)
+}
+
+void Player::Shoot( float const time )
+{
+	this->playerPattern->Update( time, isShooting, this->GetCenterPoint());
 }

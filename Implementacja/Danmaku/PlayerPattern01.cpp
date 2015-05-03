@@ -1,23 +1,22 @@
-#include "PlayerPattern.h"
+#include "PlayerPattern01.h"
 
 
-PlayerPattern::PlayerPattern(void)
+PlayerPattern01::PlayerPattern01(void)
 {
 }
 
 
-PlayerPattern::~PlayerPattern(void)
+PlayerPattern01::~PlayerPattern01(void)
 {
 }
 
-void PlayerPattern::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+void PlayerPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	EPattern::Initialize(device, position);
-	this->line1 = TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(90) ) );
+	PPattern::Initialize(device, position);
 }
 
 // Póki co nie u¿ywana
-void PlayerPattern::Update(float const time)
+void PlayerPattern01::Update(float const time)
 {
 	if (this->elapsedTime >= 0.05000f)
 		{
@@ -27,13 +26,13 @@ void PlayerPattern::Update(float const time)
 		this->elapsedTime += time;
 
 
-	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
+	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
 		(*it)->Update(time);
 	}
 }
 
-void PlayerPattern::Update(float const time, bool pressedKey, D3DXVECTOR2 const & playerPos)
+void PlayerPattern01::Update(float const time, bool pressedKey, D3DXVECTOR2 const & playerPos)
 {
 	if (this->elapsedTime >= 0.05000f)
 		{
@@ -44,16 +43,16 @@ void PlayerPattern::Update(float const time, bool pressedKey, D3DXVECTOR2 const 
 		this->elapsedTime += time;
 
 
-	for ( EBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
+	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
 		(*it)->Update(time);
 	}
 }
 
-void PlayerPattern::Add(D3DXVECTOR2 const & playerPos)
+void PlayerPattern01::Add(D3DXVECTOR2 const & playerPos)
 {
-	EnemyBullet * newBullet;
-	newBullet = new EnemyBullet( 1000.0f );
+	PlayerBullet * newBullet;
+	newBullet = new PlayerBullet( 1000.0f, 50 );
 	if ( bullet.size() == 0 )
 	{
 		// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go
