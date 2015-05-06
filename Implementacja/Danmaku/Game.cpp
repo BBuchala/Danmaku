@@ -286,10 +286,12 @@ void Game::Update(float const time)
 	}
 
 	this->player->SetIsShooting(false);
+	//this->player->playerPattern->SetKeyPressed(false);
 
 	if (GetAsyncKeyState(0x5A))
 	{
 		this->player->SetIsShooting(true);
+		//this->player->playerPattern->SetKeyPressed(true);
 	}
 
 	this->player->Update(time, move);

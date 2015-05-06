@@ -15,28 +15,11 @@ void PlayerPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & p
 	PPattern::Initialize(device, position);
 }
 
-// Póki co nie u¿ywana
-void PlayerPattern01::Update(float const time)
-{
-	if (this->elapsedTime >= 0.05000f)
-		{
-			//Add();
-			this->elapsedTime = 0;
-		}
-		this->elapsedTime += time;
-
-
-	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
-	{
-		(*it)->Update(time);
-	}
-}
-
-void PlayerPattern01::Update(float const time, bool pressedKey, D3DXVECTOR2 & playerPos)
+void PlayerPattern01::Update(float const time, D3DXVECTOR2 & playerPos)
 {
 	if (this->elapsedTime >= 0.07000f)
 		{
-			if (pressedKey)
+			if (this->isKeyPressed)
 				Add(playerPos);
 			this->elapsedTime = 0;
 		}

@@ -7,7 +7,6 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x,
 	bombCount = bc;
 	power = 0.00f;
 	powerLevel = 1;
-	isShooting = false;
 
 	playerPattern = PPatternPtr(new PlayerPattern01());
 };
@@ -18,7 +17,6 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, S
 	bombCount = 3;
 	power = 0.00f;
 	powerLevel = 1;
-	isShooting = false;
 
 	playerPattern = PPatternPtr(new PlayerPattern01());
 };
@@ -96,12 +94,12 @@ void Player::SetBombCount(BYTE const bombcount)
 
 bool Player::IsShooting()
 {
-	return this->isShooting;
+	return this->playerPattern->IsKeyPressed();
 }
 
 void Player::SetIsShooting(bool isShooting)
 {
-	this->isShooting = isShooting;
+	this->playerPattern->SetKeyPressed(isShooting);
 }
 
 bool Player::HasPatternChanged()
@@ -192,5 +190,5 @@ void Player::ChangePlayerPattern()
 
 void Player::Shoot( float const time )
 {
-	this->playerPattern->Update( time, isShooting, this->GetCenterPoint());
+	this->playerPattern->Update( time, this->GetCenterPoint());
 }

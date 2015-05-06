@@ -17,28 +17,11 @@ void PlayerPattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & p
 	rightShift = D3DXVECTOR2(-20,15);
 }
 
-// Póki co nie u¿ywana
-void PlayerPattern02::Update(float const time)
+void PlayerPattern02::Update(float const time, D3DXVECTOR2 & playerPos)
 {
 	if (this->elapsedTime >= 0.05000f)
 		{
-			//Add();
-			this->elapsedTime = 0;
-		}
-		this->elapsedTime += time;
-
-
-	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
-	{
-		(*it)->Update(time);
-	}
-}
-
-void PlayerPattern02::Update(float const time, bool pressedKey, D3DXVECTOR2 & playerPos)
-{
-	if (this->elapsedTime >= 0.05000f)
-		{
-			if (pressedKey)
+			if (this->isKeyPressed)
 				Add(playerPos);
 			this->elapsedTime = 0;
 		}

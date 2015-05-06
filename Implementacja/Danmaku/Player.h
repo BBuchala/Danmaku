@@ -21,12 +21,10 @@ protected:
 
 	typedef std::unique_ptr<PPattern> PPatternPtr;
 
-	PPatternPtr playerPattern;
-
 	bool isFocused;
 	BYTE lifeCount;
 	BYTE bombCount;
-	bool isShooting;
+	//bool isShooting;
 
 	BYTE powerLevel;				// Oznacza aktualn¹ moc z jak¹ gracz napieprza wró¿ki/statki/whatever (1, 2, 3, 4)
 	float power;					// Odzwierciedla wartoœæ uzbieranych bonusów (np 2.15)
@@ -34,6 +32,7 @@ protected:
 
 public:
 	
+	PPatternPtr playerPattern;
 
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount );

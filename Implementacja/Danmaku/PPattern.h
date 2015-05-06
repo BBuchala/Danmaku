@@ -23,6 +23,9 @@ protected:
 	// pozycja wzoru
 	D3DXVECTOR2 position;
 
+	// Informuje czy gracz aktualnie strzela, czy te¿ nie.
+	bool isKeyPressed;
+
 public:
 	PPattern();
 	virtual ~PPattern();
@@ -35,11 +38,24 @@ public:
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
 	
-	virtual void Update(float const time, bool pressedKey, D3DXVECTOR2 & playerPos);
+	// Musowa implementacja z IPattern, nie u¿ywana.
+	void Update(float const time) override;
+
+	// W³aœciwa metoda aktualizuj¹ca pociski dla patternów gracza.
+	virtual void Update(float const time, D3DXVECTOR2 & playerPos);
+
+
+	void SetKeyPressed(bool isKeyPressed);
 
 	inline PBulletQue const & GetBullets() const
 	{
 		return bullet;
 	};
+	
+	inline bool const IsKeyPressed()
+	{
+		return this->isKeyPressed;
+	};
+
 };
 
