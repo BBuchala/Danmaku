@@ -39,7 +39,7 @@ class Game : public Playfield
 	static const unsigned short STAGE_WIDTH		= 614;
 	static const unsigned short STAGE_HEIGHT	= 706;
 	static const unsigned short SCORE_PADDING	= 10;
-	static const unsigned short GRAZE_DISTANCE	= 3;
+	static const unsigned short GRAZE_DISTANCE	= 5;
 	// prostok¹t definuj¹cy pole gry
 	static const RECT GAME_FIELD;
 
@@ -63,7 +63,7 @@ class Game : public Playfield
 	Font * scoreText;
 	unsigned long int hiScore;
 	Font * hiScoreText;
-	unsigned short int power;
+
 	Font * powerText;
 	unsigned short int graze;
 	Font * grazeText;
@@ -115,8 +115,7 @@ private:
 
 	void DrawString();
 
-	bool CheckGraze( EnemyBullet * const eb );
-	bool CheckCollisiion( EnemyBullet * const eb );
 	bool CheckBonusCollision ( Bonus * b );
 	void CheckEnemyCollisions();
+	void CheckPlayerCollisions();
 };
