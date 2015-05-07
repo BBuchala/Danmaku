@@ -5,8 +5,8 @@
 #include "PowerBonus.h"
 #include "EPattern.h"
 #include "Pattern.h"
-#include "Pattern01.h"
-#include "Pattern02.h"
+#include "EnemyPattern01.h"
+#include "EnemyPattern02.h"
 
 class Enemy: public GameObject
 {

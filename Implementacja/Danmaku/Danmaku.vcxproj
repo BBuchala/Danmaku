@@ -92,8 +92,8 @@
     <ClCompile Include="LifeBonus.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameWindowInitializationFailedException.cpp" />
-    <ClCompile Include="Pattern01.cpp" />
-    <ClCompile Include="Pattern02.cpp" />
+    <ClCompile Include="EnemyPattern01.cpp" />
+    <ClCompile Include="EnemyPattern02.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerPattern01.cpp" />
@@ -136,8 +136,8 @@
     <ClInclude Include="ITrajectory.h" />
     <ClInclude Include="LifeBonus.h" />
     <ClInclude Include="Move.h" />
-    <ClInclude Include="Pattern01.h" />
-    <ClInclude Include="Pattern02.h" />
+    <ClInclude Include="EnemyPattern01.h" />
+    <ClInclude Include="EnemyPattern02.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />

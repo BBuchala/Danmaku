@@ -9,12 +9,15 @@ class EPattern : public IPattern
 protected:
 	/// Definicja kolejki wrogich pocisków
 	typedef std::deque<EnemyBullet*> EBulletQue;
+	// definicja wspólnego wskaŸnika na tor
+	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
+	/// Definicja mapy trajektorii
+	typedef std::map<std::string, TrajectoryPtr> TrajectoryMap;
+	/// Definicja oary do mapy trajektorii
+	typedef std::pair<std::string, TrajectoryPtr> TrajectoryPair;
 
 	//// POCISKI
 	EBulletQue bullet;
-
-	// definicja wspólnego wskaŸnika na tor
-	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
 
 	// Kontrola czasowa
 	float elapsedTime;

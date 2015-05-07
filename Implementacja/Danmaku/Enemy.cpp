@@ -80,10 +80,10 @@ void Enemy::SetPattern( Pattern const patId )
 	switch(patId)
 	{
 	case Pattern::A:
-		this->pattern_ = EPatternPtr(new Pattern01());
+		this->pattern_ = EPatternPtr(new EnemyPattern01());
 		break;
 	case Pattern::S:
-		this->pattern_ = EPatternPtr(new Pattern02());
+		this->pattern_ = EPatternPtr(new EnemyPattern02());
 		break;
 	case Pattern::NONE:
 		this->pattern_ = nullptr;

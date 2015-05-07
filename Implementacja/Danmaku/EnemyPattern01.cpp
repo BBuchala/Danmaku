@@ -1,24 +1,24 @@
-#include "Pattern01.h"
+#include "EnemyPattern01.h"
 
-Pattern01::Pattern01() : bulletTime(0.0f)
+EnemyPattern01::EnemyPattern01() : bulletTime(0.0f)
 {
 };
 
 
-void Pattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+void EnemyPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
 	EPattern::Initialize(device, position);
 	// utworzenie torów dla pocisków
-	this->vElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 300, 100 ) );
-	this->hElipse = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 100, 300 ) );
-	this->circle = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 220, 220 ) );
-	this->line1 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) );
-	this->line2 = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) );
+	trajMap_.insert(TrajectoryPair("vElipse", TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 300, 100 ) ) ) );
+	trajMap_.insert(TrajectoryPair("hElipse", TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 100, 300 ) ) ) );
+	trajMap_.insert(TrajectoryPair("circle",  TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 220, 220 ) ) ) );
+	trajMap_.insert(TrajectoryPair("line1",   TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) ) ) );
+	trajMap_.insert(TrajectoryPair("line2",   TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) ) ) );
 };
 
 
 
-void Pattern01::Update(float const time)
+void EnemyPattern01::Update(float const time)
 {
 	// OBS£UGA POCISKÓW
 	// Nowe pociski
@@ -88,7 +88,7 @@ void Pattern01::Update(float const time)
 };
 
 
-void Pattern01::Add()
+void EnemyPattern01::Add()
 {
 	// po parê naraz
 	for (int i = 0; i < BULLET_INC_A; i++)
@@ -111,19 +111,19 @@ void Pattern01::Add()
 		switch(i)
 		{
 		case 0:
-			newBullet->SetTrajectory( vElipse ); 
+			newBullet->SetTrajectory( trajMap_["vElipse"] ); 
 			break;
 		case 1:
-			newBullet->SetTrajectory( hElipse );
+			newBullet->SetTrajectory( trajMap_["hElipse"] );
 			break;
 		case 2:
-			newBullet->SetTrajectory( circle );
+			newBullet->SetTrajectory( trajMap_["circle"] );
 			break;
 		case 3:
-			newBullet->SetTrajectory( line1 );
+			newBullet->SetTrajectory( trajMap_["line1"] );
 			break;
 		case 4:
-			newBullet->SetTrajectory( line2 );
+			newBullet->SetTrajectory( trajMap_["line2"] );
 			break;
 		}
 		newBullet->SetDistance( D3DXToRadian( 45.0f ) );
@@ -132,11 +132,12 @@ void Pattern01::Add()
 };
 
 
-void Pattern01::SetPosition(D3DXVECTOR2 const & pos)
+void EnemyPattern01::SetPosition(D3DXVECTOR2 const & pos)
 {
-	this->vElipse->SetStartPoint(pos);
-	this->hElipse->SetStartPoint(pos);
-	this->circle->SetStartPoint(pos);
-	this->line1->SetStartPoint(pos);
-	this->line2->SetStartPoint(pos);
+	for(TrajectoryMap::const_iterator it = trajMap_.begin();
+		it != trajMap_.end();
+		++it)
+	{
+		it->second->SetStartPoint(pos);
+	}
 };

@@ -5,7 +5,7 @@
 #include "GraphicsDevice.h"
 #include "TrajectoryFactory.h"
 
-class Pattern01 : public EPattern
+class EnemyPattern01 : public EPattern
 {
 	//// STA£E
 	static const unsigned short BULLET_INC_A	= 5;
@@ -13,15 +13,12 @@ class Pattern01 : public EPattern
 	static const unsigned short BULLET_NUMBER_A	= BULLET_INC_A * BULLET_JUMP_A;
 
 	//// TORY
-	TrajectoryPtr vElipse;
-	TrajectoryPtr hElipse;
-	TrajectoryPtr circle;
-	TrajectoryPtr line1, line2;
+	TrajectoryMap trajMap_;
 
 	float bulletTime;
 
 public:
-	Pattern01();
+	EnemyPattern01();
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void SetPosition(D3DXVECTOR2 const & pos);
 	void Update(float const time) override;
