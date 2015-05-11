@@ -51,7 +51,7 @@ void PlayerPattern02::Add(D3DXVECTOR2 & playerPos)
 			newBullet->SetSprite( bullet[0]->GetSprite() );
 		}
 		
-		newBullet->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+		newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 
 		newBullet->SetDistance( D3DXToRadian( 45.0f ) );
 		switch (i % 2)

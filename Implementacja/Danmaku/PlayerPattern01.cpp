@@ -47,7 +47,8 @@ void PlayerPattern01::Add(D3DXVECTOR2 & playerPos)
 		newBullet->SetSprite( bullet[0]->GetSprite() );
 	}
 
-	newBullet->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+	newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
+	//newBullet->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::HALF_LENGTH, Sprite::GetFilePath("hitbox", "png"), device );
 
 	newBullet->SetDistance( D3DXToRadian( 45.0f ) );
 	newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos, D3DXToRadian(90) ) ) );

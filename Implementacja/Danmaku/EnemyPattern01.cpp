@@ -122,7 +122,8 @@ void EnemyPattern01::Add()
 		}
 		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
 		newBullet->InitializeSprite( device, file );
-		newBullet->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+		newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
+		//newBullet->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH, Sprite::GetFilePath("hitbox", "png"), device );
 
 		switch(i)
 		{

@@ -97,9 +97,9 @@ bool Game::Initialize()
 	// Poszczególne obiekty
 	this->gameScreen->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("gameScreen", "png"), SCREEN_WIDTH, SCREEN_HEIGHT );
 	this->player->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("ship", "png") );
-	this->player->InitializeHitbox( DEFAULT_HITBOX_RADIUS, Sprite::GetFilePath("hitbox", "png"), this->gDevice );
+	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH, Sprite::GetFilePath("hitbox", "png"), gDevice->device );
 	this->enemy->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("enemy", 0, 1, "png") );
-	this->enemy->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+	this->enemy->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 	this->enemy->SetTrajectory(Road::LINE, this->enemy->GetPosition(), D3DXToRadian(-90) );
 
 	///// Przyciski
@@ -137,7 +137,7 @@ bool Game::Initialize()
 	for (unsigned int i = 0; i < bonusy.size(); i++)
 	{
 		bonusy[i]->Initialize( gDevice->device );
-		bonusy[i]->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+		bonusy[i]->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 	}
 
 	return true;
@@ -434,9 +434,10 @@ void Game::CheckPlayerCollisions()
 	{
 		// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
 		float grazeDistance = Vector::Length( (*it)->GetCenterPoint(), this->player->GetCenterPoint() );
-
+		// k¹t miêdzy punktami œrodkowymi (z punku widzenia gracza)
+		float angle = Vector::Angle(this->player->GetCenterPoint(), (*it)->GetCenterPoint());
 		// je¿eli pocisk w nas wjecha³ (hitboxy zderzy³y siê)
-		if (grazeDistance <= (*it)->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius())
+		if (grazeDistance <= (*it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
 		{
 			this->player->DecrementLifeCount();
 			this->lifeBar->DecrementCount();
@@ -458,10 +459,11 @@ void Game::CheckPlayerGraze()
 	{
 		// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
 		float grazeDistance = Vector::Length( (*it)->GetCenterPoint(), this->player->GetCenterPoint() );
+		float angle = Vector::Angle(this->player->GetCenterPoint(), (*it)->GetCenterPoint());
 		// czy ³apie siê w granicê hitboxy + graze_distance
 		// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
 		if (!(*it)->IsGrazed() &&
-			grazeDistance <= (*it)->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() + GRAZE_DISTANCE)
+			grazeDistance <= (*it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE)
 		{
 			(*it)->SetGrazed( true );
 			graze++;
@@ -490,7 +492,8 @@ void Game::CheckBonusCollisions()
 	{
 		// odleg³oœæ miêdzy œrodkami dwóch obiektów
 		float grazeDistance = Vector::Length( bonusy[i]->GetCenterPoint(), this->player->GetCenterPoint() );
-		if ( grazeDistance <= bonusy[i]->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() + GRAZE_DISTANCE )
+		float angle = Vector::Angle(this->player->GetCenterPoint(), bonusy[i]->GetCenterPoint());
+		if ( grazeDistance <= bonusy[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE )
 		{
 			switch ( bonusy[i]->getBonusCode() )
 			{

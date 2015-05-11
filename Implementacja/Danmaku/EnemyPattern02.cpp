@@ -69,7 +69,7 @@ void EnemyPattern02::Add()
 		newBullet->SetSprite( bullet[0]->GetSprite() );
 	}
 
-	newBullet->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+	newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 	
 	// wybór trajektorii
 	newBullet->SetTrajectory( bullet.size() % 2 == 0 ? trajMap_["traj1"] : trajMap_["traj2"] );

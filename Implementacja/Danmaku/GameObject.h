@@ -7,8 +7,6 @@
 #include "Hitbox.h"
 #include "Sprite.h"
 
-#define DEFAULT_HITBOX_RADIUS 0
-
 class GameObject
 {
 protected:
@@ -40,9 +38,9 @@ public:
 
 	// utworzenie hitboxa
 	// jeœli chce siê utworzyæ go razem ze sprajtem, nale¿y zast¹piæ domyslne parametry
-	bool InitializeHitbox( BYTE const radius );
-	bool InitializeHitbox( BYTE const radius, std::string const & spritePath,
-		GraphicsDevice * const gDevice );
+	bool InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size );
+	bool InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size, std::string const & spritePath,
+		LPDIRECT3DDEVICE9 device );
 
 	// funkcje obs³uguj¹ce obiekt w grze
 	virtual void Draw( RECT const & rect );

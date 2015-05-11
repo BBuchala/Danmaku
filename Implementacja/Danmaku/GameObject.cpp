@@ -57,25 +57,20 @@ bool GameObject::InitializeSprite( SpritePtr const & sprite )
 };
 
 
-bool GameObject::InitializeHitbox( BYTE const radius )
+bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size )
 {
-	float newRadius;
-	if (radius == DEFAULT_HITBOX_RADIUS)
-		newRadius = min( this->sprite->GetWidth(), this->sprite->GetHeight() ) / 4.0f;
-	else
-		newRadius = static_cast<float>(radius);
-	this->hitbox = HitboxPtr( new Hitbox( newRadius ) );
+	this->hitbox = HitboxPtr( new Hitbox( shape, size, sprite->GetWidth(), sprite->GetHeight() ) );
 	return true;
 };
 
 
-bool GameObject::InitializeHitbox( BYTE const radius, std::string const & spritePath,
-								   GraphicsDevice * const gDevice )
+bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size,
+								  std::string const & spritePath, LPDIRECT3DDEVICE9 device )
 {
-	this->InitializeHitbox(radius);
-	if (!spritePath.empty() && gDevice != nullptr )
+	this->InitializeHitbox(shape, size);
+	if (!spritePath.empty() && device != nullptr )
 	{
-		this->hitbox->InitializeSprite( gDevice->device, spritePath );
+		this->hitbox->InitializeSprite( device, spritePath );
 	}
 	return true;
 };

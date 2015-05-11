@@ -58,8 +58,8 @@ void PlayerPattern03::Add(D3DXVECTOR2 & playerPos)
 			newBullet2->SetSprite( bullet[1]->GetSprite() );
 		}
 		
-		newBullet->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
-		newBullet2->InitializeHitbox( DEFAULT_HITBOX_RADIUS );
+		newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
+		newBullet2->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 
 		switch (i % 2)
 		{
