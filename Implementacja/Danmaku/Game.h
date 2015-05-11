@@ -78,7 +78,7 @@ class Game : public Playfield
 	Bar * bombBar;
 
 	/////// BONUSY
-	std::vector<Bonus *> bonusy;
+	std::deque<Bonus *> bonus_;
 
 	// zmiana koloru t³a
 	float red;

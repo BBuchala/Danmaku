@@ -50,17 +50,19 @@ void Enemy::TakeDamage( USHORT const damage )
 
 
 // ----- Create Bonus ----------------------------------------------------------------------------
-void Enemy::CreateBonus()
+void Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
 {
-	this->bonus_ = new PowerBonus( D3DXVECTOR2(this->GetCenterPoint()), 200.0f );
+	bonus_ = new PowerBonus( D3DXVECTOR2(this->GetCenterPoint()), 200.0f );
+	bonus_->Initialize( device );
+	bonus_->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 };
 
 
 // ----- Get Bonus -------------------------------------------------------------------------------
-Bonus * const Enemy::GetBonus()
+Bonus & Enemy::GetBonus(LPDIRECT3DDEVICE9 device)
 {
-	this->CreateBonus();
-	return bonus_;
+	CreateBonus(device);
+	return *bonus_;
 };
 
 

@@ -46,11 +46,11 @@ public:
 	void SetPattern( Pattern const patId );
 
 private:
-	void CreateBonus();
+	void CreateBonus(LPDIRECT3DDEVICE9 device);
 
 public:
 	////// GETTERY
-	Bonus * const GetBonus();
+	Bonus & GetBonus(LPDIRECT3DDEVICE9 device);
 
 	inline bool const IsAlive() const
 	{

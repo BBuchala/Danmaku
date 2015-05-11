@@ -45,11 +45,11 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
 	// bonusy
-	bonusy.push_back(new PowerBonus	( D3DXVECTOR2(200,100)	));
-	bonusy.push_back(new PowerBonus	( D3DXVECTOR2(400,50)	));
-	bonusy.push_back(new ScoreBonus	( D3DXVECTOR2(500,250)	));
-	bonusy.push_back(new LifeBonus	( D3DXVECTOR2(80,80)	));
-	bonusy.push_back(new BombBonus	( D3DXVECTOR2(650,100)	));
+	bonus_.push_back(new PowerBonus	( D3DXVECTOR2(200,100)	));
+	bonus_.push_back(new PowerBonus	( D3DXVECTOR2(400,50)	));
+	bonus_.push_back(new ScoreBonus	( D3DXVECTOR2(500,250)	));
+	bonus_.push_back(new LifeBonus	( D3DXVECTOR2(80,80)	));
+	bonus_.push_back(new BombBonus	( D3DXVECTOR2(650,100)	));
 };
 
 /* ---- DESTRUKTOR ---------------------------------------------------------------------------- */
@@ -86,10 +86,10 @@ Game::~Game()
 	if (bombBar) delete bombBar;
 
 	// bonusy
-	for (unsigned int i = 0; i < bonusy.size(); i++)			// nieporównywalnie czytelniej ni¿ na iteratorach, a wydajnoœæ taka sama
-		delete bonusy[i];
+	for (unsigned int i = 0; i < bonus_.size(); i++)			// nieporównywalnie czytelniej ni¿ na iteratorach, a wydajnoœæ taka sama
+		delete bonus_[i];
 
-	bonusy.clear();
+	bonus_.clear();
 };
 
 
@@ -142,10 +142,10 @@ bool Game::Initialize()
 	this->player->InitializePattern( gDevice-> device, player->GetCenterPoint());
 
 	/////// Inicjalizacja bonusów
-	for (unsigned int i = 0; i < bonusy.size(); i++)
+	for (unsigned int i = 0; i < bonus_.size(); i++)
 	{
-		bonusy[i]->Initialize( gDevice->device );
-		bonusy[i]->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
+		bonus_[i]->Initialize( gDevice->device );
+		bonus_[i]->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 	}
 
 	return true;
@@ -247,7 +247,6 @@ void Game::Update(float const time)
 		}
 	}
 
-		
 
 	// Narysowanie wciœniêtych i odciœniêtych przycisków
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -339,11 +338,11 @@ void Game::Update(float const time)
 	}
 
 	//// Obs³uga bonusów
-	for (unsigned int i = 0; i < bonusy.size(); i++)
-		bonusy[i]->Update(time);
+	for (unsigned int i = 0; i < bonus_.size(); i++)
+		bonus_[i]->Update(time);
 
 	//// Obs³uga reszty pocisków
-	for (int i = 0; i < savedPatterns_.size(); i++)
+	for (unsigned int i = 0; i < savedPatterns_.size(); i++)
 	{
 		savedPatterns_[i]->Update(time);
 	}
@@ -357,7 +356,7 @@ void Game::DrawScene()
 		(*it)->Draw(GAME_FIELD);
 	}
 	//// Obs³uga reszty pocisków
-	for (int i = 0; i < savedPatterns_.size(); i++)
+	for (unsigned int i = 0; i < savedPatterns_.size(); i++)
 	{
 		savedPatterns_[i]->Draw(GAME_FIELD);
 	}
@@ -382,8 +381,8 @@ void Game::DrawScene()
 	this->bombBar->Draw();
 
 	//// BONUSY
-	for (unsigned int i = 0; i < bonusy.size(); i++)
-		bonusy[i]->Draw(GAME_FIELD);
+	for (unsigned int i = 0; i < bonus_.size(); i++)
+		bonus_[i]->Draw(GAME_FIELD);
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
@@ -395,12 +394,12 @@ void Game::Clear()
 void Game::clearOutOfBoundsObjects()
 {
 	// Tymczasowo obs³uguje wy³¹cznie bonusy. Jeœli siê przyjmie, mo¿na funkcjonalnoœæ rozszerzyæ o coœ wiêcej
-	for (unsigned int i = 0; i < bonusy.size(); i++)
+	for (unsigned int i = 0; i < bonus_.size(); i++)
 	{
-		if ( !bonusy[i]->IsObjectWithinBounds(GAME_FIELD))
+		if ( !bonus_[i]->IsObjectWithinBounds(GAME_FIELD))
 		{
-			delete bonusy[i];
-			bonusy.erase( bonusy.begin() + i );
+			delete bonus_[i];
+			bonus_.erase( bonus_.begin() + i );
 		}
 	}
 }
@@ -540,6 +539,7 @@ void Game::CheckEnemyCollisions()
 			{
 				if (!(*e_it)->IsPatternDying())
 					savedPatterns_.push_back(&(*e_it)->GetPattern());
+				bonus_.push_back(&(*e_it)->GetBonus(gDevice->device));	// otrzymujemy wskaŸnik na kopiê bonusu
 				e_it = enemy_.erase(e_it);
 			}
 			if (e_it != enemy_.end())
@@ -554,14 +554,14 @@ void Game::CheckEnemyCollisions()
 void Game::CheckBonusCollisions()
 {
 	// sprawdŸ kolizje z bonusami
-	for (unsigned short i = 0; i < bonusy.size(); i++)
+	for (unsigned short i = 0; i < bonus_.size(); i++)
 	{
 		// odleg³oœæ miêdzy œrodkami dwóch obiektów
-		float grazeDistance = Vector::Length( bonusy[i]->GetCenterPoint(), this->player->GetCenterPoint() );
-		float angle = Vector::Angle(this->player->GetCenterPoint(), bonusy[i]->GetCenterPoint());
-		if ( grazeDistance <= bonusy[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE )
+		float grazeDistance = Vector::Length( bonus_[i]->GetCenterPoint(), this->player->GetCenterPoint() );
+		float angle = Vector::Angle(this->player->GetCenterPoint(), bonus_[i]->GetCenterPoint());
+		if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE )
 		{
-			switch ( bonusy[i]->getBonusCode() )
+			switch ( bonus_[i]->getBonusCode() )
 			{
 			case Power:
 				this->player->AddToPower(1.0f);
@@ -587,8 +587,8 @@ void Game::CheckBonusCollisions()
 				break;
 			}
 		
-			delete bonusy[i];
-			bonusy.erase( bonusy.begin() + i );
+			delete bonus_[i];
+			bonus_.erase( bonus_.begin() + i );
 		}
 	}
 };
