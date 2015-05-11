@@ -58,7 +58,10 @@ class Game : public Playfield
 
 	typedef std::deque<Enemy*> EnemyQue;
 	EnemyQue enemy_;
-	//std::deque<EnemyBullet*> ebList_;
+
+	// miejsce na pociski wyemitowane przez zabitych wrogów
+	// ¿eby nie zniknê³y wraz z jego œmierci¹
+	std::deque<EPattern*> savedPatterns_;
 
 	//////// NAPISY
 	unsigned long int score;

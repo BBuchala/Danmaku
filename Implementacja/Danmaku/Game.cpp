@@ -235,6 +235,15 @@ void Game::Update(float const time)
 			this->currentPattern = change;
 			(*it)->SetPattern( change );
 			(*it)->InitializePattern( gDevice->device, (*it)->GetPosition() );
+			switch(change)
+			{
+			case A:
+				(*it)->SetPatternDying(true);
+				break;
+			case S:
+				(*it)->SetPatternDying(false);
+				break;
+			}
 		}
 	}
 
@@ -332,6 +341,12 @@ void Game::Update(float const time)
 	//// Obs³uga bonusów
 	for (unsigned int i = 0; i < bonusy.size(); i++)
 		bonusy[i]->Update(time);
+
+	//// Obs³uga reszty pocisków
+	for (int i = 0; i < savedPatterns_.size(); i++)
+	{
+		savedPatterns_[i]->Update(time);
+	}
 };
 
 
@@ -340,6 +355,11 @@ void Game::DrawScene()
 	for (EnemyQue::const_iterator it = enemy_.begin(); it != enemy_.end(); it++)
 	{
 		(*it)->Draw(GAME_FIELD);
+	}
+	//// Obs³uga reszty pocisków
+	for (int i = 0; i < savedPatterns_.size(); i++)
+	{
+		savedPatterns_[i]->Draw(GAME_FIELD);
 	}
 
 	if (player != nullptr) player->Draw(GAME_FIELD);
@@ -518,6 +538,8 @@ void Game::CheckEnemyCollisions()
 			}
 			if (!(*e_it)->IsAlive())
 			{
+				if (!(*e_it)->IsPatternDying())
+					savedPatterns_.push_back(&(*e_it)->GetPattern());
 				e_it = enemy_.erase(e_it);
 			}
 			if (e_it != enemy_.end())

@@ -27,6 +27,7 @@ class Enemy: public GameObject
 	// pola kontrolne
 	bool isShooting_;		// czy strzela
 	bool isPatternGlued_;	// jak tak, to wzór porusza siê wraz ze wrogiem
+	bool isPatternDying_;	// jak tak, to pociski s¹ usuwane wraz z wrogiem
 
 public:
 	///// Konstruktor
@@ -41,6 +42,7 @@ public:
 	void TakeDamage( USHORT const damage );
 
 	void SetIsShooting(bool const isShooting);
+	void SetPatternDying(bool const isPatternDying);
 	void SetPattern( Pattern const patId );
 
 private:
@@ -53,6 +55,16 @@ public:
 	inline bool const IsAlive() const
 	{
 		return life_ == 0 ? false : true;
+	}
+
+	inline bool const IsPatternDying() const
+	{
+		return isPatternDying_;
+	}
+
+	inline EPattern & GetPattern() const
+	{
+		return *pattern_.get();
 	}
 
 	inline EBulletQue & GetBullets() const

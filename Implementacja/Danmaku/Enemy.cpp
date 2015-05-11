@@ -3,7 +3,7 @@
 // ----- Konstruktor -----------------------------------------------------------------------------
 Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed, float const acc )
 	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(false), bonus_(nullptr),
-	traj_(nullptr), distance_(0.0f), isPatternGlued_(true)
+	traj_(nullptr), distance_(0.0f), isPatternGlued_(true), isPatternDying_(false)
 {
 };
 
@@ -95,4 +95,10 @@ void Enemy::SetPattern( Pattern const patId )
 void Enemy::SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b )
 {
 	traj_ = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory(trajectory, position, a, b ) );
+};
+
+// ----- Set Pattern Dying ------------------------------------------------------------------------
+void Enemy::SetPatternDying(bool const isPatternDying)
+{
+	isPatternDying_ = isPatternDying;
 };
