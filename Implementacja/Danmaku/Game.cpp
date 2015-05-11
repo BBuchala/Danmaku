@@ -420,7 +420,9 @@ void Game::CheckCollisions()
 {
 	this->CheckBonusCollisions();	// najpierw zbieramy bonusy, 
 	this->CheckEnemyCollisions();	// i zabijamy wrogów,
-	this->CheckPlayerCollisions();	// potem mo¿na straciæ ¿ycie
+	this->CheckPlayerGraze();		// oraz siê ocieramy o pociski
+	if (!player->isUsingBomb())		// je¿eli nie wykorzystujemy bomby
+		this->CheckPlayerCollisions();	// dopiero wtedy mo¿na straciæ ¿ycie
 };
 
 
@@ -443,9 +445,22 @@ void Game::CheckPlayerCollisions()
 			if (it == ebList->end())
 				it--;	// wiêc poprawka
 		}
-		// je¿eli nie, to czy ³apie siê w granicê hitboxy + graze_distance
+		it++;
+	}
+};
+
+
+void Game::CheckPlayerGraze()
+{
+	std::deque<EnemyBullet*> * ebList = &this->enemy->GetBullets();
+	std::deque<EnemyBullet*>::const_iterator it = ebList->begin();
+	while (it != ebList->end())
+	{
+		// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
+		float grazeDistance = Vector::Length( (*it)->GetCenterPoint(), this->player->GetCenterPoint() );
+		// czy ³apie siê w granicê hitboxy + graze_distance
 		// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
-		else if (!(*it)->IsGrazed() &&
+		if (!(*it)->IsGrazed() &&
 			grazeDistance <= (*it)->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() + GRAZE_DISTANCE)
 		{
 			(*it)->SetGrazed( true );

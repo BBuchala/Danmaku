@@ -99,6 +99,7 @@ public:
 	void CheckBonusCollisions();
 	void CheckEnemyCollisions();
 	void CheckPlayerCollisions();
+	void CheckPlayerGraze();
 
 	/////// FUNKCJE PLAYFIELD
 	bool Initialize() override;

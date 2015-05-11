@@ -1,7 +1,8 @@
 #include "Player.h"
 
 
-Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
+Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false),
+	usesBomb_(false)
 {
 	lifeCount = lc;
 	bombCount = bc;
@@ -11,7 +12,8 @@ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x,
 	playerPattern = PPatternPtr(new PlayerPattern01());
 };
 
-Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false)
+Player::Player( D3DXVECTOR2 const & pos, BYTE lc ) : GameObject( pos.x, pos.y, SPEED ), isFocused(false),
+	usesBomb_(false)
 {
 	lifeCount = lc;
 	bombCount = 3;

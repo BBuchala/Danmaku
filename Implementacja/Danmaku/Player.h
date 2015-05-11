@@ -26,6 +26,7 @@ protected:
 	typedef std::unique_ptr<PPattern> PPatternPtr;
 
 	bool isFocused;
+	bool usesBomb_;
 	BYTE lifeCount;
 	BYTE bombCount;
 	//bool isShooting;
@@ -83,5 +84,10 @@ public:
 	inline PBulletQue const & GetBullets() const
 	{
 		return this->playerPattern->GetBullets();
+	};
+
+	inline bool const isUsingBomb() const
+	{
+		return usesBomb_;
 	};
 };
