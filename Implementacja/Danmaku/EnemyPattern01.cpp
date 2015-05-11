@@ -8,14 +8,22 @@ EnemyPattern01::EnemyPattern01() : bulletTime(0.0f)
 void EnemyPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
 	EPattern::Initialize(device, position);
-	// utworzenie torów dla pocisków
-	trajMap_.insert(TrajectoryPair("vElipse", TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 300, 100 ) ) ) );
-	trajMap_.insert(TrajectoryPair("hElipse", TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 100, 300 ) ) ) );
-	trajMap_.insert(TrajectoryPair("circle",  TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 220, 220 ) ) ) );
-	trajMap_.insert(TrajectoryPair("line1",   TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) ) ) );
-	trajMap_.insert(TrajectoryPair("line2",   TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) ) ) );
-};
+	road_[Traj::vElipse] = "vElipse";
+	road_[Traj::hElipse] = "hElipse";
+	road_[Traj::circle] = "circle";
+	road_[Traj::line1] = "line1";
+	road_[Traj::line2] = "line2";
 
+	// utworzenie torów dla pocisków
+	trajMap_.insert(TrajectoryPair(road_[vElipse], TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 300, 100 ) ) ) );
+	trajMap_.insert(TrajectoryPair(road_[hElipse], TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 100, 300 ) ) ) );
+	trajMap_.insert(TrajectoryPair(road_[circle],  TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, 220, 220 ) ) ) );
+	trajMap_.insert(TrajectoryPair(road_[line1],   TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-60) ) ) ) );
+	trajMap_.insert(TrajectoryPair(road_[line2],   TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-120), 600 ) ) ) );
+
+	initialized_ = false;
+	initCount_ = 0;
+};
 
 
 void EnemyPattern01::Update(float const time)
@@ -23,11 +31,19 @@ void EnemyPattern01::Update(float const time)
 	// OBS£UGA POCISKÓW
 	// Nowe pociski
 	this->elapsedTime += time;
-	this->bulletTime += time;
-	if ( bulletTime >= 0.25f && bullet.size() < BULLET_NUMBER_A  )
+	if ( !initialized_ )
 	{
-		Add();
-		bulletTime = 0.0f;
+		this->bulletTime += time;
+		if (bulletTime >= 0.25f)
+		{
+			Add();
+			bulletTime = 0.0f;
+			initCount_++;
+		}
+		if (initCount_ == BULLET_JUMP_A)
+		{
+			initialized_ = true;
+		}
 	}
 
 	EBulletQue::const_iterator it;
@@ -39,35 +55,35 @@ void EnemyPattern01::Update(float const time)
 
 	if (this->elapsedTime > 5.000000000f && this->elapsedTime < 7.000000000f)
 	{
-		for ( unsigned int i = 0 ; i < bullet.size(); i++ )
+		for ( it = bullet.begin(); it != bullet.end(); it++ )
 		{
-			this->bullet[i]->SetAcceleration(1);
-			switch(i % BULLET_INC_A)
+			(*it)->SetAcceleration(1);
+			if ((*it)->GetTrajectory() == trajMap_[road_[vElipse]] ||
+				(*it)->GetTrajectory() == trajMap_[road_[hElipse]] )
 			{
-			case 2:
-				this->bullet[i]->Scale ( 1.008f / 1.000f );
-				this->bullet[i]->GetTrajectory()->Scale ( 1.0003f / 1.000f );
-				break;
-			case 0: case 1:
-				this->bullet[i]->GetTrajectory()->Scale( 9.9900f / 10.0f );
-				break;
+				(*it)->GetTrajectory()->Scale( 9.9900f / 10.0f );
+			}
+			else if ((*it)->GetTrajectory() == trajMap_[road_[circle]])
+			{
+				(*it)->Scale ( 1.008f / 1.000f );
+				(*it)->GetTrajectory()->Scale ( 1.0003f / 1.000f );
 			}
 		}
 	}
 	else if (this->elapsedTime > 7.000000000f && this->elapsedTime < 9.00000000f)
 	{
-		for ( unsigned  int i = 0 ; i < bullet.size(); i++ )
+		for ( it = bullet.begin(); it != bullet.end(); it++ )
 		{
-			this->bullet[i]->SetAcceleration(-1);
-			switch(i % BULLET_INC_A)
+			(*it)->SetAcceleration(-1);
+			if ((*it)->GetTrajectory() == trajMap_[road_[vElipse]] ||
+				(*it)->GetTrajectory() == trajMap_[road_[hElipse]] )
 			{
-			case 2:
-				this->bullet[i]->Scale ( 1.000f / 1.008f );
-				this->bullet[i]->GetTrajectory()->Scale ( 1.000f / 1.0003f );
-				break;
-			case 0: case 1:
-				this->bullet[i]->GetTrajectory()->Scale ( 10.0f / 9.9900f );
-				break;
+				(*it)->GetTrajectory()->Scale ( 10.0f / 9.9900f );
+			}
+			else if ((*it)->GetTrajectory() == trajMap_[road_[circle]])
+			{
+				(*it)->Scale ( 1.000f / 1.008f );
+				(*it)->GetTrajectory()->Scale ( 1.000f / 1.0003f );
 			}
 		}
 	}
@@ -111,19 +127,19 @@ void EnemyPattern01::Add()
 		switch(i)
 		{
 		case 0:
-			newBullet->SetTrajectory( trajMap_["vElipse"] ); 
+			newBullet->SetTrajectory( trajMap_[road_[Traj::vElipse]] ); 
 			break;
 		case 1:
-			newBullet->SetTrajectory( trajMap_["hElipse"] );
+			newBullet->SetTrajectory( trajMap_[road_[Traj::hElipse]] );
 			break;
 		case 2:
-			newBullet->SetTrajectory( trajMap_["circle"] );
+			newBullet->SetTrajectory( trajMap_[road_[Traj::circle]] );
 			break;
 		case 3:
-			newBullet->SetTrajectory( trajMap_["line1"] );
+			newBullet->SetTrajectory( trajMap_[road_[Traj::line1]] );
 			break;
 		case 4:
-			newBullet->SetTrajectory( trajMap_["line2"] );
+			newBullet->SetTrajectory( trajMap_[road_[Traj::line2]] );
 			break;
 		}
 		newBullet->SetDistance( D3DXToRadian( 45.0f ) );

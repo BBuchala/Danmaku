@@ -96,6 +96,9 @@ public:
 
 	//////// FUNKCJE GAME
 	void CheckCollisions();
+	void CheckBonusCollisions();
+	void CheckEnemyCollisions();
+	void CheckPlayerCollisions();
 
 	/////// FUNKCJE PLAYFIELD
 	bool Initialize() override;
@@ -114,8 +117,5 @@ private:
 	}
 
 	void DrawString();
-
-	bool CheckBonusCollision ( Bonus * b );
-	void CheckEnemyCollisions();
-	void CheckPlayerCollisions();
+	
 };

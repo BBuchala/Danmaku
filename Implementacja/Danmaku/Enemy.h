@@ -55,7 +55,7 @@ public:
 		return life_ == 0 ? true : false;
 	}
 
-	inline EBulletQue const & GetBullets() const
+	inline EBulletQue & GetBullets() const
 	{
 		return pattern_->GetBullets();
 	}

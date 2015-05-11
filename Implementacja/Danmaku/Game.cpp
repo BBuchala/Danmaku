@@ -255,9 +255,7 @@ void Game::Update(float const time)
 	//// SPRAWDZENIE KOLIZJI
 	if (currentPattern != Pattern::NONE)
 	{
-		//this->CheckCollisions();
-		this->CheckPlayerCollisions();
-		this->CheckEnemyCollisions();
+		this->CheckCollisions();
 	}
 
 	//// OBS£UGA RUCHU GRACZA
@@ -417,23 +415,33 @@ bool Game::IsPlayerWithinBounds(Move const direction)
 	return true;
 };
 
+
+void Game::CheckCollisions()
+{
+	this->CheckBonusCollisions();	// najpierw zbieramy bonusy, 
+	this->CheckEnemyCollisions();	// i zabijamy wrogów,
+	this->CheckPlayerCollisions();	// potem mo¿na straciæ ¿ycie
+};
+
+
 void Game::CheckPlayerCollisions()
 {
-	std::deque<EnemyBullet*> ebList = this->enemy->GetBullets();
-	std::deque<EnemyBullet*>::const_iterator it;
-	
-	// Definiowane raz dla wszystkich pocisków
-	float grazeDistance;
-
-	for ( it = ebList.begin() ; it != ebList.end() ; it++ )
+	std::deque<EnemyBullet*> * ebList = &this->enemy->GetBullets();
+	std::deque<EnemyBullet*>::const_iterator it = ebList->begin();
+	while (it != ebList->end())
 	{
-		grazeDistance = Vector::Length( (*it)->GetCenterPoint(), this->player->GetCenterPoint() );
+		// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
+		float grazeDistance = Vector::Length( (*it)->GetCenterPoint(), this->player->GetCenterPoint() );
 
 		// je¿eli pocisk w nas wjecha³ (hitboxy zderzy³y siê)
 		if (grazeDistance <= (*it)->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius())
 		{
 			this->player->DecrementLifeCount();
 			this->lifeBar->DecrementCount();
+			it = ebList->erase(it);	// usuniêcie pocisku z kolejki
+			// je¿eli zosta³ usuniêty ostatni element to iterator wskazuje na element ZA KOÑCEM
+			if (it == ebList->end())
+				it--;	// wiêc poprawka
 		}
 		// je¿eli nie, to czy ³apie siê w granicê hitboxy + graze_distance
 		// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
@@ -443,37 +451,56 @@ void Game::CheckPlayerCollisions()
 			(*it)->SetGrazed( true );
 			graze++;
 		}
+		it++;
 	}
+};
 
+
+void Game::CheckEnemyCollisions()
+{
+	std::deque<PlayerBullet*> pbQue = this->player->GetBullets();
+	for(std::deque<PlayerBullet*>::const_iterator it = pbQue.begin();
+		it != pbQue.end();
+		it++ )
+	{
+
+	}
+};
+
+
+void Game::CheckBonusCollisions()
+{
 	// sprawdŸ kolizje z bonusami
 	for (unsigned short i = 0; i < bonusy.size(); i++)
 	{
-		if ( CheckBonusCollision(bonusy[i]) )
+		// odleg³oœæ miêdzy œrodkami dwóch obiektów
+		float grazeDistance = Vector::Length( bonusy[i]->GetCenterPoint(), this->player->GetCenterPoint() );
+		if ( grazeDistance <= bonusy[i]->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() + GRAZE_DISTANCE )
 		{
 			switch ( bonusy[i]->getBonusCode() )
 			{
-					case Power:
-						this->player->AddToPower(1.0f);
-						if (this->player->HasPatternChanged())
-						{
-							this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
-							this->player->SetHasPatternChanged(false);
-						}
-						break;
+			case Power:
+				this->player->AddToPower(1.0f);
+				if (this->player->HasPatternChanged())
+				{
+					this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+					this->player->SetHasPatternChanged(false);
+				}
+				break;
 
-					case Score:
-						score += 10000;
-						break;
+			case Score:
+				score += 10000;
+				break;
 
-					case Life:
-						this->lifeBar->IncrementCount();
-						this->player->IncrementLifeCount();
-						break;
+			case Life:
+				this->lifeBar->IncrementCount();
+				this->player->IncrementLifeCount();
+				break;
 
-					case Bomb:
-						this->bombBar->IncrementCount();
-						this->player->IncrementBombCount();
-						break;
+			case Bomb:
+				this->bombBar->IncrementCount();
+				this->player->IncrementBombCount();
+				break;
 			}
 		
 			delete bonusy[i];
@@ -482,19 +509,3 @@ void Game::CheckPlayerCollisions()
 	}
 };
 
-
-bool Game::CheckBonusCollision( Bonus * b )
-{
-	// odleg³oœæ miêdzy œrodkami dwóch obiektów
-	float grazeDistance = Vector::Length( b->GetCenterPoint(), this->player->GetCenterPoint() );
-	
-	if ( grazeDistance <= b->GetHitbox()->GetRadius() + this->player->GetHitbox()->GetRadius() + GRAZE_DISTANCE )
-		return true;
-
-	return false;
-}
-
-void Game::CheckEnemyCollisions()
-{
-
-};

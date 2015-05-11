@@ -32,9 +32,9 @@ public:
 	void SetTrajectory( TrajectoryPtr const & trajectory );
 	void SetDistance( float const distance );
 
-	inline Trajectory * const GetTrajectory() const
+	inline TrajectoryPtr const GetTrajectory() const
 	{
-		return trajectory.get();
+		return trajectory;
 	}
 
 	void Update(float const time) override;

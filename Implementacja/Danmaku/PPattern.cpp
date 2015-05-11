@@ -28,10 +28,6 @@ void PPattern::Draw( RECT const & rect )
 	}
 };
 
-//void PPattern::SetPosition(D3DXVECTOR2 const & pos)
-//{
-//	this->position = pos;
-//};
 
 void PPattern::Update(float const time, D3DXVECTOR2 & playerPos)
 {

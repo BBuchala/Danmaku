@@ -13,7 +13,7 @@ protected:
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
 	/// Definicja mapy trajektorii
 	typedef std::map<std::string, TrajectoryPtr> TrajectoryMap;
-	/// Definicja oary do mapy trajektorii
+	/// Definicja pary do mapy trajektorii
 	typedef std::pair<std::string, TrajectoryPtr> TrajectoryPair;
 
 	//// POCISKI
@@ -40,7 +40,7 @@ public:
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
 
-	inline EBulletQue const & GetBullets() const
+	inline EBulletQue & GetBullets()
 	{
 		return bullet;
 	};

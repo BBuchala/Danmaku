@@ -11,6 +11,10 @@
 class Player : public GameObject
 {
 protected:
+	/* ==== DEFINICJE ======================== */
+	/// Definicja kolejki pocisków
+	typedef std::deque<PlayerBullet*> PBulletQue;
+
 	/* ==== STA£E ======================== */
 	// prêdkoœci
 	static const unsigned short SPEED		= 500;
@@ -74,5 +78,10 @@ public:
 	inline float GetPower()
 	{
 		return this->power;
-	}
+	};
+
+	inline PBulletQue const & GetBullets() const
+	{
+		return this->playerPattern->GetBullets();
+	};
 };

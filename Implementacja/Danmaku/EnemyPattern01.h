@@ -12,10 +12,19 @@ class EnemyPattern01 : public EPattern
 	static const unsigned short BULLET_JUMP_A	= 16;
 	static const unsigned short BULLET_NUMBER_A	= BULLET_INC_A * BULLET_JUMP_A;
 
+	//// DOSTÊPNE DROGI
+	static enum Traj
+	{
+		vElipse, hElipse, circle, line1, line2
+	};
+	std::map<Traj, std::string> road_;
+
 	//// TORY
 	TrajectoryMap trajMap_;
 
 	float bulletTime;
+	bool initialized_;
+	USHORT initCount_;
 
 public:
 	EnemyPattern01();
