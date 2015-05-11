@@ -577,12 +577,12 @@ void Game::CheckBonusCollisions()
 				break;
 
 			case Life:
-				this->lifeBar->IncrementCount();
+				(*lifeBar)++;
 				this->player->IncrementLifeCount();
 				break;
 
 			case Bomb:
-				this->bombBar->IncrementCount();
+				(*bombBar)++;
 				this->player->IncrementBombCount();
 				break;
 			}

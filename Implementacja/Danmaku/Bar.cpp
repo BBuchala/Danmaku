@@ -36,3 +36,29 @@ void Bar::DecrementCount()
 	if (count > 0)
 		count--;
 }
+// ++Bar
+Bar & Bar::operator++()
+{
+	IncrementCount();
+	return *this;
+}
+// --Bar
+Bar & Bar::operator--()
+{
+	DecrementCount();
+	return *this;
+}
+// Bar++
+int Bar::operator++(int)
+{
+	int oldCount = count;
+	IncrementCount();
+	return oldCount;
+}
+// Bar++
+int Bar::operator--(int)
+{
+	int oldCount = count;
+	DecrementCount();
+	return oldCount;
+}

@@ -22,5 +22,9 @@ public:
 
 	void IncrementCount();
 	void DecrementCount();
-	 
+
+	Bar & operator++();		// ++Bar
+	Bar & operator--();		// --Bar
+	int operator++(int);	// Bar++
+	int operator--(int);	// Bar++
 };
