@@ -56,7 +56,9 @@ class Game : public Playfield
 
 	Player * player;
 
-	Enemy * enemy;
+	typedef std::deque<Enemy*> EnemyQue;
+	EnemyQue enemy_;
+	//std::deque<EnemyBullet*> ebList_;
 
 	//////// NAPISY
 	unsigned long int score;

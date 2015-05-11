@@ -52,7 +52,7 @@ public:
 
 	inline bool const IsAlive() const
 	{
-		return life_ == 0 ? true : false;
+		return life_ == 0 ? false : true;
 	}
 
 	inline EBulletQue & GetBullets() const

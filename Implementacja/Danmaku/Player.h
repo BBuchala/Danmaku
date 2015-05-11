@@ -81,9 +81,9 @@ public:
 		return this->power;
 	};
 
-	inline PBulletQue const & GetBullets() const
+	inline PBulletQue & GetBullets() const
 	{
-		return this->playerPattern->GetBullets();
+		return playerPattern->GetBullets();
 	};
 
 	inline bool const isUsingBomb() const

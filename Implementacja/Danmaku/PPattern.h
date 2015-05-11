@@ -47,7 +47,7 @@ public:
 
 	void SetKeyPressed(bool isKeyPressed);
 
-	inline PBulletQue const & GetBullets() const
+	inline PBulletQue & GetBullets()
 	{
 		return bullet;
 	};
