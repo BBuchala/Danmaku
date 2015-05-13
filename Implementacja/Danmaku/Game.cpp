@@ -400,9 +400,9 @@ void Game::CheckEnemyCollisions()
 					}
 				}
 				// otrzymujemy wskaŸnik na kopiê bonusu
-				Bonus * bonus = (*e_it)->GetBonus(gDevice->device);
+				std::deque<Bonus*>* bonus = (*e_it)->GetBonus(gDevice->device);
 				if (bonus != nullptr)
-					bonus_.push_back(bonus);	
+					bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
 				e_it = enemy_.erase(e_it);
 			}
 			if (e_it != enemy_.end())

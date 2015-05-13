@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <time.h>
 
 #include "GameObject.h"
 #include "BonusFactory.h"
@@ -19,8 +20,10 @@ class Enemy: public GameObject
 
 	USHORT life_;
 
-	Bonuses bonus_;
-	float value_;
+	/// Mapa bonusów
+	typedef std::pair<Bonuses, float> BonusPair;
+	typedef std::multimap<size_t, BonusPair> BonusMap;
+	BonusMap _bonusMap;
 
 	/// Mapa patternów
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
@@ -52,11 +55,11 @@ public:
 	void SetPatternDying(bool const isPatternDying);
 
 private:
-	Bonus * CreateBonus(LPDIRECT3DDEVICE9 device);
+	std::deque<Bonus*>* CreateBonus(LPDIRECT3DDEVICE9 device);
 
 public:
 	////// GETTERY
-	Bonus * GetBonus(LPDIRECT3DDEVICE9 device);
+	std::deque<Bonus*>* GetBonus(LPDIRECT3DDEVICE9 device);
 
 	inline bool const IsAlive() const
 	{

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Stage>
 	<Time sec="2">
-		<Enemy number="1" distance="30" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="50">
-			<Bonus type="Score" value="20000"></Bonus>
+		<Enemy number="2" distance="30" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="50">
+			<Bonus type="Score" number="5" value="20000"></Bonus>
 			<!--<Trajectory type="Ellipse" center.x="HALF" center.y="LEFT" a="300" b="200"></Trajectory> -->
 			<Pattern type="Line" id="1" angle="-85" bulletNumber="20" interval="0.5">
 				<Bullet image="BulletBlueCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>

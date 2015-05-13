@@ -2,7 +2,7 @@
 
 // ----- Konstruktor -----------------------------------------------------------------------------
 Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed, float const acc )
-	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(true), bonus_(Bonuses::NONE),
+	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(true),
 	traj_(nullptr), distance_(0.0f), isPatternGlued_(false), isPatternDying_(false)
 {
 };
@@ -72,23 +72,27 @@ void Enemy::TakeDamage( USHORT const damage )
 
 
 // ----- Create Bonus ----------------------------------------------------------------------------
-Bonus * Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
+std::deque<Bonus*>* Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
 {
-	Bonus * bonus;
-	if (bonus_ != Bonuses::NONE)
+	std::deque<Bonus*> * bonus = new std::deque<Bonus*>();
+	srand(time(NULL));
+	for (BonusMap::const_iterator it = _bonusMap.begin(); it != _bonusMap.end(); ++it)
 	{
-		bonus = BonusFactory::Instance().CreateBonus(bonus_, this->GetCenterPoint(), value_, 200.0f);
-		bonus->Initialize( device );
-		bonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+		if ((*it).second.first != Bonuses::NONE)
+		{
+			Bonus * newBonus = BonusFactory::Instance().CreateBonus((*it).second.first,
+				D3DXVECTOR2(GetCenterPoint().x - 30 + rand() % 60, GetCenterPoint().y - 30 + rand() % 60), (*it).second.second, 200.0f);
+			newBonus->Initialize( device );
+			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+			bonus->push_back(newBonus);
+		}
 	}
-	else
-		bonus = nullptr;
 	return bonus;
 };
 
 
 // ----- Get Bonus -------------------------------------------------------------------------------
-Bonus * Enemy::GetBonus(LPDIRECT3DDEVICE9 device)
+std::deque<Bonus*>* Enemy::GetBonus(LPDIRECT3DDEVICE9 device)
 {
 	return CreateBonus(device);
 };
@@ -116,7 +120,6 @@ void Enemy::SetPatternDying(bool const isPatternDying)
 // ----- Set Bonus --------------------------------------------------------------------------------
 void Enemy::SetBonus(Bonuses const bonus, float const value)
 {
-	bonus_ = bonus;
-	value_ = value;
+	_bonusMap.insert(BonusMap::value_type(_bonusMap.size(), BonusPair(bonus, value)));
 };
 

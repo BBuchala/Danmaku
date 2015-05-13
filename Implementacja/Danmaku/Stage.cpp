@@ -201,6 +201,7 @@ void Stage::CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2
 {
 	Bonuses bonusType;
 	float value = 1.0f;
+	short number = 1;
 	for (xml_attribute <>* bonusAtr = bonus->first_attribute(); bonusAtr; bonusAtr = bonusAtr->next_attribute())
 	{
 		std::string str(bonusAtr->name());
@@ -208,12 +209,19 @@ void Stage::CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2
 		{
 			this->ChooseBonus(bonusAtr->value(), bonusType);
 		}
+		else if (str.compare("number") == 0)
+		{
+			number = std::stoi(bonusAtr->value());
+		}
 		else if (str.compare("value") == 0)
 		{
 			value = std::stof(bonusAtr->value());
 		}
 	}
-	enemyObj->SetBonus(bonusType, value);
+	for (int i = 0; i < number; i++)
+	{
+		enemyObj->SetBonus(bonusType, value);
+	}
 };
 
 
