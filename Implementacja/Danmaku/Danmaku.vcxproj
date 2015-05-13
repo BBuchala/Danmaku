@@ -51,7 +51,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Libraries\rapidxml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -79,6 +80,7 @@
     <ClCompile Include="BombBonus.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="EnemyPatternLine.cpp" />
     <ClCompile Include="EPattern.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -103,6 +105,7 @@
     <ClCompile Include="Playfield.cpp" />
     <ClCompile Include="PowerBonus.cpp" />
     <ClCompile Include="ScoreBonus.cpp" />
+    <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="TrajectoryElipse.cpp" />
     <ClCompile Include="TrajectoryFactory.cpp" />
@@ -119,6 +122,7 @@
     <ClInclude Include="BombBonus.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="EnemyPatternLine.h" />
     <ClInclude Include="EPattern.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
     <ClInclude Include="Enemy.h" />
@@ -149,6 +153,8 @@
     <ClInclude Include="PowerBonus.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="ScoreBonus.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="String.h" />
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="TrajectoryElipse.h" />
     <ClInclude Include="TrajectoryFactory.h" />

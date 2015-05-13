@@ -25,8 +25,6 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->gameScreen = new GameObject(0, 0);
 	// gracz
 	this->player = new Player( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ), 3 );
-	// wrogowie
-	enemy_.push_back( new Enemy( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2.0f, 0.0f), 1200, 30.0f) );
 	// przyciski
 	this->button = new GameObject * [BUTTON_NUM];
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -50,6 +48,8 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	bonus_.push_back(new ScoreBonus	( D3DXVECTOR2(500,250)	));
 	bonus_.push_back(new LifeBonus	( D3DXVECTOR2(80,80)	));
 	bonus_.push_back(new BombBonus	( D3DXVECTOR2(650,100)	));
+
+	stage = new Stage("stages/Stage1.xml", &this->GAME_FIELD, gDevice->device);
 };
 
 /* ---- DESTRUKTOR ---------------------------------------------------------------------------- */
@@ -92,7 +92,7 @@ Game::~Game()
 	bonus_.clear();
 };
 
-
+/* ---- Initialize ---------------------------------------------------------------------------- */
 bool Game::Initialize()
 {
 	//////// DEFINICJA WEKTORA
@@ -102,13 +102,6 @@ bool Game::Initialize()
 	this->gameScreen->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("gameScreen", "png"), SCREEN_WIDTH, SCREEN_HEIGHT );
 	this->player->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("ship", "png") );
 	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH, Sprite::GetFilePath("hitbox", "png"), gDevice->device );
-
-	for (EnemyQue::const_iterator it = enemy_.begin(); it != enemy_.end(); it++)
-	{
-		(*it)->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("enemy", 0, 1, "png") );
-		(*it)->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH, Sprite::GetFilePath("hitbox", "png"), gDevice->device );
-		(*it)->SetTrajectory(Road::LINE, (*it)->GetPosition(), D3DXToRadian(-90) );
-	}
 
 	///// Przyciski
 	for (int i = 0; i < BUTTON_NUM; i++)
@@ -217,6 +210,17 @@ void Game::Update(float const time)
 		}
 	}
 
+	//// Odpytanie Stejd¿a o nowe elementy
+	std::deque<Enemy*> * newEnemies = this->stage->GetEnemies(static_cast<short>(elapsedTime));
+	// Je¿eli maj¹ pojawiæ siê nowi wrogowie
+	if (newEnemies != nullptr)
+	{
+		// przechwytujemy wskaŸnik i kopiujemy zawartoœæ
+		this->enemy_.insert(enemy_.end(), newEnemies->begin(), newEnemies->end());
+		// usuwamy zawartoœæ ze stejd¿a (co by nigdy nie zwróci³ 2 razy tego samego)
+		this->stage->RemoveEnemies(static_cast<short>(elapsedTime));
+	}
+
 	//// Obs³uga wrogów i ich pocisków
 	for (EnemyQue::const_iterator it = enemy_.begin(); it != enemy_.end(); it++)
 	{
@@ -226,8 +230,6 @@ void Game::Update(float const time)
 			if (currentPattern == NONE)
 				change = A;
 		}
-		if (elapsedTime > 8.0f)
-			(*it)->SetSpeed(0.0f);
 		(*it)->Update( time );
 		// Wykonanie zmiany patternu
 		if ( change != Pattern::NONE )

@@ -18,6 +18,8 @@
 #include "LifeBonus.h"
 #include "BombBonus.h"
 
+#include "Stage.h"
+
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
@@ -93,6 +95,8 @@ class Game : public Playfield
 
 	bool escape;
 	bool pressed;
+
+	Stage * stage;
 
 public:
 	// Konstruktor, destruktor

@@ -115,4 +115,8 @@ public:
 	{
 		return IMG_PATH + name + '.' + ext;
 	};
+	inline static std::string GetFilePath( std::string const & name )
+	{
+		return IMG_PATH + name + ".png";
+	};
 };

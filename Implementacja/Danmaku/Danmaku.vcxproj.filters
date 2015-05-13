@@ -201,6 +201,12 @@
     <ClCompile Include="EnemyPattern02.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Source Files\Fields</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPatternLine.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -337,6 +343,15 @@
     </ClInclude>
     <ClInclude Include="EnemyPattern02.h">
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Header Files\Fields</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternLine.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="String.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
