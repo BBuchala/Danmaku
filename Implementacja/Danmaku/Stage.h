@@ -17,6 +17,8 @@
 #include <rapidxml.hpp>
 #include <rapidxml_print.hpp>
 
+using namespace rapidxml;
+
 
 class Stage
 {
@@ -48,9 +50,19 @@ private:
 	void CreateStageElements();
 	void ClearDocument();
 
+	void CreateEnemies(xml_node <> * time, char * timeValue);
+	void CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
+	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId);
+
+	void ChoosePattern(std::string const & patternType, Pattern & pattern );
+	void ChooseVerticalPosition(std::string const & pos, float & positionX );
+	void ChooseHorizontalPosition(std::string const & pos, float & positionY );
+	void ChooseHitboxShape(std::string const & shape, Hitbox::Shape & hShape);
+	void ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize);
+
 	inline char * stringToChar( std::string const & s )
 	{
-		long long N = s.length();
+		unsigned int N = s.length();
 		char * out = new char[ N + 1 ];
 		std::copy( s.c_str(), ( s.c_str() + N - 1 ), out );
 		return out;
