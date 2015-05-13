@@ -1,6 +1,9 @@
 #pragma once
 
-static enum Pattern
+static enum class Pattern
 {
-	NONE, A, S, LINEP
+	NONE	= 0x00,
+	A		= 0x01,
+	S		= 0x02,
+	LINE	= 0x04
 };

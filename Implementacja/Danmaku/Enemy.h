@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "GameObject.h"
-#include "PowerBonus.h"
+#include "BonusFactory.h"
 #include "EPattern.h"
 #include "Pattern.h"
 #include "EnemyPattern01.h"
@@ -19,7 +19,8 @@ class Enemy: public GameObject
 
 	USHORT life_;
 
-	Bonus * bonus_;
+	Bonuses bonus_;
+	float value_;
 
 	/// Mapa patternów
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
@@ -46,16 +47,16 @@ public:
 	void SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b = 0 );
 	void TakeDamage( USHORT const damage );
 
+	void SetBonus(Bonuses const bonus, float const value);
 	void SetIsShooting(bool const isShooting);
-
 	void SetPatternDying(bool const isPatternDying);
 
 private:
-	void CreateBonus(LPDIRECT3DDEVICE9 device);
+	Bonus * CreateBonus(LPDIRECT3DDEVICE9 device);
 
 public:
 	////// GETTERY
-	Bonus & GetBonus(LPDIRECT3DDEVICE9 device);
+	Bonus * GetBonus(LPDIRECT3DDEVICE9 device);
 
 	inline bool const IsAlive() const
 	{
@@ -78,7 +79,6 @@ public:
 		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); it++)
 		{
 			eQue.push_back(&(*it).second->GetBullets());
-			
 		}
 		return eQue;
 	}

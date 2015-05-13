@@ -33,11 +33,11 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
 	// bonusy
-	bonus_.push_back(new PowerBonus	( D3DXVECTOR2(200,100)	));
-	bonus_.push_back(new PowerBonus	( D3DXVECTOR2(400,50)	));
-	bonus_.push_back(new ScoreBonus	( D3DXVECTOR2(500,250)	));
-	bonus_.push_back(new LifeBonus	( D3DXVECTOR2(80,80)	));
-	bonus_.push_back(new BombBonus	( D3DXVECTOR2(650,100)	));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::POWER, D3DXVECTOR2(200,100)));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::POWER, D3DXVECTOR2(400,50 )));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::SCORE, D3DXVECTOR2(500,250), 10000));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::LIFE,  D3DXVECTOR2(80,80  )));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::BOMB,  D3DXVECTOR2(650,100)));
 
 	stage = new Stage("stages/Stage1.xml", &this->GAME_FIELD, gDevice->device);
 };
@@ -399,7 +399,10 @@ void Game::CheckEnemyCollisions()
 						_savedBullets.insert(_savedBullets.end(), (*que_it)->begin(), (*que_it)->end());
 					}
 				}
-				bonus_.push_back(&(*e_it)->GetBonus(gDevice->device));	// otrzymujemy wskaŸnik na kopiê bonusu
+				// otrzymujemy wskaŸnik na kopiê bonusu
+				Bonus * bonus = (*e_it)->GetBonus(gDevice->device);
+				if (bonus != nullptr)
+					bonus_.push_back(bonus);	
 				e_it = enemy_.erase(e_it);
 			}
 			if (e_it != enemy_.end())
@@ -421,10 +424,10 @@ void Game::CheckBonusCollisions()
 		float angle = Vector::Angle(this->player->GetCenterPoint(), bonus_[i]->GetCenterPoint());
 		if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE )
 		{
-			switch ( bonus_[i]->getBonusCode() )
+			switch ( bonus_[i]->GetBonusId() )
 			{
-			case Power:
-				this->player->AddToPower(1.0f);
+			case POWER:
+				this->player->AddToPower(bonus_[i]->Realize());
 				if (this->player->HasPatternChanged())
 				{
 					this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
@@ -432,16 +435,16 @@ void Game::CheckBonusCollisions()
 				}
 				break;
 
-			case Score:
-				score += 10000;
+			case SCORE:
+				score += static_cast<short>(bonus_[i]->Realize());
 				break;
 
-			case Life:
+			case LIFE:
 				(*lifeBar)++;
 				this->player->IncrementLifeCount();
 				break;
 
-			case Bomb:
+			case BOMB:
 				(*bombBar)++;
 				this->player->IncrementBombCount();
 				break;

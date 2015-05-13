@@ -117,7 +117,7 @@ void Stage::ChoosePattern(std::string const & patternType, Pattern & pattern )
 {
 	if (patternType.compare("Line") == 0)
 	{
-		pattern = Pattern::LINEP;
+		pattern = Pattern::LINE;
 	}
 };
 
@@ -164,7 +164,56 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECT
 				this->CreateBullets(enemyObj, patternNode, patternId);
 			}
 		}
+		if (eStr.compare("Bonus") == 0)
+		{
+			this->CreateBonus(enemyObj, enemyNode, position);
+		}
 	}
+};
+
+
+void Stage::ChooseBonus(std::string const & bonus, Bonuses & bonusType)
+{
+	if (bonus.compare("Power") == 0)
+	{
+		bonusType = Bonuses::POWER;
+	}
+	else if (bonus.compare("Score") == 0)
+	{
+		bonusType = Bonuses::SCORE;
+	}
+	else if (bonus.compare("Bomb") == 0)
+	{
+		bonusType = Bonuses::BOMB;
+	}
+	else if (bonus.compare("Life") == 0)
+	{
+		bonusType = Bonuses::LIFE;
+	}
+	else
+	{
+		bonusType = Bonuses::NONE;
+	}
+};
+
+
+void Stage::CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position)
+{
+	Bonuses bonusType;
+	float value = 1.0f;
+	for (xml_attribute <>* bonusAtr = bonus->first_attribute(); bonusAtr; bonusAtr = bonusAtr->next_attribute())
+	{
+		std::string str(bonusAtr->name());
+		if (str.compare("type") == 0)
+		{
+			this->ChooseBonus(bonusAtr->value(), bonusType);
+		}
+		else if (str.compare("value") == 0)
+		{
+			value = std::stof(bonusAtr->value());
+		}
+	}
+	enemyObj->SetBonus(bonusType, value);
 };
 
 

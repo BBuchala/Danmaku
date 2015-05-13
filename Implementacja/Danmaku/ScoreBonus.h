@@ -1,13 +1,29 @@
 #pragma once
 
 #include "Bonus.h"
+#include "BonusFactory.h"
 
-class ScoreBonus: public Bonus
+namespace
 {
-public:
-	ScoreBonus( D3DXVECTOR2 const & position, float const speed = 100.0f );
-	ScoreBonus( ScoreBonus const & bonus );
-	~ScoreBonus();
+	class ScoreBonus: public Bonus
+	{
+		short score;
+	public:
+		ScoreBonus( D3DXVECTOR2 const & position, float const value, float const speed );
+		ScoreBonus( ScoreBonus const & bonus );
+		~ScoreBonus();
 
-	byte getBonusCode() override;
-};
+		inline Bonuses GetBonusId() const override
+		{
+			return Bonuses::SCORE;
+		}
+	};
+
+	// zarejestrowanie bonusu w Fabryce
+	Bonus * CreateScoreBonus( D3DXVECTOR2 const & position, float const value, float const speed )
+	{
+		return new ScoreBonus( position, value, speed );
+	}
+	const Bonuses bonusId = Bonuses::SCORE;
+	bool const registrered = BonusFactory::Instance().RegisterBonus( bonusId, CreateScoreBonus );
+}

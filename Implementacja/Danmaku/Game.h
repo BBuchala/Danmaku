@@ -12,24 +12,13 @@
 #include "Bar.h"
 #include "Enemy.h"
 #include "Pattern.h"
-
-#include "PowerBonus.h"
-#include "ScoreBonus.h"
-#include "LifeBonus.h"
-#include "BombBonus.h"
-
+#include "BonusFactory.h"
 #include "Stage.h"
 
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
-
-#define Power 1
-#define Score 2
-#define Life 3
-#define Bomb 4
-
 
 class Game : public Playfield
 {

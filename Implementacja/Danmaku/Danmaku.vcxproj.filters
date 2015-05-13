@@ -207,6 +207,9 @@
     <ClCompile Include="EnemyPatternLine.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="BonusFactory.cpp">
+      <Filter>Source Files\Bonuses</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -352,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="String.h">
       <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusFactory.h">
+      <Filter>Header Files\Bonuses</Filter>
+    </ClInclude>
+    <ClInclude Include="Bonuses.h">
+      <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

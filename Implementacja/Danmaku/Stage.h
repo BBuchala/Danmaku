@@ -53,12 +53,14 @@ private:
 	void CreateEnemies(xml_node <> * time, char * timeValue);
 	void CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
 	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId);
+	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
 
 	void ChoosePattern(std::string const & patternType, Pattern & pattern );
 	void ChooseVerticalPosition(std::string const & pos, float & positionX );
 	void ChooseHorizontalPosition(std::string const & pos, float & positionY );
 	void ChooseHitboxShape(std::string const & shape, Hitbox::Shape & hShape);
 	void ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize);
+	void ChooseBonus(std::string const & bonus, Bonuses & bonusType);
 
 	inline char * stringToChar( std::string const & s )
 	{

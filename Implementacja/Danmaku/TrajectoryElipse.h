@@ -38,7 +38,7 @@ namespace
 	Trajectory * CreateTrajectoryElipse( D3DXVECTOR2 const & center, float const a, float const b )
 	{
 		return new TrajectoryElipse( center, a, b );
-	}
+	};
 	Road const tracId = Road::ELIPSE;
 	bool const registrered = TrajectoryFactory::Instance().RegisterTrajectory( tracId, CreateTrajectoryElipse );
 

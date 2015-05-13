@@ -1,13 +1,28 @@
 #pragma once
 
 #include "Bonus.h"
+#include "BonusFactory.h"
 
-class LifeBonus: public Bonus
+namespace
 {
-public:
-	LifeBonus( D3DXVECTOR2 const & position, float const speed = 100.0f );
-	LifeBonus( LifeBonus const & bonus );
-	~LifeBonus();
+	class LifeBonus: public Bonus
+	{
+	public:
+		LifeBonus( D3DXVECTOR2 const & position, float const value, float const speed );
+		LifeBonus( LifeBonus const & bonus );
+		~LifeBonus();
 
-	byte getBonusCode() override;
-};
+		inline Bonuses GetBonusId() const override
+		{
+			return Bonuses::LIFE;
+		}
+	};
+
+	// zarejestrowanie bonusu w Fabryce
+	Bonus * CreateLifeBonus( D3DXVECTOR2 const & position, float const value, float const speed )
+	{
+		return new LifeBonus( position, value, speed );
+	}
+	const Bonuses bonusId = Bonuses::LIFE;
+	bool const registrered = BonusFactory::Instance().RegisterBonus( bonusId, CreateLifeBonus );
+}
