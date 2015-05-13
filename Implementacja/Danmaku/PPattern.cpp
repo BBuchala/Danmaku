@@ -29,23 +29,16 @@ void PPattern::Draw( RECT const & rect )
 };
 
 
-void PPattern::Update(float const time, D3DXVECTOR2 & playerPos)
+void PPattern::Update(float const time, D3DXVECTOR2 const & position)
 {
 	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
 		(*it)->Update(time);
 	}
-}
+};
 
-void PPattern::Update(float const time)
-{
-	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
-	{
-		(*it)->Update(time);
-	}
-}
 
 void PPattern::SetKeyPressed(bool isKeyPressed)
 {
 	this->isKeyPressed = isKeyPressed;
-}
+};

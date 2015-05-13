@@ -39,11 +39,9 @@ public:
 	void Draw(RECT const & rect) override;
 	
 	// Musowa implementacja z IPattern, nie u¿ywana.
-	void Update(float const time) override;
-
+	// Jak nie jak TAK XD
 	// W³aœciwa metoda aktualizuj¹ca pociski dla patternów gracza.
-	virtual void Update(float const time, D3DXVECTOR2 & playerPos);
-
+	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void SetKeyPressed(bool isKeyPressed);
 

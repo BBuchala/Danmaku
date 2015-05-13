@@ -48,14 +48,6 @@ class Game : public Playfield
 	// t³o
 	GameObject * gameScreen;
 
-	// przyciski
-	GameObject ** button;
-	bool * buttonPressed;
-	int * keyButton;
-
-	int pressedButton;
-	Pattern currentPattern;
-
 	Player * player;
 
 	typedef std::deque<Enemy*> EnemyQue;
@@ -63,7 +55,7 @@ class Game : public Playfield
 
 	// miejsce na pociski wyemitowane przez zabitych wrogów
 	// ¿eby nie zniknê³y wraz z jego œmierci¹
-	std::deque<EPattern*> savedPatterns_;
+	std::deque<EnemyBullet*> _savedBullets;
 
 	//////// NAPISY
 	unsigned long int score;
@@ -118,7 +110,6 @@ public:
 	void clearOutOfBoundsObjects() override;
 
 private:
-	bool IsKeyPressed();
 	bool IsPlayerWithinBounds(Move const direction);
 
 	inline const D3DXVECTOR2 GetStageCenter() const

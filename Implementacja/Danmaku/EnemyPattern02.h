@@ -17,7 +17,7 @@ class EnemyPattern02 : public EPattern
 public:
 	EnemyPattern02();
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
-	void Update(float const time) override;
+	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void SetPosition(D3DXVECTOR2 const & pos);
 

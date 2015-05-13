@@ -30,7 +30,7 @@ public:
 	EnemyPattern01();
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 	void SetPosition(D3DXVECTOR2 const & pos);
-	void Update(float const time) override;
+	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void Add();
 };

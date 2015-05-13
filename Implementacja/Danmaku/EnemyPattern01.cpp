@@ -26,11 +26,11 @@ void EnemyPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & po
 };
 
 
-void EnemyPattern01::Update(float const time)
+void EnemyPattern01::Update(float const time, D3DXVECTOR2 const & position)
 {
 	// OBS£UGA POCISKÓW
 	// Nowe pociski
-	this->elapsedTime += time;
+	this->_elapsedTime += time;
 	if ( !initialized_ )
 	{
 		this->bulletTime += time;
@@ -47,15 +47,15 @@ void EnemyPattern01::Update(float const time)
 	}
 
 	EBulletQue::const_iterator it;
-	for ( it = bullet.begin(); it != bullet.end(); it++ )
+	for ( it = _bullet.begin(); it != _bullet.end(); it++ )
 	{
 		(*it)->Rotate(0.1f);
 		(*it)->GetTrajectory()->Rotate(0.001f);
 	}
 
-	if (this->elapsedTime > 5.000000000f && this->elapsedTime < 7.000000000f)
+	if (this->_elapsedTime > 5.000000000f && this->_elapsedTime < 7.000000000f)
 	{
-		for ( it = bullet.begin(); it != bullet.end(); it++ )
+		for ( it = _bullet.begin(); it != _bullet.end(); it++ )
 		{
 			(*it)->SetAcceleration(1);
 			if ((*it)->GetTrajectory() == trajMap_[road_[vElipse]] ||
@@ -70,9 +70,9 @@ void EnemyPattern01::Update(float const time)
 			}
 		}
 	}
-	else if (this->elapsedTime > 7.000000000f && this->elapsedTime < 9.00000000f)
+	else if (_elapsedTime > 7.000000000f && _elapsedTime < 9.00000000f)
 	{
-		for ( it = bullet.begin(); it != bullet.end(); it++ )
+		for ( it = _bullet.begin(); it != _bullet.end(); it++ )
 		{
 			(*it)->SetAcceleration(-1);
 			if ((*it)->GetTrajectory() == trajMap_[road_[vElipse]] ||
@@ -87,17 +87,17 @@ void EnemyPattern01::Update(float const time)
 			}
 		}
 	}
-	else if (this->elapsedTime > 9.00000000f)
+	else if (_elapsedTime > 9.00000000f)
 	{
-		this->elapsedTime = 0.0f;
-		for ( it = bullet.begin(); it != bullet.end(); it++ )
+		_elapsedTime = 0.0f;
+		for ( it = _bullet.begin(); it != _bullet.end(); it++ )
 		{
 			(*it)->SetAcceleration(0);
 		}
 	}
 
 	// Zmiana po³o¿enia pocisków
-	for ( it = bullet.begin(); it != bullet.end(); it++ )
+	for ( it = _bullet.begin(); it != _bullet.end(); it++ )
 	{
 		(*it)->Update(time);
 	}
@@ -121,14 +121,14 @@ void EnemyPattern01::Add()
 			newBullet = new EnemyBullet( 180.0f ); break;
 		}
 		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
-		newBullet->InitializeSprite( device, file );
+		newBullet->InitializeSprite( _device, file );
 		newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 		//newBullet->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH, Sprite::GetFilePath("hitbox", "png"), device );
 
 		switch(i)
 		{
 		case 0:
-			newBullet->SetTrajectory( trajMap_[road_[Traj::vElipse]] ); 
+			newBullet->SetTrajectory( trajMap_[road_[Traj::vElipse]] );
 			break;
 		case 1:
 			newBullet->SetTrajectory( trajMap_[road_[Traj::hElipse]] );
@@ -144,7 +144,7 @@ void EnemyPattern01::Add()
 			break;
 		}
 		newBullet->SetDistance( D3DXToRadian( 45.0f ) );
-		this->bullet.push_back(newBullet);
+		_bullet.push_back(newBullet);
 	}
 };
 

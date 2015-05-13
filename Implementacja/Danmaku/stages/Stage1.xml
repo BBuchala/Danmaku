@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Stage>
-	<Time sec="5">
+	<Time sec="2">
 		<Enemy number="1" distance="30" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="50">
-			<Bonus type="Power">A</Bonus>
-			<Pattern type="Line" angle="-45" bulletNumber="5" interval="0.5">B</Pattern>
-			<Bullet image="BlueCircle" speed="200" width="32" height="32" hitbox="HALF">V</Bullet>
-			<Trajectory type="Ellipse" center.x="HALF" center.y="LEFT" a="300" b="200">D</Trajectory>
+			<!--<Bonus type="Power"></Bonus>
+			<Trajectory type="Ellipse" center.x="HALF" center.y="LEFT" a="300" b="200"></Trajectory> -->
+			<Pattern type="Line" id="1" angle="-85" bulletNumber="20" interval="0.5">
+				<Bullet image="BulletBlueCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
+			</Pattern>
+			<Pattern type="Line" id="2" angle="-95" bulletNumber="20" interval="0.5">
+				<Bullet image="BulletRedCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
+			</Pattern>
 		</Enemy>
 	</Time>
 </Stage>

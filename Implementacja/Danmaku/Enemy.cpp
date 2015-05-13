@@ -2,15 +2,18 @@
 
 // ----- Konstruktor -----------------------------------------------------------------------------
 Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed, float const acc )
-	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(false), bonus_(nullptr),
-	traj_(nullptr), distance_(0.0f), isPatternGlued_(true), isPatternDying_(false)
+	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(true), bonus_(nullptr),
+	traj_(nullptr), distance_(0.0f), isPatternGlued_(false), isPatternDying_(false)
 {
 };
 
 // ----- Initialize Pattern -----------------------------------------------------------------------
 bool Enemy::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	pattern_->Initialize(device, this->GetCenterPoint());
+	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
+	{
+		(*it).second->Initialize(device, this->GetCenterPoint());
+	}
 	return true;
 };
 
@@ -21,20 +24,39 @@ void Enemy::Update( float const time )
 	GameObject::Update(time);
 	distance_ += this->speed * time;
 	this->position = traj_->GetPosition(distance_);
-	if (isShooting_ && pattern_ != nullptr)
+	if (isShooting_)
 	{
-		if (isPatternGlued_)
-			pattern_->SetPosition(this->GetCenterPoint());
-		pattern_->Update(time);
+		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
+		{
+			if (isPatternGlued_)
+				(*it).second->SetPosition(this->GetCenterPoint());
+			(*it).second->Update(time, this->GetCenterPoint());
+		}
 	}
 };
 
 
+// ----- Add Pattern -----------------------------------------------------------------------------
+void Enemy::AddPattern( Pattern const patId, std::string const & patternId, float const angle, float const number, float const interval )
+{
+	switch(patId)
+	{
+	case Pattern::LINEP:
+		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternLine(angle, number, interval))));
+		break;
+	default:
+		break;
+	}
+};
+
 // ----- Draw ------------------------------------------------------------------------------------
 void Enemy::Draw(RECT const & rect)
 {
-	if (pattern_ != nullptr)
-		pattern_->Draw(rect);
+	// najpierw rysujemy pociski, potem samego wroga
+	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
+	{
+		(*it).second->Draw(rect);
+	}
 	GameObject::Draw(rect);
 };
 
@@ -72,26 +94,6 @@ void Enemy::SetIsShooting(bool const isShooting)
 	isShooting_ = isShooting;
 };
 
-
-// ----- Set Pattern -----------------------------------------------------------------------------
-void Enemy::SetPattern( Pattern const patId )
-{
-	if (pattern_)
-		pattern_.release();
-
-	switch(patId)
-	{
-	case Pattern::A:
-		this->pattern_ = EPatternPtr(new EnemyPattern01());
-		break;
-	case Pattern::S:
-		this->pattern_ = EPatternPtr(new EnemyPattern02());
-		break;
-	case Pattern::NONE:
-		this->pattern_ = nullptr;
-		break;
-	}
-};
 
 // ----- Set Trajectory ---------------------------------------------------------------------------
 void Enemy::SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b )

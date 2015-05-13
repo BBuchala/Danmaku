@@ -56,6 +56,7 @@ void Stage::CreateStageElements()
 			std::deque<Enemy*> newEnemyQue;
 			for( xml_node <> * enemy = time->first_node(); enemy; enemy = enemy->next_sibling())
 			{
+				Enemy * enemyObj;
 				short number = 1;
 				float distance = 0.0f;
 				D3DXVECTOR2	position;
@@ -112,19 +113,94 @@ void Stage::CreateStageElements()
 						speed = std::stof(enemyAtr->value());
 					}
 				}
-				for (int i = 0; i < number; i++)
+				float angle, interval, bulletSpeed;
+				short bulletNumber, bulletWidth, bulletHeight;
+				Pattern pattern;
+				std::string bulletImage, patternId;
+				Hitbox::Size hSize;
+
+				enemyObj = new Enemy(position, life, speed);
+				enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
+
+				for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())
 				{
-					Enemy * enemyObj = new Enemy(position, life, speed);
-					enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
-					enemyObj->SetPattern(Pattern::A);
-					enemyObj->InitializePattern(_device, position);
-					enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
-					enemyObj->SetTrajectory(Road::LINE, position, D3DXToRadian(-90));
-					newEnemyQue.push_back(enemyObj);
+					std::string eStr(enemyNode->name());
+					if (eStr.compare("Pattern") == 0)
+					{
+						for (xml_attribute <>* patternAtr = enemyNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
+						{
+							std::string pStr(patternAtr->name());
+							if (pStr.compare("type") == 0)
+							{
+								std::string typeName = patternAtr->value();
+								if (typeName.compare("Line") == 0)
+								{
+									pattern = Pattern::LINEP;
+								}
+							}
+							else if (pStr.compare("id") == 0)
+							{
+								patternId = patternAtr->value();
+							}
+							else if (pStr.compare("angle") == 0)
+							{
+								angle = std::stof(patternAtr->value());
+							}
+							else if (pStr.compare("bulletNumber") == 0)
+							{
+								bulletNumber = std::stoi(patternAtr->value());
+							}
+							else if (pStr.compare("interval") == 0)
+							{
+								interval = std::stof(patternAtr->value());
+							}
+						}
+						for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
+						{
+							std::string str_tmp = patternNode->name();
+							if (str_tmp.compare("Bullet") == 0)
+							{
+								for (xml_attribute <>* bulletAtr = patternNode->first_attribute(); bulletAtr; bulletAtr = bulletAtr->next_attribute())
+								{
+									std::string bStr(bulletAtr->name());
+									if (bStr.compare("image") == 0)
+									{
+										bulletImage = bulletAtr->value();
+									}
+									if (bStr.compare("speed") == 0)
+									{
+										bulletSpeed = std::stof(bulletAtr->value());
+									}
+									if (bStr.compare("width") == 0)
+									{
+										bulletWidth = std::stoi(bulletAtr->value());
+									}
+									if (bStr.compare("height") == 0)
+									{
+										bulletHeight = std::stoi(bulletAtr->value());
+									}
+									if (bStr.compare("hitboxSize") == 0)
+									{
+										std::string hitboxSize = bulletAtr->value();
+										if (hitboxSize.compare("HALF") == 0)
+										{
+											hSize = Hitbox::Size::HALF_LENGTH;
+										}
+									}
+								}
+								enemyObj->AddPattern(Pattern::LINEP, patternId, angle, bulletNumber, interval);
+								enemyObj->InitializePattern(_device, position);
+								enemyObj->GetPattern(patternId).InitializeBullets(Sprite::GetFilePath(bulletImage), bulletSpeed, bulletWidth, bulletHeight, Hitbox::Shape::CIRCLE, hSize);
+							}
+						}
+					}
 				}
-			 }
-			 _enemyMap[std::stoi(std::string(atr->value()))] = newEnemyQue;
-		 }
+				enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
+				enemyObj->SetTrajectory(Road::LINE, position, D3DXToRadian(-90));
+				newEnemyQue.push_back(enemyObj);
+			}
+			_enemyMap[std::stoi(std::string(atr->value()))] = newEnemyQue;
+		}
 	}
 };
 

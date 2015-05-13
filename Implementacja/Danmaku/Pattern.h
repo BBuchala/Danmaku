@@ -2,5 +2,5 @@
 
 static enum Pattern
 {
-	NONE, A, S
+	NONE, A, S, LINEP
 };

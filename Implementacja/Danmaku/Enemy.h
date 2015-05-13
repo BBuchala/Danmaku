@@ -7,6 +7,7 @@
 #include "Pattern.h"
 #include "EnemyPattern01.h"
 #include "EnemyPattern02.h"
+#include "EnemyPatternLine.h"
 
 class Enemy: public GameObject
 {
@@ -20,7 +21,10 @@ class Enemy: public GameObject
 
 	Bonus * bonus_;
 
-	EPatternPtr pattern_;
+	/// Mapa patternów
+	typedef std::map<std::string, EPatternPtr>	PatternMap;
+	typedef std::pair<std::string, EPatternPtr>	PatternPair;
+	PatternMap _pattern;
 
 	TrajectoryPtr traj_;
 
@@ -33,6 +37,7 @@ public:
 	///// Konstruktor
 	Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed = 0.0f, float const acc = 0.0f );
 
+	void AddPattern( Pattern const patId, std::string const & patternId, float const angle, float const number, float const interva );
 	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 
 	void Draw(RECT const & rect);
@@ -42,8 +47,8 @@ public:
 	void TakeDamage( USHORT const damage );
 
 	void SetIsShooting(bool const isShooting);
+
 	void SetPatternDying(bool const isPatternDying);
-	void SetPattern( Pattern const patId );
 
 private:
 	void CreateBonus(LPDIRECT3DDEVICE9 device);
@@ -62,16 +67,20 @@ public:
 		return isPatternDying_;
 	}
 
-	inline EPattern & GetPattern() const
+	inline EPattern & GetPattern(std::string const & id)
 	{
-		return *pattern_.get();
+		return *_pattern[id].get();
 	}
 
-	inline EBulletQue & GetBullets() const
+	inline std::deque<EBulletQue*> GetBullets() const
 	{
-		return pattern_->GetBullets();
+		std::deque<EBulletQue*> eQue;
+		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); it++)
+		{
+			eQue.push_back(&(*it).second->GetBullets());
+			
+		}
+		return eQue;
 	}
-
-
 };
 

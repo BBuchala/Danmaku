@@ -15,9 +15,9 @@ public:
 
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
 
-	void Update(float const time, D3DXVECTOR2 & position);
+	void Update(float const time, D3DXVECTOR2 const & position) override;
 
-	void Add(D3DXVECTOR2 & position);
+	void Add(D3DXVECTOR2 const & position);
 
 };
 

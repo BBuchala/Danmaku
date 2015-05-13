@@ -15,7 +15,7 @@ void PlayerPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & p
 	PPattern::Initialize(device, position);
 }
 
-void PlayerPattern01::Update(float const time, D3DXVECTOR2 & playerPos)
+void PlayerPattern01::Update(float const time, D3DXVECTOR2 const & playerPos)
 {
 	if (this->elapsedTime >= 0.07000f)
 	{
@@ -32,7 +32,7 @@ void PlayerPattern01::Update(float const time, D3DXVECTOR2 & playerPos)
 	}
 }
 
-void PlayerPattern01::Add(D3DXVECTOR2 & playerPos)
+void PlayerPattern01::Add(D3DXVECTOR2 const & playerPos)
 {
 	PlayerBullet * newBullet;
 	newBullet = new PlayerBullet( 800.0f, 50 );

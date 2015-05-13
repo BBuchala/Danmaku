@@ -17,7 +17,7 @@ void PlayerPattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & p
 	rightShift = D3DXVECTOR2(-20,15);
 }
 
-void PlayerPattern02::Update(float const time, D3DXVECTOR2 & playerPos)
+void PlayerPattern02::Update(float const time, D3DXVECTOR2 const & playerPos)
 {
 	if (this->elapsedTime >= 0.05000f)
 		{
@@ -34,7 +34,7 @@ void PlayerPattern02::Update(float const time, D3DXVECTOR2 & playerPos)
 	}
 }
 
-void PlayerPattern02::Add(D3DXVECTOR2 & playerPos)
+void PlayerPattern02::Add(D3DXVECTOR2 const & playerPos)
 {
 	for (int i = 0; i < 2; i++ )
 	{
