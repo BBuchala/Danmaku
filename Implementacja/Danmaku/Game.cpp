@@ -299,8 +299,8 @@ void Game::CheckCollisions()
 	this->CheckBonusCollisions();	// najpierw zbieramy bonusy, 
 	this->CheckEnemyCollisions();	// i zabijamy wrogów,
 	this->CheckPlayerGraze();		// oraz siê ocieramy o pociski
-	if (!player->isUsingBomb())		// je¿eli nie wykorzystujemy bomby
-		CheckPlayerCollisions();	// dopiero wtedy mo¿na straciæ ¿ycie
+	if (!player->IsInvulnerable())	// je¿eli mo¿na nas zniszczyæ
+		CheckPlayerCollisions();	// dopiero wtedy te¿ mo¿na straciæ ¿ycie
 	if (player->GetLifeCount() == 0)
 	{
 		delete player;
@@ -332,6 +332,7 @@ void Game::CheckPlayerCollisions()
 					this->lifeBar->DecrementCount();
 					eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
 					this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
+					this->player->SetIsInvulnerable();
 					return;
 				}
 				if (eb_it != (*que_it)->end())

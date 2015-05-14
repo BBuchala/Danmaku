@@ -11,36 +11,36 @@
 class Player : public GameObject
 {
 protected:
-	/* ==== DEFINICJE ======================== */
+	/* ==== DEFINICJE ===================================== */
 	/// Definicja kolejki pocisków
 	typedef std::deque<PlayerBullet*> PBulletQue;
+	typedef std::unique_ptr<PPattern> PPatternPtr;
 
-	/* ==== STA£E ======================== */
+	/* ==== STA£E ========================================= */
 	// prêdkoœci
 	static const unsigned short SPEED		= 500;
 	static const unsigned short FOCUS_SPEED	= 250;
 	//rozmiary (póŸniej mog¹ byæ dobierane na podstawie rozdzielczoœci sprajta lub odwrotnie)
 	static const unsigned short SIZE_X		= 40;
 	static const unsigned short SIZE_Y		= 60;
+	static const float			INVULNERABLE_TIME;
 
-	typedef std::unique_ptr<PPattern> PPatternPtr;
+	bool _isFocused;
+	bool _usesBomb;
+	BYTE _lifeCount;
+	BYTE _bombCount;
 
-	bool isFocused;
-	bool usesBomb_;
-	BYTE lifeCount;
-	BYTE bombCount;
-	//bool isShooting;
+	BYTE _powerLevel;				// Oznacza aktualn¹ moc z jak¹ gracz napieprza wró¿ki/statki/whatever (1, 2, 3, 4)
+	float _power;					// Odzwierciedla wartoœæ uzbieranych bonusów (np 2.15)
+	bool _hasPatternChanged;
 
-	BYTE powerLevel;				// Oznacza aktualn¹ moc z jak¹ gracz napieprza wró¿ki/statki/whatever (1, 2, 3, 4)
-	float power;					// Odzwierciedla wartoœæ uzbieranych bonusów (np 2.15)
-	bool hasPatternChanged;
+	float _invulnerableTime;
+	bool _isInvulnerable;
+
+	PPatternPtr _playerPattern;
 
 public:
-	
-	PPatternPtr playerPattern;
-
-	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount );
-	Player( D3DXVECTOR2 const & pos, BYTE lifeCount );
+	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount = 3 );
 
 	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 
@@ -61,6 +61,7 @@ public:
 	void SetBombCount(const BYTE bombCount);
 	void SetIsShooting(const bool isShooting);
 	void SetHasPatternChanged(const bool hasPatternChanged);
+	void SetIsInvulnerable();
 	
 	// Incrementy i Decrementy
 	void IncrementLifeCount();
@@ -78,16 +79,21 @@ public:
 
 	inline float GetPower()
 	{
-		return this->power;
+		return _power;
 	};
 
 	inline PBulletQue & GetBullets() const
 	{
-		return playerPattern->GetBullets();
+		return _playerPattern->GetBullets();
 	};
 
-	inline bool const isUsingBomb() const
+	inline bool const IsUsingBomb() const
 	{
-		return usesBomb_;
+		return _usesBomb;
+	};
+
+	inline bool const IsInvulnerable() const
+	{
+		return _isInvulnerable;
 	};
 };
