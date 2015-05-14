@@ -210,6 +210,9 @@
     <ClCompile Include="BonusFactory.cpp">
       <Filter>Source Files\Bonuses</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyPatternEllipse.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -361,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="Bonuses.h">
       <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternEllipse.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

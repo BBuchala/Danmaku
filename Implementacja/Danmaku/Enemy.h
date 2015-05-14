@@ -9,6 +9,7 @@
 #include "EnemyPattern01.h"
 #include "EnemyPattern02.h"
 #include "EnemyPatternLine.h"
+#include "EnemyPatternEllipse.h"
 
 class Enemy: public GameObject
 {
@@ -43,7 +44,8 @@ public:
 	Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed = 0.0f, float const acc = 0.0f );
 	Enemy(Enemy const & enemy);
 
-	void AddPattern( Pattern const patId, std::string const & patternId, float const angle, float const number, float const interva );
+	void AddPattern( Pattern const patId, std::string const & patternId, float const par1,
+			float const par2, float const number, float const interva );
 	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 
 	void Draw(RECT const & rect);

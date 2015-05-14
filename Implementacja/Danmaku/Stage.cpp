@@ -70,7 +70,7 @@ void Stage::ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize)
 };
 
 
-void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId)
+void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern)
 {
 	float bulletSpeed;
 	BYTE bulletWidth, bulletHeight;
@@ -108,6 +108,14 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std
 				this->ChooseHitboxSize(bulletAtr->value(), hSize);
 			}
 		}
+		switch(pattern)
+		{
+		case Pattern::ELLIPSE:
+			bulletSpeed = D3DXToRadian(bulletSpeed);
+			break;
+		default:
+			break;
+		}
 		enemyObj->GetPattern(patternId).InitializeBullets(Sprite::GetFilePath(bulletImage), bulletSpeed, bulletWidth, bulletHeight, hShape, hSize);
 	}
 };
@@ -118,6 +126,10 @@ void Stage::ChoosePattern(std::string const & patternType, Pattern & pattern )
 	if (patternType.compare("Line") == 0)
 	{
 		pattern = Pattern::LINE;
+	}
+	else if (patternType.compare("Ellipse") == 0)
+	{
+		pattern = Pattern::ELLIPSE;
 	}
 };
 
@@ -171,7 +183,7 @@ void Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 	enemyObj->SetTrajectory(trajType, startPoint, a, b);
 	switch(trajType)
 	{
-	case ELIPSE: case SPIRAL:
+	case Road::ELIPSE: case Road::SPIRAL:
 		enemyObj->SetSpeed(D3DXToRadian(enemyObj->GetSpeed()));
 	default:
 		break;
@@ -181,8 +193,8 @@ void Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 
 void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
 {
-	float angle, interval;
-	short bulletNumber;
+	float par1, par2 = 0.0f, interval = 0.0f;
+	short bulletNumber = 1;
 	Pattern pattern;
 	std::string patternId;
 	for (xml_attribute <>* patternAtr = enemyNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
@@ -196,9 +208,13 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 		{
 			patternId = patternAtr->value();
 		}
-		else if (pStr.compare("angle") == 0)
+		else if (pStr.compare("par1") == 0)
 		{
-			angle = std::stof(patternAtr->value());
+			par1 = std::stof(patternAtr->value());
+		}
+		else if (pStr.compare("par2") == 0)
+		{
+			par2 = std::stof(patternAtr->value());
 		}
 		else if (pStr.compare("bulletNumber") == 0)
 		{
@@ -211,9 +227,9 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 	}
 	for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
 	{
-		enemyObj->AddPattern(pattern, patternId, angle, bulletNumber, interval);
+		enemyObj->AddPattern(pattern, patternId, par1, par2, bulletNumber, interval);
 		enemyObj->InitializePattern(_device, position);
-		this->CreateBullets(enemyObj, patternNode, patternId);
+		this->CreateBullets(enemyObj, patternNode, patternId, pattern);
 	}
 };
 

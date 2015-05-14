@@ -4,21 +4,32 @@
 		<Enemy number="5" distance="75" start="0" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="50">
 			<Bonus type="Score" number="5" value="10000"></Bonus>
 			<Trajectory type="Ellipse" center.x="LEFT" center.y="TOP" a="300" b="200"></Trajectory>
-			<Pattern type="Line" id="1" angle="-85" bulletNumber="20" interval="0.5">
+			<Pattern type="Line" id="1" par1="-85" bulletNumber="20" interval="0.5">
 				<Bullet image="BulletBlueCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
-			<Pattern type="Line" id="2" angle="-95" bulletNumber="20" interval="0.5">
+			<Pattern type="Line" id="2" par1="-95" bulletNumber="20" interval="0.5">
 				<Bullet image="BulletRedCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
 		<Enemy number="5" distance="75" start="0" image="YukkuriReimu" center.x="HALF" center.y="TOP" life="500" speed="50">
 			<Bonus type="Score" number="5" value="20000"></Bonus>
 			<Trajectory type="Ellipse" center.x="RIGHT" center.y="TOP" a="300" b="200"></Trajectory>
-			<Pattern type="Line" id="1" angle="-135" bulletNumber="20" interval="0.5">
+			<Pattern type="Line" id="1" par1="-135" bulletNumber="20" interval="0.5">
 				<Bullet image="BulletYellowCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
-			<Pattern type="Line" id="2" angle="-115" bulletNumber="20" interval="0.5">
+			<Pattern type="Line" id="2" par1="-115" bulletNumber="20" interval="0.5">
 				<Bullet image="BulletGreenCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
+			</Pattern>
+		</Enemy>
+	</Time>
+	<Time sec="1">
+		<Enemy number="1" start="0" image="YukkuriCirno" center.x="HALF" center.y="HALF" life="500" speed="0">
+			<Trajectory type="Line" center.x="HALF" center.y="HALF" a="-90"></Trajectory>
+			<Pattern type="Ellipse" id="1" par1="50" par2="250" bulletNumber="20">
+				<Bullet image="BulletBlueCircle" speed="18" width="32" height="32" hitboxSize="HALF"></Bullet>
+			</Pattern>
+			<Pattern type="Ellipse" id="2" par1="250" par2="50" bulletNumber="20">
+				<Bullet image="BulletBlueCircle" speed="-18" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
 	</Time>

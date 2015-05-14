@@ -52,7 +52,8 @@ private:
 
 	void CreateEnemies(xml_node <> * time, char * timeValue);
 	void CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
-	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId);
+	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId,
+			Pattern const pattern);
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
 	void CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
 
