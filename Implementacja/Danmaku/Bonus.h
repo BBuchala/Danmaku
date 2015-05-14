@@ -33,7 +33,7 @@ public:
 
 	virtual Bonuses GetBonusId() const = 0;
 
-	inline float Realize() const
+	virtual inline float Realize() const
 	{
 		return value;
 	}

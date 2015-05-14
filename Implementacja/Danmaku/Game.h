@@ -94,6 +94,7 @@ public:
 	void CheckEnemyCollisions();
 	void CheckPlayerCollisions();
 	void CheckPlayerGraze();
+	std::deque<Bonus*>* CreateLeftoverBonus();
 
 	/////// FUNKCJE PLAYFIELD
 	bool Initialize() override;

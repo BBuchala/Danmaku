@@ -337,6 +337,14 @@ void Game::CheckPlayerCollisions()
 				{
 					this->player->DecrementLifeCount();
 					this->lifeBar->DecrementCount();
+					if (player->GetPower() > 0.25f)
+						for (byte i = 0; i < 5; i++)
+						{
+							std::deque<Bonus*>* bonus = CreateLeftoverBonus();
+							if (bonus != nullptr)
+								bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
+						}
+					this->player->SubFromPower(1.0f);
 					eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
 					this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
 					this->player->SetIsInvulnerable();
@@ -457,5 +465,20 @@ void Game::CheckBonusCollisions()
 			bonus_.erase( bonus_.begin() + i );
 		}
 	}
+};
+
+std::deque<Bonus*>* Game::CreateLeftoverBonus()
+{
+	std::deque<Bonus*> * bonus = new std::deque<Bonus*>();
+	srand(time(NULL));
+	for (byte i = 0; i < 5; i++)
+	{
+			Bonus * newBonus = BonusFactory::Instance().CreateBonus(Bonuses::POWER,
+				D3DXVECTOR2(STAGE_POS_X + rand() % STAGE_WIDTH, STAGE_POS_Y + rand() % 100));
+			newBonus->Initialize( gDevice->device );
+			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+			bonus->push_back(newBonus);
+	}
+	return bonus;
 };
 
