@@ -2,6 +2,7 @@
 
 #include "Bonus.h"
 #include "BonusFactory.h"
+#include "StageConst.h"
 
 namespace
 {
@@ -15,7 +16,10 @@ namespace
 		
 		inline float Realize() const override
 		{
-			return value - (floor((position.y/706)* value / 100) * 50);	
+			if (position.y < StageConst::StageConsts::BONUS_VACUUM_Y)
+				return value;
+			else
+				return value - (floor((position.y/StageConst::StageConsts::STAGE_HEIGHT)* value / 100) * 50);	
 		}
 
 		inline Bonuses GetBonusId() const override

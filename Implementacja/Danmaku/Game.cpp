@@ -1,6 +1,6 @@
 #include "Game.h"
 
-const RECT Game::GAME_FIELD = {STAGE_POS_X, STAGE_POS_Y, STAGE_POS_X + STAGE_WIDTH, STAGE_POS_Y + STAGE_HEIGHT};
+const RECT Game::GAME_FIELD = {StageConsts::STAGE_POS_X, StageConsts::STAGE_POS_Y, StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT};
 
 /* ---- KONSTRUKTOR --------------------------------------------------------------------------- */
 Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
@@ -22,7 +22,7 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	// ekran gry
 	this->gameScreen = new GameObject(0, 0);
 	// gracz
-	this->player = new Player( D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ), 3 );
+	this->player = new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), 3 );
 	// dane liczbowe
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
 	this->scoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
@@ -233,8 +233,8 @@ void Game::DrawScene()
 	this->gameScreen->Draw(GAME_FIELD);
 
 	//// DANE LICZBOWE
-	this->scoreText->Draw(score, SCORE_PADDING);
-	this->hiScoreText->Draw(hiScore, SCORE_PADDING);
+	this->scoreText->Draw(score, StageConsts::SCORE_PADDING);
+	this->hiScoreText->Draw(hiScore, StageConsts::SCORE_PADDING);
 	if (player != nullptr) this->powerText->Draw(this->player->GetPower(), 0, 2);
 	this->powerText->Draw("		        / 4.00");
 	this->grazeText->Draw(graze, 0);
@@ -275,22 +275,22 @@ bool Game::IsPlayerWithinBounds(Move const direction)
 	switch (direction)
 	{
 		case Move::UP:
-			if (actualPosition.y <= STAGE_POS_Y )
+			if (actualPosition.y <= StageConsts::STAGE_POS_Y )
 				return false;
 			break;
 
 		case Move::DOWN:
-			if (actualPosition.y >= STAGE_POS_Y + STAGE_HEIGHT )
+			if (actualPosition.y >= StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT )
 				return false;
 			break;
 
 		case Move::LEFT:
-			if (actualPosition.x <= STAGE_POS_X )
+			if (actualPosition.x <= StageConsts::STAGE_POS_X )
 				return false;
 			break;
 
 		case Move::RIGHT:
-			if (actualPosition.x >=  STAGE_POS_X + STAGE_WIDTH )
+			if (actualPosition.x >=  StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH )
 				return false;
 			break;
 	}
@@ -351,7 +351,7 @@ void Game::CheckPlayerCollisions()
 							this->player->SetHasPatternChanged(false);
 						}
 					eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
-					this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
+					this->player->SetPosition(D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ));
 					this->player->SetIsInvulnerable();
 					return;
 				}
@@ -381,7 +381,7 @@ void Game::CheckPlayerGraze()
 				// czy ³apie siê w granicê hitboxy + graze_distance
 				// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
 				if (!(*eb_it)->IsGrazed() &&
-					grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE)
+					grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE)
 				{
 					(*eb_it)->SetGrazed( true );
 					graze++;
@@ -448,7 +448,10 @@ void Game::CheckBonusCollisions()
 		// odleg³oœæ miêdzy œrodkami dwóch obiektów
 		float grazeDistance = Vector::Length( bonus_[i]->GetCenterPoint(), this->player->GetCenterPoint() );
 		float angle = Vector::Angle(this->player->GetCenterPoint(), bonus_[i]->GetCenterPoint());
-		if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE )
+		//if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE * 10 )
+			//bonus_[i]->SetTrajectoryTowardsPlayer(player->GetCenterPoint());
+
+		if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE )
 		{
 			switch ( bonus_[i]->GetBonusId() )
 			{
@@ -489,7 +492,7 @@ std::deque<Bonus*>* Game::CreateLeftoverBonus()
 	for (byte i = 0; i < 5; i++)
 	{
 			Bonus * newBonus = BonusFactory::Instance().CreateBonus(Bonuses::POWER,
-				D3DXVECTOR2(STAGE_POS_X + rand() % STAGE_WIDTH, STAGE_POS_Y + rand() % 100));
+				D3DXVECTOR2(StageConsts::STAGE_POS_X + rand() % StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + rand() % 100));
 			newBonus->Initialize( gDevice->device );
 			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 			bonus->push_back(newBonus);
@@ -500,7 +503,7 @@ std::deque<Bonus*>* Game::CreateLeftoverBonus()
 
 void Game::CheckBonusVacuum()
 {
-	if (player->GetPosition().y <= BONUS_VACUUM_Y)
+	if (player->GetPosition().y <= StageConsts::BONUS_VACUUM_Y)
 	{
 		for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
 		{

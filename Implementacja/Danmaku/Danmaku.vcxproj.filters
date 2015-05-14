@@ -216,6 +216,9 @@
     <ClCompile Include="PlayerPattern04.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -373,6 +376,12 @@
     </ClInclude>
     <ClInclude Include="PlayerPattern04.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageConst.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
