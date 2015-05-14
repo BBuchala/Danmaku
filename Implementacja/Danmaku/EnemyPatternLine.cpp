@@ -1,10 +1,10 @@
 #include "EnemyPatternLine.h"
 
-EnemyPatternLine::EnemyPatternLine(float const angle, float const number, float const interval) : EPattern()
+EnemyPatternLine::EnemyPatternLine(float const angle, float const number, float const activationTime)
+								   : EPattern(activationTime)
 {
 	_angle = angle;
 	_number = number;
-	_interval = interval;
 };
 
 
@@ -16,16 +16,19 @@ void EnemyPatternLine::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & 
 
 void EnemyPatternLine::Update(float const time, D3DXVECTOR2 const & position)
 {
-	_bulletTime += time;
-	if (_bulletTime >= _interval && _bullet.size() < _number)
+	_actTime += time;
+	if (_actTime >= _activationTime)
 	{
-		AddBullet(position);
-		_bulletTime = 0;
-	}
-	// Zmiana po³o¿enia pocisków
-	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
-	{
-		(*it)->Update(time);
+		if (!_isInitialized)
+		{
+			AddBullet(position);
+			_isInitialized = true;
+		}
+		// Zmiana po³o¿enia pocisków
+		for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
+		{
+			(*it)->Update(time);
+		}
 	}
 };
 

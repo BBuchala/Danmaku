@@ -50,15 +50,16 @@ void Enemy::Update( float const time )
 
 
 // ----- Add Pattern -----------------------------------------------------------------------------
-void Enemy::AddPattern( Pattern const patId, std::string const & patternId, float const par1, float const par2, float const number, float const interval )
+void Enemy::AddPattern(Pattern const patId, std::string const & patternId, float const par1, float const par2,
+					   float const bulletNumber, float const interval, float const actTime )
 {
 	switch(patId)
 	{
 	case Pattern::LINE:
-		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternLine(par1, number, interval))));
+		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternLine(par1, bulletNumber, actTime))));
 		break;
 	case Pattern::ELLIPSE:
-		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternEllipse(par1, par2, number))));
+		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternEllipse(par1, par2, bulletNumber, actTime))));
 		break;
 	default:
 		break;
@@ -144,3 +145,4 @@ void Enemy::SetDistance(float const distance)
 {
 	distance_ = distance;
 };
+

@@ -24,7 +24,7 @@ class Enemy: public GameObject
 	BonusMap _bonusMap;
 
 	/// Mapa patternów
-	typedef std::unique_ptr<EPattern> EPatternPtr;
+	typedef std::shared_ptr<EPattern>			EPatternPtr;
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
 	typedef std::pair<std::string, EPatternPtr>	PatternPair;
 	PatternMap _pattern;
@@ -39,13 +39,15 @@ class Enemy: public GameObject
 	bool isPatternDying_;		// jak tak, to pociski s¹ usuwane wraz z wrogiem
 	float shootingDistance_;	// po przebyciu tej drogi wróg zaczyna strzelaæ
 
+	typedef std::pair<D3DXVECTOR2, PatternMap*>	SavedPair;
+
 public:
 	///// Konstruktor
 	Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed = 0.0f, float const acc = 0.0f );
 	Enemy(Enemy const & enemy);
 
 	void AddPattern( Pattern const patId, std::string const & patternId, float const par1,
-			float const par2, float const number, float const interva );
+			float const par2, float const number, float const interval, float const actTime );
 	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 
 	void Draw(RECT const & rect);
@@ -80,6 +82,19 @@ public:
 	inline EPattern & GetPattern(std::string const & id)
 	{
 		return *_pattern[id].get();
+	}
+
+	inline SavedPair GetPatterns() const
+	{
+		PatternMap * pMap = new PatternMap();
+		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
+		{
+			if (it->second->IsInitialized())
+			{
+				(*pMap)[it->first] = it->second;
+			}
+		}
+		return SavedPair(position, pMap);
 	}
 
 	inline std::deque<EBulletQue*> GetBullets() const

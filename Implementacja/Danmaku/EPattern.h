@@ -23,6 +23,11 @@ protected:
 	float _number;
 	float _interval;
 
+	/// Kontrolki przekszta³ceñ afinicznych
+	D3DXVECTOR2 _translate;
+	float _scale;
+	float _rotate;
+
 	/// W³aœciwoœci generowanych pocisków
 	std::string _bulletImage;
 	float _bulletSpeed;
@@ -43,19 +48,25 @@ protected:
 	// pozycja wzoru
 	D3DXVECTOR2 _position;
 
+	float _activationTime;
+	float _actTime;
+	bool _isInitialized;
+
 public:
-	EPattern();
+	EPattern(float const activationTime);
 	virtual ~EPattern();
 	
 	// przekazanie uchwytu
 	virtual void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position );
 	void InitializeBullets(std::string bulletImage, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize);
 
-	virtual void SetPosition(D3DXVECTOR2 const & pos);
-
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
 
+	/// SETTERY
+	virtual void SetPosition(D3DXVECTOR2 const & pos);
+
+	/// GETTERY
 	inline EBulletQue & GetBullets()
 	{
 		return _bullet;
@@ -66,5 +77,19 @@ public:
 		return _position;
 	}
 
+	inline bool IsInitialized() const
+	{
+		return _isInitialized;
+	}
+
+	/// PRZEKSZTA£CENIA AFINICZNE
+	virtual void Translate(D3DXVECTOR2 const & translate);
+	virtual void Scale(float const scale);
+	virtual void Rotate(float const rotate);
+
+	/// Ustawienie wartoœci przekszta³ceñ afinicznych
+	void SetTranslation(D3DXVECTOR2 const & translate);
+	void SetScale(float const scale);
+	void SetRotation(float const rotate);
 };
 

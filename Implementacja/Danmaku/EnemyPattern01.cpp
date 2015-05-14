@@ -1,6 +1,6 @@
 #include "EnemyPattern01.h"
 
-EnemyPattern01::EnemyPattern01() : bulletTime(0.0f)
+EnemyPattern01::EnemyPattern01() : EPattern(0.0f), bulletTime(0.0f)
 {
 };
 

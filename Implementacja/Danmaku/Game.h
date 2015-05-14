@@ -39,12 +39,16 @@ class Game : public Playfield
 
 	Player * player;
 
-	typedef std::deque<Enemy*> EnemyQue;
+	typedef std::vector<Enemy*> EnemyQue;
 	EnemyQue enemy_;
 
 	// miejsce na pociski wyemitowane przez zabitych wrogów
 	// ¿eby nie zniknê³y wraz z jego œmierci¹
-	std::deque<EnemyBullet*> _savedBullets;
+	typedef std::shared_ptr<EPattern>			EPatternPtr;
+	typedef std::map<std::string, EPatternPtr>	PatternMap;
+	typedef std::pair<D3DXVECTOR2, PatternMap*>	SavedPair;
+	typedef std::deque<SavedPair>				SavedPairQue;
+	SavedPairQue _savedBullets;
 
 	//////// NAPISY
 	unsigned long int score;

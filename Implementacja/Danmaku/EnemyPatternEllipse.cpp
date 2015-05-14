@@ -1,7 +1,8 @@
 #include "EnemyPatternEllipse.h"
 
-EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radiusB, float const number)
-	: EPattern(), _initialized(false)
+EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radiusB, float const number,
+										 float const activationTime)
+										 : EPattern(activationTime)
 {
 	_radiusA = radiusA;
 	_radiusB = radiusB;
@@ -17,23 +18,31 @@ void EnemyPatternEllipse::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const
 
 void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
 {
-	// Utworzenie pocisków
-	if (!_initialized && _bullet.size() < _number)
+	_actTime += time;
+	if (_actTime >= _activationTime)
 	{
-		for (int i = 0; i < _number; i++)
+		// Utworzenie pocisków
+		_bulletTime += time;
+		if (!_isInitialized && _bullet.size() < _number)
 		{
-			AddBullet(position);
+			for (int i = 0; i < _number; i++)
+			{
+				AddBullet(position);
+			}
+			for (unsigned int i = 0; i < _bullet.size(); i++)
+			{
+				_bullet[i]->SetDistance(D3DXToRadian(i * (360.0f / _number)));
+			}
+			_isInitialized = true;
 		}
-		for (unsigned int i = 0; i < _bullet.size(); i++)
+		// Przekszta³cenia torów pocisków
+		this->Scale();
+
+		// Zmiana po³o¿enia pocisków
+		for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
 		{
-			_bullet[i]->SetDistance(D3DXToRadian(i * (360.0f / _number)));
+			(*it)->Update(time);
 		}
-		_initialized = true;
-	}
-	// Zmiana po³o¿enia pocisków
-	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
-	{
-		(*it)->Update(time);
 	}
 };
 
@@ -45,5 +54,13 @@ void EnemyPatternEllipse::AddBullet(D3DXVECTOR2 const & position)
 	newBullet->InitializeHitbox( _hitboxShape, _hitboxSize );
 	newBullet->SetTrajectory( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, position, _radiusA, _radiusB ) );
 	_bullet.push_back(newBullet);
+};
+
+void EnemyPatternEllipse::Scale()
+{
+	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
+	{
+		(*it)->GetTrajectory()->Scale(_scale);
+	}
 };
 

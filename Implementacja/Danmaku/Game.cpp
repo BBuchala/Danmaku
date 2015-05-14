@@ -50,7 +50,6 @@ Game::~Game()
 	for (int i = enemy_.size() - 1; i > 1 ; i--)
 	{
 		delete enemy_[i];
-		enemy_.pop_back();
 	}
 
 	// usuniêcie danych liczbowych
@@ -204,9 +203,12 @@ void Game::Update(float const time)
 		bonus_[i]->Update(time);
 
 	//// Obs³uga reszty pocisków
-	for (unsigned int i = 0; i < _savedBullets.size(); i++)
+	for (SavedPairQue::const_iterator s_it = _savedBullets.begin(); s_it != _savedBullets.end(); s_it++)
 	{
-		_savedBullets[i]->Update(time);
+		for (PatternMap::const_iterator p_it = s_it->second->begin(); p_it != s_it->second->end(); p_it++)
+		{
+			p_it->second->Update(time, s_it->first);
+		}
 	}
 };
 
@@ -220,9 +222,12 @@ void Game::DrawScene()
 		(*it)->Draw(GAME_FIELD);
 	}
 	//// Obs³uga reszty pocisków
-	for (unsigned int i = 0; i < _savedBullets.size(); i++)
+	for (SavedPairQue::const_iterator s_it = _savedBullets.begin(); s_it != _savedBullets.end(); s_it++)
 	{
-		_savedBullets[i]->Draw(GAME_FIELD);
+		for (PatternMap::const_iterator p_it = s_it->second->begin(); p_it !=  s_it->second->end(); p_it++)
+		{
+			p_it->second->Draw(GAME_FIELD);
+		}
 	}
 
 	this->gameScreen->Draw(GAME_FIELD);
@@ -300,7 +305,9 @@ void Game::CheckCollisions()
 	this->CheckEnemyCollisions();	// i zabijamy wrogów,
 	this->CheckPlayerGraze();		// oraz siê ocieramy o pociski
 	if (!player->IsInvulnerable())	// je¿eli mo¿na nas zniszczyæ
+	{
 		CheckPlayerCollisions();	// dopiero wtedy te¿ mo¿na straciæ ¿ycie
+	}
 	if (player->GetLifeCount() == 0)
 	{
 		delete player;
@@ -393,12 +400,7 @@ void Game::CheckEnemyCollisions()
 			{
 				if (!(*e_it)->IsPatternDying())
 				{
-					typedef std::deque<std::deque<EnemyBullet*>*> EnemyQueQue;
-					EnemyQueQue ebList = (*e_it)->GetBullets();
-					for (EnemyQueQue::const_iterator que_it = ebList.begin(); que_it != ebList.end(); ++que_it)
-					{
-						_savedBullets.insert(_savedBullets.end(), (*que_it)->begin(), (*que_it)->end());
-					}
+					_savedBullets.push_back((*e_it)->GetPatterns());
 				}
 				// otrzymujemy wskaŸnik na kopiê bonusu
 				std::deque<Bonus*>* bonus = (*e_it)->GetBonus(gDevice->device);

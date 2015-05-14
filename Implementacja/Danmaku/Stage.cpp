@@ -78,46 +78,43 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std
 	Hitbox::Shape hShape = Hitbox::Shape::CIRCLE;
 	Hitbox::Size hSize = Hitbox::Size::HALF_LENGTH;
 	std::string str_tmp = patternNode->name();
-	if (str_tmp.compare("Bullet") == 0)
+	for (xml_attribute <>* bulletAtr = patternNode->first_attribute(); bulletAtr; bulletAtr = bulletAtr->next_attribute())
 	{
-		for (xml_attribute <>* bulletAtr = patternNode->first_attribute(); bulletAtr; bulletAtr = bulletAtr->next_attribute())
+		std::string bStr(bulletAtr->name());
+		if (bStr.compare("image") == 0)
 		{
-			std::string bStr(bulletAtr->name());
-			if (bStr.compare("image") == 0)
-			{
-				bulletImage = bulletAtr->value();
-			}
-			if (bStr.compare("speed") == 0)
-			{
-				bulletSpeed = std::stof(bulletAtr->value());
-			}
-			if (bStr.compare("width") == 0)
-			{
-				bulletWidth = std::stoi(bulletAtr->value());
-			}
-			if (bStr.compare("height") == 0)
-			{
-				bulletHeight = std::stoi(bulletAtr->value());
-			}
-			if (bStr.compare("hitboxShape") == 0)
-			{
-				this->ChooseHitboxShape(bulletAtr->value(), hShape);
-			}
-			if (bStr.compare("hitboxSize") == 0)
-			{
-				this->ChooseHitboxSize(bulletAtr->value(), hSize);
-			}
+			bulletImage = bulletAtr->value();
 		}
-		switch(pattern)
+		if (bStr.compare("speed") == 0)
 		{
-		case Pattern::ELLIPSE:
-			bulletSpeed = D3DXToRadian(bulletSpeed);
-			break;
-		default:
-			break;
+			bulletSpeed = std::stof(bulletAtr->value());
 		}
-		enemyObj->GetPattern(patternId).InitializeBullets(Sprite::GetFilePath(bulletImage), bulletSpeed, bulletWidth, bulletHeight, hShape, hSize);
+		if (bStr.compare("width") == 0)
+		{
+			bulletWidth = std::stoi(bulletAtr->value());
+		}
+		if (bStr.compare("height") == 0)
+		{
+			bulletHeight = std::stoi(bulletAtr->value());
+		}
+		if (bStr.compare("hitboxShape") == 0)
+		{
+			this->ChooseHitboxShape(bulletAtr->value(), hShape);
+		}
+		if (bStr.compare("hitboxSize") == 0)
+		{
+			this->ChooseHitboxSize(bulletAtr->value(), hSize);
+		}
 	}
+	switch(pattern)
+	{
+	case Pattern::ELLIPSE:
+		bulletSpeed = D3DXToRadian(bulletSpeed);
+		break;
+	default:
+		break;
+	}
+	enemyObj->GetPattern(patternId).InitializeBullets(Sprite::GetFilePath(bulletImage), bulletSpeed, bulletWidth, bulletHeight, hShape, hSize);
 };
 
 
@@ -191,22 +188,49 @@ void Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 };
 
 
+void Stage::CreateAffineParameters(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId)
+{
+	D3DXVECTOR2 translate = D3DXVECTOR2(0.0f, 0.0f);
+	float rotate = 0.0f, scale = 1.0f; 
+	std::string str_tmp = patternNode->name();
+	for (xml_attribute <>* affineAtr = patternNode->first_attribute(); affineAtr; affineAtr = affineAtr->next_attribute())
+	{
+		std::string pStr(affineAtr->name());
+		if (pStr.compare("translate.x") == 0)
+		{
+			translate.x = std::stof(affineAtr->value());
+		}
+		else if (pStr.compare("translate.y") == 0)
+		{
+			translate.y = std::stof(affineAtr->value());
+		}
+		else if (pStr.compare("scale") == 0)
+		{
+			scale = std::stof(affineAtr->value());
+		}
+		else if (pStr.compare("rotate") == 0)
+		{
+			rotate = std::stof(affineAtr->value());
+		}
+	}
+	enemyObj->GetPattern(patternId).SetTranslation(D3DXVECTOR2(std::pow(translate.x, 1.0f / 60.0f), std::pow(translate.y, 1.0f / 60.0f)));
+	enemyObj->GetPattern(patternId).SetScale(std::pow(scale, 1.0f / 60.0f));
+	enemyObj->GetPattern(patternId).SetRotation(std::pow(rotate, 1.0f / 60.0f));
+};
+
+
 void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
 {
 	float par1, par2 = 0.0f, interval = 0.0f;
-	short bulletNumber = 1;
+	short bulletNumber = 1, number = 1;
 	Pattern pattern;
-	std::string patternId;
+	static short patternId = 1;
 	for (xml_attribute <>* patternAtr = enemyNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
 	{
 		std::string pStr(patternAtr->name());
 		if (pStr.compare("type") == 0)
 		{
 			this->ChoosePattern(patternAtr->value(), pattern);
-		}
-		else if (pStr.compare("id") == 0)
-		{
-			patternId = patternAtr->value();
 		}
 		else if (pStr.compare("par1") == 0)
 		{
@@ -220,16 +244,34 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 		{
 			bulletNumber = std::stoi(patternAtr->value());
 		}
+		else if (pStr.compare("number") == 0)
+		{
+			number = std::stoi(patternAtr->value());
+		}
 		else if (pStr.compare("interval") == 0)
 		{
 			interval = std::stof(patternAtr->value());
 		}
 	}
-	for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
+	for (int i = 0; i < number; i++)
 	{
-		enemyObj->AddPattern(pattern, patternId, par1, par2, bulletNumber, interval);
-		enemyObj->InitializePattern(_device, position);
-		this->CreateBullets(enemyObj, patternNode, patternId, pattern);
+		std::string patternIdStr = std::to_string(patternId);
+		for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
+		{
+			float activationTime = i * interval;
+			enemyObj->AddPattern(pattern, patternIdStr, par1, par2, bulletNumber, interval, activationTime);
+			enemyObj->InitializePattern(_device, position);
+			std::string str_tmp = patternNode->name();
+			if (str_tmp.compare("Bullet") == 0)
+			{
+				this->CreateBullets(enemyObj, patternNode, patternIdStr, pattern);
+			}
+			else if (str_tmp.compare("Affine") == 0)
+			{
+				this->CreateAffineParameters(enemyObj, patternNode, patternIdStr);
+			}
+		}
+		patternId++;
 	}
 };
 
@@ -299,9 +341,17 @@ void Stage::ChooseVerticalPosition(std::string const & pos, float & positionX )
 		{
 			positionX = static_cast<float>(_gameField->left);
 		}
+		else if (pos.compare("ONE_THIRDS") == 0)
+		{
+			positionX = (_gameField->bottom - _gameField->top) / 3.0f;
+		}
 		else if (pos.compare("HALF") == 0)
 		{
 			positionX = (_gameField->right - _gameField->left) / 2.0f;
+		}
+		else if (pos.compare("TWO_THIRDS") == 0)
+		{
+			positionX = (_gameField->bottom - _gameField->top) * 2.0f / 3.0f;
 		}
 		else if (pos.compare("RIGHT") == 0)
 		{
@@ -321,9 +371,17 @@ void Stage::ChooseHorizontalPosition(std::string const & pos, float & positionY 
 		{
 			positionY = static_cast<float>(_gameField->top);
 		}
+		else if (pos.compare("ONE_THIRDS") == 0)
+		{
+			positionY = (_gameField->bottom - _gameField->top) / 3.0f;
+		}
 		else if (pos.compare("HALF") == 0)
 		{
 			positionY = (_gameField->bottom - _gameField->top) / 2.0f;
+		}
+		else if (pos.compare("TWO_THIRDS") == 0)
+		{
+			positionY = (_gameField->bottom - _gameField->top) * 2.0f / 3.0f;
 		}
 		else if (pos.compare("BOTTOM") == 0)
 		{

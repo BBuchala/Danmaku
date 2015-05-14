@@ -1,7 +1,11 @@
 #include "EPattern.h"
 
-EPattern::EPattern() : _elapsedTime(0.0f), _bulletTime(0.0f)
+EPattern::EPattern(float const activationTime) : _elapsedTime(0.0f), _bulletTime(0.0f),
+	_activationTime(activationTime), _isInitialized(false), _actTime(0.0f)
 {
+	_translate = D3DXVECTOR2(0.0f, 0.0f);
+	_rotate = 0.0f;
+	_scale = 1.0f;
 };
 
 
@@ -44,4 +48,40 @@ void EPattern::Draw( RECT const & rect )
 void EPattern::SetPosition(D3DXVECTOR2 const & pos)
 {
 	this->_position = pos;
+};
+
+// ----- Translate ------------------------------------------------------------------------------
+void EPattern::Translate(D3DXVECTOR2 const & translate)
+{
+	_translate += translate;
+};
+
+// ----- Scale ----------------------------------------------------------------------------------
+void EPattern::Scale(float const scale)
+{
+	_scale *= scale;
+};
+
+// ----- Rotate ----------------------------------------------------------------------------------
+void EPattern::Rotate(float const rotate)
+{
+	_rotate += rotate;
+};
+
+// ----- Set Translation --------------------------------------------------------------------------
+void EPattern::SetTranslation(D3DXVECTOR2 const & translate)
+{
+	_translate = translate;
+};
+
+// ----- Set Scale --------------------------------------------------------------------------------
+void EPattern::SetScale(float const scale)
+{
+	_scale = scale;
+};
+
+// ----- Set Rotation------------------------------------------------------------------------------
+void EPattern::SetRotation(float const rotate)
+{
+	_rotate = rotate;
 };
