@@ -92,4 +92,9 @@ public:
 		return hitbox.get();
 	}
 
+	inline float GetSpeed() const
+	{
+		return speed;
+	}
+
 };

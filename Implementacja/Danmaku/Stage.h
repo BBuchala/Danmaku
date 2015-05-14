@@ -54,6 +54,7 @@ private:
 	void CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
 	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId);
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
+	void CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
 
 	void ChoosePattern(std::string const & patternType, Pattern & pattern );
 	void ChooseVerticalPosition(std::string const & pos, float & positionX );
@@ -61,6 +62,7 @@ private:
 	void ChooseHitboxShape(std::string const & shape, Hitbox::Shape & hShape);
 	void ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize);
 	void ChooseBonus(std::string const & bonus, Bonuses & bonusType);
+	void ChooseTrajectory(std::string const & traj, Road & trajType);
 
 	inline char * stringToChar( std::string const & s )
 	{

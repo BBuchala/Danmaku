@@ -13,11 +13,8 @@
 class Enemy: public GameObject
 {
 	typedef std::deque<EnemyBullet*> EBulletQue;
-	typedef std::unique_ptr<EPattern> EPatternPtr;
-	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
 
 	float distance_;
-
 	USHORT life_;
 
 	/// Mapa bonusów
@@ -26,10 +23,13 @@ class Enemy: public GameObject
 	BonusMap _bonusMap;
 
 	/// Mapa patternów
+	typedef std::unique_ptr<EPattern> EPatternPtr;
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
 	typedef std::pair<std::string, EPatternPtr>	PatternPair;
 	PatternMap _pattern;
 
+	/// Trajektoria
+	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
 	TrajectoryPtr traj_;
 
 	// pola kontrolne
@@ -40,6 +40,7 @@ class Enemy: public GameObject
 public:
 	///// Konstruktor
 	Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed = 0.0f, float const acc = 0.0f );
+	Enemy(Enemy const & enemy);
 
 	void AddPattern( Pattern const patId, std::string const & patternId, float const angle, float const number, float const interva );
 	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
@@ -53,6 +54,8 @@ public:
 	void SetBonus(Bonuses const bonus, float const value);
 	void SetIsShooting(bool const isShooting);
 	void SetPatternDying(bool const isPatternDying);
+
+	void SetDistance(float const distance);
 
 private:
 	std::deque<Bonus*>* CreateBonus(LPDIRECT3DDEVICE9 device);

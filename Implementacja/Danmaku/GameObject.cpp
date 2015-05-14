@@ -6,7 +6,7 @@ GameObject::GameObject(float const x, float const y, float const speed, float co
 {
 	///// Przydzielenie wartoœci sk³adowym
 	this->SetPosition(x, y);
-	this->speed = speed < 0 ? 0 : speed;
+	this->speed = speed;
 	this->hitbox = NULL;
 
 	///// Przydzielenie pamiêci obiektom klas
@@ -164,4 +164,3 @@ void GameObject::Translate( D3DXVECTOR2 const & dv )
 {
 	this->position += dv;
 };
-

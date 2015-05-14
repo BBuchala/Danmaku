@@ -122,52 +122,98 @@ void Stage::ChoosePattern(std::string const & patternType, Pattern & pattern )
 };
 
 
-void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position)
+void Stage::ChooseTrajectory(std::string const & trajType, Road & traj)
+{
+	if (trajType.compare("Line") == 0)
+	{
+		traj = Road::LINE;
+	}
+	else if (trajType.compare("Ellipse") == 0)
+	{
+		traj = Road::ELIPSE;
+	}
+	else if (trajType.compare("Spiral") == 0)
+	{
+		traj = Road::SPIRAL;
+	}
+};
+
+
+void Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
+{
+	Road trajType;
+	D3DXVECTOR2 startPoint;
+	float a, b = 0.0f;
+	for (xml_attribute <>* trajectoryAtr = trajectory->first_attribute(); trajectoryAtr; trajectoryAtr = trajectoryAtr->next_attribute())
+	{
+		std::string str(trajectoryAtr->name());
+		if (str.compare("type") == 0)
+		{
+			this->ChooseTrajectory(trajectoryAtr->value(), trajType);
+		}
+		else if (str.compare("center.x") == 0)
+		{
+			this->ChooseVerticalPosition(trajectoryAtr->value(), startPoint.x);
+		}
+		else if (str.compare("center.y") == 0)
+		{
+			this->ChooseHorizontalPosition(trajectoryAtr->value(), startPoint.y);
+		}
+		else if (str.compare("a") == 0)
+		{
+			a = std::stof(trajectoryAtr->value());
+		}
+		else if (str.compare("b") == 0)
+		{
+			b = std::stof(trajectoryAtr->value());
+		}
+	}
+	enemyObj->SetTrajectory(trajType, startPoint, a, b);
+	switch(trajType)
+	{
+	case ELIPSE: case SPIRAL:
+		enemyObj->SetSpeed(D3DXToRadian(enemyObj->GetSpeed()));
+	default:
+		break;
+	}
+};
+
+
+void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
 {
 	float angle, interval;
 	short bulletNumber;
 	Pattern pattern;
 	std::string patternId;
-	for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())
+	for (xml_attribute <>* patternAtr = enemyNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
 	{
-		std::string eStr(enemyNode->name());
-		if (eStr.compare("Pattern") == 0)
+		std::string pStr(patternAtr->name());
+		if (pStr.compare("type") == 0)
 		{
-			for (xml_attribute <>* patternAtr = enemyNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
-			{
-				std::string pStr(patternAtr->name());
-				if (pStr.compare("type") == 0)
-				{
-					this->ChoosePattern(patternAtr->value(), pattern);
-				}
-				else if (pStr.compare("id") == 0)
-				{
-					patternId = patternAtr->value();
-				}
-				else if (pStr.compare("angle") == 0)
-				{
-					angle = std::stof(patternAtr->value());
-				}
-				else if (pStr.compare("bulletNumber") == 0)
-				{
-					bulletNumber = std::stoi(patternAtr->value());
-				}
-				else if (pStr.compare("interval") == 0)
-				{
-					interval = std::stof(patternAtr->value());
-				}
-			}
-			for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
-			{
-				enemyObj->AddPattern(pattern, patternId, angle, bulletNumber, interval);
-				enemyObj->InitializePattern(_device, position);
-				this->CreateBullets(enemyObj, patternNode, patternId);
-			}
+			this->ChoosePattern(patternAtr->value(), pattern);
 		}
-		if (eStr.compare("Bonus") == 0)
+		else if (pStr.compare("id") == 0)
 		{
-			this->CreateBonus(enemyObj, enemyNode, position);
+			patternId = patternAtr->value();
 		}
+		else if (pStr.compare("angle") == 0)
+		{
+			angle = std::stof(patternAtr->value());
+		}
+		else if (pStr.compare("bulletNumber") == 0)
+		{
+			bulletNumber = std::stoi(patternAtr->value());
+		}
+		else if (pStr.compare("interval") == 0)
+		{
+			interval = std::stof(patternAtr->value());
+		}
+	}
+	for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
+	{
+		enemyObj->AddPattern(pattern, patternId, angle, bulletNumber, interval);
+		enemyObj->InitializePattern(_device, position);
+		this->CreateBullets(enemyObj, patternNode, patternId);
 	}
 };
 
@@ -278,7 +324,7 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 	{
 		Enemy * enemyObj;
 		short number = 1;
-		float distance = 0.0f;
+		float distance = 0.0f, start = 0.0f;
 		D3DXVECTOR2	position;
 		std::string imageFile;
 		short life;
@@ -289,6 +335,10 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 			if (eStr.compare("number") == 0)
 			{
 				number = std::stoi(enemyAtr->value());
+			}
+			else if (eStr.compare("start") == 0)
+			{
+				start = std::stof(enemyAtr->value());
 			}
 			else if (eStr.compare("distance") == 0)
 			{
@@ -318,11 +368,23 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 
 		enemyObj = new Enemy(position, life, speed);
 		enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
-
-		this->CreatePatterns(enemyObj, enemy, position);
-
+		for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())
+		{
+			std::string eStr(enemyNode->name());
+			if (eStr.compare("Pattern") == 0)
+			{
+				this->CreatePatterns(enemyObj, enemyNode, position);
+			}
+			else if (eStr.compare("Bonus") == 0)
+			{
+				this->CreateBonus(enemyObj, enemyNode, position);
+			}
+			else if (eStr.compare("Trajectory") == 0)
+			{
+				this->CreateTrajectory(enemyObj, enemyNode);
+			}
+		}
 		enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
-		enemyObj->SetTrajectory(Road::LINE, position, D3DXToRadian(-90));
 		newEnemyQue.push_back(enemyObj);
 	}
 	_enemyMap[std::stoi(std::string(timeValue))] = newEnemyQue;

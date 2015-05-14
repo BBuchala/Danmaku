@@ -7,6 +7,19 @@ Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed
 {
 };
 
+
+Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position.x, enemy.position.y, enemy.speed, enemy.acceleration),
+	life_(enemy.life_), isShooting_(enemy.isShooting_), traj_(enemy.traj_), distance_(enemy.distance_),
+	isPatternGlued_(enemy.isPatternGlued_), isPatternDying_(enemy.isPatternDying_)
+{
+	this->sprite = SpritePtr(enemy.sprite);					// TODO
+	//this->hitbox = HitboxPtr(new Hitbox(enemy.hitbox));		// TODO
+	//this->_bonusMap = enemy._bonusMap;						// Done
+	//this->_pattern = enemy._pattern;						// TODO
+	//this->traj_  = enemy.traj_;								// TODO
+
+};
+
 // ----- Initialize Pattern -----------------------------------------------------------------------
 bool Enemy::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
@@ -123,3 +136,8 @@ void Enemy::SetBonus(Bonuses const bonus, float const value)
 	_bonusMap.insert(BonusMap::value_type(_bonusMap.size(), BonusPair(bonus, value)));
 };
 
+// ----- Set Distance -----------------------------------------------------------------------------
+void Enemy::SetDistance(float const distance)
+{
+	distance_ = distance;
+};
