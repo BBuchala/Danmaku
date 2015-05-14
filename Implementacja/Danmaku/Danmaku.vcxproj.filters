@@ -213,6 +213,9 @@
     <ClCompile Include="EnemyPatternEllipse.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerPattern04.cpp">
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="EnemyPatternEllipse.h">
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPattern04.h">
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

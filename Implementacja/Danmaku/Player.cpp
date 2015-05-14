@@ -222,6 +222,10 @@ void Player::ChangePlayerPattern()
 			_playerPattern = PPatternPtr(new PlayerPattern03());
 			break;
 
+		case 4:
+			_playerPattern = PPatternPtr(new PlayerPattern04());
+			break;
+
 		default:
 			_playerPattern = PPatternPtr(new PlayerPattern01());
 			break;

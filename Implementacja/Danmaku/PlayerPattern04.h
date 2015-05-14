@@ -1,9 +1,8 @@
 #pragma once
-#include "EPattern.h"
-#include "PlayerBullet.h"
-#include "PPattern.h"
+#include "ppattern.h"
 
-class PlayerPattern03 : public PPattern
+
+class PlayerPattern04 : public PPattern
 {
 private:
 
@@ -11,10 +10,11 @@ private:
 	D3DXVECTOR2 leftShift, rightShift;
 
 public:
-	PlayerPattern03(void);
-	~PlayerPattern03(void);
+	PlayerPattern04(void);
+	~PlayerPattern04(void);
 
 	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
+
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void Add(D3DXVECTOR2 const & position);

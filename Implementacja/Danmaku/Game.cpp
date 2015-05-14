@@ -338,13 +338,17 @@ void Game::CheckPlayerCollisions()
 					this->player->DecrementLifeCount();
 					this->lifeBar->DecrementCount();
 					if (player->GetPower() > 0.25f)
-						for (byte i = 0; i < 5; i++)
-						{
-							std::deque<Bonus*>* bonus = CreateLeftoverBonus();
-							if (bonus != nullptr)
-								bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
-						}
+					{
+						std::deque<Bonus*>* bonus = CreateLeftoverBonus();
+						if (bonus != nullptr)
+							bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
+					}
 					this->player->SubFromPower(1.0f);
+					if (this->player->HasPatternChanged())
+						{
+							this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+							this->player->SetHasPatternChanged(false);
+						}
 					eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
 					this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
 					this->player->SetIsInvulnerable();
