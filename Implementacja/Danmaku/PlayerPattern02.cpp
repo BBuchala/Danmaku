@@ -17,7 +17,7 @@ void PlayerPattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & p
 
 void PlayerPattern02::Update(float const time, D3DXVECTOR2 const & playerPos)
 {
-	if (this->elapsedTime >= 0.05000f)
+	if (this->elapsedTime >= 0.08000f)
 		{
 			if (this->isKeyPressed)
 				Add(playerPos);

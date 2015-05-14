@@ -226,8 +226,12 @@ void Player::ChangePlayerPattern()
 			_playerPattern = PPatternPtr(new PlayerPattern04());
 			break;
 
-		default:
-			_playerPattern = PPatternPtr(new PlayerPattern01());
+		case 5:
+			_playerPattern = PPatternPtr(new PlayerPattern05());
+			break;
+
+		default:													// Zostawiam na wypadek bugu
+			_playerPattern = PPatternPtr(new PlayerPattern01());		
 			break;
 	}
 	_hasPatternChanged = true;
