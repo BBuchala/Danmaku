@@ -5,11 +5,6 @@
 
 class PlayerPattern02 : public PPattern
 {
-private:
-
-	// Przesuniêcia dla miejsc z których wystrzeliwane bêd¹ pociski wzglêdem œrodka gracza
-	D3DXVECTOR2 leftShift, rightShift;
-
 public:
 	PlayerPattern02(void);
 	~PlayerPattern02(void);
