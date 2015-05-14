@@ -21,6 +21,11 @@ public:
 	void SetStartPoint( float const x0, float const y0 );
 	void SetStartPoint( D3DXVECTOR2 const & startPoint );
 
+	virtual void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & position)
+	{
+
+	};
+
 protected:
 	void GetRotation( D3DXVECTOR2 & pos, float const theta );
 };

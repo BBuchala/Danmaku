@@ -1,7 +1,8 @@
 #include "Bonus.h"
 
 Bonus::Bonus(D3DXVECTOR2 const & position, float const value, float const speed, std::string fileName)
-	: GameObject( position.x, position.y, speed ), value(value), distance(0.0f), fileName(fileName)
+	: GameObject( position.x, position.y, speed ), value(value), distance(0.0f), fileName(fileName),
+	_vacuumed(false)
 {
 	this->trajectory = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(-90) ) );
 };

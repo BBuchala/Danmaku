@@ -31,6 +31,8 @@ class Game : public Playfield
 	static const unsigned short STAGE_HEIGHT	= 706;
 	static const unsigned short SCORE_PADDING	= 10;
 	static const unsigned short GRAZE_DISTANCE	= 5;
+	// wci¹ganie bonusów na 1/5 wysokoœci od góry
+	static const unsigned short BONUS_VACUUM_Y	= static_cast<short>((STAGE_POS_Y + STAGE_HEIGHT) * 1.0f / 5.0f);
 	// prostok¹t definuj¹cy pole gry
 	static const RECT GAME_FIELD;
 
@@ -65,7 +67,8 @@ class Game : public Playfield
 	Bar * bombBar;
 
 	/////// BONUSY
-	std::deque<Bonus *> bonus_;
+	typedef std::deque<Bonus *> BonusQue;
+	BonusQue bonus_;
 
 	// zmiana koloru t³a
 	float red;
@@ -90,6 +93,7 @@ public:
 
 	//////// FUNKCJE GAME
 	void CheckCollisions();
+	void CheckBonusVacuum();
 	void CheckBonusCollisions();
 	void CheckEnemyCollisions();
 	void CheckPlayerCollisions();

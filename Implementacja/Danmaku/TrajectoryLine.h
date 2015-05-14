@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include "Trajectory.h"
 #include "TrajectoryFactory.h"
+#include "Vector.h"
 
 namespace
 {
@@ -24,6 +24,8 @@ namespace
 		void Translate( D3DXVECTOR2 const & translate ) override;
 		void Scale( float const scale ) override;
 		void Rotate( float const theta ) override;
+
+		void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & playerPosition) override;
 	};
 
 	// zarejestrowanie toru w Fabryce

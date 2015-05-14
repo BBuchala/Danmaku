@@ -301,6 +301,7 @@ bool Game::IsPlayerWithinBounds(Move const direction)
 
 void Game::CheckCollisions()
 {
+	this->CheckBonusVacuum();		// przyci¹gniêcie bonusów do siebie
 	this->CheckBonusCollisions();	// najpierw zbieramy bonusy, 
 	this->CheckEnemyCollisions();	// i zabijamy wrogów,
 	this->CheckPlayerGraze();		// oraz siê ocieramy o pociski
@@ -427,6 +428,16 @@ void Game::CheckEnemyCollisions()
 
 void Game::CheckBonusCollisions()
 {
+	// sprawdzenie czy bonus nie zosta³ ju¿ "zasyœniêty" nawet gdy gracz jest poza wyznaczonym polem
+	for (unsigned short i = 0; i < bonus_.size(); i++)
+	{
+		if (bonus_[i]->IsVacuumed())
+		{
+			bonus_[i]->SetTrajectoryTowardsPlayer(player->GetCenterPoint());
+
+		}
+	}
+
 	// sprawdŸ kolizje z bonusami
 	for (unsigned short i = 0; i < bonus_.size(); i++)
 	{
@@ -482,3 +493,14 @@ std::deque<Bonus*>* Game::CreateLeftoverBonus()
 	return bonus;
 };
 
+
+void Game::CheckBonusVacuum()
+{
+	if (player->GetPosition().y <= BONUS_VACUUM_Y)
+	{
+		for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
+		{
+			(*it)->SetTrajectoryTowardsPlayer(player->GetCenterPoint());
+		}
+	}
+};

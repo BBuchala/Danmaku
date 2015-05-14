@@ -25,11 +25,11 @@
 	<Time sec="10">
 		<Enemy number="1" start="0" image="YukkuriCirno" center.x="HALF" center.y="ONE_THIRDS" life="500" speed="0">
 			<Trajectory type="Line" center.x="HALF" center.y="HALF" a="-90"></Trajectory>
-			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="3" interval="1.0">
+			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="3" interval="0.25">
 				<Bullet image="BulletGreenCircle" speed="18" width="32" height="32" hitboxSize="HALF"></Bullet>
 				<Affine scale="3"></Affine>
 			</Pattern>
-			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="3" interval="1.0">
+			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="3" interval="0.25">
 				<Bullet image="BulletBlueCircle" speed="-18" width="32" height="32" hitboxSize="HALF"></Bullet>
 				<Affine scale="3"></Affine>
 			</Pattern>

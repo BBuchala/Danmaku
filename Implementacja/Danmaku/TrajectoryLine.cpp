@@ -50,3 +50,26 @@ void TrajectoryLine::Rotate( float const theta )
 {
 	// TODO
 };
+
+void TrajectoryLine::SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & playerPosition)
+{
+	this->SetStartPoint( myPosition );
+	float newAngle = Vector::Angle(myPosition, playerPosition);
+	float x = myPosition.x - playerPosition.x;
+	float y = myPosition.y - playerPosition.y;
+	if ( x <= 0 && y >= 0)
+	{
+		this->direction.x = +std::cos(newAngle);
+		this->direction.y = -std::sin(newAngle);
+	}
+	else if ( x > 0 && y >= 0)
+	{
+		this->direction.x = -std::cos(newAngle);
+		this->direction.y = -std::sin(newAngle);
+	}
+	else
+	{
+		this->direction.x = std::cos(newAngle);
+		this->direction.y = std::sin(newAngle);
+	}
+};

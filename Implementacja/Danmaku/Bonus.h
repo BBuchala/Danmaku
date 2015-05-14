@@ -8,13 +8,14 @@ class Bonus: public GameObject
 {
 protected:
 	// definicja wspólnego wskaŸnika na tor
-	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
+	typedef Trajectory* TrajectoryPtr;
 	TrajectoryPtr trajectory;
 
 	float distance;
 	std::string fileName;				// Nazwa pliku, z którego pobierany bêdzie sprite. Definiowana w klasach pochodnych
 
 	float value;
+	bool _vacuumed;
 
 public:
 	// KONSTRUKTORY I DESTRUKTOR
@@ -33,6 +34,11 @@ public:
 
 	virtual Bonuses GetBonusId() const = 0;
 
+	void SetDistance(float const distance)
+	{
+		this->distance = distance;
+	}
+
 	virtual inline float Realize() const
 	{
 		return value;
@@ -40,6 +46,21 @@ public:
 
 	inline Trajectory * const GetTrajectory() const
 	{
-		return trajectory.get();
+		return trajectory;
 	}
+
+	inline bool IsVacuumed() const
+	{
+		return _vacuumed;
+	}
+
+	void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & position)
+	{
+		this->GetTrajectory()->SetTrajectoryTowardsPlayer(GetCenterPoint(), position);
+		if (!_vacuumed)
+		{
+			this->SetDistance(0.0f);
+			_vacuumed = true;
+		}
+	};
 };

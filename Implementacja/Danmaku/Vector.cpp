@@ -35,6 +35,6 @@ float Vector::Angle( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoin
 {
 	float x = abs(startPoint.x - endPoint.x);
 	float y = abs(startPoint.y - endPoint.y);
-	return std::asin(y / x);
+	return std::atan(y / x);
 };
 
