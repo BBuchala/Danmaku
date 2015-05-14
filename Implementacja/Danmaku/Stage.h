@@ -23,7 +23,7 @@ using namespace rapidxml;
 class Stage
 {
 	rapidxml::xml_document <> _stageDoc;	// plik z danymi o stejd¿u
-	std::auto_ptr<char> _stageContents;		// zawartoœæ pliku XML
+	std::unique_ptr<char> _stageContents;		// zawartoœæ pliku XML
 
 	/// ZAWARTOSC STEJD¯A
 	/// tylko wrogowie. Z nich rodz¹ siê wszystkie pociski i bonusy

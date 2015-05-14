@@ -28,6 +28,11 @@ Hitbox::Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const 
 	}
 };
 
+Hitbox::Hitbox( Hitbox const & h) : radiusA_(h.radiusA_), radiusB_(h.radiusB_), theta(h.theta), 
+	useSprite(h.useSprite)
+{
+};
+
 
 bool Hitbox::InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
 {

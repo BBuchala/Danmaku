@@ -3,7 +3,7 @@
 Stage::Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DDEVICE9 device)
 	: _gameField(gameField)
 {
-	_stageContents = std::auto_ptr<char>(XML2Char(file));
+	_stageContents = std::unique_ptr<char>(XML2Char(file));
 	_device = device;
 	this->ReadXMLFile();
 	this->CreateStageElements();
@@ -322,7 +322,6 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 	std::deque<Enemy*> newEnemyQue;
 	for( xml_node <> * enemy = time->first_node(); enemy; enemy = enemy->next_sibling())
 	{
-		Enemy * enemyObj;
 		short number = 1;
 		float distance = 0.0f, start = 0.0f;
 		D3DXVECTOR2	position;
@@ -366,26 +365,30 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 			}
 		}
 
-		enemyObj = new Enemy(position, life, speed);
-		enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
-		for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())
+		for (int i = 0; i < number; ++i)
 		{
-			std::string eStr(enemyNode->name());
-			if (eStr.compare("Pattern") == 0)
+			Enemy * enemyObj = new Enemy(position, life, speed);
+			enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
+			for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())
 			{
-				this->CreatePatterns(enemyObj, enemyNode, position);
+				std::string eStr(enemyNode->name());
+				if (eStr.compare("Pattern") == 0)
+				{
+					this->CreatePatterns(enemyObj, enemyNode, position);
+				}
+				else if (eStr.compare("Bonus") == 0)
+				{
+					this->CreateBonus(enemyObj, enemyNode, position);
+				}
+				else if (eStr.compare("Trajectory") == 0)
+				{
+					this->CreateTrajectory(enemyObj, enemyNode);
+				}
 			}
-			else if (eStr.compare("Bonus") == 0)
-			{
-				this->CreateBonus(enemyObj, enemyNode, position);
-			}
-			else if (eStr.compare("Trajectory") == 0)
-			{
-				this->CreateTrajectory(enemyObj, enemyNode);
-			}
+			enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
+			enemyObj->SetDistance(i * distance);
+			newEnemyQue.push_back(enemyObj);
 		}
-		enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
-		newEnemyQue.push_back(enemyObj);
 	}
 	_enemyMap[std::stoi(std::string(timeValue))] = newEnemyQue;
 };

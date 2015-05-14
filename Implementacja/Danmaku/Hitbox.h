@@ -31,6 +31,7 @@ public:
 	// Konstruktor - przyjmuje pozycjê, promienie i widocznoœæ
 	// Nastêpnie nale¿y zainicjalizowaæ sprajt
 	Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const radiusA, float const radiusB );
+	Hitbox( Hitbox const & h);
 	
 	// Inicjalizacja sprajta
 	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file );

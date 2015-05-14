@@ -12,12 +12,12 @@ Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position.x, enemy.position.
 	life_(enemy.life_), isShooting_(enemy.isShooting_), traj_(enemy.traj_), distance_(enemy.distance_),
 	isPatternGlued_(enemy.isPatternGlued_), isPatternDying_(enemy.isPatternDying_)
 {
-	this->sprite = SpritePtr(enemy.sprite);					// TODO
-	//this->hitbox = HitboxPtr(new Hitbox(enemy.hitbox));		// TODO
-	//this->_bonusMap = enemy._bonusMap;						// Done
-	//this->_pattern = enemy._pattern;						// TODO
-	//this->traj_  = enemy.traj_;								// TODO
-
+	this->_bonusMap = enemy._bonusMap;
+	/*for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
+	{
+		this->_pattern[(*it).first] = n(*it).second;
+	}*/
+	this->traj_  = enemy.traj_;
 };
 
 // ----- Initialize Pattern -----------------------------------------------------------------------

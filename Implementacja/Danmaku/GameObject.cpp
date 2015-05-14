@@ -20,13 +20,12 @@ GameObject::~GameObject()
 };
 
 
-GameObject::GameObject( GameObject const & go )
+GameObject::GameObject( GameObject const & go ) : hitbox(new Hitbox(*go.hitbox))
 {
 	this->position = go.position;
 	this->speed = go.speed;
 	this->acceleration = go.acceleration;
-	this->sprite = SpritePtr(go.GetSprite());
-	this->hitbox = HitboxPtr(go.GetHitbox());
+	this->sprite = go.sprite;
 };
 
 

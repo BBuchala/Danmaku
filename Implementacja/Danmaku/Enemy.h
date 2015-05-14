@@ -33,9 +33,10 @@ class Enemy: public GameObject
 	TrajectoryPtr traj_;
 
 	// pola kontrolne
-	bool isShooting_;		// czy strzela
-	bool isPatternGlued_;	// jak tak, to wzór porusza siê wraz ze wrogiem
-	bool isPatternDying_;	// jak tak, to pociski s¹ usuwane wraz z wrogiem
+	bool isShooting_;			// czy strzela
+	bool isPatternGlued_;		// jak tak, to wzór porusza siê wraz ze wrogiem
+	bool isPatternDying_;		// jak tak, to pociski s¹ usuwane wraz z wrogiem
+	float shootingDistance_;	// po przebyciu tej drogi wróg zaczyna strzelaæ
 
 public:
 	///// Konstruktor
@@ -54,8 +55,8 @@ public:
 	void SetBonus(Bonuses const bonus, float const value);
 	void SetIsShooting(bool const isShooting);
 	void SetPatternDying(bool const isPatternDying);
-
 	void SetDistance(float const distance);
+	void SetShootingDistance(float const sDistance);
 
 private:
 	std::deque<Bonus*>* CreateBonus(LPDIRECT3DDEVICE9 device);
