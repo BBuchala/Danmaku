@@ -7,7 +7,6 @@ namespace
 {
 	class PowerBonus: public Bonus
 	{
-		float value;
 	public:
 		PowerBonus( D3DXVECTOR2 const & position, float const value, float const speed );
 		PowerBonus( PowerBonus const & bonus );

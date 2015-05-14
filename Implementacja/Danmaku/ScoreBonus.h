@@ -7,11 +7,16 @@ namespace
 {
 	class ScoreBonus: public Bonus
 	{
-		short score;
 	public:
 		ScoreBonus( D3DXVECTOR2 const & position, float const value, float const speed );
 		ScoreBonus( ScoreBonus const & bonus );
 		~ScoreBonus();
+
+		
+		inline float Realize() const override
+		{
+			return value - (floor((position.y/706)* value / 100) * 50);	
+		}
 
 		inline Bonuses GetBonusId() const override
 		{
