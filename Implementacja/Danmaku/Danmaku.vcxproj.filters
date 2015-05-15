@@ -222,6 +222,9 @@
     <ClCompile Include="PlayerPattern05.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="TrajectoryNone.cpp">
+      <Filter>Source Files\Trajectories</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -388,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="PlayerPattern05.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryNone.h">
+      <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -115,6 +115,7 @@
     <ClCompile Include="TrajectoryElipse.cpp" />
     <ClCompile Include="TrajectoryFactory.cpp" />
     <ClCompile Include="TrajectoryLine.cpp" />
+    <ClCompile Include="TrajectoryNone.cpp" />
     <ClCompile Include="TrajectorySpiral.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="TrajectoryElipse.h" />
     <ClInclude Include="TrajectoryFactory.h" />
     <ClInclude Include="TrajectoryLine.h" />
+    <ClInclude Include="TrajectoryNone.h" />
     <ClInclude Include="TrajectorySpiral.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="Vector.h" />

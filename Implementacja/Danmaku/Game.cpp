@@ -386,7 +386,8 @@ void Game::CheckPlayerCollisions()
 								this->player->SetHasPatternChanged(false);
 							}
 						eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
-						this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
+						this->player->SetPosition(D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2,
+								StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ));
 						this->player->SetIsInvulnerable();
 						return;
 					}
@@ -418,21 +419,12 @@ void Game::CheckPlayerCollisions()
 					}
 					this->player->SubFromPower(1.0f);
 					if (this->player->HasPatternChanged())
-<<<<<<< HEAD
 					{
 						this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
 						this->player->SetHasPatternChanged(false);
 					}
 					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
-					this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
-=======
-						{
-							this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
-							this->player->SetHasPatternChanged(false);
-						}
-					eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
 					this->player->SetPosition(D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ));
->>>>>>> f03014f099e8990afa6d23f37b95835b358c534f
 					this->player->SetIsInvulnerable();
 					return;
 				}
@@ -454,19 +446,9 @@ void Game::CheckPlayerGraze()
 			EnemyQueQue ebList = (*e_it)->GetBullets();
 			for (EnemyQueQue::const_iterator que_it = ebList.begin(); que_it != ebList.end(); ++que_it)
 			{
-<<<<<<< HEAD
 				// pociski it-ego wroga
 				std::deque<EnemyBullet*>::const_iterator eb_it = (*que_it)->begin();
 				while (eb_it != (*que_it)->end())
-=======
-				// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
-				float grazeDistance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				// czy ³apie siê w granicê hitboxy + graze_distance
-				// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
-				if (!(*eb_it)->IsGrazed() &&
-					grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE)
->>>>>>> f03014f099e8990afa6d23f37b95835b358c534f
 				{
 					// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
 					float grazeDistance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
@@ -474,7 +456,8 @@ void Game::CheckPlayerGraze()
 					// czy ³apie siê w granicê hitboxy + graze_distance
 					// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
 					if (!(*eb_it)->IsGrazed() &&
-						grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE)
+						grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
+						+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE)
 					{
 						(*eb_it)->SetGrazed( true );
 						graze++;
