@@ -8,7 +8,7 @@
 #include "PlayerPattern03.h"
 #include "PlayerPattern04.h"
 #include "PlayerPattern05.h"
-
+#include "Bomb.h"
 
 class Player : public GameObject
 {
@@ -40,6 +40,8 @@ protected:
 	bool _isInvulnerable;
 
 	PPatternPtr _playerPattern;
+
+	Bomb * _bomb;
 
 public:
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount = 3 );
@@ -78,6 +80,9 @@ public:
 
 	void ChangePlayerPattern();
 	void Shoot(float const time);
+
+	// Bomba
+	void UseBomb();
 
 	inline float GetPower()
 	{

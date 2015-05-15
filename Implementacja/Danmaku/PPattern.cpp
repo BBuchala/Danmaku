@@ -18,6 +18,7 @@ void PPattern::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position
 {
 	this->device = device;
 	this->position = position;
+	LoadSprite();
 }
 
 void PPattern::Draw( RECT const & rect )
@@ -41,4 +42,8 @@ void PPattern::Update(float const time, D3DXVECTOR2 const & position)
 void PPattern::SetKeyPressed(bool isKeyPressed)
 {
 	this->isKeyPressed = isKeyPressed;
+};
+
+void PPattern::LoadSprite()
+{
 };

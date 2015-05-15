@@ -216,14 +216,14 @@
     <ClCompile Include="PlayerPattern04.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="Bomb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerPattern05.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
     <ClCompile Include="TrajectoryNone.cpp">
       <Filter>Source Files\Trajectories</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files\Fields</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -383,9 +383,6 @@
     <ClInclude Include="PlayerPattern04.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="Bomb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="StageConst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -394,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="TrajectoryNone.h">
       <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

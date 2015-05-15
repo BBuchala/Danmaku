@@ -48,27 +48,10 @@ void PlayerPattern05::Add(D3DXVECTOR2 const & playerPos)
 		newBullet3 = new PlayerBullet( 600.0f, 50 );
 		newBullet4 = new PlayerBullet( 600.0f, 50 );
 
-		if ( bullet.size() == 0 )
-		{
-			std::string file = Sprite::GetFilePath( "PlayerBullet3","png");
-			newBullet->InitializeSprite( device, file );
-
-			file = Sprite::GetFilePath( "PlayerBullet2","png");
-			newBullet2->InitializeSprite( device, file );
-
-			file = Sprite::GetFilePath( "PlayerBullet4","png");
-			newBullet3->InitializeSprite( device, file );
-
-			file = Sprite::GetFilePath( "PlayerBullet","png");
-			newBullet4->InitializeSprite( device, file );
-		}
-		else
-		{
-			newBullet->SetSprite( bullet[0]->GetSprite() );
-			newBullet2->SetSprite( bullet[1]->GetSprite() );
-			newBullet3->SetSprite( bullet[2]->GetSprite() );
-			newBullet4->SetSprite( bullet[3]->GetSprite() );
-		}
+		newBullet->SetSprite ( templateSprite );
+		newBullet2->SetSprite ( templateSprite2 );
+		newBullet3->SetSprite ( templateSprite3 );
+		newBullet4->SetSprite ( templateSprite4 );
 		
 		newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 		newBullet2->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
@@ -99,3 +82,23 @@ void PlayerPattern05::Add(D3DXVECTOR2 const & playerPos)
 		this->bullet.push_back( newBullet4 );
 	}
 }
+
+void PlayerPattern05::LoadSprite()
+{
+	templateSprite = SpritePtr(new Sprite());
+	templateSprite2 = SpritePtr(new Sprite());
+	templateSprite3 = SpritePtr(new Sprite());
+	templateSprite4 = SpritePtr(new Sprite());
+
+	std::string file = Sprite::GetFilePath( "PlayerBullet3","png");
+	templateSprite->Initialize( device, file );
+
+	file = Sprite::GetFilePath( "PlayerBullet2","png");
+	templateSprite2->Initialize( device, file );
+
+	file = Sprite::GetFilePath( "PlayerBullet4","png");
+	templateSprite3->Initialize( device, file );
+
+	file = Sprite::GetFilePath( "PlayerBullet","png");
+	templateSprite4->Initialize( device, file );
+};
