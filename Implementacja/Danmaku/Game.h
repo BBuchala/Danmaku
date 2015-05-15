@@ -38,15 +38,17 @@ class Game : public Playfield
 	//// wci¹ganie bonusów na 1/5 wysokoœci od góry
 	//static const unsigned short BONUS_VACUUM_Y	= static_cast<short>((STAGE_POS_Y + STAGE_HEIGHT) * 1.0f / 5.0f);
 	// prostok¹t definuj¹cy pole gry
+	static const RECT STAGE_FIELD;
 	static const RECT GAME_FIELD;
 
 	// t³o
-	GameObject * gameScreen;
+	GameObject *				gameScreen;
+	std::vector<GameObject*>	avatar_;
 
 	Player * player;
 
 	typedef std::deque<Enemy*>		EnemyQue;
-	typedef std::deque<EnemyQue*>	EnemyQueQue;
+	typedef std::vector<EnemyQue*>	EnemyQueQue;
 	EnemyQueQue enemy_;
 
 	// miejsce na pociski wyemitowane przez zabitych wrogów

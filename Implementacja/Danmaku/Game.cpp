@@ -1,6 +1,18 @@
 #include "Game.h"
 
-const RECT Game::GAME_FIELD = {StageConsts::STAGE_POS_X, StageConsts::STAGE_POS_Y, StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT};
+const RECT Game::STAGE_FIELD = {
+	StageConsts::STAGE_POS_X,
+	StageConsts::STAGE_POS_Y,
+	StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH,
+	StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT
+};
+
+const RECT Game::GAME_FIELD = {
+	StageConsts::GAME_POS_X,
+	StageConsts::GAME_POS_Y, 
+	StageConsts::GAME_POS_X + StageConsts::GAME_WIDTH, 
+	StageConsts::GAME_POS_Y + StageConsts::GAME_HEIGHT
+};
 
 /* ---- KONSTRUKTOR --------------------------------------------------------------------------- */
 Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
@@ -39,7 +51,13 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::LIFE,  D3DXVECTOR2(80,80  )));
 	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::BOMB,  D3DXVECTOR2(650,100)));
 
-	stage = new Stage("stages/Stage1.xml", &this->GAME_FIELD, gDevice->device);
+	stage = new Stage("stages/Stage1.xml", &this->STAGE_FIELD, gDevice->device);
+
+	// Avatary
+	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
+	{
+		avatar_.push_back(new GameObject(728, 484 + i * 61));
+	}
 };
 
 /* ---- DESTRUKTOR ---------------------------------------------------------------------------- */
@@ -93,6 +111,12 @@ bool Game::Initialize()
 	{
 		bonus_[i]->Initialize( gDevice->device );
 		bonus_[i]->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+	}
+
+	////// Avatary
+	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
+	{
+		avatar_[i]->InitializeSprite(gDevice->device, Sprite::GetFilePath("Av", 0, i + 1, "png"));
 	}
 
 	return true;
@@ -212,13 +236,13 @@ void Game::Update(float const time)
 
 void Game::DrawScene()
 {
-	if (player != nullptr) player->Draw(GAME_FIELD);
+	if (player != nullptr) player->Draw(STAGE_FIELD);
 
 	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
 	{
 		for (EnemyQue::const_iterator e_it = (*it)->begin(); e_it != (*it)->end(); ++e_it)
 		{
-			(*e_it)->Draw(GAME_FIELD);
+			(*e_it)->Draw(STAGE_FIELD);
 		}
 	}
 	//// Obs³uga reszty pocisków
@@ -226,11 +250,20 @@ void Game::DrawScene()
 	{
 		for (PatternMap::const_iterator p_it = s_it->second->begin(); p_it !=  s_it->second->end(); p_it++)
 		{
-			p_it->second->Draw(GAME_FIELD);
+			p_it->second->Draw(STAGE_FIELD);
 		}
+	}
+	//// BONUSY
+	for (unsigned int i = 0; i < bonus_.size(); i++)
+	{
+		bonus_[i]->Draw(STAGE_FIELD);
 	}
 
 	this->gameScreen->Draw(GAME_FIELD);
+	for (std::vector<GameObject*>::const_iterator it = avatar_.begin(); it != avatar_.end(); ++it)
+	{
+		(*it)->Draw(GAME_FIELD);
+	}
 
 	//// DANE LICZBOWE
 	this->scoreText->Draw(score, StageConsts::SCORE_PADDING);
@@ -242,10 +275,6 @@ void Game::DrawScene()
 	//// ¯YCIA I BOMBY
 	this->lifeBar->Draw();
 	this->bombBar->Draw();
-
-	//// BONUSY
-	for (unsigned int i = 0; i < bonus_.size(); i++)
-		bonus_[i]->Draw(GAME_FIELD);
 };
 
 // wyczyszczenie ca³ej planszy i przekazanie nowego koloru t³a
@@ -259,7 +288,7 @@ void Game::clearOutOfBoundsObjects()
 	/// Wykasowanie bonusów
 	for (unsigned int i = 0; i < bonus_.size(); i++)
 	{
-		if ( !bonus_[i]->IsObjectWithinBounds(GAME_FIELD))
+		if ( !bonus_[i]->IsObjectWithinBounds(STAGE_FIELD))
 		{
 			delete bonus_[i];
 			bonus_.erase( bonus_.begin() + i );
@@ -270,7 +299,7 @@ void Game::clearOutOfBoundsObjects()
 	std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
 	while(pb_it != pbQue->end())
 	{
-		if (!(*pb_it)->IsObjectWithinBounds(GAME_FIELD))
+		if (!(*pb_it)->IsObjectWithinBounds(STAGE_FIELD))
 		{
 			delete (*pb_it);
 			pb_it = pbQue->erase(pb_it);
