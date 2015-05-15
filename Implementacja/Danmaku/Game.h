@@ -15,24 +15,28 @@
 #include "BonusFactory.h"
 #include "Stage.h"
 
+#include "StageConst.h"
+
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
+using namespace StageConst;
+
 class Game : public Playfield
 {
-	//// ==== STA£E
-	static const unsigned short BUTTON_NUM		= 2;
-	static const unsigned short TEX_NUM			= 3;
-	static const unsigned short STAGE_POS_X		= 63;
-	static const unsigned short STAGE_POS_Y		= 32;
-	static const unsigned short STAGE_WIDTH		= 614;
-	static const unsigned short STAGE_HEIGHT	= 706;
-	static const unsigned short SCORE_PADDING	= 10;
-	static const unsigned short GRAZE_DISTANCE	= 5;
-	// wci¹ganie bonusów na 1/5 wysokoœci od góry
-	static const unsigned short BONUS_VACUUM_Y	= static_cast<short>((STAGE_POS_Y + STAGE_HEIGHT) * 1.0f / 5.0f);
+	////// ==== STA£E
+	//static const unsigned short BUTTON_NUM		= 2;
+	//static const unsigned short TEX_NUM			= 3;
+	//static const unsigned short STAGE_POS_X		= 63;
+	//static const unsigned short STAGE_POS_Y		= 32;
+	//static const unsigned short STAGE_WIDTH		= 614;
+	//static const unsigned short STAGE_HEIGHT	= 706;
+	//static const unsigned short SCORE_PADDING	= 10;
+	//static const unsigned short GRAZE_DISTANCE	= 5;
+	//// wci¹ganie bonusów na 1/5 wysokoœci od góry
+	//static const unsigned short BONUS_VACUUM_Y	= static_cast<short>((STAGE_POS_Y + STAGE_HEIGHT) * 1.0f / 5.0f);
 	// prostok¹t definuj¹cy pole gry
 	static const RECT GAME_FIELD;
 
@@ -113,7 +117,7 @@ private:
 
 	inline const D3DXVECTOR2 GetStageCenter() const
 	{
-		return D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT / 2 );
+		return D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT / 2 );
 	}
 
 	void DrawString();

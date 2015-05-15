@@ -216,6 +216,12 @@
     <ClCompile Include="PlayerPattern04.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPattern05.cpp">
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -372,6 +378,15 @@
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPattern04.h">
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageConst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPattern05.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
   </ItemGroup>
