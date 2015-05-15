@@ -9,6 +9,9 @@ private:
 	// Przesuniêcia dla miejsc z których wystrzeliwane bêd¹ pociski wzglêdem œrodka gracza
 	D3DXVECTOR2 leftShift, rightShift;
 
+	// Dodatkowy pomocniczy Sprite (2 rodzaje pocisków)
+	SpritePtr templateSprite2;
+
 public:
 	PlayerPattern04(void);
 	~PlayerPattern04(void);
@@ -19,5 +22,6 @@ public:
 
 	void Add(D3DXVECTOR2 const & position);
 
+	void LoadSprite();
 };
 

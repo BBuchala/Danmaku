@@ -36,16 +36,8 @@ void PlayerPattern02::Add(D3DXVECTOR2 const & playerPos)
 {
 	PlayerBullet * newBullet;
 	newBullet = new PlayerBullet( 1000.0f, 100 );
-	if ( bullet.size() == 0 )
-	{
-		// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go
-		std::string file = Sprite::GetFilePath( "PlayerBullet2","png");
-		newBullet->InitializeSprite( device, file );
-	}
-	else
-	{
-		newBullet->SetSprite( bullet[0]->GetSprite() );
-	}
+	
+	newBullet->SetSprite ( templateSprite );
 
 	newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 	//newBullet->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::HALF_LENGTH, Sprite::GetFilePath("hitbox", "png"), device );
@@ -54,3 +46,11 @@ void PlayerPattern02::Add(D3DXVECTOR2 const & playerPos)
 	newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos, D3DXToRadian(90) ) ) );
 	this->bullet.push_back( newBullet );
 }
+
+void PlayerPattern02::LoadSprite()
+{
+	templateSprite = SpritePtr(new Sprite());
+
+	std::string file = Sprite::GetFilePath( "PlayerBullet2","png");
+	templateSprite->Initialize( device, file );
+};

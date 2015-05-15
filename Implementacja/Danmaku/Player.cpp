@@ -249,3 +249,8 @@ void Player::SetIsInvulnerable()
 	_invulnerableTime = INVULNERABLE_TIME;
 	_isInvulnerable = true;
 }
+
+void Player::UseBomb()
+{
+
+}

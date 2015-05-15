@@ -19,5 +19,6 @@ public:
 
 	void Add(D3DXVECTOR2 const & position);
 
+	void LoadSprite();
 };
 

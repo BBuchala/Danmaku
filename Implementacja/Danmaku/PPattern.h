@@ -26,6 +26,10 @@ protected:
 	// Informuje czy gracz aktualnie strzela, czy te¿ nie.
 	bool isKeyPressed;
 
+	// Template'owy sprajt, do którego bêdziemy siêgaæ zamiast do pliku
+	typedef std::shared_ptr<Sprite> SpritePtr;
+	SpritePtr templateSprite;
+
 public:
 	PPattern();
 	virtual ~PPattern();
@@ -44,6 +48,8 @@ public:
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void SetKeyPressed(bool isKeyPressed);
+
+	void virtual LoadSprite();
 
 	inline PBulletQue & GetBullets()
 	{
