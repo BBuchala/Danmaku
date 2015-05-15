@@ -5,7 +5,7 @@ typedef std::vector<Bonus*>			BonusQue;
 // ----- Konstruktor -----------------------------------------------------------------------------
 Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed, float const acc )
 	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(true),
-	traj_(nullptr), distance_(0.0f), isPatternGlued_(false), isPatternDying_(false)
+	traj_(nullptr), distance_(0.0f), isPatternGlued_(false), isPatternDying_(false), _actTime(0.0f)
 {
 };
 
@@ -23,7 +23,7 @@ Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position.x, enemy.position.
 };
 
 // ----- Initialize Pattern -----------------------------------------------------------------------
-bool Enemy::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+bool Enemy::InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
 	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 	{
@@ -38,6 +38,7 @@ void Enemy::Update( float const time )
 {
 	GameObject::Update(time);
 	distance_ += this->speed * time;
+	_actTime += time;
 	this->position = traj_->GetPosition(distance_);
 	if (isShooting_)
 	{
@@ -45,6 +46,7 @@ void Enemy::Update( float const time )
 		{
 			if (isPatternGlued_)
 				(*it).second->SetPosition(this->GetCenterPoint());
+			(*it).second->Activate(_actTime, this->GetCenterPoint());
 			(*it).second->Update(time, this->GetCenterPoint());
 		}
 	}
@@ -94,7 +96,6 @@ void Enemy::TakeDamage( USHORT const damage )
 BonusQue * Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
 {
 	BonusQue * bonus = new BonusQue();
-	srand(time(NULL));
 	for (BonusMap::const_iterator it = _bonusMap.begin(); it != _bonusMap.end(); ++it)
 	{
 		if ((*it).second.first != Bonuses::NONE)

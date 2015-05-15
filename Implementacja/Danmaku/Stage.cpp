@@ -254,11 +254,10 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 	for (int i = 0; i < number; i++)
 	{
 		std::string patternIdStr = std::to_string(patternId);
+		float activationTime = i * interval;
+		enemyObj->AddPattern(pattern, patternIdStr, par1, par2, bulletNumber, interval, activationTime);
 		for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
 		{
-			float activationTime = i * interval;
-			enemyObj->AddPattern(pattern, patternIdStr, par1, par2, bulletNumber, interval, activationTime);
-			enemyObj->InitializePattern(_device, position);
 			std::string str_tmp = patternNode->name();
 			if (str_tmp.compare("Bullet") == 0)
 			{
@@ -271,6 +270,7 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 		}
 		patternId++;
 	}
+	enemyObj->InitializePatterns(_device, position);
 };
 
 

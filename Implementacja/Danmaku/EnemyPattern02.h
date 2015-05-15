@@ -13,6 +13,7 @@ class EnemyPattern02 : public EPattern
 	TrajectoryMap trajMap_;
 
 	float scaleTime;
+	float _elapsedTime;
 
 public:
 	EnemyPattern02();
@@ -23,4 +24,5 @@ public:
 
 	void Add();
 
+	void StartBullets(D3DXVECTOR2 const & position) override {};
 };

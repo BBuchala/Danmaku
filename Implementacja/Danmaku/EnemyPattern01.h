@@ -23,6 +23,7 @@ class EnemyPattern01 : public EPattern
 	TrajectoryMap trajMap_;
 
 	float bulletTime;
+	float _elapsedTime;
 	bool initialized_;
 	USHORT initCount_;
 
@@ -33,4 +34,6 @@ public:
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void Add();
+
+	void StartBullets(D3DXVECTOR2 const & position) override {};
 };

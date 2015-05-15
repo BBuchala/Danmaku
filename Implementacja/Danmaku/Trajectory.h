@@ -25,6 +25,7 @@ public:
 	void SetStartPoint( D3DXVECTOR2 const & startPoint );
 	void SetLength(float length);
 
+	virtual void SetCenterPoint(D3DXVECTOR2 const & centerPoint) {};
 	virtual void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & position) {};
 
 	inline bool IsRoadFinished(float const distance) const

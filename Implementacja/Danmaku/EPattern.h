@@ -36,12 +36,6 @@ protected:
 	Hitbox::Shape _hitboxShape;
 	Hitbox::Size _hitboxSize;
 
-	/// Odstêp czasowy pomiêdzy pociskami
-	float _bulletTime;
-
-	// Kontrola czasowa
-	float _elapsedTime;
-
 	// uchyt do diwajsa, dla generacji nowych pocisków w czasie
 	LPDIRECT3DDEVICE9 _device;
 
@@ -49,8 +43,7 @@ protected:
 	D3DXVECTOR2 _position;
 
 	float _activationTime;
-	float _actTime;
-	bool _isInitialized;
+	bool _activated;
 
 public:
 	EPattern(float const activationTime);
@@ -62,6 +55,17 @@ public:
 
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
+
+
+	virtual void StartBullets(D3DXVECTOR2 const & position) = 0;
+	void Activate(float const actTime, D3DXVECTOR2 const & position)
+	{
+		if (!_activated && actTime >= _activationTime)
+		{
+			this->StartBullets(position);
+			_activated = true;
+		}
+	}
 
 	/// SETTERY
 	virtual void SetPosition(D3DXVECTOR2 const & pos);
@@ -79,7 +83,7 @@ public:
 
 	inline bool IsInitialized() const
 	{
-		return _isInitialized;
+		return _activated;
 	}
 
 	/// PRZEKSZTA£CENIA AFINICZNE

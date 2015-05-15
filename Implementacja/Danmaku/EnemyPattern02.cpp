@@ -1,6 +1,6 @@
 #include "EnemyPattern02.h"
 
-EnemyPattern02::EnemyPattern02() : EPattern(0.0f), scaleTime(0.0f)
+EnemyPattern02::EnemyPattern02() : EPattern(0.0f), scaleTime(0.0f), _elapsedTime(0.0f)
 {
 }
 

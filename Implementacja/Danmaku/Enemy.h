@@ -38,7 +38,8 @@ class Enemy: public GameObject
 	bool isShooting_;			// czy strzela
 	bool isPatternGlued_;		// jak tak, to wzór porusza siê wraz ze wrogiem
 	bool isPatternDying_;		// jak tak, to pociski s¹ usuwane wraz z wrogiem
-	float shootingDistance_;	// po przebyciu tej drogi wróg zaczyna strzelaæ
+
+	float _actTime;
 
 	typedef std::pair<D3DXVECTOR2, PatternMap*>	SavedPair;
 
@@ -49,7 +50,7 @@ public:
 
 	void AddPattern( Pattern const patId, std::string const & patternId, float const par1,
 			float const par2, float const number, float const interval, float const actTime );
-	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
+	bool InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 
 	void Draw(RECT const & rect);
 	void Update( float const time );

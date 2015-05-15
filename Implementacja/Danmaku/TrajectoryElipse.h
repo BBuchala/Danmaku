@@ -22,8 +22,7 @@ namespace
 		void SetElipseRadius( float const a, float const b );
 
 		// ustawienie punktu œrodkowego
-		void SetCenterPoint( D3DXVECTOR2 const & center );
-		void SetCenterPoint( float const x0, float const y0 );
+		void SetCenterPoint( D3DXVECTOR2 const & center ) override;
 
 	public:
 		/* ==== Przeci¹¿aone interfejsy ==== */

@@ -13,6 +13,15 @@ public:
 	void InitializeBullets(std::string bulletImage, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize);
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 
-	void AddBullet(D3DXVECTOR2 const & position);
+	void AddBullet();
+
+	void StartBullets(D3DXVECTOR2 const & position) override
+	{
+		for (EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); ++it)
+		{
+			(*it)->GetTrajectory()->SetStartPoint(position);
+		}
+	}
+
 };
 

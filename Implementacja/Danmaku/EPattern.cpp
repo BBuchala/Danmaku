@@ -1,7 +1,6 @@
 #include "EPattern.h"
 
-EPattern::EPattern(float const activationTime) : _elapsedTime(0.0f), _bulletTime(0.0f),
-	_activationTime(activationTime), _isInitialized(false), _actTime(0.0f)
+EPattern::EPattern(float const activationTime) : _activationTime(activationTime), _activated(false)
 {
 	_translate = D3DXVECTOR2(0.0f, 0.0f);
 	_rotate = 0.0f;

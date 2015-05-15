@@ -21,13 +21,6 @@ void TrajectoryElipse::SetElipseRadius( float const a, float const b )
 };
 
 
-void TrajectoryElipse::SetCenterPoint( float const x0, float const y0 )
-{
-	this->center.x = x0;
-	this->center.y = y0;
-};
-
-
 void TrajectoryElipse::SetCenterPoint( D3DXVECTOR2 const & center )
 {
 	this->center = center;

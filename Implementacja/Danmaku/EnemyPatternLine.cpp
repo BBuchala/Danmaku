@@ -11,19 +11,14 @@ EnemyPatternLine::EnemyPatternLine(float const angle, float const number, float 
 void EnemyPatternLine::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
 	EPattern::Initialize(device, position);
+	AddBullet();
 };
 
 
 void EnemyPatternLine::Update(float const time, D3DXVECTOR2 const & position)
 {
-	_actTime += time;
-	if (_actTime >= _activationTime)
+	if (_activated)
 	{
-		if (!_isInitialized)
-		{
-			AddBullet(position);
-			_isInitialized = true;
-		}
 		// Zmiana po³o¿enia pocisków
 		for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
 		{
@@ -33,12 +28,12 @@ void EnemyPatternLine::Update(float const time, D3DXVECTOR2 const & position)
 };
 
 
-void EnemyPatternLine::AddBullet(D3DXVECTOR2 const & position)
+void EnemyPatternLine::AddBullet()
 {
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed);
 	newBullet->InitializeSprite( _device, _bulletImage, _bulletWidth, _bulletHeight );
 	newBullet->InitializeHitbox( _hitboxShape, _hitboxSize );
-	newBullet->SetTrajectory( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, position, D3DXToRadian(_angle) ) );
+	newBullet->SetTrajectory( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, D3DXVECTOR2(0.0f, 0.0f), D3DXToRadian(_angle) ) );
 	_bullet.push_back(newBullet);
 };
 
