@@ -47,10 +47,6 @@ Game::~Game()
 {
 	if (gameScreen) delete gameScreen;
 	if (player) delete player;
-	for (int i = enemy_.size() - 1; i > 1 ; i--)
-	{
-		delete enemy_[i];
-	}
 
 	// usuniêcie danych liczbowych
 	if (hiScoreText) delete hiScoreText;
@@ -118,20 +114,21 @@ void Game::Update(float const time)
 	}
 
 	//// Odpytanie Stejd¿a o nowe elementy
-	std::deque<Enemy*> * newEnemies = this->stage->GetEnemies(static_cast<short>(elapsedTime));
+	EnemyQue * newEnemies = this->stage->GetEnemies(static_cast<short>(elapsedTime));
 	// Je¿eli maj¹ pojawiæ siê nowi wrogowie
 	if (newEnemies != nullptr)
 	{
-		// przechwytujemy wskaŸnik i kopiujemy zawartoœæ
-		this->enemy_.insert(enemy_.end(), newEnemies->begin(), newEnemies->end());
-		// usuwamy zawartoœæ ze stejd¿a (co by nigdy nie zwróci³ 2 razy tego samego)
-		this->stage->RemoveEnemies(static_cast<short>(elapsedTime));
+		enemy_.push_back(newEnemies);
 	}
+	
 
 	//// Obs³uga wrogów i ich pocisków
-	for (EnemyQue::const_iterator it = enemy_.begin(); it != enemy_.end(); it++)
+	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
 	{
-		(*it)->Update( time );
+		for (EnemyQue::const_iterator e_it = (*it)->begin(); e_it != (*it)->end(); ++e_it)
+		{
+			(*e_it)->Update( time );
+		}
 	}
 
 	//// SPRAWDZENIE KOLIZJI
@@ -217,9 +214,12 @@ void Game::DrawScene()
 {
 	if (player != nullptr) player->Draw(GAME_FIELD);
 
-	for (EnemyQue::const_iterator it = enemy_.begin(); it != enemy_.end(); it++)
+	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
 	{
-		(*it)->Draw(GAME_FIELD);
+		for (EnemyQue::const_iterator e_it = (*it)->begin(); e_it != (*it)->end(); ++e_it)
+		{
+			(*e_it)->Draw(GAME_FIELD);
+		}
 	}
 	//// Obs³uga reszty pocisków
 	for (SavedPairQue::const_iterator s_it = _savedBullets.begin(); s_it != _savedBullets.end(); s_it++)
@@ -256,13 +256,46 @@ void Game::Clear()
 
 void Game::clearOutOfBoundsObjects()
 {
-	// Tymczasowo obs³uguje wy³¹cznie bonusy. Jeœli siê przyjmie, mo¿na funkcjonalnoœæ rozszerzyæ o coœ wiêcej
+	/// Wykasowanie bonusów
 	for (unsigned int i = 0; i < bonus_.size(); i++)
 	{
 		if ( !bonus_[i]->IsObjectWithinBounds(GAME_FIELD))
 		{
 			delete bonus_[i];
 			bonus_.erase( bonus_.begin() + i );
+		}
+	}
+	/// Wykasowanie pocisków gracza
+	std::deque<PlayerBullet*> * pbQue = &this->player->GetBullets();
+	std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
+	while(pb_it != pbQue->end())
+	{
+		if (!(*pb_it)->IsObjectWithinBounds(GAME_FIELD))
+		{
+			delete (*pb_it);
+			pb_it = pbQue->erase(pb_it);
+		}
+		if (pb_it != pbQue->end())
+			++pb_it;
+	}
+	/// Wykasowanie wrogów
+	/// Gdy wróg przeby³ okreœlony dystans i nie zosta³ zestrzelony, znika sam
+	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
+	{
+		EnemyQue::const_iterator e_it = (*it)->begin();
+		while(e_it != (*it)->end())
+		{
+			if ((*e_it)->IsRoadFinished())
+			{
+				if (!(*e_it)->IsPatternDying())
+				{
+					_savedBullets.push_back((*e_it)->GetPatterns());
+				}
+				delete (*e_it);
+				e_it = (*it)->erase(e_it);
+			}
+			if (e_it != (*it)->end())
+				++e_it;
 		}
 	}
 }
@@ -319,21 +352,60 @@ void Game::CheckCollisions()
 
 void Game::CheckPlayerCollisions()
 {
-	for (EnemyQue::const_iterator e_it = enemy_.begin(); e_it != enemy_.end(); e_it++)
+	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
 	{
-		typedef std::deque<std::deque<EnemyBullet*>*> EnemyQueQue;
-		EnemyQueQue ebList = (*e_it)->GetBullets();
-		for (EnemyQueQue::const_iterator que_it = ebList.begin(); que_it != ebList.end(); ++que_it)
+		for (EnemyQue::const_iterator e_it = (*it)->begin(); e_it != (*it)->end(); e_it++)
 		{
-			// pociski it-ego wroga
-			std::deque<EnemyBullet*>::const_iterator eb_it = (*que_it)->begin();
-			while (eb_it != (*que_it)->end())
+			typedef std::deque<std::deque<EnemyBullet*>*> EnemyQueQue;
+			EnemyQueQue ebList = (*e_it)->GetBullets();
+			for (EnemyQueQue::const_iterator que_it = ebList.begin(); que_it != ebList.end(); ++que_it)
 			{
-				// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
+				// pociski it-ego wroga
+				std::deque<EnemyBullet*>::const_iterator eb_it = (*que_it)->begin();
+				while (eb_it != (*que_it)->end())
+				{
+					// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
+					float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+					// k¹t miêdzy punktami œrodkowymi (z punku widzenia gracza)
+					float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+					// je¿eli pocisk w nas wjecha³ (hitboxy zderzy³y siê)
+					if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+					{
+						this->player->DecrementLifeCount();
+						this->lifeBar->DecrementCount();
+						if (player->GetPower() > 0.25f)
+						{
+							std::deque<Bonus*>* bonus = CreateLeftoverBonus();
+							if (bonus != nullptr)
+								bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
+						}
+						this->player->SubFromPower(1.0f);
+						if (this->player->HasPatternChanged())
+							{
+								this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+								this->player->SetHasPatternChanged(false);
+							}
+						eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
+						this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
+						this->player->SetIsInvulnerable();
+						return;
+					}
+					if (eb_it != (*que_it)->end())
+						eb_it++;
+				}
+			}
+		}
+	}
+	for (SavedPairQue::const_iterator s_it = _savedBullets.begin(); s_it != _savedBullets.end(); s_it++)
+	{
+		for (PatternMap::const_iterator p_it = s_it->second->begin(); p_it !=  s_it->second->end(); p_it++)
+		{
+			std::deque<EnemyBullet*> * ep = &p_it->second->GetBullets();
+			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+			while (eb_it != ep->end())
+			{
 				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-				// k¹t miêdzy punktami œrodkowymi (z punku widzenia gracza)
 				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				// je¿eli pocisk w nas wjecha³ (hitboxy zderzy³y siê)
 				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
 				{
 					this->player->DecrementLifeCount();
@@ -346,16 +418,16 @@ void Game::CheckPlayerCollisions()
 					}
 					this->player->SubFromPower(1.0f);
 					if (this->player->HasPatternChanged())
-						{
-							this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
-							this->player->SetHasPatternChanged(false);
-						}
-					eb_it = (*que_it)->erase(eb_it);	// usuniêcie pocisku z kolejki
+					{
+						this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+						this->player->SetHasPatternChanged(false);
+					}
+					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
 					this->player->SetPosition(D3DXVECTOR2( STAGE_POS_X + STAGE_WIDTH / 2, STAGE_POS_Y + STAGE_HEIGHT - 50.0f ));
 					this->player->SetIsInvulnerable();
 					return;
 				}
-				if (eb_it != (*que_it)->end())
+				if (eb_it != ep->end())
 					eb_it++;
 			}
 		}
@@ -365,28 +437,31 @@ void Game::CheckPlayerCollisions()
 
 void Game::CheckPlayerGraze()
 {
-	for (EnemyQue::const_iterator e_it = enemy_.begin(); e_it != enemy_.end(); e_it++)
+	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
 	{
-		typedef std::deque<std::deque<EnemyBullet*>*> EnemyQueQue;
-		EnemyQueQue ebList = (*e_it)->GetBullets();
-		for (EnemyQueQue::const_iterator que_it = ebList.begin(); que_it != ebList.end(); ++que_it)
+		for (EnemyQue::const_iterator e_it = (*it)->begin(); e_it != (*it)->end(); e_it++)
 		{
-			// pociski it-ego wroga
-			std::deque<EnemyBullet*>::const_iterator eb_it = (*que_it)->begin();
-			while (eb_it != (*que_it)->end())
+			typedef std::deque<std::deque<EnemyBullet*>*> EnemyQueQue;
+			EnemyQueQue ebList = (*e_it)->GetBullets();
+			for (EnemyQueQue::const_iterator que_it = ebList.begin(); que_it != ebList.end(); ++que_it)
 			{
-				// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
-				float grazeDistance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				// czy ³apie siê w granicê hitboxy + graze_distance
-				// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
-				if (!(*eb_it)->IsGrazed() &&
-					grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE)
+				// pociski it-ego wroga
+				std::deque<EnemyBullet*>::const_iterator eb_it = (*que_it)->begin();
+				while (eb_it != (*que_it)->end())
 				{
-					(*eb_it)->SetGrazed( true );
-					graze++;
+					// zmienna lokalna powinna byæ deklarowana tak póŸno jak to tylko mo¿liwe
+					float grazeDistance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+					float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+					// czy ³apie siê w granicê hitboxy + graze_distance
+					// w pierwszej kolejnoœci sprawdzany jest warunek graze'u
+					if (!(*eb_it)->IsGrazed() &&
+						grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE)
+					{
+						(*eb_it)->SetGrazed( true );
+						graze++;
+					}
+					eb_it++;
 				}
-				eb_it++;
 			}
 		}
 	}
@@ -395,37 +470,40 @@ void Game::CheckPlayerGraze()
 
 void Game::CheckEnemyCollisions()
 {
-	std::deque<PlayerBullet*> * pbQue = &this->player->GetBullets();
-	std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
-	while(pb_it != pbQue->end())
+	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
 	{
-		EnemyQue::const_iterator e_it = enemy_.begin();
-		while (e_it != enemy_.end())
+		std::deque<PlayerBullet*> * pbQue = &this->player->GetBullets();
+		std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
+		while(pb_it != pbQue->end())
 		{
-			float distance = Vector::Length( (*pb_it)->GetCenterPoint(), (*e_it)->GetCenterPoint() );
-			float angle = Vector::Angle((*e_it)->GetCenterPoint(), (*pb_it)->GetCenterPoint());
-			if (distance <= (*pb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+			EnemyQue::const_iterator e_it = (*it)->begin();
+			while (e_it != (*it)->end())
 			{
-				(*e_it)->TakeDamage( (*pb_it)->Damage() );
-				pb_it = pbQue->erase(pb_it);
-			}
-			if (!(*e_it)->IsAlive())
-			{
-				if (!(*e_it)->IsPatternDying())
+				float distance = Vector::Length( (*pb_it)->GetCenterPoint(), (*e_it)->GetCenterPoint() );
+				float angle = Vector::Angle((*e_it)->GetCenterPoint(), (*pb_it)->GetCenterPoint());
+				if (distance <= (*pb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
 				{
-					_savedBullets.push_back((*e_it)->GetPatterns());
+					(*e_it)->TakeDamage( (*pb_it)->Damage() );
+					pb_it = pbQue->erase(pb_it);
 				}
-				// otrzymujemy wskaŸnik na kopiê bonusu
-				std::deque<Bonus*>* bonus = (*e_it)->GetBonus(gDevice->device);
-				if (bonus != nullptr)
-					bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
-				e_it = enemy_.erase(e_it);
+				if (!(*e_it)->IsAlive())
+				{
+					if (!(*e_it)->IsPatternDying())
+					{
+						_savedBullets.push_back((*e_it)->GetPatterns());
+					}
+					// otrzymujemy wskaŸnik na kopiê bonusu
+					BonusQue * bonus = (*e_it)->GetBonus(gDevice->device);
+					if (bonus != nullptr)
+						bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
+					e_it = (*it)->erase(e_it);
+				}
+				if (e_it != (*it)->end())
+					e_it++;
 			}
-			if (e_it != enemy_.end())
-				e_it++;
+			if (pb_it != pbQue->end())
+				pb_it++;
 		}
-		if (pb_it != pbQue->end())
-			pb_it++;
 	}
 };
 

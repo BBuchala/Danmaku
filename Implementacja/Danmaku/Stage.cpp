@@ -145,10 +145,14 @@ void Stage::ChooseTrajectory(std::string const & trajType, Road & traj)
 	{
 		traj = Road::SPIRAL;
 	}
+	else if (trajType.compare("None") == 0)
+	{
+		traj = Road::NONE;
+	}
 };
 
 
-void Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
+Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 {
 	Road trajType;
 	D3DXVECTOR2 startPoint;
@@ -178,13 +182,7 @@ void Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 		}
 	}
 	enemyObj->SetTrajectory(trajType, startPoint, a, b);
-	switch(trajType)
-	{
-	case Road::ELIPSE: case Road::SPIRAL:
-		enemyObj->SetSpeed(D3DXToRadian(enemyObj->GetSpeed()));
-	default:
-		break;
-	}
+	return trajType;
 };
 
 
@@ -401,7 +399,7 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 		D3DXVECTOR2	position;
 		std::string imageFile;
 		short life;
-		float speed;
+		float speed, length = 0.0f;
 		for ( xml_attribute <>* enemyAtr = enemy->first_attribute(); enemyAtr; enemyAtr = enemyAtr->next_attribute() )
 		{
 			std::string eStr(enemyAtr->name());
@@ -437,12 +435,17 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 			{
 				speed = std::stof(enemyAtr->value());
 			}
+			else if (eStr.compare("length") == 0)
+			{
+				length = std::stof(enemyAtr->value());
+			}
 		}
-
 		for (int i = 0; i < number; ++i)
 		{
 			Enemy * enemyObj = new Enemy(position, life, speed);
 			enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
+			Road trajType;
+			float tmp_length = length, tmp_distance = distance, tmp_start = start;
 			for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())
 			{
 				std::string eStr(enemyNode->name());
@@ -456,15 +459,26 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 				}
 				else if (eStr.compare("Trajectory") == 0)
 				{
-					this->CreateTrajectory(enemyObj, enemyNode);
+					trajType = this->CreateTrajectory(enemyObj, enemyNode);
 				}
 			}
+			switch(trajType)
+			{
+			case Road::ELIPSE: case Road::SPIRAL:
+				tmp_start = D3DXToRadian(start);
+				tmp_distance = D3DXToRadian(distance);
+				tmp_length = D3DXToRadian(length);
+				enemyObj->SetSpeed(D3DXToRadian(enemyObj->GetSpeed()));
+				break;
+			}
 			enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
-			enemyObj->SetDistance(i * distance);
+			enemyObj->SetDistance(tmp_start - i * tmp_distance);
+			enemyObj->GetTrajectory()->SetLength(tmp_start + tmp_length + i * tmp_distance);
 			newEnemyQue.push_back(enemyObj);
 		}
 	}
-	_enemyMap[std::stoi(std::string(timeValue))] = newEnemyQue;
+	_enemyMap[std::stof(std::string(timeValue))].first = false;
+	_enemyMap[std::stof(std::string(timeValue))].second = newEnemyQue;
 };
 
 
@@ -497,10 +511,13 @@ std::deque<Enemy*> * const Stage::GetEnemies(short const time)
 	EnemyMap::const_iterator it = _enemyMap.find( time );
 	if ( it != _enemyMap.end())
 	{
-		return &_enemyMap[time];
+		if (!_enemyMap[time].first)
+		{
+			_enemyMap[time].first = true;
+			return &_enemyMap[time].second;
+		}
 	}
-	else
-		return nullptr;
+	return nullptr;
 };
 
 void Stage::RemoveEnemies(short const key)

@@ -35,3 +35,9 @@ void Trajectory::GetRotation( D3DXVECTOR2 & pos, float const theta )
     mat._41 = 0.0f;			mat._42 = 0.0f;			mat._43 = 0.0f;		mat._44 = 1.0f;
 	D3DXVec2TransformCoord(&pos, &pos, &mat);
 };
+
+
+void Trajectory::SetLength(float length)
+{
+	_length = length;
+};

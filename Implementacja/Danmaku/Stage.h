@@ -30,7 +30,8 @@ class Stage
 	std::deque<Enemy*>		_enemy;
 
 	/// MAPA WROGÓW W CZASIE
-	typedef std::map<short, std::deque<Enemy*>> EnemyMap;
+	typedef std::pair<bool, std::deque<Enemy*>>	EnemyPair;	// wrogowie oraz info, czy zostali ju¿ zwróceni
+	typedef std::map<float, EnemyPair> EnemyMap;
 	EnemyMap _enemyMap;
 
 	/// Pole stejd¿a
@@ -55,7 +56,7 @@ private:
 	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId,
 			Pattern const pattern);
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
-	void CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
+	Road CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
 	void CreateAffineParameters(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId);
 
 	void ChoosePattern(std::string const & patternType, Pattern & pattern );

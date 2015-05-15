@@ -1,5 +1,7 @@
 #include "Enemy.h"
 
+typedef std::vector<Bonus*>			BonusQue;
+
 // ----- Konstruktor -----------------------------------------------------------------------------
 Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed, float const acc )
 	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(true),
@@ -89,9 +91,9 @@ void Enemy::TakeDamage( USHORT const damage )
 
 
 // ----- Create Bonus ----------------------------------------------------------------------------
-std::deque<Bonus*>* Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
+BonusQue * Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
 {
-	std::deque<Bonus*> * bonus = new std::deque<Bonus*>();
+	BonusQue * bonus = new BonusQue();
 	srand(time(NULL));
 	for (BonusMap::const_iterator it = _bonusMap.begin(); it != _bonusMap.end(); ++it)
 	{
@@ -109,7 +111,7 @@ std::deque<Bonus*>* Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
 
 
 // ----- Get Bonus -------------------------------------------------------------------------------
-std::deque<Bonus*>* Enemy::GetBonus(LPDIRECT3DDEVICE9 device)
+BonusQue * Enemy::GetBonus(LPDIRECT3DDEVICE9 device)
 {
 	return CreateBonus(device);
 };

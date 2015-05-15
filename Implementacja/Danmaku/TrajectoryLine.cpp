@@ -1,7 +1,6 @@
 #include "TrajectoryLine.h"
 
 TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const angle, float const length )
-	: length((short)length)
 {
 	/* Wartosci vectora s¹ w przedziale [0, 1] */
 	D3DXVECTOR2 dv;
@@ -9,6 +8,7 @@ TrajectoryLine::TrajectoryLine( D3DXVECTOR2 const & startPoint, float const angl
 	dv.y = -std::sin( angle );
 	this->SetDirection( dv );
 	this->SetStartPoint( startPoint );
+	_length = length;
 };
 
 
@@ -57,19 +57,21 @@ void TrajectoryLine::SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & myPosition, 
 	float newAngle = Vector::Angle(myPosition, playerPosition);
 	float x = myPosition.x - playerPosition.x;
 	float y = myPosition.y - playerPosition.y;
-	if ( x <= 0 && y >= 0)
+	if ( x <= 0)
 	{
 		this->direction.x = +std::cos(newAngle);
-		this->direction.y = -std::sin(newAngle);
 	}
-	else if ( x > 0 && y >= 0)
+	else
 	{
 		this->direction.x = -std::cos(newAngle);
+	}
+	if (y >= 0)
+	{
 		this->direction.y = -std::sin(newAngle);
 	}
 	else
 	{
-		this->direction.x = std::cos(newAngle);
-		this->direction.y = std::sin(newAngle);
+		this->direction.y = std::cos(newAngle);
 	}
+	
 };

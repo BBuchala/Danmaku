@@ -13,7 +13,8 @@
 
 class Enemy: public GameObject
 {
-	typedef std::deque<EnemyBullet*> EBulletQue;
+	typedef std::deque<EnemyBullet*>	EBulletQue;
+	typedef std::vector<Bonus*>			BonusQue;
 
 	float distance_;
 	USHORT life_;
@@ -53,7 +54,7 @@ public:
 	void Draw(RECT const & rect);
 	void Update( float const time );
 
-	void SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b = 0 );
+	void SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b = 0.0f );
 	void TakeDamage( USHORT const damage );
 
 	void SetBonus(Bonuses const bonus, float const value);
@@ -63,15 +64,25 @@ public:
 	void SetShootingDistance(float const sDistance);
 
 private:
-	std::deque<Bonus*>* CreateBonus(LPDIRECT3DDEVICE9 device);
+	BonusQue * CreateBonus(LPDIRECT3DDEVICE9 device);
 
 public:
 	////// GETTERY
-	std::deque<Bonus*>* GetBonus(LPDIRECT3DDEVICE9 device);
+	BonusQue * GetBonus(LPDIRECT3DDEVICE9 device);
+
+	inline TrajectoryPtr GetTrajectory() const
+	{
+		return traj_;
+	}
 
 	inline bool const IsAlive() const
 	{
 		return life_ == 0 ? false : true;
+	}
+
+	inline bool IsRoadFinished() const
+	{
+		return this->traj_->IsRoadFinished(distance_);
 	}
 
 	inline bool const IsPatternDying() const

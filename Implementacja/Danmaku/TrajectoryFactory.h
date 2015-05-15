@@ -9,7 +9,7 @@ class TrajectoryFactory
 {
 	// wskaŸnik na funkcjê twórz¹c¹ trajektoriê
 	// 3 parametry powinny byæ wspólne dla konstruktorów wszystkich torów
-	typedef Trajectory * (*CreateTrajectoryCallback)( D3DXVECTOR2 const & startPoint, float const angle, float const tmp);
+	typedef Trajectory * (*CreateTrajectoryCallback)( D3DXVECTOR2 const & startPoint, float const a, float const b);
 
 	// mapa wywo³añ funkcji. Kluczem jest Enum drogi, wartoœci¹ wskaŸnik na funkcjê
 	typedef std::map<Road, CreateTrajectoryCallback> CallbackMap;
@@ -25,7 +25,7 @@ public:
 	static TrajectoryFactory & Instance();
 
 	// zwrócenie nowego obiektu trajektorii
-	Trajectory * const CreateTrajectory( Road const trajecory, D3DXVECTOR2 const & position, float const a, float const b = 0 );
+	Trajectory * const CreateTrajectory( Road const trajecory, D3DXVECTOR2 const & position, float const a = 0.0f, float const b = 0.0f );
 
 	// zarejestrowanie nowej trajektorii
 	bool RegisterTrajectory( Road const tracId, CreateTrajectoryCallback createFn );

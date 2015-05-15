@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Stage>
 	<Time sec="2">
-		<Enemy number="5" distance="75" start="0" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="50">
+		<Enemy number="5" distance="18" start="-30" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="50" length="150">
 			<Bonus type="Score" number="5" value="10000"></Bonus>
 			<Trajectory type="Ellipse" center.x="LEFT" center.y="TOP" a="300" b="200"></Trajectory>
 			<Pattern type="Line" par1="-85" bulletNumber="1" number="20" interval="0.5">
@@ -11,7 +11,7 @@
 				<Bullet image="BulletRedCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
-		<Enemy number="5" distance="75" start="0" image="YukkuriReimu" center.x="HALF" center.y="TOP" life="500" speed="50">
+		<Enemy number="5" distance="18" start="60" image="YukkuriReimu" center.x="HALF" center.y="TOP" life="500" speed="50" length="150">
 			<Bonus type="Score" number="5" value="20000"></Bonus>
 			<Trajectory type="Ellipse" center.x="RIGHT" center.y="TOP" a="300" b="200"></Trajectory>
 			<Pattern type="Line" par1="-135" bulletNumber="1" number="20" interval="0.5">
@@ -23,8 +23,8 @@
 		</Enemy>
 	</Time>
 	<Time sec="10">
-		<Enemy number="1" start="0" image="YukkuriCirno" center.x="HALF" center.y="ONE_THIRDS" life="500" speed="0">
-			<Trajectory type="Line" center.x="HALF" center.y="HALF" a="-90"></Trajectory>
+		<Enemy number="1" start="0" image="YukkuriCirno" center.x="HALF" center.y="TOP" life="500" speed="0" length="500">
+			<Trajectory type="None" center.x="HALF" center.y="HALF" a="-90"></Trajectory>
 			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="3" interval="0.25">
 				<Bullet image="BulletGreenCircle" speed="18" width="32" height="32" hitboxSize="HALF"></Bullet>
 				<Affine scale="3"></Affine>

@@ -41,15 +41,16 @@ class Game : public Playfield
 
 	Player * player;
 
-	typedef std::vector<Enemy*> EnemyQue;
-	EnemyQue enemy_;
+	typedef std::deque<Enemy*>		EnemyQue;
+	typedef std::deque<EnemyQue*>	EnemyQueQue;
+	EnemyQueQue enemy_;
 
 	// miejsce na pociski wyemitowane przez zabitych wrogów
 	// ¿eby nie zniknê³y wraz z jego œmierci¹
 	typedef std::shared_ptr<EPattern>			EPatternPtr;
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
 	typedef std::pair<D3DXVECTOR2, PatternMap*>	SavedPair;
-	typedef std::deque<SavedPair>				SavedPairQue;
+	typedef std::vector<SavedPair>				SavedPairQue;
 	SavedPairQue _savedBullets;
 
 	//////// NAPISY
@@ -67,7 +68,7 @@ class Game : public Playfield
 	Bar * bombBar;
 
 	/////// BONUSY
-	typedef std::deque<Bonus *> BonusQue;
+	typedef std::vector<Bonus *> BonusQue;
 	BonusQue bonus_;
 
 	// zmiana koloru t³a
