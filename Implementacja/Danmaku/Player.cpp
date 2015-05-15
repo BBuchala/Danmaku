@@ -4,20 +4,22 @@
 const float	Player::INVULNERABLE_TIME = 3.0f;
 
 // --- Konstruktor--------------------------------------------------------------------------------
-Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x, pos.y, SPEED ), _isFocused(false),
-	_usesBomb(false), _isInvulnerable(false), _invulnerableTime(0.0f)
+ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x, pos.y, SPEED ), _isFocused(false),
+	_isInvulnerable(false), _invulnerableTime(0.0f)
 {
 	_lifeCount = lc;
 	_bombCount = bc;
 	_power = 0.00f;
 	_powerLevel = 1;
 	_playerPattern = PPatternPtr(new PlayerPattern01());
+	_bomb = BombPtr(new Bomb(this->GetCenterPoint(), this->GetSpeed()));
 };
 
 // --- Initialize Pattern--------------------------------------------------------------------------
 bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
 	_playerPattern->Initialize(device, this->GetCenterPoint());
+	_bomb->Initialize(device);
 	return true;
 };
 
@@ -62,6 +64,9 @@ void Player::Update(float const time, Move const move)
 
 	/// --- OBS£UGA STRZELANIA
 	this->Shoot( time );
+
+	//
+	this->_bomb->Update( time, this->GetCenterPoint() );
 };
 
 // --- Draw ---------------------------------------------------------------------------------------
@@ -70,6 +75,10 @@ void Player::Draw(RECT const & rect)
 	// wystrzeliwane pociski
 	if (_playerPattern != nullptr)
 		_playerPattern->Draw(rect);
+
+	// bomba
+	if (IsUsingBomb())
+		_bomb->Draw(rect);
 
 	// jak niewra¿liwy, to migotanie co æwieræ sekundy
 	if (_isInvulnerable)
@@ -250,7 +259,13 @@ void Player::SetIsInvulnerable()
 	_isInvulnerable = true;
 }
 
-void Player::UseBomb()
+bool Player::UseBomb()
 {
-
+	if (!IsUsingBomb() && _bombCount > 0)	
+	{
+		_bomb->Launch();
+		DecrementBombCount();
+		return true;
+	}
+	return false;
 }

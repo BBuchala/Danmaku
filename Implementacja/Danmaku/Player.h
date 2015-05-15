@@ -17,6 +17,7 @@ protected:
 	/// Definicja kolejki pocisków
 	typedef std::deque<PlayerBullet*> PBulletQue;
 	typedef std::unique_ptr<PPattern> PPatternPtr;
+	typedef std::unique_ptr<Bomb> BombPtr;
 
 	/* ==== STA£E ========================================= */
 	// prêdkoœci
@@ -28,7 +29,6 @@ protected:
 	static const float			INVULNERABLE_TIME;
 
 	bool _isFocused;
-	bool _usesBomb;
 	BYTE _lifeCount;
 	BYTE _bombCount;
 
@@ -41,7 +41,8 @@ protected:
 
 	PPatternPtr _playerPattern;
 
-	Bomb * _bomb;
+	BombPtr _bomb;
+	//Bomb * _bomb;
 
 public:
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount = 3 );
@@ -70,8 +71,8 @@ public:
 	// Incrementy i Decrementy
 	void IncrementLifeCount();
 	void IncrementBombCount();
-	void DecrementLifeCount();					// to mo¿na wykorzystaæ przy sprawdzaniu warunku koñca gry - if (player->lifeCount <= 0) ...
-	void DecrementBombCount();					// t¹ jedn¹ wsadzi siê do jakiej wiêkszej metody UseBomb() - ze sprawdzaniem czasu deathbomby, efektem graficznym itp.
+	void DecrementLifeCount();					
+	void DecrementBombCount();
 	
 	// Strzelanie
 	void CalculatePowerLevel();
@@ -82,7 +83,7 @@ public:
 	void Shoot(float const time);
 
 	// Bomba
-	void UseBomb();
+	bool UseBomb();										// true - uda³o siê odpaliæ bombê, false - nie mamy bomb do odpalenia
 
 	inline float GetPower()
 	{
@@ -96,11 +97,12 @@ public:
 
 	inline bool const IsUsingBomb() const
 	{
-		return _usesBomb;
+		return _bomb->InUse();
 	};
 
 	inline bool const IsInvulnerable() const
 	{
 		return _isInvulnerable;
 	};
+
 };

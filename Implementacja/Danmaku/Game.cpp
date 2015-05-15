@@ -104,6 +104,7 @@ bool Game::Initialize()
 	this->lifeBar->Initialize( gDevice->device, "img/life.png" );
 	this->bombBar->Initialize( gDevice->device, "img/bomb.png" );
 	 
+	/////// Inicjalizacja sk³adowych Playera
 	this->player->InitializePattern( gDevice-> device, player->GetCenterPoint());
 
 	/////// Inicjalizacja bonusów
@@ -196,6 +197,15 @@ void Game::Update(float const time)
 		this->player->SetIsShooting(true);
 	}
 
+	if (GetAsyncKeyState(0x58))
+	{
+		if(this->player->UseBomb())
+		{
+			this->bombBar->DecrementCount();
+			this->player->SetIsInvulnerable();
+		}
+	}
+
 	this->player->Update(time, move);
 
 	// Zmiana kolorów
@@ -259,6 +269,8 @@ void Game::DrawScene()
 		bonus_[i]->Draw(STAGE_FIELD);
 	}
 
+
+	//// AVATARY
 	this->gameScreen->Draw(GAME_FIELD);
 	for (std::vector<GameObject*>::const_iterator it = avatar_.begin(); it != avatar_.end(); ++it)
 	{
