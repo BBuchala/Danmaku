@@ -13,8 +13,6 @@ public:
 
 	static float Angle( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoint );
 
-	static float Length( D3DXVECTOR2 const & vector );
-
 	static float Length( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & vector );
 
 };

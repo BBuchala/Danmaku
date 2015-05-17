@@ -508,6 +508,28 @@ void Game::CheckPlayerGraze()
 			}
 		}
 	}
+	for (SavedPairQue::const_iterator s_it = _savedBullets.begin(); s_it != _savedBullets.end(); s_it++)
+	{
+		for (PatternMap::const_iterator p_it = s_it->second->begin(); p_it !=  s_it->second->end(); p_it++)
+		{
+			std::deque<EnemyBullet*> * ep = &p_it->second->GetBullets();
+			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+			while (eb_it != ep->end())
+			{
+				float grazeDistance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+
+				if (!(*eb_it)->IsGrazed() &&
+					grazeDistance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
+					+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE)
+				{
+					(*eb_it)->SetGrazed( true );
+					graze++;
+				}
+				eb_it++;
+			}
+		}
+	}
 };
 
 

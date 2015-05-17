@@ -12,6 +12,7 @@ class Hitbox : public ITransformable, public IDrawable
 	float theta;
 	bool useSprite;
 	Sprite * sprite;
+	D3DXVECTOR2 position;
 
 public:
 	//// MO¯LIWE WERSJE HITBOXA
@@ -30,11 +31,14 @@ public:
 	///////// KONSTRUKTORY
 	// Konstruktor - przyjmuje pozycjê, promienie i widocznoœæ
 	// Nastêpnie nale¿y zainicjalizowaæ sprajt
-	Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const radiusA, float const radiusB );
+	Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const radiusA, float const radiusB, D3DXVECTOR2 const & position );
 	Hitbox( Hitbox const & h);
 	
 	// Inicjalizacja sprajta
 	bool InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file );
+
+	// Update
+	void Update(D3DXVECTOR2 const & position);
 
 	//////// TRANSFORMABLE
 	void Translate( D3DXVECTOR2 const & translate ) override;
@@ -47,14 +51,14 @@ public:
 	//////// SETTERY
 	void SetRadius( float const radius );
 	void SetRadius( float const radiusA, float const radiusB );
-	void SetPosition( D3DXVECTOR2 const & position );
 	void SetUseSprite( bool useSprite );
 
 
 	//////// GETTERY
 	inline const float GetRadius(float const angle) const
 	{
-		return Vector::Length(Vector::Polar(radiusA_, radiusB_, angle + theta));
+		float res = Vector::Length(position, position + Vector::Polar(radiusA_, radiusB_, angle + theta));
+		return res;
 	};
 
 	inline const bool UseSprite() const

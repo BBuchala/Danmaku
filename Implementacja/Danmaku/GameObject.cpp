@@ -58,7 +58,7 @@ bool GameObject::InitializeSprite( SpritePtr const & sprite )
 
 bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size )
 {
-	this->hitbox = HitboxPtr( new Hitbox( shape, size, sprite->GetWidth(), sprite->GetHeight() ) );
+	this->hitbox = HitboxPtr( new Hitbox( shape, size, sprite->GetWidth(), sprite->GetHeight(), this->GetCenterPoint() ) );
 	return true;
 };
 
@@ -109,6 +109,7 @@ bool GameObject::IsObjectWithinBounds( RECT const & rect )
 void GameObject::Update(float const time)
 {
 	this->speed += this->acceleration * time;
+	this->hitbox->Update(this->GetCenterPoint());
 };
 
 

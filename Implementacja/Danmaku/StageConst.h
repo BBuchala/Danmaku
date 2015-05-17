@@ -10,7 +10,7 @@ namespace StageConst
 		static const unsigned short STAGE_WIDTH	= 614;
 		static const unsigned short STAGE_HEIGHT	= 706;
 		static const unsigned short SCORE_PADDING	= 10;
-		static const unsigned short GRAZE_DISTANCE	= 5;
+		static const unsigned short GRAZE_DISTANCE	= 10;
 		// wci¹ganie bonusów na 1/5 wysokoœci od góry
 		static const unsigned short BONUS_VACUUM_Y	= static_cast<short>((STAGE_POS_Y + STAGE_HEIGHT) * 1.0f / 5.0f);
 		static const unsigned short AVATAR_NUMBER	= 4;

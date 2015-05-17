@@ -19,15 +19,10 @@ D3DXVECTOR2 Vector::Polar( float const radiusA, float const radiusB, float const
 };
 
 
-float Vector::Length( D3DXVECTOR2 const & vector )
-{
-	return D3DXVec2Length(&vector);
-};
-
-
 float Vector::Length( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & vector )
 {
-	return D3DXVec2Length( &( startPoint - vector ) );
+	D3DXVECTOR2 diff = vector - startPoint;
+	return sqrt(D3DXVec2Dot(&diff, &diff));
 };
 
 
