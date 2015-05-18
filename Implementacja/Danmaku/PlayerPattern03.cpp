@@ -10,9 +10,9 @@ PlayerPattern03::~PlayerPattern03(void)
 {
 }
 
-void PlayerPattern03::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+void PlayerPattern03::Initialize(D3DXVECTOR2 const & position)
 {
-	PPattern::Initialize(device, position);
+	PPattern::Initialize(position);
 	leftShift = D3DXVECTOR2(20,15);
 	rightShift = D3DXVECTOR2(-20,15);
 }
@@ -61,10 +61,7 @@ void PlayerPattern03::Add(D3DXVECTOR2 const & playerPos)
 	}
 }
 
-void PlayerPattern03::LoadSprite()
+void PlayerPattern03::LoadSprite(PlayerBulletSpriteResource & pbsResource)
 {
-	templateSprite = SpritePtr(new Sprite());
-
-	std::string file = Sprite::GetFilePath( "PlayerBullet2","png");
-	templateSprite->Initialize( device, file );
+	templateSprite = pbsResource["PlayerBullet2"];
 };

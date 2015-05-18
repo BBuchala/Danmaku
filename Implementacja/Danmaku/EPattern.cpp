@@ -17,16 +17,15 @@ EPattern::~EPattern()
 };
 
 
-void EPattern::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position )
+void EPattern::Initialize(D3DXVECTOR2 const & position )
 {
-	this->_device = device;
 	this->_position = position;
 };
 
 
-void EPattern::InitializeBullets(std::string bulletImage, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize)
+void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize)
 {
-	_bulletImage = bulletImage;
+	_bulletSprite = bulletSprite;
 	_bulletSpeed = bulletSpeed;
 	_bulletWidth = bulletWidth;
 	_bulletHeight = bulletHeight;

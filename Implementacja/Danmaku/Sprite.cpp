@@ -4,28 +4,37 @@
 const std::string Sprite::IMG_PATH	= "img/";
 
 /* ---- KONSTRUKTOR --------------- */
-Sprite::Sprite() : initialized(false)
+Sprite::Sprite()
 {
-	// When color is set to white, what you see is exactly what the image looks like.
+	this->ResetValues();
+};
+
+
+Sprite::Sprite(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const width, UINT const height)
+{
+	this->ResetValues();
+	this->Initialize(device, file, width, height);
+};
+
+
+Sprite::Sprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, UINT const width, UINT const height)
+{
+	this->ResetValues();
+	this->Initialize(device, fileVect, width, height);
+};
+
+
+void Sprite::ResetValues()
+{
+	// przezroczystoœæ - brak
 	this->color = D3DCOLOR_ARGB(255, 255, 255, 255);
 
 	// znullowanie wskaŸnika na tekstury
 	this->tex = NULL;
+
+	this->initialized = false;
 };
 
-
-Sprite::Sprite(Sprite const & sprite)
-{
-	//this->currentTex = sprite.currentTex;
-	//this->texNumber = sprite.texNumber;
-	//this->color = sprite.color;
-	//this->width = sprite.width;
-	//this->height = sprite.height;
-	//this->center = sprite.center;
-	//this->rotation = sprite.rotation;
-	//this->scale = sprite.scale;
-	//this->initialized = sprite.initialized;
-};
 
 Sprite::~Sprite()
 {
@@ -55,53 +64,55 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, UINT
 
 bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, UINT const width, UINT const height )
 {
-	this->texNumber = file.size();
-	this->tex = new LPDIRECT3DTEXTURE9[this->texNumber];
-
-	for (int i = 0; i < this->texNumber; i++)
+	if (!initialized)
 	{
-		//Same functionality as D3DXCreateTextureFromFile EXCEPT width and height are manually entered
-		if (!SUCCEEDED(D3DXCreateTextureFromFileEx(device, file[i].c_str(), width, height,
-			D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0,
-			NULL, NULL, &tex[i])))
+		this->texNumber = file.size();
+		this->tex = new LPDIRECT3DTEXTURE9[this->texNumber];
+
+		for (int i = 0; i < this->texNumber; i++)
 		{
-			std::string s = "There was an issue creating the Texture.  Make sure the requested image is available.  Requested image: " + file[i];
-			MessageBox(NULL, s.c_str(), NULL, NULL); 
+			//Same functionality as D3DXCreateTextureFromFile EXCEPT width and height are manually entered
+			if (!SUCCEEDED(D3DXCreateTextureFromFileEx(device, file[i].c_str(), width, height,
+				D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, D3DX_DEFAULT, D3DX_DEFAULT, 0,
+				NULL, NULL, &tex[i])))
+			{
+				std::string s = "There was an issue creating the Texture.  Make sure the requested image is available.  Requested image: " + file[i];
+				MessageBox(NULL, s.c_str(), NULL, NULL); 
+				return false;
+			}
+		}
+		// przypisanie odpowiedniej wysokoœci i szerokoœci
+		if ( width == D3DX_DEFAULT_NONPOW2 || height == D3DX_DEFAULT_NONPOW2 )
+		{
+			D3DXIMAGE_INFO info;
+			D3DXGetImageInfoFromFile(file[0].c_str(), &info);
+			this->width = info.Width;
+			this->height = info.Height;
+		}
+		else
+		{
+			this->width = width;
+			this->height = height;
+		}
+
+		//Attempt to create the sprite
+		if (!SUCCEEDED(D3DXCreateSprite(device, &sprite)))
+		{
+			MessageBox(NULL, "There was an issue creating the Sprite.", NULL, NULL);
 			return false;
 		}
+
+		this->SetCurrentTexture( 0 );
+		this->texNumber = file.size();
+
+		this->SetCenterPoint();
+
+		this->SetRotation( 0.0f );
+		this->SetScale( 1.0f );
+
+		initialized = true;
 	}
-	// przypisanie odpowiedniej wysokoœci i szerokoœci
-	if ( width == D3DX_DEFAULT_NONPOW2 || height == D3DX_DEFAULT_NONPOW2 )
-	{
-		D3DXIMAGE_INFO info;
-		D3DXGetImageInfoFromFile(file[0].c_str(), &info);
-		this->width = info.Width;
-		this->height = info.Height;
-	}
-	else
-	{
-		this->width = width;
-		this->height = height;
-	}
-
-	//Attempt to create the sprite
-	if (!SUCCEEDED(D3DXCreateSprite(device, &sprite)))
-	{
-		MessageBox(NULL, "There was an issue creating the Sprite.", NULL, NULL);
-		return false;
-	}
-
-	this->SetCurrentTexture( 0 );
-	this->texNumber = file.size();
-
-	this->SetCenterPoint();
-
-	this->SetRotation( 0.0f );
-	this->SetScale( 1.0f );
-
-	initialized = true;
-
-	return true;
+	return initialized;
 };
 
 
@@ -133,28 +144,6 @@ void Sprite::Draw(D3DXVECTOR2 const & position)
 
 		this->sprite->End();
 	}
-
-	/** Dzia³aj¹cy kod na obrót 2D dla kwaternionu. Wyszed³ w praniu
-		D3DXVECTOR3 rotor ( rotation, 0.0f, 0.0f );
-
-		float s2 = std::sin( D3DXToRadian ( rotor.x / 2.0f ) );
-		float s1 = std::sin( D3DXToRadian ( rotor.y / 2.0f ) );
-		float s3 = std::sin( D3DXToRadian ( rotor.z / 2.0f ) );
-
-		float c2 = std::cos( D3DXToRadian ( rotor.x / 2.0f ) );
-		float c1 = std::cos( D3DXToRadian ( rotor.y / 2.0f ) );
-		float c3 = std::cos( D3DXToRadian ( rotor.z / 2.0f ) );
-				
-		float rX = s1 * s2 * c3 + c1 * c2 * s3;
-		float rY = s1 * c2 * c3 + c1 * s2 * s3;
-		float rZ = c1 * s2 * c3 - s1 * c2 * s3;
-		float rW = c1 * c2 * c3 - s1 * s2 * s3;
-
-		D3DXQUATERNION quat ( rX, rY, rZ, rW );
-		
-		D3DXMATRIX mat;
-		D3DXMatrixTransformation(&mat, NULL, NULL, NULL, &center, &quat, NULL);
-	*/
 };
 
 

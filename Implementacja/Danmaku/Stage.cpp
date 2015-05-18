@@ -106,6 +106,10 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std
 			this->ChooseHitboxSize(bulletAtr->value(), hSize);
 		}
 	}
+	if (this->_enemyBulletSprite.Add(bulletImage))
+	{
+		_enemyBulletSprite[bulletImage]->Initialize(_device, Sprite::GetFilePath(bulletImage), bulletWidth, bulletHeight);
+	}
 	switch(pattern)
 	{
 	case Pattern::ELLIPSE:
@@ -114,7 +118,7 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std
 	default:
 		break;
 	}
-	enemyObj->GetPattern(patternId).InitializeBullets(Sprite::GetFilePath(bulletImage), bulletSpeed, bulletWidth, bulletHeight, hShape, hSize);
+	enemyObj->GetPattern(patternId).InitializeBullets(_enemyBulletSprite[bulletImage], bulletSpeed, bulletWidth, bulletHeight, hShape, hSize);
 };
 
 
@@ -274,34 +278,38 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 };
 
 
-void Stage::ChooseBonus(std::string const & bonus, Bonuses & bonusType)
+void Stage::ChooseBonus(std::string const & bonus, BonusType & bonusType)
 {
 	if (bonus.compare("Power") == 0)
 	{
-		bonusType = Bonuses::POWER;
+		bonusType = BonusType::POWER;
+		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else if (bonus.compare("Score") == 0)
 	{
-		bonusType = Bonuses::SCORE;
+		bonusType = BonusType::SCORE;
+		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else if (bonus.compare("Bomb") == 0)
 	{
-		bonusType = Bonuses::BOMB;
+		bonusType = BonusType::BOMB;
+		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else if (bonus.compare("Life") == 0)
 	{
-		bonusType = Bonuses::LIFE;
+		bonusType = BonusType::LIFE;
+		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else
 	{
-		bonusType = Bonuses::NONE;
+		bonusType = BonusType::NONE;
 	}
 };
 
 
 void Stage::CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position)
 {
-	Bonuses bonusType;
+	BonusType bonusType;
 	float value = 1.0f;
 	short number = 1;
 	for (xml_attribute <>* bonusAtr = bonus->first_attribute(); bonusAtr; bonusAtr = bonusAtr->next_attribute())
@@ -440,10 +448,14 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 				length = std::stof(enemyAtr->value());
 			}
 		}
+		if (this->_enemySprite.Add(imageFile))
+		{
+			_enemySprite[imageFile]->Initialize(_device, Sprite::GetFilePath(imageFile));
+		}
 		for (int i = 0; i < number; ++i)
 		{
 			Enemy * enemyObj = new Enemy(position, life, speed);
-			enemyObj->InitializeSprite(_device, Sprite::GetFilePath(imageFile));
+			enemyObj->InitializeSprite(_enemySprite[imageFile]);
 			Road trajType;
 			float tmp_length = length, tmp_distance = distance, tmp_start = start;
 			for (xml_node <> * enemyNode = enemy->first_node(); enemyNode; enemyNode = enemyNode->next_sibling())

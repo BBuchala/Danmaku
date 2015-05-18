@@ -10,9 +10,9 @@ PlayerPattern01::~PlayerPattern01(void)
 {
 }
 
-void PlayerPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+void PlayerPattern01::Initialize(D3DXVECTOR2 const & position)
 {
-	PPattern::Initialize(device, position);
+	PPattern::Initialize(position);
 }
 
 void PlayerPattern01::Update(float const time, D3DXVECTOR2 const & playerPos)
@@ -48,10 +48,7 @@ void PlayerPattern01::Add(D3DXVECTOR2 const & playerPos)
 	this->bullet.push_back( newBullet );
 }
 
-void PlayerPattern01::LoadSprite()
+void PlayerPattern01::LoadSprite(PlayerBulletSpriteResource & pbsResource)
 {
-	templateSprite = SpritePtr(new Sprite());
-
-	std::string file = Sprite::GetFilePath( "PlayerBullet","png");
-	templateSprite->Initialize( device, file );
+	templateSprite = pbsResource["PlayerBullet1"];
 };

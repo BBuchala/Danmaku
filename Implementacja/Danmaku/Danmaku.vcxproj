@@ -128,11 +128,13 @@
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombBonus.h" />
     <ClInclude Include="Bonus.h" />
-    <ClInclude Include="Bonuses.h" />
+    <ClInclude Include="BonusType.h" />
     <ClInclude Include="BonusFactory.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="EnemyBulletSpriteResource.h" />
     <ClInclude Include="EnemyPatternEllipse.h" />
     <ClInclude Include="EnemyPatternLine.h" />
+    <ClInclude Include="EnemySpriteResource.h" />
     <ClInclude Include="EPattern.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
     <ClInclude Include="Enemy.h" />
@@ -155,6 +157,7 @@
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerBulletSpriteResource.h" />
     <ClInclude Include="PlayerPattern01.h" />
     <ClInclude Include="PlayerPattern02.h" />
     <ClInclude Include="PlayerPattern03.h" />
@@ -163,8 +166,10 @@
     <ClInclude Include="PPattern.h" />
     <ClInclude Include="Playfield.h" />
     <ClInclude Include="PowerBonus.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="ScoreBonus.h" />
+    <ClInclude Include="BonusSpriteResource.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageConst.h" />
     <ClInclude Include="String.h" />

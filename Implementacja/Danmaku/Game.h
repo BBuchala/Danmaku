@@ -17,6 +17,9 @@
 
 #include "StageConst.h"
 
+#include "BonusSpriteResource.h"
+#include "PlayerBulletSpriteResource.h"
+
 // wyjπtki
 #include "Direct3DInitializationFailedException.h"
 
@@ -27,22 +30,17 @@ using namespace StageConst;
 class Game : public Playfield
 {
 	////// ==== STA£E
-	//static const unsigned short BUTTON_NUM		= 2;
-	//static const unsigned short TEX_NUM			= 3;
-	//static const unsigned short STAGE_POS_X		= 63;
-	//static const unsigned short STAGE_POS_Y		= 32;
-	//static const unsigned short STAGE_WIDTH		= 614;
-	//static const unsigned short STAGE_HEIGHT	= 706;
-	//static const unsigned short SCORE_PADDING	= 10;
-	//static const unsigned short GRAZE_DISTANCE	= 5;
-	//// wciπganie bonusÛw na 1/5 wysokoúci od gÛry
-	//static const unsigned short BONUS_VACUUM_Y	= static_cast<short>((STAGE_POS_Y + STAGE_HEIGHT) * 1.0f / 5.0f);
-	// prostokπt definujπcy pole gry
-	static const RECT STAGE_FIELD;
-	static const RECT GAME_FIELD;
+	static const RECT STAGE_FIELD;		// prostokπt definujπcy pole stejdøa
+	static const RECT GAME_FIELD;		// prostokπt definujπcy pole gry
+
+	////// === èR”D£A
+	BonusSpriteResource			bonusSprite_;
+	PlayerBulletSpriteResource	playerBulletSprite_;
 
 	// t≥o
-	GameObject *				gameScreen;
+	Sprite *					gameScreen;
+	Sprite *					stageBackground;
+	D3DXVECTOR2					stageBackgroundPos;
 	std::vector<GameObject*>	avatar_;
 
 	Player * player;
@@ -92,6 +90,8 @@ class Game : public Playfield
 	bool pressed;
 
 	Stage * stage;
+
+	typedef std::shared_ptr<Sprite> SpritePtr;
 
 public:
 	// Konstruktor, destruktor

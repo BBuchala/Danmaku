@@ -9,7 +9,7 @@ class EnemyPatternLine: public EPattern
 
 public:
 	EnemyPatternLine(float const angle, float const number, float const activationTime);
-	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
+	void Initialize(D3DXVECTOR2 const & position) override;
 	void InitializeBullets(std::string bulletImage, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize);
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 

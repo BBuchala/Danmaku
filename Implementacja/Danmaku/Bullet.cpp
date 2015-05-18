@@ -1,11 +1,11 @@
 #include "Bullet.h"
 
 Bullet::Bullet( D3DXVECTOR2 const & position, float const speed )
-	: GameObject( position.x, position.y, speed ), distance(0.0f)
+	: GameObject( position, speed ), distance(0.0f)
 {
 };
 
-Bullet::Bullet( float const speed ) : GameObject( 0.0f, 0.0f, speed ), distance(0.0f)
+Bullet::Bullet( float const speed ) : GameObject( D3DXVECTOR2(0.0f, 0.0f), speed ), distance(0.0f)
 {
 };
 

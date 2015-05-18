@@ -1,6 +1,6 @@
 #include "Bomb.h"
 
-Bomb::Bomb(D3DXVECTOR2 const & position, float const speed): GameObject( position.x, position.y, speed ), maxTime(3.0f)
+Bomb::Bomb(D3DXVECTOR2 const & position, float const speed): GameObject( position, speed ), maxTime(3.0f)
 {
 };
 
@@ -14,7 +14,8 @@ Bomb::~Bomb()
 
 void Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 {	
-	this->InitializeSprite(device, Sprite::GetFilePath( "master_spark","png"));
+	SpritePtr sprite = SpritePtr(new Sprite(device, Sprite::GetFilePath( "master_spark", "png")));
+	this->InitializeSprite(sprite);
 	this->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
 	this->inUse = false;
 	this->shift = D3DXVECTOR2(this->GetSprite()->GetWidth()/2,this->GetSprite()->GetHeight());

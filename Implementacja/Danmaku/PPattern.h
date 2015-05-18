@@ -1,6 +1,7 @@
 #pragma once
 #include "IPattern.h"
 #include "PlayerBullet.h"
+#include "PlayerBulletSpriteResource.h"
 
 class PPattern : public IPattern
 {
@@ -17,9 +18,6 @@ protected:
 	// Kontrola czasowa
 	float elapsedTime;
 
-	// uchyt do diwajsa, dla generacji nowych pocisków w czasie
-	LPDIRECT3DDEVICE9 device;
-
 	// pozycja wzoru
 	D3DXVECTOR2 position;
 
@@ -35,7 +33,7 @@ public:
 	virtual ~PPattern();
 	
 	// przekazanie uchwytu
-	virtual void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position );
+	virtual void Initialize(D3DXVECTOR2 const & position );
 
 	//virtual void SetPosition(D3DXVECTOR2 const & pos);
 
@@ -49,7 +47,7 @@ public:
 
 	void SetKeyPressed(bool isKeyPressed);
 
-	void virtual LoadSprite();
+	void virtual LoadSprite(PlayerBulletSpriteResource & pbsResource) = 0;
 
 	inline PBulletQue & GetBullets()
 	{

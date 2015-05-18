@@ -11,7 +11,7 @@ BonusFactory & BonusFactory::Instance()
 	return *pInstance_;
 };
 
-Bonus * const BonusFactory::CreateBonus( Bonuses const bonus, D3DXVECTOR2 const & position, float const value, float const speed )
+Bonus * const BonusFactory::CreateBonus( BonusType const bonus, D3DXVECTOR2 const & position, float const value, float const speed )
 {
 	CallbackMap::const_iterator it = callbacks_.find( bonus );
 	if ( it == callbacks_.end())
@@ -21,13 +21,13 @@ Bonus * const BonusFactory::CreateBonus( Bonuses const bonus, D3DXVECTOR2 const 
 	return (it->second)(position, value, speed);
 };
 
-bool BonusFactory::RegisterBonus( Bonuses const bonus, CreateBonusCallback createFn )
+bool BonusFactory::RegisterBonus( BonusType const bonus, CreateBonusCallback createFn )
 {
 	return this->callbacks_.insert( CallbackMap::value_type( bonus, createFn )).second;
 };
 
 
-bool BonusFactory::UnregisterBonus( Bonuses const bonus )
+bool BonusFactory::UnregisterBonus( BonusType const bonus )
 {
 	return this->callbacks_.erase( bonus ) == 1;
 };

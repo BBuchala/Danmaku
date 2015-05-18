@@ -9,11 +9,11 @@ public:
 	PlayerPattern02(void);
 	~PlayerPattern02(void);
 
-	void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position) override;
+	void Initialize(D3DXVECTOR2 const & position) override;
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 
 	void Add(D3DXVECTOR2 const & position);
 
-	void LoadSprite();
+	void LoadSprite(PlayerBulletSpriteResource & pbsResource) override;
 };
 

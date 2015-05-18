@@ -29,15 +29,12 @@ protected:
 	float _rotate;
 
 	/// W³aœciwoœci generowanych pocisków
-	std::string _bulletImage;
+	std::shared_ptr<Sprite> _bulletSprite;
 	float _bulletSpeed;
 	BYTE _bulletWidth;
 	BYTE _bulletHeight;
 	Hitbox::Shape _hitboxShape;
 	Hitbox::Size _hitboxSize;
-
-	// uchyt do diwajsa, dla generacji nowych pocisków w czasie
-	LPDIRECT3DDEVICE9 _device;
 
 	// pozycja wzoru
 	D3DXVECTOR2 _position;
@@ -50,8 +47,8 @@ public:
 	virtual ~EPattern();
 	
 	// przekazanie uchwytu
-	virtual void Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position );
-	void InitializeBullets(std::string bulletImage, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize);
+	virtual void Initialize(D3DXVECTOR2 const & position);
+	void InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize);
 
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;

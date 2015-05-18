@@ -4,7 +4,7 @@
 const float	Player::INVULNERABLE_TIME = 3.0f;
 
 // --- Konstruktor--------------------------------------------------------------------------------
- Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos.x, pos.y, SPEED ), _isFocused(false),
+ Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
 	_isInvulnerable(false), _invulnerableTime(0.0f)
 {
 	_lifeCount = lc;
@@ -12,16 +12,30 @@ const float	Player::INVULNERABLE_TIME = 3.0f;
 	_power = 0.00f;
 	_powerLevel = 1;
 	_playerPattern = PPatternPtr(new PlayerPattern01());
-	_bomb = BombPtr(new Bomb(this->GetCenterPoint(), this->GetSpeed()));
+	_hitboxSprite = std::unique_ptr<Sprite>(new Sprite());
 };
 
 // --- Initialize Pattern--------------------------------------------------------------------------
 bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
-	_playerPattern->Initialize(device, this->GetCenterPoint());
+	_playerPattern->Initialize(this->GetCenterPoint());
 	_bomb->Initialize(device);
 	return true;
 };
+
+
+void Player::InitializeBomb()
+{
+	_bomb = BombPtr(new Bomb(this->GetCenterPoint(), this->GetSpeed()));
+};
+
+
+void Player::Initialize(PlayerBulletSpriteResource const & pbsResource)
+{
+	_pbsResource = const_cast<PlayerBulletSpriteResource*>(&pbsResource);
+	_playerPattern->LoadSprite(*_pbsResource);
+};
+
 
 // --- Update -------------------------------------------------------------------------------------
 void Player::Update(float const time, Move const move)
@@ -36,7 +50,6 @@ void Player::Update(float const time, Move const move)
 	{
 		this->speed = SPEED;
 	}
-	this->hitbox->SetUseSprite(_isFocused);
 
 	/// --- OBS£UGA NIEWRA¯LIWOŒCI NA POCISKI
 	if (_isInvulnerable)
@@ -67,6 +80,11 @@ void Player::Update(float const time, Move const move)
 
 	//
 	this->_bomb->Update( time, this->GetCenterPoint() );
+
+	if (_isFocused)
+	{
+		this->_hitboxSprite->Rotate(D3DXToRadian(5.0f));
+	}
 };
 
 // --- Draw ---------------------------------------------------------------------------------------
@@ -92,6 +110,11 @@ void Player::Draw(RECT const & rect)
 	}
 	else
 		GameObject::Draw(rect); // zwyk³a procedura
+
+	if (_isFocused)
+	{
+		this->_hitboxSprite->Draw(this->GetCenterPoint() - this->_hitboxSprite->GetCenterPoint());
+	}
 };
 
 // --- Get Focus ----------------------------------------------------------------------------------
@@ -243,6 +266,7 @@ void Player::ChangePlayerPattern()
 			_playerPattern = PPatternPtr(new PlayerPattern01());		
 			break;
 	}
+	_playerPattern->LoadSprite(*_pbsResource);
 	_hasPatternChanged = true;
 }
 
@@ -269,3 +293,8 @@ bool Player::UseBomb()
 	}
 	return false;
 }
+
+bool Player::InitializeHitboxSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
+{
+	return _hitboxSprite->Initialize(device, file, 4 * this->hitbox->GetRadiusA(), 4 * this->hitbox->GetRadiusB());
+};

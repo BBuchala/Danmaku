@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Bonuses.h"
+#include "BonusType.h"
 #include "GameObject.h"
 #include "TrajectoryFactory.h"
 
@@ -19,12 +19,11 @@ protected:
 
 public:
 	// KONSTRUKTORY I DESTRUKTOR
-	Bonus (D3DXVECTOR2 const & position, float const value, float const speed, std::string fileName);
+	Bonus (D3DXVECTOR2 const & position, float const value, float const speed);
 	Bonus ( Bonus const & bonus );
 	virtual ~Bonus();
 
-	// METODA INICJALIZUJ¥CA SPRITE
-	bool Initialize(LPDIRECT3DDEVICE9 device);
+	void SetSprite(SpritePtr sprite);
 
 	// METODA DO AKTUALIZACJI POZYCJI OBIEKTU
 	void Update(float const time) override;
@@ -32,7 +31,7 @@ public:
 	// METODA SPRAWDZAJ¥CA, CZY BONUS ZNAJDUJE SIÊ W OBSZARZE GRY
 	bool isBonusWithinBounds(const short x, const short y, const short width, const short height);
 
-	virtual Bonuses GetBonusId() const = 0;
+	virtual BonusType GetBonusId() const = 0;
 
 	void SetDistance(float const distance)
 	{

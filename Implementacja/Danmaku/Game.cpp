@@ -20,19 +20,14 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
 	score = hiScore = graze = 0;
-
-	// T³o
-	red = green = blue = 0.0f;
-	incRed = 0.3f;
-	incBlue = 0.2f;
-	incGreen = 0.5f;
-	// przyciski
 	escape = pressed = false;
 	this->elapsedTime = 0.0f;
 
 	/* ==== PRZYDZIELENIE PAMIÊCI OBIEKTOM KLAS ======= */
 	// ekran gry
-	this->gameScreen = new GameObject(0, 0);
+	this->gameScreen = new Sprite(gDevice->device, Sprite::GetFilePath("gameScreen"), SCREEN_WIDTH, SCREEN_HEIGHT);
+	this->stageBackground = new Sprite(gDevice->device, Sprite::GetFilePath("backgroundClouds"));
+	this->stageBackgroundPos = D3DXVECTOR2(StageConsts::STAGE_POS_X, StageConsts::STAGE_POS_Y);
 	// gracz
 	this->player = new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), 3 );
 	// dane liczbowe
@@ -45,18 +40,18 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
 
 	// bonusy
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::POWER, D3DXVECTOR2(200,100)));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::POWER, D3DXVECTOR2(400,50 )));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::SCORE, D3DXVECTOR2(500,250), 10000));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::LIFE,  D3DXVECTOR2(80,80  )));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(Bonuses::BOMB,  D3DXVECTOR2(650,100)));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::POWER, D3DXVECTOR2(200,100)));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::POWER, D3DXVECTOR2(400,50 )));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::SCORE, D3DXVECTOR2(500,250), 10000));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::LIFE,  D3DXVECTOR2(80,80  )));
+	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::BOMB,  D3DXVECTOR2(650,100)));
 
 	stage = new Stage("stages/Stage1.xml", &this->STAGE_FIELD, gDevice->device);
 
 	// Avatary
 	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
 	{
-		avatar_.push_back(new GameObject(728, 484 + i * 61));
+		avatar_.push_back(new GameObject(D3DXVECTOR2(728, 484 + i * 61)));
 	}
 };
 
@@ -86,13 +81,23 @@ Game::~Game()
 /* ---- Initialize ---------------------------------------------------------------------------- */
 bool Game::Initialize()
 {
-	//////// DEFINICJA WEKTORA
-	typedef std::vector<std::string> Vector;
+	bonusSprite_.Add(BonusType::POWER);
+	bonusSprite_.Add(BonusType::LIFE);
+	bonusSprite_.Add(BonusType::SCORE);
+	bonusSprite_.Add(BonusType::BOMB);
+	bonusSprite_.Create(gDevice);
+
+	playerBulletSprite_.Add("PlayerBullet1");
+	playerBulletSprite_.Add("PlayerBullet2");
+	playerBulletSprite_.Add("PlayerBullet3");
+	playerBulletSprite_.Add("PlayerBullet4");
+	playerBulletSprite_.Create(gDevice);
 
 	// Poszczególne obiekty
-	this->gameScreen->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("gameScreen", "png"), SCREEN_WIDTH, SCREEN_HEIGHT );
-	this->player->InitializeSprite( this->gDevice->device, Sprite::GetFilePath("ship", "png") );
-	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH, Sprite::GetFilePath("hitbox", "png"), gDevice->device );
+	this->player->InitializeSprite( SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("ship"))) );
+	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
+	this->player->InitializeHitboxSprite(gDevice->device, Sprite::GetFilePath("hitbox", "png"));
+	this->player->InitializeBomb();
 
 	//////// INICJALIZACJA DANYCH LICZBOWYCH
 	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
@@ -101,24 +106,27 @@ bool Game::Initialize()
 	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
 	/////// Inicjalizacja pasków ¿ycia i bomby
-	this->lifeBar->Initialize( gDevice->device, "img/life.png" );
-	this->bombBar->Initialize( gDevice->device, "img/bomb.png" );
+	this->lifeBar->Initialize( gDevice->device, Sprite::GetFilePath("life") );
+	this->bombBar->Initialize( gDevice->device, Sprite::GetFilePath("bomb") );
 	 
 	/////// Inicjalizacja sk³adowych Playera
-	this->player->InitializePattern( gDevice-> device, player->GetCenterPoint());
+	this->player->InitializePattern( gDevice->device, player->GetCenterPoint());
+	this->player->Initialize(playerBulletSprite_);
 
 	/////// Inicjalizacja bonusów
-	for (unsigned int i = 0; i < bonus_.size(); i++)
+	for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
 	{
-		bonus_[i]->Initialize( gDevice->device );
-		bonus_[i]->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+		(*it)->SetSprite( bonusSprite_[(*it)->GetBonusId()] );
+		(*it)->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 	}
 
 	////// Avatary
 	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
 	{
-		avatar_[i]->InitializeSprite(gDevice->device, Sprite::GetFilePath("Av", 0, i + 1, "png"));
+		avatar_[i]->InitializeSprite(SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("Av", 0, i + 1, "png"))));
 	}
+
+	this->stageBackgroundPos.y -= this->stageBackground->GetHeight() - StageConsts::STAGE_HEIGHT;
 
 	return true;
 };
@@ -137,6 +145,8 @@ void Game::Update(float const time)
 	{
 		this->ended = true;
 	}
+
+	this->stageBackgroundPos.y += 30 * time;
 
 	//// Odpytanie Stejd¿a o nowe elementy
 	EnemyQue * newEnemies = this->stage->GetEnemies(static_cast<short>(elapsedTime));
@@ -208,27 +218,6 @@ void Game::Update(float const time)
 
 	this->player->Update(time, move);
 
-	// Zmiana kolorów
-	red += ( incRed * time );
-	green += ( incGreen * time );
-	blue += ( incBlue * time );
-
-	if (red > 1.0f || red < 0.0f)
-	{
-		incRed *= -1;
-		red = red > 1.0f ? 1.0f : 0.0f;
-	}
-	if (green > 1.0f || green < 0.0f)
-	{
-		incGreen *= -1;
-		green = green > 1.0f ? 1.0f : 0.0f;
-	}
-	if (blue > 1.0f || blue < 0.0f)
-	{
-		incBlue *= -1;
-		blue = blue > 1.0f ? 1.0f : 0.0f;
-	}
-
 	//// Obs³uga bonusów
 	for (unsigned int i = 0; i < bonus_.size(); i++)
 		bonus_[i]->Update(time);
@@ -246,6 +235,8 @@ void Game::Update(float const time)
 
 void Game::DrawScene()
 {
+	this->stageBackground->Draw(stageBackgroundPos);
+
 	if (player != nullptr) player->Draw(STAGE_FIELD);
 
 	for (EnemyQueQue::const_iterator it = enemy_.begin(); it != enemy_.end(); ++it)
@@ -271,7 +262,7 @@ void Game::DrawScene()
 
 
 	//// AVATARY
-	this->gameScreen->Draw(GAME_FIELD);
+	this->gameScreen->Draw(D3DXVECTOR2(0.0f, 0.0f));
 	for (std::vector<GameObject*>::const_iterator it = avatar_.begin(); it != avatar_.end(); ++it)
 	{
 		(*it)->Draw(GAME_FIELD);
@@ -558,7 +549,7 @@ void Game::CheckEnemyCollisions()
 						_savedBullets.push_back((*e_it)->GetPatterns());
 					}
 					// otrzymujemy wskaŸnik na kopiê bonusu
-					BonusQue * bonus = (*e_it)->GetBonus(gDevice->device);
+					BonusQue * bonus = (*e_it)->GetBonus(gDevice->device, bonusSprite_.GetResources());
 					if (bonus != nullptr)
 						bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
 					e_it = (*it)->erase(e_it);
@@ -598,7 +589,7 @@ void Game::CheckBonusCollisions()
 		{
 			switch ( bonus_[i]->GetBonusId() )
 			{
-			case POWER:
+			case BonusType::POWER:
 				this->player->AddToPower(bonus_[i]->Realize());
 				if (this->player->HasPatternChanged())
 				{
@@ -607,16 +598,16 @@ void Game::CheckBonusCollisions()
 				}
 				break;
 
-			case SCORE:
+			case BonusType::SCORE:
 				score += static_cast<short>(bonus_[i]->Realize());
 				break;
 
-			case LIFE:
+			case BonusType::LIFE:
 				(*lifeBar)++;
 				this->player->IncrementLifeCount();
 				break;
 
-			case BOMB:
+			case BonusType::BOMB:
 				(*bombBar)++;
 				this->player->IncrementBombCount();
 				break;
@@ -634,9 +625,9 @@ std::deque<Bonus*>* Game::CreateLeftoverBonus()
 	srand(time(NULL));
 	for (byte i = 0; i < 5; i++)
 	{
-			Bonus * newBonus = BonusFactory::Instance().CreateBonus(Bonuses::POWER,
+			Bonus * newBonus = BonusFactory::Instance().CreateBonus(BonusType::POWER,
 				D3DXVECTOR2(StageConsts::STAGE_POS_X + rand() % StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + rand() % 100));
-			newBonus->Initialize( gDevice->device );
+			newBonus->SetSprite( bonusSprite_[BonusType::POWER] );
 			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 			bonus->push_back(newBonus);
 	}

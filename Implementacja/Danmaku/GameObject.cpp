@@ -1,16 +1,13 @@
 #include "GameObject.h"
 
 ////////// KONSTRUKTOR ///////////////////////
-GameObject::GameObject(float const x, float const y, float const speed, float const acc)
+GameObject::GameObject(D3DXVECTOR2 const & pos, float const speed, float const acc)
 	: acceleration(acc)
 {
 	///// Przydzielenie wartoœci sk³adowym
-	this->SetPosition(x, y);
+	this->SetPosition(pos);
 	this->speed = speed;
 	this->hitbox = NULL;
-
-	///// Przydzielenie pamiêci obiektom klas
-	this->sprite = SpritePtr(new Sprite());
 };
 
 
@@ -29,48 +26,27 @@ GameObject::GameObject( GameObject const & go ) : hitbox(new Hitbox(*go.hitbox))
 };
 
 
-bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const width, UINT const height)
+void GameObject::SetCenterPoint()
 {
-	if ( !this->sprite || !this->sprite->Initialize(device, file, width, height ) )
-	{
-		return false;
-	}
-	return true;
+	this->centerPoint = this->position + this->GetSprite()->GetCenterPoint();
 };
 
 
-bool GameObject::InitializeSprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, UINT const width, UINT const height)
+bool GameObject::InitializeSprite(SpritePtr sprite)
 {
-	if ( !this->sprite || !this->sprite->Initialize(device, fileVect, width, height) )
+	this->sprite = sprite;
+	if ( !this->sprite)
 	{
 		return false;
 	}
-	return true;
-};
-
-
-bool GameObject::InitializeSprite( SpritePtr const & sprite )
-{
-	this->sprite = SpritePtr(sprite);
+	this->SetCenterPoint();
 	return true;
 };
 
 
 bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size )
 {
-	this->hitbox = HitboxPtr( new Hitbox( shape, size, sprite->GetWidth(), sprite->GetHeight(), this->GetCenterPoint() ) );
-	return true;
-};
-
-
-bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size,
-								  std::string const & spritePath, LPDIRECT3DDEVICE9 device )
-{
-	this->InitializeHitbox(shape, size);
-	if (!spritePath.empty() && device != nullptr )
-	{
-		this->hitbox->InitializeSprite( device, spritePath );
-	}
+	this->hitbox = HitboxPtr( new Hitbox( shape, size, sprite->GetWidth(), sprite->GetHeight(), this->centerPoint ) );
 	return true;
 };
 
@@ -79,11 +55,7 @@ void GameObject::Draw( RECT const & rect )
 {
 	if (this->sprite && IsObjectWithinBounds(rect))
 	{
-		this->sprite->Draw(this->position);
-		if (this->hitbox != NULL && this->hitbox->UseSprite())
-		{
-			this->hitbox->Draw( this->GetCenterPoint() );
-		}
+		this->sprite->Draw(this->GetPosition());
 	}
 };
 
@@ -109,20 +81,13 @@ bool GameObject::IsObjectWithinBounds( RECT const & rect )
 void GameObject::Update(float const time)
 {
 	this->speed += this->acceleration * time;
-	this->hitbox->Update(this->GetCenterPoint());
+	this->SetCenterPoint();
 };
 
 
 void GameObject::SetPosition(D3DXVECTOR2 const & v)
 {
 	this->position = v;
-};
-
-
-void GameObject::SetPosition(float const x, float const y)
-{
-	this->position.x = x;
-	this->position.y = y;
 };
 
 

@@ -13,14 +13,15 @@
 
 class Enemy: public GameObject
 {
-	typedef std::deque<EnemyBullet*>	EBulletQue;
-	typedef std::vector<Bonus*>			BonusQue;
+	typedef std::map<BonusType, std::shared_ptr<Sprite>>	BonusSpriteMap;
+	typedef std::deque<EnemyBullet*>		EBulletQue;
+	typedef std::vector<Bonus*>				BonusQue;
 
 	float distance_;
 	USHORT life_;
 
 	/// Mapa bonusów
-	typedef std::pair<Bonuses, float> BonusPair;
+	typedef std::pair<BonusType, float> BonusPair;
 	typedef std::multimap<size_t, BonusPair> BonusMap;
 	BonusMap _bonusMap;
 
@@ -58,18 +59,18 @@ public:
 	void SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b = 0.0f );
 	void TakeDamage( USHORT const damage );
 
-	void SetBonus(Bonuses const bonus, float const value);
+	void SetBonus(BonusType const bonus, float const value);
 	void SetIsShooting(bool const isShooting);
 	void SetPatternDying(bool const isPatternDying);
 	void SetDistance(float const distance);
 	void SetShootingDistance(float const sDistance);
 
 private:
-	BonusQue * CreateBonus(LPDIRECT3DDEVICE9 device);
+	BonusQue * CreateBonus(LPDIRECT3DDEVICE9 device, BonusSpriteMap & spriteMap);
 
 public:
 	////// GETTERY
-	BonusQue * GetBonus(LPDIRECT3DDEVICE9 device);
+	BonusQue * GetBonus(LPDIRECT3DDEVICE9 device, BonusSpriteMap const & spriteMap);
 
 	inline TrajectoryPtr GetTrajectory() const
 	{

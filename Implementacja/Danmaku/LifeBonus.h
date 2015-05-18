@@ -12,9 +12,9 @@ namespace
 		LifeBonus( LifeBonus const & bonus );
 		~LifeBonus();
 
-		inline Bonuses GetBonusId() const override
+		inline BonusType GetBonusId() const override
 		{
-			return Bonuses::LIFE;
+			return BonusType::LIFE;
 		}
 	};
 
@@ -23,6 +23,6 @@ namespace
 	{
 		return new LifeBonus( position, value, speed );
 	}
-	const Bonuses bonusId = Bonuses::LIFE;
+	const BonusType bonusId = BonusType::LIFE;
 	bool const registrered = BonusFactory::Instance().RegisterBonus( bonusId, CreateLifeBonus );
 }

@@ -11,6 +11,10 @@
 #include "Enemy.h"			// wrogowie
 #include "Bonus.h"			// bonusy
 
+#include "BonusSpriteResource.h"
+#include "EnemySpriteResource.h"
+#include "EnemyBulletSpriteResource.h"
+
 #include "String.h"
 
 // biblioteki do parsowania pliku XML
@@ -22,17 +26,23 @@ using namespace rapidxml;
 
 class Stage
 {
-	rapidxml::xml_document <> _stageDoc;	// plik z danymi o stejd¿u
+	rapidxml::xml_document <> _stageDoc;		// plik z danymi o stejd¿u
 	std::unique_ptr<char> _stageContents;		// zawartoœæ pliku XML
 
 	/// ZAWARTOSC STEJD¯A
-	/// tylko wrogowie. Z nich rodz¹ siê wszystkie pociski i bonusy
+	/// Wrogowie, z nich rodz¹ siê wszystkie pociski i bonusy
 	std::deque<Enemy*>		_enemy;
+	/// Sprajty
+	//BonusSpriteResource			_bonusSprite;
+	EnemySpriteResource			_enemySprite;
+	EnemyBulletSpriteResource	_enemyBulletSprite;
 
 	/// MAPA WROGÓW W CZASIE
 	typedef std::pair<bool, std::deque<Enemy*>>	EnemyPair;	// wrogowie oraz info, czy zostali ju¿ zwróceni
 	typedef std::map<float, EnemyPair> EnemyMap;
 	EnemyMap _enemyMap;
+
+	typedef std::shared_ptr<Sprite> SpritePtr;
 
 	/// Pole stejd¿a
 	RECT const * const _gameField;
@@ -64,7 +74,7 @@ private:
 	void ChooseHorizontalPosition(std::string const & pos, float & positionY );
 	void ChooseHitboxShape(std::string const & shape, Hitbox::Shape & hShape);
 	void ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize);
-	void ChooseBonus(std::string const & bonus, Bonuses & bonusType);
+	void ChooseBonus(std::string const & bonus, BonusType & bonusType);
 	void ChooseTrajectory(std::string const & traj, Road & trajType);
 
 	inline char * stringToChar( std::string const & s )
@@ -74,5 +84,6 @@ private:
 		std::copy( s.c_str(), ( s.c_str() + N - 1 ), out );
 		return out;
 	}
+
 };
 

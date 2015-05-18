@@ -40,18 +40,22 @@ class Sprite : public IDrawable
 
 	///////// METODY /////////////////////////////////
 public:
-	Sprite();
-	Sprite(Sprite const & sprite);
-	~Sprite();
-	
 	// utworznie sprajta z zewn¹trz
 	// pobiera uchwyt do urz¹dznia, œcie¿kê do pliku, szerokoœæ i wysokoœæ
 	// jeœli wysokoœæ i szerokoœæ nie s¹ podane, pobiera dane z pliku
+	Sprite();
+	Sprite(LPDIRECT3DDEVICE9 device, std::string const & file,
+			UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
+	Sprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect,
+			UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
+	~Sprite();
+
 	bool Initialize(LPDIRECT3DDEVICE9 device, std::string const & file,
 		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
 	bool Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect,
-		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2 );
+		UINT const width = D3DX_DEFAULT_NONPOW2, UINT const height = D3DX_DEFAULT_NONPOW2);
 
+public:
 	// utworzenie punktu œrodkowego
 	void SetCenterPoint();
 
@@ -67,6 +71,7 @@ public:
 	void Scale ( float const scale );
 
 	void SetCurrentTexture( short const number );
+	void ResetValues();
 
 	////////// GETTERY ////////////////////
 	

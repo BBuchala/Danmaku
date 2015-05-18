@@ -3,13 +3,23 @@
 TitleScreen::TitleScreen( GraphicsDevice * const gDevice ) : Playfield(gDevice),
 	pressed(false), enter (false), elapsedTime(0.0f)
 {
-	this->background = new Sprite();
+	this->background = new Sprite(gDevice->device, Sprite::GetFilePath( "titlescreen", "png"));
 	this->button = new Sprite * [BUTTON_CNT];
+	this->buttonPos = new D3DXVECTOR2[BUTTON_CNT];
+
+	D3DXVECTOR2 Button_Size(251, 70);
 	for (int i = 0; i < BUTTON_CNT; i++)
 	{
-		this->button[i] = new Sprite();
+		std::vector<std::string> buttonFiles;
+		// przygotowanie wektora œcie¿ek do sprajtów dla 1 buttona
+		for (int j = 0; j < 2; j++)
+		{
+			buttonFiles.push_back( Sprite::GetFilePath( "button", i, j, "png" ) );
+		}
+		this->button[i] = new Sprite(gDevice->device, buttonFiles);
+		this->buttonPos[i] = D3DXVECTOR2( SCREEN_WIDTH - Button_Size.x - 50.0f, 250.0f + i * (Button_Size.y + 50.0f));
 	}
-	this->buttonPos = new D3DXVECTOR2[BUTTON_CNT];
+	
 };
 
 
@@ -32,23 +42,7 @@ bool TitleScreen::Initialize()
 {
 	D3DXVECTOR2 BG_Size(SCREEN_WIDTH, SCREEN_HEIGHT);
 	BGposition = D3DXVECTOR2( ( SCREEN_WIDTH - BG_Size.x ) / 2 , ( SCREEN_HEIGHT - BG_Size.y ) / 2);
-	if ( !this->background->Initialize(gDevice->device, Sprite::GetFilePath( "titlescreen", "png") ) )
-	{
-		return false;
-	}
 	
-	D3DXVECTOR2 Button_Size(251, 70);
-	for (int i = 0; i < BUTTON_CNT; i++)
-	{
-		std::vector<std::string> buttonFiles;
-		// przygotowanie wektora œcie¿ek do sprajtów dla 1 buttona
-		for (int j = 0; j < 2; j++)
-		{
-			buttonFiles.push_back( Sprite::GetFilePath( "button", i, j, "png" ) );
-		}
-		this->buttonPos[i] = D3DXVECTOR2( SCREEN_WIDTH - Button_Size.x - 50.0f, 250.0f + i * (Button_Size.y + 50.0f));
-		this->button[i]->Initialize( gDevice->device, buttonFiles );
-	}
 	return true;
 };
 
@@ -93,10 +87,10 @@ void TitleScreen::Update(float const time)
 
 void TitleScreen::DrawScene()
 {
-	this->background->Draw(this->BGposition);
+	this->background->Draw(BGposition);
 	for (int i = 0; i < BUTTON_CNT; i++)
 	{
-		this->button[i]->Draw(this->buttonPos[i]);
+		this->button[i]->Draw(buttonPos[i]);
 	}
 };
 	

@@ -4,13 +4,13 @@ typedef std::vector<Bonus*>			BonusQue;
 
 // ----- Konstruktor -----------------------------------------------------------------------------
 Enemy::Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed, float const acc )
-	: GameObject(position.x, position.y, speed, acc), life_(life), isShooting_(true),
+	: GameObject(position, speed, acc), life_(life), isShooting_(true),
 	traj_(nullptr), distance_(0.0f), isPatternGlued_(false), isPatternDying_(false), _actTime(0.0f)
 {
 };
 
 
-Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position.x, enemy.position.y, enemy.speed, enemy.acceleration),
+Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position, enemy.speed, enemy.acceleration),
 	life_(enemy.life_), isShooting_(enemy.isShooting_), traj_(enemy.traj_), distance_(enemy.distance_),
 	isPatternGlued_(enemy.isPatternGlued_), isPatternDying_(enemy.isPatternDying_)
 {
@@ -27,7 +27,7 @@ bool Enemy::InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & pos
 {
 	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 	{
-		(*it).second->Initialize(device, this->GetCenterPoint());
+		(*it).second->Initialize(this->GetCenterPoint());
 	}
 	return true;
 };
@@ -93,16 +93,16 @@ void Enemy::TakeDamage( USHORT const damage )
 
 
 // ----- Create Bonus ----------------------------------------------------------------------------
-BonusQue * Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
+BonusQue * Enemy::CreateBonus(LPDIRECT3DDEVICE9 device, BonusSpriteMap & spriteMap)
 {
 	BonusQue * bonus = new BonusQue();
 	for (BonusMap::const_iterator it = _bonusMap.begin(); it != _bonusMap.end(); ++it)
 	{
-		if ((*it).second.first != Bonuses::NONE)
+		if ((*it).second.first != BonusType::NONE)
 		{
 			Bonus * newBonus = BonusFactory::Instance().CreateBonus((*it).second.first,
 				D3DXVECTOR2(GetCenterPoint().x - 30 + rand() % 60, GetCenterPoint().y - 30 + rand() % 60), (*it).second.second, 200.0f);
-			newBonus->Initialize( device );
+			newBonus->SetSprite( spriteMap[(*it).second.first] );
 			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 			bonus->push_back(newBonus);
 		}
@@ -112,9 +112,9 @@ BonusQue * Enemy::CreateBonus(LPDIRECT3DDEVICE9 device)
 
 
 // ----- Get Bonus -------------------------------------------------------------------------------
-BonusQue * Enemy::GetBonus(LPDIRECT3DDEVICE9 device)
+BonusQue * Enemy::GetBonus(LPDIRECT3DDEVICE9 device, BonusSpriteMap const & spriteMap)
 {
-	return CreateBonus(device);
+	return CreateBonus(device, const_cast<BonusSpriteMap&>(spriteMap));
 };
 
 
@@ -138,7 +138,7 @@ void Enemy::SetPatternDying(bool const isPatternDying)
 };
 
 // ----- Set Bonus --------------------------------------------------------------------------------
-void Enemy::SetBonus(Bonuses const bonus, float const value)
+void Enemy::SetBonus(BonusType const bonus, float const value)
 {
 	_bonusMap.insert(BonusMap::value_type(_bonusMap.size(), BonusPair(bonus, value)));
 };

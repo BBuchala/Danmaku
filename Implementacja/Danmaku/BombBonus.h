@@ -12,9 +12,9 @@ namespace
 		BombBonus( BombBonus const & bonus );
 		~BombBonus();
 
-		inline Bonuses GetBonusId() const override
+		inline BonusType GetBonusId() const override
 		{
-			return Bonuses::BOMB;
+			return BonusType::BOMB;
 		}
 	};
 	// zarejestrowanie bonusu w Fabryce
@@ -22,6 +22,6 @@ namespace
 	{
 		return new BombBonus( position, value, speed );
 	}
-	Bonuses const bonusId = Bonuses::BOMB;
+	BonusType const bonusId = BonusType::BOMB;
 	bool const registrered = BonusFactory::Instance().RegisterBonus( bonusId, CreateBombBonus );
 }

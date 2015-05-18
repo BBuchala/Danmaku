@@ -22,9 +22,9 @@ namespace
 				return value - (floor((position.y/StageConst::StageConsts::STAGE_HEIGHT)* value / 100) * 50);	
 		}
 
-		inline Bonuses GetBonusId() const override
+		inline BonusType GetBonusId() const override
 		{
-			return Bonuses::SCORE;
+			return BonusType::SCORE;
 		}
 	};
 
@@ -33,6 +33,6 @@ namespace
 	{
 		return new ScoreBonus( position, value, speed );
 	}
-	const Bonuses bonusId = Bonuses::SCORE;
+	const BonusType bonusId = BonusType::SCORE;
 	bool const registrered = BonusFactory::Instance().RegisterBonus( bonusId, CreateScoreBonus );
 }

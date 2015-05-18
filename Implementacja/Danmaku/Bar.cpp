@@ -7,21 +7,28 @@ Bar::Bar(D3DXVECTOR2 pos, BYTE initialCount)
 	this->count = initialCount;
 }
 
+Bar::~Bar()
+{
+	delete sprite;
+}
+
 bool Bar::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, int const width, int const height)
 {
-	return this->sprite.Initialize( device, file, width, height);
+	this->sprite = new Sprite( device, file, width, height);
+	return true;
 }
 
 bool Bar::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file)
 {
-	return this->sprite.Initialize( device, file );
+	this->sprite = new Sprite( device, file );
+	return true;
 }
 
 void Bar::Draw()
 {
 	for (int i = 0; i < count; i++)
 	{
-		this->sprite.Draw( D3DXVECTOR2( startPos.x + i * 25, startPos.y ) );
+		this->sprite->Draw( D3DXVECTOR2( startPos.x + i * 25, startPos.y ) );
 	}
 }
 

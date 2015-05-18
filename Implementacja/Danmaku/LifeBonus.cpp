@@ -1,7 +1,7 @@
 #include "LifeBonus.h"
 
 LifeBonus::LifeBonus( D3DXVECTOR2 const & position, float const value, float const speed )
-	: Bonus(position, value, speed, "img/bonus2.png")
+	: Bonus(position, value, speed)
 {
 };
 

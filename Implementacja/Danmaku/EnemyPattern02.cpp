@@ -5,9 +5,9 @@ EnemyPattern02::EnemyPattern02() : EPattern(0.0f), scaleTime(0.0f), _elapsedTime
 }
 
 
-void EnemyPattern02::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+void EnemyPattern02::Initialize(D3DXVECTOR2 const & position)
 {
-	EPattern::Initialize(device, position);
+	EPattern::Initialize(position);
 	trajMap_.insert(TrajectoryPair("traj1", TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::SPIRAL, position, 0, 24 ) ) ) );
 	trajMap_.insert(TrajectoryPair("traj2", TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::SPIRAL, position, 0, 24 ) ) ) );
 	trajMap_["traj2"]->Rotate( D3DXToRadian( 180.0f ) );
@@ -62,7 +62,7 @@ void EnemyPattern02::Add()
 	{
 		// pobranie œcie¿ki do pliku ze sprajtem i utworzenie go
 		std::string file = Sprite::GetFilePath( "Bullet0", 3, "png" );
-		newBullet->InitializeSprite( _device, file );
+		//newBullet->InitializeSprite( _device, file );
 	}
 	else
 	{

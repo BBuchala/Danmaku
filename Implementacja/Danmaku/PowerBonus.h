@@ -12,9 +12,9 @@ namespace
 		PowerBonus( PowerBonus const & bonus );
 		~PowerBonus();
 
-		inline Bonuses GetBonusId() const override
+		inline BonusType GetBonusId() const override
 		{
-			return Bonuses::POWER;
+			return BonusType::POWER;
 		}
 	};
 
@@ -23,6 +23,6 @@ namespace
 	{
 		return new PowerBonus( position, value, speed );
 	}
-	const Bonuses bonusId = Bonuses::POWER;
+	const BonusType bonusId = BonusType::POWER;
 	bool const registrered = BonusFactory::Instance().RegisterBonus( bonusId, CreatePowerBonus );
 }

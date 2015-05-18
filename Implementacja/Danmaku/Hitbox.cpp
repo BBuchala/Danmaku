@@ -1,7 +1,7 @@
 #include "Hitbox.h"
 
 Hitbox::Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const radiusA, float const radiusB, D3DXVECTOR2 const & position )
-	: theta(0.0f), useSprite(false), sprite(nullptr), position(position)
+	: theta(0.0f)
 {
 	float divisor;
 	switch(size)
@@ -26,35 +26,16 @@ Hitbox::Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const 
 		radiusB_ = radiusB / divisor;
 		break;
 	}
+	this->position = const_cast<D3DXVECTOR2*>(&position);
 };
 
-Hitbox::Hitbox( Hitbox const & h) : radiusA_(h.radiusA_), radiusB_(h.radiusB_), theta(h.theta), 
-	useSprite(h.useSprite)
+Hitbox::Hitbox( Hitbox const & h) : radiusA_(h.radiusA_), radiusB_(h.radiusB_), theta(h.theta)
 {
 };
-
-
-bool Hitbox::InitializeSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
-{
-	this->sprite = new Sprite();
-	this->useSprite = true;
-	if ( !this->sprite || !this->sprite->Initialize(device, file, 4 * radiusA_, 4 * radiusB_ ) )
-	{
-		return false;
-	}
-	return true;
-};
-
-
-void Hitbox::Update(D3DXVECTOR2 const & position)
-{
-	this->position = position;
-};
-
 
 void Hitbox::Translate( D3DXVECTOR2 const & translate )
 {
-	this->position += translate;
+	*this->position += translate;
 };
 
 
@@ -62,25 +43,12 @@ void Hitbox::Scale( float const scale )
 {
 	radiusA_ *= scale;
 	radiusB_ *= scale;
-	if (sprite)
-		sprite->Scale(scale);
 };
 
 
 void Hitbox::Rotate( float const theta )
 {
-	if (sprite)
-		sprite->Rotate( theta );
 	this->theta += theta;
-};
-
-
-void Hitbox::Draw(D3DXVECTOR2 const & position)
-{
-	if (sprite)
-	{
-		sprite->Draw( D3DXVECTOR2 ( position.x - this->sprite->GetWidth() / 2.0f, position.y - this->sprite->GetWidth() / 2.0f ) );
-	}
 };
 
 
@@ -94,12 +62,6 @@ void Hitbox::SetRadius( float const radiusA, float const radiusB )
 {
 	radiusA_ = radiusA;
 	radiusB_ = radiusB;
-};
-
-
-void Hitbox::SetUseSprite( bool useSprite )
-{
-	this->useSprite = useSprite;
 };
 
 

@@ -5,9 +5,9 @@ EnemyPattern01::EnemyPattern01() : EPattern(0.0f), bulletTime(0.0f), _elapsedTim
 };
 
 
-void EnemyPattern01::Initialize(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+void EnemyPattern01::Initialize(D3DXVECTOR2 const & position)
 {
-	EPattern::Initialize(device, position);
+	EPattern::Initialize(position);
 	road_[Traj::vElipse] = "vElipse";
 	road_[Traj::hElipse] = "hElipse";
 	road_[Traj::circle] = "circle";
@@ -121,7 +121,7 @@ void EnemyPattern01::Add()
 			newBullet = new EnemyBullet( 180.0f ); break;
 		}
 		std::string file = Sprite::GetFilePath( "Bullet0", 2, "png" );
-		newBullet->InitializeSprite( _device, file );
+		//newBullet->InitializeSprite( _device, file );
 		newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
 		//newBullet->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH, Sprite::GetFilePath("hitbox", "png"), device );
 
