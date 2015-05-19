@@ -541,18 +541,19 @@ void Game::CheckEnemyCollisions()
 				{
 					(*e_it)->TakeDamage( (*pb_it)->Damage() );
 					pb_it = pbQue->erase(pb_it);
-				}
-				if (!(*e_it)->IsAlive())
-				{
-					if (!(*e_it)->IsPatternDying())
+					if (!(*e_it)->IsAlive())
 					{
-						_savedBullets.push_back((*e_it)->GetPatterns());
+						if (!(*e_it)->IsPatternDying())
+						{
+							_savedBullets.push_back((*e_it)->GetPatterns());
+						}
+						// otrzymujemy wskaŸnik na kopiê bonusu
+						BonusQue * bonus = (*e_it)->GetBonus(gDevice->device, bonusSprite_.GetResources());
+						if (bonus != nullptr)
+							bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
+						e_it = (*it)->erase(e_it);
 					}
-					// otrzymujemy wskaŸnik na kopiê bonusu
-					BonusQue * bonus = (*e_it)->GetBonus(gDevice->device, bonusSprite_.GetResources());
-					if (bonus != nullptr)
-						bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());	
-					e_it = (*it)->erase(e_it);
+					break;
 				}
 				if (e_it != (*it)->end())
 					e_it++;
