@@ -25,7 +25,7 @@ namespace
 		void Scale( float const scale ) override;
 		void Rotate( float const theta ) override;
 
-		void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & playerPosition) override;
+		void SetTrajectoryTowards(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & playerPosition) override;
 	};
 
 	// zarejestrowanie toru w Fabryce

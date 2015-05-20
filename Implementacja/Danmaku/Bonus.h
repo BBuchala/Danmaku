@@ -55,10 +55,11 @@ public:
 
 	void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & position)
 	{
-		this->GetTrajectory()->SetTrajectoryTowardsPlayer(GetCenterPoint(), position);
+		this->GetTrajectory()->SetTrajectoryTowards(GetCenterPoint(), position);
+		this->SetDistance(0.0f);
 		if (!_vacuumed)
 		{
-			this->SetDistance(0.0f);
+			this->SetSpeed(800.0f);
 			_vacuumed = true;
 		}
 	};
