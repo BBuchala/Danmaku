@@ -57,7 +57,7 @@ void Application::Run()
 				CalculateFPS( timer->elapsedTime );
 				/* ===== SUPER ZABEZPIECZENIE WSZYSTKIEGO PRZED LAGAMI!! ====== */
 				//// Je¿eli otrzymany czas przekracza 1 klatkê, NIC SIÊ NIE DZIEJE!!
-				if ( m_FPS * timer->elapsedTime > 1.50f )
+				if ( m_FPS * timer->elapsedTime > 1.75f )
 					continue;
 				//// ^Kwiat mojej kaiery programistycznej.
 				//// Sasuga ore.

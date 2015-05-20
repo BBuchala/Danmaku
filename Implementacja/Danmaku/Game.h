@@ -46,16 +46,14 @@ class Game : public Playfield
 	Player * player;
 
 	typedef std::deque<Enemy*>		EnemyQue;
-	typedef std::vector<EnemyQue*>	EnemyQueQue;
-	EnemyQueQue enemy_;
+	EnemyQue enemy_;
 
 	// miejsce na pociski wyemitowane przez zabitych wrogów
 	// ¿eby nie zniknê³y wraz z jego œmierci¹
 	typedef std::shared_ptr<EPattern>			EPatternPtr;
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
-	typedef std::pair<D3DXVECTOR2, PatternMap*>	SavedPair;
-	typedef std::vector<SavedPair>				SavedPairQue;
-	SavedPairQue _savedBullets;
+	typedef std::deque<EPatternPtr>				PatternQue;
+	PatternQue _savedPatterns;
 
 	//////// NAPISY
 	unsigned long int score;
@@ -75,16 +73,7 @@ class Game : public Playfield
 	typedef std::vector<Bonus *> BonusQue;
 	BonusQue bonus_;
 
-	// zmiana koloru t³a
-	float red;
-	float green;
-	float blue;
-	float incRed;
-	float incGreen;
-	float incBlue;
-
 	float elapsedTime;
-	unsigned bulletNumber;
 
 	bool escape;
 	bool pressed;
@@ -105,6 +94,7 @@ public:
 	void CheckEnemyCollisions();
 	void CheckPlayerCollisions();
 	void CheckPlayerGraze();
+	void MakePlayerLoseLife();
 	std::deque<Bonus*>* CreateLeftoverBonus();
 
 	/////// FUNKCJE PLAYFIELD

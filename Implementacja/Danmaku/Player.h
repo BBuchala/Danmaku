@@ -99,9 +99,9 @@ public:
 		return _power;
 	};
 
-	inline PBulletQue & GetBullets() const
+	inline PBulletQue * GetBullets() const
 	{
-		return _playerPattern->GetBullets();
+		return &_playerPattern->GetBullets();
 	};
 
 	inline bool const IsUsingBomb() const

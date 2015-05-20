@@ -68,9 +68,9 @@ public:
 	virtual void SetPosition(D3DXVECTOR2 const & pos);
 
 	/// GETTERY
-	inline EBulletQue & GetBullets()
+	inline EBulletQue * GetBullets()
 	{
-		return _bullet;
+		return &_bullet;
 	};
 
 	inline D3DXVECTOR2 & GetPosition()

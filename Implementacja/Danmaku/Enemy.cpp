@@ -22,6 +22,11 @@ Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position, enemy.speed, enem
 	this->traj_  = enemy.traj_;
 };
 
+
+Enemy::~Enemy()
+{
+}
+
 // ----- Initialize Pattern -----------------------------------------------------------------------
 bool Enemy::InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
@@ -44,10 +49,8 @@ void Enemy::Update( float const time )
 	{
 		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 		{
-			if (isPatternGlued_)
-				(*it).second->SetPosition(this->GetCenterPoint());
 			(*it).second->Activate(_actTime, this->GetCenterPoint());
-			(*it).second->Update(time, this->GetCenterPoint());
+			//(*it).second->Update(time, this->GetCenterPoint());
 		}
 	}
 };
@@ -73,11 +76,6 @@ void Enemy::AddPattern(Pattern const patId, std::string const & patternId, float
 // ----- Draw ------------------------------------------------------------------------------------
 void Enemy::Draw(RECT const & rect)
 {
-	// najpierw rysujemy pociski, potem samego wroga
-	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
-	{
-		(*it).second->Draw(rect);
-	}
 	GameObject::Draw(rect);
 };
 

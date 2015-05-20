@@ -48,6 +48,7 @@ public:
 	///// Konstruktor
 	Enemy( D3DXVECTOR2 const & position, USHORT const life, float const speed = 0.0f, float const acc = 0.0f );
 	Enemy(Enemy const & enemy);
+	~Enemy();
 
 	void AddPattern( Pattern const patId, std::string const & patternId, float const par1,
 			float const par2, float const number, float const interval, float const actTime );
@@ -97,17 +98,9 @@ public:
 		return *_pattern[id].get();
 	}
 
-	inline SavedPair GetPatterns() const
+	inline PatternMap & GetPatterns()
 	{
-		PatternMap * pMap = new PatternMap();
-		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
-		{
-			if (it->second->IsInitialized())
-			{
-				(*pMap)[it->first] = it->second;
-			}
-		}
-		return SavedPair(position, pMap);
+		return _pattern;
 	}
 
 	inline std::deque<EBulletQue*> GetBullets() const
@@ -115,7 +108,7 @@ public:
 		std::deque<EBulletQue*> eQue;
 		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); it++)
 		{
-			eQue.push_back(&(*it).second->GetBullets());
+			eQue.push_back((*it).second->GetBullets());
 		}
 		return eQue;
 	}
