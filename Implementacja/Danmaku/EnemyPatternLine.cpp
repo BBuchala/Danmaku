@@ -5,13 +5,24 @@ EnemyPatternLine::EnemyPatternLine(float const angle, float const number, float 
 {
 	_angle = angle;
 	_number = number;
+	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, D3DXVECTOR2(0.0f, 0.0f), D3DXToRadian(_angle) ) );
 };
+
+
+EnemyPatternLine::~EnemyPatternLine()
+{
+	_traj.reset();
+}
 
 
 void EnemyPatternLine::Initialize(D3DXVECTOR2 const & position)
 {
 	EPattern::Initialize(position);
-	AddBullet();
+	for (int i = 0; i < _number; i++)
+	{
+		AddBullet();
+		_bullet[i]->SetSpeed(_bulletSpeed + i * 20.0f);
+	}
 };
 
 
@@ -33,7 +44,7 @@ void EnemyPatternLine::AddBullet()
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed);
 	newBullet->InitializeSprite( _bulletSprite );
 	newBullet->InitializeHitbox( _hitboxShape, _hitboxSize );
-	newBullet->SetTrajectory( TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, D3DXVECTOR2(0.0f, 0.0f), D3DXToRadian(_angle) ) );
+	newBullet->SetTrajectory( _traj );
 	_bullet.push_back(newBullet);
 };
 

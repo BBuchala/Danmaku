@@ -7,7 +7,14 @@ EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radius
 	_radiusA = radiusA;
 	_radiusB = radiusB;
 	_number = number;
+	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
 };
+
+
+EnemyPatternEllipse::~EnemyPatternEllipse()
+{
+	_traj.reset();
+}
 
 
 void EnemyPatternEllipse::Initialize(D3DXVECTOR2 const & position)
@@ -27,6 +34,7 @@ void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
 	{
 		// Przekszta³cenia torów pocisków
 		this->Scale();
+		this->Rotate();
 		// Zmiana po³o¿enia pocisków
 		for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
 		{
@@ -36,21 +44,22 @@ void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
 };
 
 
-
 void EnemyPatternEllipse::AddBullet()
 {
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed);
 	newBullet->InitializeSprite( _bulletSprite );
 	newBullet->InitializeHitbox( _hitboxShape, _hitboxSize );
-	newBullet->SetTrajectory( TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
+	newBullet->SetTrajectory( _traj );
 	_bullet.push_back(newBullet);
 };
 
+// ----- Scale ----------------------------------------------------------------------------------
 void EnemyPatternEllipse::Scale()
 {
-	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
-	{
-		(*it)->GetTrajectory()->Scale(_scale);
-	}
+	_traj->Scale(_scale);
 };
 
+void EnemyPatternEllipse::Rotate()
+{
+	_traj->Rotate(_rotate);
+};

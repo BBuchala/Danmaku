@@ -83,10 +83,15 @@ public:
 		return _activated;
 	}
 
+	inline bool HasBulles() const
+	{
+		return _bullet.size() == 0 ? false : true;
+	}
+
 	/// PRZEKSZTA£CENIA AFINICZNE
-	virtual void Translate(D3DXVECTOR2 const & translate);
-	virtual void Scale(float const scale);
-	virtual void Rotate(float const rotate);
+	void Translate(D3DXVECTOR2 const & translate);
+	void Scale(float const scale);
+	void Rotate(float const rotate);
 
 	/// Ustawienie wartoœci przekszta³ceñ afinicznych
 	void SetTranslation(D3DXVECTOR2 const & translate);

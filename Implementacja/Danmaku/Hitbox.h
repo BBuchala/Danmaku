@@ -21,6 +21,7 @@ public:
 	};
 	static enum Size
 	{
+		ONE_THIRDS_LENGTH	=	0x01,
 		HALF_LENGTH			=	0x02,
 		TWO_THIRDS_LENGTH	=	0x04,
 		FULL_LENGTH			=	0x08

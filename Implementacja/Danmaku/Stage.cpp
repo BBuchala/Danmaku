@@ -168,16 +168,17 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 		{
 			this->ChooseTrajectory(trajectoryAtr->value(), trajType);
 		}
-		else if (str.compare("center.x") == 0)
+		else if (str.compare("center.x") == 0 || str.compare("startPoint.x") == 0)
 		{
 			this->ChooseVerticalPosition(trajectoryAtr->value(), startPoint.x);
 		}
-		else if (str.compare("center.y") == 0)
+		else if (str.compare("center.y") == 0 || str.compare("startPoint.y") == 0)
 		{
 			this->ChooseHorizontalPosition(trajectoryAtr->value(), startPoint.y);
 		}
 		else if (str.compare("a") == 0)
 		{
+			std::string aValue(trajectoryAtr->value());
 			a = std::stof(trajectoryAtr->value());
 		}
 		else if (str.compare("b") == 0)
@@ -212,12 +213,12 @@ void Stage::CreateAffineParameters(Enemy * const enemyObj, xml_node <> * pattern
 		}
 		else if (pStr.compare("rotate") == 0)
 		{
-			rotate = std::stof(affineAtr->value());
+			rotate = D3DXToRadian(std::stof(affineAtr->value()));
 		}
 	}
 	enemyObj->GetPattern(patternId).SetTranslation(D3DXVECTOR2(std::pow(translate.x, 1.0f / 60.0f), std::pow(translate.y, 1.0f / 60.0f)));
 	enemyObj->GetPattern(patternId).SetScale(std::pow(scale, 1.0f / 60.0f));
-	enemyObj->GetPattern(patternId).SetRotation(std::pow(rotate, 1.0f / 60.0f));
+	enemyObj->GetPattern(patternId).SetRotation(rotate);
 };
 
 
@@ -283,22 +284,18 @@ void Stage::ChooseBonus(std::string const & bonus, BonusType & bonusType)
 	if (bonus.compare("Power") == 0)
 	{
 		bonusType = BonusType::POWER;
-		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else if (bonus.compare("Score") == 0)
 	{
 		bonusType = BonusType::SCORE;
-		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else if (bonus.compare("Bomb") == 0)
 	{
 		bonusType = BonusType::BOMB;
-		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else if (bonus.compare("Life") == 0)
 	{
 		bonusType = BonusType::LIFE;
-		//this->_bonusSprite.Add(bonusType, Sprite());
 	}
 	else
 	{

@@ -6,6 +6,9 @@ Hitbox::Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const 
 	float divisor;
 	switch(size)
 	{
+	case ONE_THIRDS_LENGTH:
+		divisor = 6.0f;
+		break;
 	case HALF_LENGTH: default:
 		divisor = 4.0f;
 		break;

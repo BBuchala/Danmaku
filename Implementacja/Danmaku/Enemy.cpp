@@ -50,7 +50,6 @@ void Enemy::Update( float const time )
 		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 		{
 			(*it).second->Activate(_actTime, this->GetCenterPoint());
-			//(*it).second->Update(time, this->GetCenterPoint());
 		}
 	}
 };

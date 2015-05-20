@@ -95,7 +95,7 @@ bool Game::Initialize()
 
 	// Poszczególne obiekty
 	this->player->InitializeSprite( SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("ship"))) );
-	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
+	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::ONE_THIRDS_LENGTH );
 	this->player->InitializeHitboxSprite(gDevice->device, Sprite::GetFilePath("hitbox", "png"));
 	this->player->InitializeBomb();
 
@@ -163,11 +163,14 @@ void Game::Update(float const time)
 			}
 		}
 	}
-	
 
 	//// Obs³uga wrogów i ich pocisków
 	for (EnemyQue::const_iterator e_it = enemy_.begin(); e_it != enemy_.end(); ++e_it)
 	{
+		if ((*e_it)->IsObjectWithinBounds(STAGE_FIELD))
+			(*e_it)->SetIsShooting(true);
+		else
+			(*e_it)->SetIsShooting(false);
 		(*e_it)->Update( time );
 	}
 
@@ -321,6 +324,32 @@ void Game::clearOutOfBoundsObjects()
 		}
 		if (e_it != enemy_.end())
 			++e_it;
+	}
+	//// Wykasowanie pocisków
+	PatternQue::const_iterator p_it = _savedPatterns.begin();
+	while(p_it != _savedPatterns.end())
+	{
+		if ((*p_it)->IsInitialized())
+		{
+			std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
+			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+			while(eb_it != ep->end())
+			{
+				if (!(*eb_it)->IsObjectWithinBounds(STAGE_FIELD))
+				{
+					delete (*eb_it);
+					eb_it =  ep->erase(eb_it);
+				}
+				if (eb_it != ep->end())
+					++eb_it;
+			}
+			if (!(*p_it)->HasBulles())
+			{
+				p_it =  _savedPatterns.erase(p_it);
+			}
+		}
+		if (p_it != _savedPatterns.end())
+			++p_it;
 	}
 }
 
@@ -494,9 +523,6 @@ void Game::CheckBonusCollisions()
 		// odleg³oœæ miêdzy œrodkami dwóch obiektów
 		float grazeDistance = Vector::Length( bonus_[i]->GetCenterPoint(), this->player->GetCenterPoint() );
 		float angle = Vector::Angle(this->player->GetCenterPoint(), bonus_[i]->GetCenterPoint());
-		//if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + GRAZE_DISTANCE * 10 )
-			//bonus_[i]->SetTrajectoryTowardsPlayer(player->GetCenterPoint());
-
 		if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE )
 		{
 			switch ( bonus_[i]->GetBonusId() )
