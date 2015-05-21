@@ -10,6 +10,7 @@
 #include "EnemyPattern02.h"
 #include "EnemyPatternLine.h"
 #include "EnemyPatternEllipse.h"
+#include "EnemyPatternSpiral.h"
 
 class Enemy: public GameObject
 {

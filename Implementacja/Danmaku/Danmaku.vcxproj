@@ -84,6 +84,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyPatternEllipse.cpp" />
     <ClCompile Include="EnemyPatternLine.cpp" />
+    <ClCompile Include="EnemyPatternSpiral.cpp" />
     <ClCompile Include="EPattern.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="EnemyBulletSpriteResource.h" />
     <ClInclude Include="EnemyPatternEllipse.h" />
     <ClInclude Include="EnemyPatternLine.h" />
+    <ClInclude Include="EnemyPatternSpiral.h" />
     <ClInclude Include="EnemySpriteResource.h" />
     <ClInclude Include="EPattern.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />

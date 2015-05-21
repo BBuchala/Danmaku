@@ -6,5 +6,6 @@ static enum class Pattern
 	A		= 0x01,
 	S		= 0x02,
 	LINE	= 0x04,
-	ELLIPSE	= 0x08
+	ELLIPSE	= 0x08,
+	SPIRAL	= 0x16
 };

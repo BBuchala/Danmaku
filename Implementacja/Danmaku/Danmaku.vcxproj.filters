@@ -237,6 +237,9 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyPatternSpiral.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="PlayerBulletSpriteResource.h">
       <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternSpiral.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

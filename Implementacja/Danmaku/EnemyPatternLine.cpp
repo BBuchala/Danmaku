@@ -41,7 +41,7 @@ void EnemyPatternLine::Update(float const time, D3DXVECTOR2 const & position)
 
 void EnemyPatternLine::AddBullet()
 {
-	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed);
+	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed, _bulletAcc);
 	newBullet->InitializeSprite( _bulletSprite );
 	newBullet->InitializeHitbox( _hitboxShape, _hitboxSize );
 	newBullet->SetTrajectory( _traj );

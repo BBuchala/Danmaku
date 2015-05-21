@@ -1,7 +1,7 @@
 #include "TitleScreen.h"
 
 TitleScreen::TitleScreen( GraphicsDevice * const gDevice ) : Playfield(gDevice),
-	pressed(false), enter (false), elapsedTime(0.0f)
+	pressed(false), enter (false), elapsedTime(0.0f), _buttonScale(1.0f)
 {
 	this->background = new Sprite(gDevice->device, Sprite::GetFilePath( "titlescreen", "png"));
 	this->button = new Sprite * [BUTTON_CNT];
@@ -65,15 +65,18 @@ void TitleScreen::Update(float const time)
 
 	if (elapsedTime > 0.0000000f && elapsedTime < 1.0000000f)
 	{
-		this->button[0]->Scale( 100.0f / 99.75f );
+		_buttonScale *= 100.0f / 99.75f;
+		//this->button[0]->Scale( 100.0f / 99.75f );
 	}
 	else if (elapsedTime < 2.0000000f)
 	{
-		this->button[0]->Scale( 99.75f / 100.0f );
+		_buttonScale *= 99.75f / 100.0f;
+		//this->button[0]->Scale( 99.75f / 100.0f );
 	}
 	else
 	{
-		this->button[0]->SetScale(1.0f);
+		_buttonScale = 1.0f;
+		//this->button[0]->SetScale(1.0f);
 		this->elapsedTime = 0;
 	}
 
@@ -88,10 +91,11 @@ void TitleScreen::Update(float const time)
 void TitleScreen::DrawScene()
 {
 	this->background->Draw(BGposition);
-	for (int i = 0; i < BUTTON_CNT; i++)
+	for (int i = 1; i < BUTTON_CNT; i++)
 	{
 		this->button[i]->Draw(buttonPos[i]);
 	}
+	this->button[0]->Draw(buttonPos[0], _buttonScale);
 };
 	
 

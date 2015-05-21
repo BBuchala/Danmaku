@@ -17,8 +17,8 @@ protected:
 	bool isGrazed;
 
 public:
-	EnemyBullet( float const speed );
-	EnemyBullet( D3DXVECTOR2 const & position, float const speed = 0 );
+	EnemyBullet( float const speed = 0.0f, float const acc = 0.0f );
+	EnemyBullet( D3DXVECTOR2 const & position, float const speed = 0.0f );
 	~EnemyBullet();
 
 	void SetGrazed( bool const isGrazed );

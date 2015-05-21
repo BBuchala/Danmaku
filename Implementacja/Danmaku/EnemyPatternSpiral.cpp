@@ -1,34 +1,34 @@
-#include "EnemyPatternEllipse.h"
+#include "EnemyPatternSpiral.h"
 
-EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radiusB, float const number,
+EnemyPatternSpiral::EnemyPatternSpiral(float const radiusA, float const radiusB, float const number,
 										 float const activationTime)
 										 : EPattern(activationTime)
 {
 	_radiusA = radiusA;
 	_radiusB = radiusB;
 	_number = number;
-	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
+	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::SPIRAL, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
 };
 
 
-EnemyPatternEllipse::~EnemyPatternEllipse()
+EnemyPatternSpiral::~EnemyPatternSpiral()
 {
 	_traj.reset();
 }
 
 
-void EnemyPatternEllipse::Initialize(D3DXVECTOR2 const & position)
+void EnemyPatternSpiral::Initialize(D3DXVECTOR2 const & position)
 {
 	EPattern::Initialize(position);
 	for (int i = 0; i < _number; i++)
 	{
 		AddBullet();
-		_bullet[i]->SetDistance(D3DXToRadian(i * (360.0f / _number)));
+		_bullet[i]->SetDistance(i );
 	}
 };
 
 
-void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
+void EnemyPatternSpiral::Update(float const time, D3DXVECTOR2 const & position)
 {
 	if (_activated)
 	{
@@ -46,7 +46,7 @@ void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
 };
 
 
-void EnemyPatternEllipse::AddBullet()
+void EnemyPatternSpiral::AddBullet()
 {
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed, _bulletAcc);
 	newBullet->InitializeSprite( _bulletSprite );
@@ -56,12 +56,12 @@ void EnemyPatternEllipse::AddBullet()
 };
 
 // ----- Scale ----------------------------------------------------------------------------------
-void EnemyPatternEllipse::Scale()
+void EnemyPatternSpiral::Scale()
 {
 	_traj->Scale(_scaleStep);
 };
 
-void EnemyPatternEllipse::Rotate()
+void EnemyPatternSpiral::Rotate()
 {
 	_traj->Rotate(_rotateStep);
 };

@@ -107,9 +107,6 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 
 		this->SetCenterPoint();
 
-		this->SetRotation( 0.0f );
-		this->SetScale( 1.0f );
-
 		initialized = true;
 	}
 	return initialized;
@@ -125,7 +122,7 @@ void Sprite::SetCenterPoint( )
 
 
 // position - górny, lewy róg sprajta
-void Sprite::Draw(D3DXVECTOR2 const & position)
+void Sprite::Draw(D3DXVECTOR2 const & position, float scale, float rotation)
 {
 	if (this->sprite && tex)
 	{
@@ -144,30 +141,6 @@ void Sprite::Draw(D3DXVECTOR2 const & position)
 
 		this->sprite->End();
 	}
-};
-
-
-void Sprite::SetRotation(float const rotation )
-{
-	this->rotation = rotation;
-};
-
-
-void Sprite::Rotate( float const angle )
-{
-	this->rotation += angle;
-};
-
-
-void Sprite::SetScale( float const scale )
-{
-	this->scale = scale;
-};
-
-
-void Sprite::Scale( float const scale )
-{
-	this->scale *= scale;
 };
 
 

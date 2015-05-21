@@ -17,6 +17,8 @@ class TitleScreen : public Playfield
 	Sprite * background;
 	Sprite ** button;
 
+	float _buttonScale;
+
 	D3DXVECTOR2 BGposition;
 	D3DXVECTOR2 * buttonPos;
 

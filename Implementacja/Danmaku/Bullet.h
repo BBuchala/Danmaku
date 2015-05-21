@@ -22,8 +22,8 @@ class Bullet : public GameObject
 	float distance;
 
 public:
-	Bullet( float const speed );
-	Bullet( D3DXVECTOR2 const & position, float const speed = 0 );
+	Bullet( float const speed  = 0.0f, float const acc = 0.0f );
+	Bullet( D3DXVECTOR2 const & position, float const speed = 0.0f, float const acc = 0.0f);
 	Bullet( Bullet const & bullet );
 	virtual ~Bullet();
 

@@ -5,7 +5,7 @@ const float	Player::INVULNERABLE_TIME = 3.0f;
 
 // --- Konstruktor--------------------------------------------------------------------------------
  Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
-	_isInvulnerable(false), _invulnerableTime(0.0f)
+	_isInvulnerable(false), _invulnerableTime(0.0f), _hitboxRotation(0.0f)
 {
 	_lifeCount = lc;
 	_bombCount = bc;
@@ -83,7 +83,7 @@ void Player::Update(float const time, Move const move)
 
 	if (_isFocused)
 	{
-		this->_hitboxSprite->Rotate(D3DXToRadian(5.0f));
+		this->_hitboxRotation += D3DXToRadian(5.0f);
 	}
 };
 
@@ -113,7 +113,7 @@ void Player::Draw(RECT const & rect)
 
 	if (_isFocused)
 	{
-		this->_hitboxSprite->Draw(this->GetCenterPoint() - this->_hitboxSprite->GetCenterPoint());
+		this->_hitboxSprite->Draw(this->GetCenterPoint() - this->_hitboxSprite->GetCenterPoint(), scale, _hitboxRotation);
 	}
 };
 

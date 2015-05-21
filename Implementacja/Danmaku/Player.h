@@ -41,6 +41,8 @@ protected:
 	float _invulnerableTime;
 	bool _isInvulnerable;
 
+	float _hitboxRotation;
+
 	std::unique_ptr<Sprite> _hitboxSprite;
 
 	PPatternPtr _playerPattern;

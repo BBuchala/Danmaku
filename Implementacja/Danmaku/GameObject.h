@@ -21,6 +21,9 @@ protected:
 	float speed;
 	float acceleration;
 
+	float scale;
+	float rotation;
+
 public:
 	static enum SpriteType
 	{
@@ -62,17 +65,12 @@ public:
 	}
 
 	// transformacje
-	void Translate( float const dx, float const dy );
 	void Translate( D3DXVECTOR2 const & dv );
 	void Rotate( float const angle );
 	void Scale( float const scale );
 
-	// Gettery
-	inline const float GetRotation() const
-	{
-		return this->sprite->GetRotation();
-	}
 
+	// Gettery
 	inline const SpritePtr& GetSprite() const
 	{
 		return this->sprite;

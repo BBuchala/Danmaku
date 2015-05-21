@@ -26,11 +26,16 @@ protected:
 	/// Kontrolki przekszta³ceñ afinicznych
 	D3DXVECTOR2 _translate;
 	float _scale;
+	float _scaleStep;
 	float _rotate;
+	float _rotateStep;
+	float _bulletScale;
+	float _bulletRotate;
 
 	/// W³aœciwoœci generowanych pocisków
 	std::shared_ptr<Sprite> _bulletSprite;
 	float _bulletSpeed;
+	float _bulletAcc;
 	BYTE _bulletWidth;
 	BYTE _bulletHeight;
 	Hitbox::Shape _hitboxShape;
@@ -48,7 +53,11 @@ public:
 	
 	// przekazanie uchwytu
 	virtual void Initialize(D3DXVECTOR2 const & position);
-	void InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize);
+	void InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, float bulletAcc, BYTE bulletWidth,
+		BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize, float bulletScale, float bulletRotate);
+
+	// aktualizacja
+	virtual void Update(float const time, D3DXVECTOR2 const & position);
 
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
@@ -64,8 +73,11 @@ public:
 		}
 	}
 
+
 	/// SETTERY
 	virtual void SetPosition(D3DXVECTOR2 const & pos);
+	void SetBulletScale(float scale);
+	void SetBulletRotation(float rotate);
 
 	/// GETTERY
 	inline EBulletQue * GetBullets()
@@ -94,8 +106,17 @@ public:
 	void Rotate(float const rotate);
 
 	/// Ustawienie wartoœci przekszta³ceñ afinicznych
-	void SetTranslation(D3DXVECTOR2 const & translate);
-	void SetScale(float const scale);
-	void SetRotation(float const rotate);
+	virtual void SetTranslation(D3DXVECTOR2 const & translate);
+	virtual void SetScale(float const scale);
+	virtual void SetRotation(float const rotate);
+
+	void SetScaleStep(float scaleStep)
+	{
+		_scaleStep = scaleStep;
+	}
+	void SetRotationStep(float rotateStep)
+	{
+		_rotateStep = rotateStep;
+	}
 };
 

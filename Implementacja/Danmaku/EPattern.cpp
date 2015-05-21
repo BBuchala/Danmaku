@@ -1,6 +1,7 @@
 #include "EPattern.h"
 
-EPattern::EPattern(float const activationTime) : _activationTime(activationTime), _activated(false)
+EPattern::EPattern(float const activationTime) : _activationTime(activationTime), _activated(false),
+	 _bulletScale(1.0f), _bulletRotate(0.0f), _scaleStep(1.0f), _rotateStep(0.0f)
 {
 	_translate = D3DXVECTOR2(0.0f, 0.0f);
 	_rotate = 0.0f;
@@ -23,14 +24,31 @@ void EPattern::Initialize(D3DXVECTOR2 const & position )
 };
 
 
-void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize)
+void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, float bulletAcc,
+								 BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape,
+								 Hitbox::Size hitboxSize, float bulletScale, float bulletRotate)
 {
 	_bulletSprite = bulletSprite;
 	_bulletSpeed = bulletSpeed;
+	_bulletAcc = bulletAcc;
 	_bulletWidth = bulletWidth;
 	_bulletHeight = bulletHeight;
 	_hitboxShape = hitboxShape;
 	_hitboxSize = hitboxSize;
+	_bulletScale = bulletScale;
+	_bulletRotate = bulletRotate;
+};
+
+
+void EPattern::Update(float const time, D3DXVECTOR2 const & position)
+{
+	this->_scale += _scaleStep;
+	this->_rotate += _rotateStep;
+	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
+	{
+		(*it)->Scale(_bulletScale);
+		(*it)->Rotate(_bulletRotate);
+	}
 };
 
 
@@ -82,4 +100,16 @@ void EPattern::SetScale(float const scale)
 void EPattern::SetRotation(float const rotate)
 {
 	_rotate = rotate;
+};
+
+
+void EPattern::SetBulletScale(float scale)
+{
+	_bulletScale = scale;
+};
+
+
+void EPattern::SetBulletRotation(float rotate)
+{
+	_bulletRotate = rotate;
 };

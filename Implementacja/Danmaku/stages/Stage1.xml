@@ -14,14 +14,14 @@
 			<Bonus type="Power" number="2" value="0.1"></Bonus>
 			<Trajectory type="Line" startPoint.x="LEFT" startPoint.y="ONE_THIRDS" a="0"></Trajectory>
 			<Pattern type="Line" par1="-75" bulletNumber="5" number="15" interval="0.1">
-				<Bullet image="BulletBlueCircle" speed="96" width="32" height="32" hitboxSize="HALF"></Bullet>
+				<Bullet image="BulletBlueCircle" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
 		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="500" speed="-450" length="700">
 			<Bonus type="Score" number="3" value="1000"></Bonus>
 			<Trajectory type="Line" startPoint.x="RIGHT" startPoint.y="ONE_THIRDS" a="0"></Trajectory>
 			<Pattern type="Line" par1="-105" bulletNumber="5" number="15" interval="0.1">
-				<Bullet image="BulletRedCircle" speed="96" width="32" height="32" hitboxSize="HALF"></Bullet>
+				<Bullet image="BulletRedCircle" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
 	</Time>
@@ -70,15 +70,39 @@
 		</Enemy>
 	</Time>
 	<Time sec="18">
-		<Enemy number="1" start="0" image="YukkuriSakuya" life="500" speed="0" length="500">
+		<Enemy number="1" start="0" image="YukkuriSakuya" life="1500" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="TOP" a="-90"></Trajectory>
-			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="16" number="10" interval="0.20">
+			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="10" interval="0.20">
 				<Bullet image="BulletBlueCircle" speed="18" width="32" height="32" hitboxSize="HALF"></Bullet>
 				<Affine scale="4.0" rotate="0.5"></Affine>
 			</Pattern>
-			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="16" number="10" interval="0.20">
+			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="10" interval="0.20">
 				<Bullet image="BulletGreenCircle" speed="-18" width="32" height="32" hitboxSize="HALF"></Bullet>
 				<Affine scale="4.0" rotate="-0.5"></Affine>
+			</Pattern>
+		</Enemy>
+	</Time>
+	<Time sec="25">
+		<Enemy number="1" start="0" image="YukkuriYuyuko" life="1500" speed="0" length="500">
+			<Trajectory type="None" center.x="HALF" center.y="TOP" a="-90"></Trajectory>
+			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="10" number="10" interval="0.40">
+				<Bullet image="BulletRedSquare" speed="36" width="16" height="16" hitboxSize="HALF">
+					<Affine scale="2.5" rotate="4.0"></Affine>
+				</Bullet>
+				<Affine scale="4.0"></Affine>
+			</Pattern>
+		</Enemy>
+	</Time>
+	<Time sec="32">
+		<Enemy number="1" start="0" image="YukkuriSuwako" life="1500" speed="0" length="500">
+			<Trajectory type="None" center.x="HALF" center.y="HALF" a="0" b="24"></Trajectory>
+			<Pattern type="Spiral" par1="0" par2="0.15" bulletNumber="50" number="1" interval="0.40" rotation="0.0">
+				<Bullet image="BulletRedCircle" speed="1" width="8" height="8" hitboxSize="FULL"></Bullet>
+				<Affine scale="2.00" rotate="1.0"></Affine>
+			</Pattern>
+			<Pattern type="Spiral" par1="0" par2="0.15" bulletNumber="50" number="1" interval="0.40" rotation="180.0">
+				<Bullet image="BulletBlueCircle" speed="1" width="8" height="8" hitboxSize="FULL"></Bullet>
+				<Affine scale="2.00" rotate="1.0"></Affine>
 			</Pattern>
 		</Enemy>
 	</Time>

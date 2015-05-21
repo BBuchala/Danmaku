@@ -2,7 +2,7 @@
 
 ////////// KONSTRUKTOR ///////////////////////
 GameObject::GameObject(D3DXVECTOR2 const & pos, float const speed, float const acc)
-	: acceleration(acc)
+	: acceleration(acc), scale(1.0f), rotation(0.0f)
 {
 	///// Przydzielenie wartoœci sk³adowym
 	this->SetPosition(pos);
@@ -55,7 +55,7 @@ void GameObject::Draw( RECT const & rect )
 {
 	if (this->sprite && IsObjectWithinBounds(rect))
 	{
-		this->sprite->Draw(this->GetPosition());
+		this->sprite->Draw(this->GetPosition(), scale, rotation);
 	}
 };
 
@@ -63,7 +63,7 @@ void GameObject::Draw( RECT const & rect )
 bool GameObject::IsObjectWithinBounds( RECT const & rect )
 {
 	D3DXVECTOR2 center = this->GetCenterPoint();
-	D3DXVECTOR2 diffPos = center - this->GetPosition();
+	D3DXVECTOR2 diffPos = scale * (center - this->GetPosition());
 	// je¿eli ca³y sprajt 
 	if (center.x + diffPos.x < rect.left	||	// jest za lew¹ œcian¹ lub
 		center.y + diffPos.y < rect.top		||	// jest za górn¹ œcian¹ lub
@@ -105,27 +105,21 @@ void GameObject::SetAcceleration(float const acc)
 
 void GameObject::Rotate( float const angle )
 {
-	this->sprite->Rotate( angle );
+	this->rotation += angle;
 };
 
 
 
 void GameObject::Scale( float const scale )
 {
-	this->sprite->Scale( scale );
+	this->scale *= scale;
 	this->hitbox->Scale( scale );
 };
 
-
-
-void GameObject::Translate( float const dx, float const dy )
-{
-	this->position.x += dx;
-	this->position.y += dy;
-};
 
 
 void GameObject::Translate( D3DXVECTOR2 const & dv )
 {
 	this->position += dv;
 };
+

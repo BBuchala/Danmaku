@@ -4,7 +4,7 @@ EnemyBullet::EnemyBullet( D3DXVECTOR2 const & position, float const speed ) : Bu
 {
 };
 
-EnemyBullet::EnemyBullet( float const speed ) : Bullet(speed), isGrazed(false)
+EnemyBullet::EnemyBullet( float const speed, float const acc ) : Bullet(speed, acc), isGrazed(false)
 {
 };
 

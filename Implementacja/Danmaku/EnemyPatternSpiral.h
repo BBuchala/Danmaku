@@ -2,7 +2,7 @@
 
 #include "EPattern.h"
 
-class EnemyPatternEllipse: public EPattern
+class EnemyPatternSpiral: public EPattern
 {
 	/// Sk³adowe potrzebne do generowania pocisków
 	float _radiusA;
@@ -12,8 +12,8 @@ class EnemyPatternEllipse: public EPattern
 	std::shared_ptr<Trajectory> _traj;
 
 public:
-	EnemyPatternEllipse(float const radiusA, float const radiusB, float const number, float const activationTime);
-	~EnemyPatternEllipse();
+	EnemyPatternSpiral(float const radiusA, float const radiusB, float const number, float const activationTime);
+	~EnemyPatternSpiral();
 	void Initialize(D3DXVECTOR2 const & position) override;
 	void Update(float const time, D3DXVECTOR2 const & position) override;
 
@@ -24,7 +24,16 @@ public:
 
 	void StartBullets(D3DXVECTOR2 const & position) override
 	{
-		_traj->SetCenterPoint(position);
+		_traj->SetStartPoint(position);
+	}
+
+	void SetScale(float const scale) override
+	{
+		_traj->Scale(scale);
+	}
+	void SetRotation(float const rotate) override
+	{
+		_traj->Rotate(rotate);
 	}
 };
 

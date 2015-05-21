@@ -67,6 +67,9 @@ void Enemy::AddPattern(Pattern const patId, std::string const & patternId, float
 	case Pattern::ELLIPSE:
 		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternEllipse(par1, par2, bulletNumber, actTime))));
 		break;
+	case Pattern::SPIRAL:
+		_pattern.insert(PatternPair(patternId, EPatternPtr(new EnemyPatternSpiral(par1, par2, bulletNumber, actTime))));
+		break;
 	default:
 		break;
 	}

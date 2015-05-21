@@ -5,6 +5,7 @@ TrajectorySpiral::TrajectorySpiral( D3DXVECTOR2 const & center, float const a, f
 {
 	this->SetParameters( a, b );
 	// punktem pocz¹tkowym jest Ÿród³o spirali
+	this->SetCenterPoint( center );
 	this->SetStartPoint( center );
 };
 
@@ -19,6 +20,12 @@ void TrajectorySpiral::SetParameters( float const a, float const b )
 {
 	this->a = a;
 	this->b = b;
+};
+
+
+void TrajectorySpiral::SetCenterPoint( D3DXVECTOR2 const & center )
+{
+	this->center = center;
 };
 
 

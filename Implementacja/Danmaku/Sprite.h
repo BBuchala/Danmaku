@@ -28,12 +28,6 @@ class Sprite : public IDrawable
 	// Przesuniêcie punktu œrodkowego wzglêdem lewego górnego rogu
 	D3DXVECTOR2 center;
 
-	// obrót rysunku w RADIANACH
-	float rotation;
-
-	// wyskalowanie rysunku
-	float scale;
-
 	// informacja czy sprajt wykona³ siê jak nale¿y
 	bool initialized;
 
@@ -60,15 +54,7 @@ public:
 	void SetCenterPoint();
 
 	////// RYSOWANIE SPRAJTA W OKNIE
-	void Draw(D3DXVECTOR2 const & position) override;
-
-	////// TRANSFORMACJE
-	// obrót sprajta w miejscu, k¹ty podane w radianach
-	void SetRotation( float const angle );
-	void Rotate( float const angle );
-	// skalowanie sprajta
-	void SetScale( float const scale );
-	void Scale ( float const scale );
+	void Draw(D3DXVECTOR2 const & position, float scale = 1.0f, float rotation = 0.0f) override;
 
 	void SetCurrentTexture( short const number );
 	void ResetValues();
@@ -85,12 +71,6 @@ public:
 	inline const int GetHeight() const
 	{
 		return this->height;
-	};
-
-	// obrót
-	inline const float GetRotation() const
-	{
-		return this->rotation;
 	};
 
 	// czy prawid³owo siê wykona³

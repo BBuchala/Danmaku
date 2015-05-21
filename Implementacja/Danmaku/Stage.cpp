@@ -70,15 +70,16 @@ void Stage::ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize)
 };
 
 
-void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern)
+void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * bulletNode, std::string const & patternId, Pattern const pattern)
 {
-	float bulletSpeed;
+	float bulletSpeed, bulletAcc = 0.0f;
 	BYTE bulletWidth, bulletHeight;
 	std::string bulletImage;
 	Hitbox::Shape hShape = Hitbox::Shape::CIRCLE;
 	Hitbox::Size hSize = Hitbox::Size::HALF_LENGTH;
-	std::string str_tmp = patternNode->name();
-	for (xml_attribute <>* bulletAtr = patternNode->first_attribute(); bulletAtr; bulletAtr = bulletAtr->next_attribute())
+	std::string str_tmp = bulletNode->name();
+	float bulletScale = 1.0f, bulletRotate = 0.0f;
+	for (xml_attribute <>* bulletAtr = bulletNode->first_attribute(); bulletAtr; bulletAtr = bulletAtr->next_attribute())
 	{
 		std::string bStr(bulletAtr->name());
 		if (bStr.compare("image") == 0)
@@ -88,6 +89,10 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std
 		if (bStr.compare("speed") == 0)
 		{
 			bulletSpeed = std::stof(bulletAtr->value());
+		}
+		if (bStr.compare("acc") == 0)
+		{
+			bulletAcc = std::stof(bulletAtr->value());
 		}
 		if (bStr.compare("width") == 0)
 		{
@@ -110,15 +115,35 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std
 	{
 		_enemyBulletSprite[bulletImage]->Initialize(_device, Sprite::GetFilePath(bulletImage), bulletWidth, bulletHeight);
 	}
+	for (xml_node <> * bulletSubnode = bulletNode->first_node(); bulletSubnode; bulletSubnode = bulletSubnode->next_sibling())
+	{
+		std::string bStr(bulletSubnode->name());
+		if (bStr.compare("Affine") == 0)
+		{
+			for (xml_attribute <>* bulletAtr = bulletSubnode->first_attribute(); bulletAtr; bulletAtr = bulletAtr->next_attribute())
+			{
+				std::string snStr(bulletAtr->name());
+				if (snStr.compare("scale") == 0)
+				{
+					bulletScale = std::stof(bulletAtr->value());
+				}
+				if (snStr.compare("rotate") == 0)
+				{
+					bulletRotate = std::stof(bulletAtr->value());
+				}
+			}
+		}
+	}
 	switch(pattern)
 	{
-	case Pattern::ELLIPSE:
+	case Pattern::ELLIPSE: case Pattern::SPIRAL:
 		bulletSpeed = D3DXToRadian(bulletSpeed);
 		break;
 	default:
 		break;
 	}
-	enemyObj->GetPattern(patternId).InitializeBullets(_enemyBulletSprite[bulletImage], bulletSpeed, bulletWidth, bulletHeight, hShape, hSize);
+	enemyObj->GetPattern(patternId).InitializeBullets(_enemyBulletSprite[bulletImage], bulletSpeed, bulletAcc,
+		bulletWidth, bulletHeight, hShape, hSize, pow(bulletScale, 1.0f / 60.0f), D3DXToRadian(bulletRotate));
 };
 
 
@@ -131,6 +156,10 @@ void Stage::ChoosePattern(std::string const & patternType, Pattern & pattern )
 	else if (patternType.compare("Ellipse") == 0)
 	{
 		pattern = Pattern::ELLIPSE;
+	}
+	else if (patternType.compare("Spiral") == 0)
+	{
+		pattern = Pattern::SPIRAL;
 	}
 };
 
@@ -217,8 +246,8 @@ void Stage::CreateAffineParameters(Enemy * const enemyObj, xml_node <> * pattern
 		}
 	}
 	enemyObj->GetPattern(patternId).SetTranslation(D3DXVECTOR2(std::pow(translate.x, 1.0f / 60.0f), std::pow(translate.y, 1.0f / 60.0f)));
-	enemyObj->GetPattern(patternId).SetScale(std::pow(scale, 1.0f / 60.0f));
-	enemyObj->GetPattern(patternId).SetRotation(rotate);
+	enemyObj->GetPattern(patternId).SetScaleStep(std::pow(scale, 1.0f / 60.0f));
+	enemyObj->GetPattern(patternId).SetRotationStep(rotate);
 };
 
 
@@ -228,6 +257,7 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 	short bulletNumber = 1, number = 1;
 	Pattern pattern;
 	static short patternId = 1;
+	float startScale = 1.0f, startRotation = 0.0f;
 	for (xml_attribute <>* patternAtr = enemyNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
 	{
 		std::string pStr(patternAtr->name());
@@ -255,12 +285,22 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 		{
 			interval = std::stof(patternAtr->value());
 		}
+		else if (pStr.compare("scale") == 0)
+		{
+			startScale = D3DXToRadian(std::stof(patternAtr->value()));
+		}
+		else if (pStr.compare("rotation") == 0)
+		{
+			startRotation = D3DXToRadian(std::stof(patternAtr->value()));
+		}
 	}
 	for (int i = 0; i < number; i++)
 	{
 		std::string patternIdStr = std::to_string(patternId);
 		float activationTime = i * interval;
 		enemyObj->AddPattern(pattern, patternIdStr, par1, par2, bulletNumber, interval, activationTime);
+		enemyObj->GetPattern(patternIdStr).SetScale(startScale);
+		enemyObj->GetPattern(patternIdStr).SetRotation(startRotation);
 		for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
 		{
 			std::string str_tmp = patternNode->name();
