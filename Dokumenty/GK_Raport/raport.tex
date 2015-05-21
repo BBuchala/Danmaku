@@ -96,6 +96,21 @@
 		\section{Obiekt gracza}
 			Gracza może poruszać się tylko w obrębie części interaktywnej, posiada możliwość strzelania i niszczenia wrogich elementów.
 		\section{Wrogowie}
+		
+		\section{Przekształcenia afiniczne}
+			\begin{itemize}
+				\item Wszystkie obiekty implementujące interfejs ITransformable posiadają możliwość translacji, skalowania i obrotu.
+				\item Dotyczy to zarówno sprajtów, których efekty są widoczne, oraz dróg po których obiekty gry się poruszają. Na przykład droga w kształcie elipsy może skalowana, bo powoduje jej zmianę jej rozmiarów i tym samym sposobu wszystkich obiektów, które się po niej poruszają.
+			\end{itemize}
+		\section{Wykrywanie kolizji}
+			Wykrywanie zderzeń obiektów odbywa się poprzez sprawdzenie ich "hitboxy", obiekty w kształcie elipsy znajdujące się w centrum sprajta, nie nachodzą na siebie. Wykrywanie kolizji odbywa się na kilka sposobów:
+			\begin{itemize}
+				\item Czy pocisk gracz uderzył wroga?
+				\item Czy pocisk wroga uderzył gracza?
+				\item Czy pocisk wroga otarł się o gracza?
+				\item Czy sam wróg uderzył w gracza?
+				\item Czy bonus trafił w gracza?
+			\end{itemize}
 			
 	
 	
@@ -147,23 +162,73 @@
 				\item Jeżeli kolizja nie nastąpiła, pociski dalej posuwa się swojej drogi
 			\end{itemize}
 			Jednakże może dojść do sytuacji w której usunięty pocisk lub wróg jest ostatnim z kolejki. Usunięcie odbywa się w trakcie pojedynczej iteracji, a po jej zakończeniu iterator jest inkrementowany. Po usunięciu ostatniego elementu iterator wskazuje na koniec kolejki, a po wyjściu z zakończeniu iteracji mechanizm chce by wskazał jeszcze dalej, bo powoduje błąd.\\\\
-			Rozwiązaliśmy to przez dodanie dodatkowego warunku podczas iteracji, mianowicie, pod koniec iteracja jest sprawdzany warunek, czy iteracja jest możliwa (czyli czy nie został usunięty ostatni z kolejki). Wymaga to 2 razy więcej operacji typu IF, jednakże wygląda na to, że nie da się tego uniknąć. 
+			Rozwiązaliśmy to przez dodanie dodatkowego warunku podczas iteracji, mianowicie, pod koniec iteracja jest sprawdzany warunek, czy iteracja jest możliwa (czyli czy nie został usunięty ostatni z kolejki). Wymaga to 2 razy więcej operacji typu IF, jednakże wygląda na to, że nie da się tego uniknąć.
+		
+		\newpage
+		\section{Naprowadzanie bonusów}
+			\begin{center}
+				\includegraphics[width=0.5\textwidth]{./images/kolizje02}
+			\end{center}
+			Niektóre z obiektów są naprowadzane, np. gdy Gracz zbliży się na odległość $\cfrac{1}{5} $ wysokości Planszy, wszystkie istniejące bonusy zaczynają zbliżać się ku niemu. Zrealizowanie tego zadania wymagało napisania dodatkowej funkcji, przyjmującej jako argumenty pozycje Gracza oraz Bonusu, oraz funkcja ta musi być wywoływana do momentu zderzenia obojga.\\\\
+			Największą trudnością było napisanie jej tak, by zmiany w kodzie były jak najmniejsze. Jeśli Gracz stoi w miejscu, obiekt porusza się po linii prostej, więc na ten typ drogi się zdecydowaliśmy. Przy każdej aktualizacji, sprawdzane są obecne pozycje tych dwóch obiektów, wyliczany kąt pomiędzy nimi i ustawiana jest nowa droga. Żeby naprowadzania działało płynnie, za każdym razem punkt początkowy drogi był ustawiany jako aktualna pozycja bonusu, a dystans resetowany.
+			
+		\section{Niedoskonałość skalowania}
+			\begin{center}
+				\includegraphics[width=0.5\textwidth]{./images/affine01}
+			\end{center}
+			W ekranie początkowym aktualnie wybrany przycisk pulsuje. Za pomocą przekształcenia afinicznego zwiększa i zmniejsza o zadaną wartość w czasie. Jednakże, po kilku minutach, przycisk stawał się znacznie mniejszy od pierwotnej wersji. Wynikało to z niedoskonałości obliczeń zmiennoprzecinkowych.\\
+			Rozwiązaliśmy to resetując skalowanie ($ scale = 1.0 $) w momencie gdy przycisk powinien być w swoim pierwotnym rozmiarze.
+			
+		\section{Wskaźnik wskaźnika wskaźnikiem}
 			
 	
 	\newpage
 	\part{Podział pracy}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		\subsection*{1. Buchała Bartłomiej}
+			\begin{itemize}
+				\item Interfejs graficzny i wyświetlanie danych
+				\item Ruch gracza po planszy
+				\item Strzelanie pociskami przez gracza
+				\item Implementacja wzorców pocisków gracza
+				\item Wystrzelenie bomby
+				\item Narysowanie sprajtów pocisków gracza i bomby
+				\item Umożliwienie pociskom ruchu po wybranych torach
+				\item Usuwanie pocisków z pamięci gdy znajdą się poza planszą
+			\end{itemize}
+		
+		\subsection*{2. Forczmański Mateusz}
+			\begin{itemize}
+				\item Inicjalizacja urządzenia graficznego Direct3D 9
+				\item Trajektorie obiektów i wyliczanie przesunięcia
+				\item Przekształcenia afiniczne sprajtów i trajektorii
+				\item Synchronizacja sprajtów z obiektami gry
+				\item Wzory pocisków wrogów: kształt linii, elipsy i spirali
+				\item Wczytywanie planszy gry z pliku XML
+				\item Zarządzenie zasobami sprajtów
+				\item Utworzenie fabryk obiektów
+			\end{itemize}
+		
+		\subsection*{3. Motyka Marek}
+			\begin{itemize}
+				\item Utworzenie hitboxa, jego typów oraz kształtów
+				\item Obsługa kolizji między hitboxami
+				\item Wykrywanie oraz zwiększanie otarć między obiektami
+				\item Utworzenie i obsługa wszystkich bonusów
+				\item Realizacja zmian po zderzeniu z bonusem
+				\item Przyciąganie bonusów ku graczowi
+				\item Usuwanie bonusów z pamięci
+			\end{itemize}
+			
+		\subsection*{4. Wudecki Wojciech}
+			\begin{itemize}
+				\item Narysowanie i napisanie ekranu powitalnego
+				\item Utworzenie klasy nadrzędnej Playfield jako miejsca, gdzie mogą być wyświetlanie elementy gry
+				\item Utworzenie wrogów, ich klasy i sprajtów
+				\item Realizacja zależności pomiędzy wrogami, a ich wzorami pocisków
+				\item Strzelanie pociskami przez wrogów
+				\item Generowanie bonusów przez wrogów
+				\item Narysowanie tła
+			\end{itemize}
 	
 	
 	
