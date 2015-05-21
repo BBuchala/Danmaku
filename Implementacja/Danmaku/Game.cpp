@@ -242,7 +242,13 @@ void Game::DrawScene()
 {
 	this->stageBackground->Draw(stageBackgroundPos);
 
-	if (player != nullptr) player->Draw(STAGE_FIELD);
+	if (player != nullptr)
+		player->Draw(STAGE_FIELD);
+	else
+	{
+		this->ended = true;
+		return;
+	}
 
 	//// POCISKI
 	for (PatternQue::const_iterator s_it = _savedPatterns.begin(); s_it != _savedPatterns.end(); s_it++)
@@ -300,17 +306,20 @@ void Game::clearOutOfBoundsObjects()
 		}
 	}
 	/// Wykasowanie pocisków gracza
-	std::deque<PlayerBullet*> * pbQue = this->player->GetBullets();
-	std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
-	while(pb_it != pbQue->end())
+	if (this->player != nullptr)
 	{
-		if (!(*pb_it)->IsObjectWithinBounds(STAGE_FIELD))
+		std::deque<PlayerBullet*> * pbQue = this->player->GetBullets();
+		std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
+		while(pb_it != pbQue->end())
 		{
-			delete (*pb_it);
-			pb_it = pbQue->erase(pb_it);
+			if (!(*pb_it)->IsObjectWithinBounds(STAGE_FIELD))
+			{
+				delete (*pb_it);
+				pb_it = pbQue->erase(pb_it);
+			}
+			if (pb_it != pbQue->end())
+				++pb_it;
 		}
-		if (pb_it != pbQue->end())
-			++pb_it;
 	}
 	/// Wykasowanie wrogów
 	/// Gdy wróg przeby³ okreœlony dystans i nie zosta³ zestrzelony, znika sam
@@ -399,6 +408,8 @@ void Game::CheckCollisions()
 	{
 		delete player;
 		player = nullptr;
+
+		MessageBoxA(NULL, "GAME OVER", "Twoja postaæ zginê³a", MB_OK | MB_ICONERROR); 
 	}
 };
 
