@@ -18,6 +18,9 @@ Hitbox::Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const 
 	case FULL_LENGTH:
 		divisor = 2.0f;
 		break;
+	case EXTENDED_LENGTH:
+		divisor = 1.00f;		// daje trochê lepsze ofekty ni¿ 1.0f, ale muszê jeszcze poeksperymentowaæ z kszta³tem obrazka i hitboxa
+		break;
 	}
 	switch(shape)
 	{

@@ -19,7 +19,7 @@ protected:
 	/// Definicja kolejki pocisków
 	typedef std::deque<PlayerBullet*> PBulletQue;
 	typedef std::unique_ptr<PPattern> PPatternPtr;
-	typedef std::unique_ptr<Bomb> BombPtr;
+	typedef std::shared_ptr<Bomb> BombPtr;
 
 	/* ==== STA£E ========================================= */
 	// prêdkoœci
@@ -95,6 +95,21 @@ public:
 
 	// Bomba
 	bool UseBomb();										// true - uda³o siê odpaliæ bombê, false - nie mamy bomb do odpalenia
+
+	inline D3DXVECTOR2 GetBombPosition()
+	{
+		return _bomb->GetCenterPoint();
+	}
+
+	inline Hitbox * GetBombHitbox()
+	{
+		return _bomb->GetHitbox();
+	}
+
+	inline BombPtr GetBomb()
+	{
+		return _bomb;
+	}
 
 	inline float GetPower()
 	{

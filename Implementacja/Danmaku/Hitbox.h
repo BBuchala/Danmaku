@@ -21,10 +21,11 @@ public:
 	};
 	static enum Size
 	{
-		ONE_THIRDS_LENGTH	=	0x01,
-		HALF_LENGTH			=	0x02,
-		TWO_THIRDS_LENGTH	=	0x04,
-		FULL_LENGTH			=	0x08
+		ONE_THIRDS_LENGTH	=	0x00,
+		HALF_LENGTH			=	0x01,
+		TWO_THIRDS_LENGTH	=	0x02,
+		FULL_LENGTH			=	0x04,
+		EXTENDED_LENGTH     =   0x08
 	};
 
 	///////// KONSTRUKTORY

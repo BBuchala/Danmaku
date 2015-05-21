@@ -41,7 +41,7 @@ void Player::Initialize(PlayerBulletSpriteResource const & pbsResource)
 void Player::Update(float const time, Move const move)
 {
 	/// --- OBS£UGA FOCUSA 
-	if (_isFocused == true)
+	if (_isFocused == true || IsUsingBomb())
 	{
 		this->speed = FOCUS_SPEED;
 		this->hitbox->Rotate( D3DXToRadian(1.0f) );
@@ -90,13 +90,13 @@ void Player::Update(float const time, Move const move)
 // --- Draw ---------------------------------------------------------------------------------------
 void Player::Draw(RECT const & rect)
 {
+		// bomba
+	if (IsUsingBomb())
+		_bomb->Draw(rect);
+
 	// wystrzeliwane pociski
 	if (_playerPattern != nullptr)
 		_playerPattern->Draw(rect);
-
-	// bomba
-	if (IsUsingBomb())
-		_bomb->Draw(rect);
 
 	// jak niewra¿liwy, to migotanie co æwieræ sekundy
 	if (_isInvulnerable)
