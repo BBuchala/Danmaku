@@ -9,6 +9,8 @@ class Bomb: public GameObject
 		const float maxTime;
 		float elapsedTime;
 
+		const unsigned short damage;
+
 		bool inUse;
 		// przesuniêcie wzglêdem œrodka gracza
 		D3DXVECTOR2 shift;
@@ -30,6 +32,11 @@ class Bomb: public GameObject
 		inline bool InUse()
 		{
 			return inUse;
+		}
+
+		inline unsigned short GetDamage() const
+		{
+			return this->damage;
 		}
 
 	};

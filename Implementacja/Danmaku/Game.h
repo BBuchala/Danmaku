@@ -94,6 +94,7 @@ public:
 	void CheckEnemyCollisions();
 	void CheckPlayerCollisions();
 	void CheckPlayerGraze();
+	void CheckBombCollisions();
 	void MakePlayerLoseLife();
 	std::deque<Bonus*>* CreateLeftoverBonus();
 

@@ -210,7 +210,7 @@ void Game::Update(float const time)
 
 	this->player->SetIsShooting(false);
 
-	if (GetAsyncKeyState(0x5A))
+	if (GetAsyncKeyState(0x5A) && !player->IsUsingBomb())
 	{
 		this->player->SetIsShooting(true);
 	}
@@ -396,13 +396,16 @@ bool Game::IsPlayerWithinBounds(Move const direction)
 
 void Game::CheckCollisions()
 {
-	this->CheckBonusVacuum();		// przyci¹gniêcie bonusów do siebie
-	this->CheckBonusCollisions();	// najpierw zbieramy bonusy, 
-	this->CheckEnemyCollisions();	// i zabijamy wrogów,
-	this->CheckPlayerGraze();		// oraz siê ocieramy o pociski
-	if (!player->IsInvulnerable())	// je¿eli mo¿na nas zniszczyæ
+	this->CheckBonusVacuum();			// przyci¹gniêcie bonusów do siebie
+	this->CheckBonusCollisions();		// najpierw zbieramy bonusy, 
+	this->player->IsUsingBomb() ?		// i zabijamy wrogów,
+		this->CheckBombCollisions() :	// albo z bomby, albo za pomoc¹ pocisków,
+		this->CheckEnemyCollisions();	
+	
+	this->CheckPlayerGraze();			// oraz siê ocieramy o pociski
+	if (!player->IsInvulnerable())		// je¿eli mo¿na nas zniszczyæ
 	{
-		CheckPlayerCollisions();	// dopiero wtedy te¿ mo¿na straciæ ¿ycie
+		CheckPlayerCollisions();		// dopiero wtedy te¿ mo¿na straciæ ¿ycie
 	}
 	if (player->GetLifeCount() == 0)
 	{
@@ -614,6 +617,50 @@ void Game::CheckBonusVacuum()
 		for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
 		{
 			(*it)->SetTrajectoryTowardsPlayer(player->GetCenterPoint());
+		}
+	}
+};
+
+void Game::CheckBombCollisions()
+{
+	/// Fragment odpowiedzialny za obrywanie wrogów
+	EnemyQue::const_iterator e_it = enemy_.begin();
+		while (e_it != enemy_.end())
+		{
+			float distance = Vector::Length( player->GetBomb()->GetCenterPoint(), (*e_it)->GetCenterPoint() );
+			float angle = Vector::Angle((*e_it)->GetCenterPoint(), player->GetBomb()->GetCenterPoint());
+			if (distance <= player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+			{
+				(*e_it)->TakeDamage( (player->GetBomb()->GetDamage()) );
+				if (!(*e_it)->IsAlive())
+				{
+					BonusQue * bonus = (*e_it)->GetBonus(gDevice->device, bonusSprite_.GetResources());
+					if (bonus != nullptr)
+						bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());
+					delete (*e_it);
+					e_it = enemy_.erase(e_it);
+				}
+				break;
+			}
+			if (e_it != enemy_.end())
+				++e_it;
+		}
+
+	/// Fragment odpowiedzialny za usuwanie pocisków
+	for (PatternQue::const_iterator p_it = _savedPatterns.begin(); p_it != _savedPatterns.end(); ++p_it)
+	{
+		std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
+		std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+		{
+			while (eb_it != ep->end())
+			{
+				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetBomb()->GetCenterPoint() );
+				float angle = Vector::Angle(this->player->GetBomb()->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
+				if (eb_it != ep->end())
+					eb_it++;
+			}
 		}
 	}
 };

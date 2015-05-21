@@ -17,7 +17,7 @@ static const char * BonusToString(BonusType bt)
 	case BonusType::BOMB:
 		return "bonusBomb";
 	case BonusType::LIFE:
-		return "bonusPower";
+		return "bonusLife";
 	case BonusType::POWER:
 		return "bonusPower";
 	case BonusType::SCORE:
