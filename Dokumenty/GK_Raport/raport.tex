@@ -92,15 +92,42 @@
 	\newpage
 	\part{Realizacja zadań}
 		\section{Interfejs gracza}
-			W pełni zrealizowany. Na ekranie widoczne są wszystkie informacje potrzebne dla gracza jak liczba żyć, bomb i zdobyte punkty. Ekran został wyraźnie podzielony na część interaktywną, gdzie dzieje się właściwa gra, oraz część interfejsu. Informacja o rozmiarze i umiejscowieniu tych pól znajduje się w stałych gry.
-		\section{Obiekt gracza}
-			Gracza może poruszać się tylko w obrębie części interaktywnej, posiada możliwość strzelania i niszczenia wrogich elementów.
-		\section{Wrogowie}
+			\subsection{Ekran powitalny}
+				Znajduje się na nim logo naszej gry oraz menu z możliwością wyboru jednego z nich. Ekran jest w pełni narysowany, jednak w tej chwili umożliwia wyłącznie uruchomienie gry.
+			\subsection{Ekran gry}
+				W pełni zrealizowany. Na ekranie widoczne są wszystkie informacje potrzebne dla gracza jak liczba żyć, bomb i zdobyte punkty. Ekran został wyraźnie podzielony na część interaktywną, gdzie dzieje się właściwa gra, oraz część interfejsu. Informacja o rozmiarze i umiejscowieniu tych pól znajduje się w stałych gry.
+		\section{Obiekty gry}
+			\subsection{Gracz}
+				Może poruszać się tylko w obrębie części interaktywnej, posiada możliwość strzelania i niszczenia wrogich elementów.
+			\subsection{Wrogowie}
+				Mogą strzelać, poruszać się i otrzymywać obrażenia. Wróg umiera przy zderzeniu z graczem, straceniu całego życia lub przebyciu swojej drogi.
+			\subsection{Pociski}
+				Wszystkie posiadają swój sprajt, ich kształt i droga są zależny od Wzoru do której należą. Pocisk znika przy zderzeniu z graczem lub wyjściu poza planszę. Zostały zaimplementowane zarówno wrogie pociski, jak i gracza, a kolizje sprawdzane są dla obu grup z osobna.
+			\subsection{Wzory}
+				Wzór jest zbiorem pocisków. Rezerwuje dla nich pamięć, inicjalizuje je oraz aktualizuje. Oparty o silną agregację - gdy wszystkie pociski zostaną skasowane wzór też zostaje usunięty.
+			\subsection{Tory}
+				Wrogowie, pociski i bonusy mogą poruszać się po 3 rodzajach tras: liniowej, eliptycznej oraz spiralnej. Istnieje również tor typu None, wymuszający obiekt do stania w miejscu.\\
+				Istnieje możliwość zagnieżdżania torów. Przykładowo, każdy pocisk posiada swój tor, ale też musi znajdować się jako element wzoru. Z kolei sam wzór również posiada swój tor. Jeżeli Wzór się przemieszcza, tory wszystkie należących do niego pocisków ulegają translacji.
+			\subsection{Bonusy}
+				Istnieją 4 bonusy, które gracz może zbierać: \textit{score} i \textit{power}, które dodają przechowywaną wartość do wyniku punktowego lub siły, oraz \textit{life} i \textit{bomb}, które zwiększają liczbę żyć lub bomb o jeden.
+			\subsection{Bomba}
+				Specjalny atak, który można wykorzystać tylko kilka razy w grze. Posiada ogromny zasięg, zadaje duże obrażenia i likwiduje wszystkie pociski na planszy.
+				
+		\section{Wczytywanie gry z pliku}
+			Istnieje klasa Stage, która jest małym parserem pliku XML w którym zawarte są dane na temat planszy. Format pliku obejmuje małą obsługę zdarzeń: w której sekundzie pojawiają się wrogowie, w jakiej ilości i jak atakują. Klasa Game odpytuje Stage i otrzymuje wskaźnik na kolekcję przeciwników.\\
+			W ramach mechanizmu deserializacji na chwilę obecną zostały zaimplementowane fabryki obiektów: bonusów oraz trajektorii. W czasie uruchamiania programu klasy te rejestrują wszystkie klasy, których obiekty mogą produkować i przy wywołaniu funkcji z podaniem id klasy zawracają wskaźnik do nowego obiektu.
+			
+		\section{Cechy obiektów}
+			\subsection{Ruch}
+				Wszystkie obiekty mogą się poruszać po swoim torze z pewną szybkością i przyspieszeniem.
+			\subsection{Sprajt}
+				Każdy obiekt dziedziczący po GameObject posiada wskaźnik na sprajt, który należy przydzielić w trakcie ładowania gry. Wszystkie sprajty są tworzone podczas uruchamiania gry i przechowywane  w jednym miejscu pamięci - obiekty gry tylko się do nich odnoszą i każą rysować to czego potrzebują.
 		
 		\section{Przekształcenia afiniczne}
 			\begin{itemize}
 				\item Wszystkie obiekty implementujące interfejs ITransformable posiadają możliwość translacji, skalowania i obrotu.
-				\item Dotyczy to zarówno sprajtów, których efekty są widoczne, oraz dróg po których obiekty gry się poruszają. Na przykład droga w kształcie elipsy może skalowana, bo powoduje jej zmianę jej rozmiarów i tym samym sposobu wszystkich obiektów, które się po niej poruszają.
+				\item Dotyczy to zarówno sprajtów, których efekty są widoczne, oraz dróg po których obiekty gry się poruszają. Na przykład droga w kształcie elipsy może być skalowana, co powoduje jej zmianę jej rozmiarów i tym samym sposobu wszystkich obiektów, które się po niej poruszają.
+				\item Podczas wczytywania obiektów z pliku XML jest możliwe ustalenie zarówno przekształceń początkowych, jak i zmieniających się regularnie w czasie.
 			\end{itemize}
 		\section{Wykrywanie kolizji}
 			Wykrywanie zderzeń obiektów odbywa się poprzez sprawdzenie ich "hitboxy", obiekty w kształcie elipsy znajdujące się w centrum sprajta, nie nachodzą na siebie. Wykrywanie kolizji odbywa się na kilka sposobów:
@@ -111,6 +138,7 @@
 				\item Czy sam wróg uderzył w gracza?
 				\item Czy bonus trafił w gracza?
 			\end{itemize}
+			Każda z tych 5 procedur jest wywoływana przez osobną funkcję. W czasie gdy zdarzają się momenty, że gracz przez pewien czas jest niezniszczalny: podczas wykorzystywania bomby oraz przez kilka sekund po stracie życia. Wówczas sprawdzanie kolizji wrogich obiektów z graczem jest pomijane.
 			
 	
 	
@@ -138,15 +166,22 @@
 					\includegraphics[width=0.4\textwidth]{./images/hitbox01}
 				\end{center}
 				Kształt naszego "pola zderzeń" nie jest stricte kołem, ale elipsą. Decyzja wynikła z tego, że w naszej grze będą duże, wypukłe obiekty dla których pole zderzeń w postaci koła może wyglądać nieatrakcyjnie. Dlatego zdecydowaliśmy się na elipsę, która dostosowuje wymiary swoich półosi do boków sprajta.
+			\subsection{Efektywność testów}
+				Ponieważ kształtem hitboxa nie jest okrąg, ale elipsa, w czasie sprawdzania wymagana jest większa liczba informacji: wymagane jest obliczenie kąta pomiędzy obiektami oraz uwzględnienie obrotu obiektu. W czasie pojedynczego wykonania aktualizacji stanu gry wykonywane są tysiące testów kolizji, co dla obiektów, dla których wystarczyłby okrąg prowadzi do wielu niepotrzebnych obliczeń.\\
+				Na chwilę obecną rozważamy utworzenie osobnych klas dla okręgu oraz elipsy - obliczanie promienia byłoby zakapsułkowane, a obliczenia dla elipsy wykonywane gdy byłoby to naprawdę konieczne.
 	
 		\section{Zarządzanie zasobami}
-			W naszych pierwszych krokach każdy obiekt gry posiadał osobny dla siebie sprajt. Nawet jeżeli wszystkie Pociski we Wzorze posiadały ten sam sprajt, każdy miał osobno przydzieloną pamięć. Powodowało to znaczne opóźnienia zarówno we wczytywaniu jak i podczas samej gry.\\\\
-			Później zdecydowaliśmy się utworzyć nowy typ klas \textit{Resource}, które mapują i przechowują wskaźniki do utworzonych sprajtów. Z kolei każdy obiekt otrzymuje potrzebny wskaźnik, któremu jedynie przekazuje informację, w którym miejscu sprajt narysować. Każdy sprajt tworzony jest tylko raz oraz wyłącznie wtedy, gdy pojawia się na danej Planszy.\\\\
-			Wyjątkami są te rodzaje sprajtów, które są niezbędne przez cały czas trwania gry:
-			\begin{itemize}
-				\item Bonusy, które mogą pojawić się w każdej chwili, ich kształt jest ściśle związany z typem
-				\item Pociski Gracza, ich rodzaj zmienia się zależnie od zebranej mocy w czasie gry, każdy z nich może być potrzebny w dowolnym momencie. 
-			\end{itemize}
+			\subsection{Problem}
+				W naszych pierwszych krokach każdy obiekt gry posiadał osobny dla siebie sprajt. Nawet jeżeli wszystkie Pociski we Wzorze posiadały ten sam sprajt, każdy miał osobno przydzieloną pamięć. Powodowało to znaczne opóźnienia zarówno we wczytywaniu jak i podczas samej gry.
+			\subsection{Rozwiązanie}
+				Później zdecydowaliśmy się utworzyć nowy typ klas \textit{Resource}, które mapują i przechowują wskaźniki do utworzonych sprajtów. Z kolei każdy obiekt otrzymuje potrzebny wskaźnik, któremu jedynie przekazuje informację, w którym miejscu sprajt narysować. Każdy sprajt tworzony jest tylko raz oraz wyłącznie wtedy, gdy pojawia się na danej Planszy.\\\\
+				Wyjątkami są te rodzaje sprajtów, które są niezbędne przez cały czas trwania gry:
+				\begin{itemize}
+					\item Bonusy, które mogą pojawić się w każdej chwili, ich kształt jest ściśle związany z typem
+					\item Pociski Gracza, ich rodzaj zmienia się zależnie od zebranej mocy w czasie gry, każdy z nich może być potrzebny w dowolnym momencie. 
+				\end{itemize}
+				Referencje do obiektów przekazywane są w formie \textbf{wspólnego wskaźnika}. Jest to bardzo dobre rozwiązanie, które eliminuje wiele potencjalnych błędów. Nie musimy martwić się tym, czy któryś obiekt przypadkiem usunie sprajt na wskutek błędów w kodzie lub przez magiczne cechy destruktorów. Sprajt jest automatycznie kasowany gdy żaden obiekt na niego nie wskazuje - czyli dopóki nie zostanie usunięty obiekt klasy Resource.
+			
 			
 		\section{Jednoczesne iterowanie i usuwanie z kolekcji}
 			\begin{center}
@@ -164,7 +199,6 @@
 			Jednakże może dojść do sytuacji w której usunięty pocisk lub wróg jest ostatnim z kolejki. Usunięcie odbywa się w trakcie pojedynczej iteracji, a po jej zakończeniu iterator jest inkrementowany. Po usunięciu ostatniego elementu iterator wskazuje na koniec kolejki, a po wyjściu z zakończeniu iteracji mechanizm chce by wskazał jeszcze dalej, bo powoduje błąd.\\\\
 			Rozwiązaliśmy to przez dodanie dodatkowego warunku podczas iteracji, mianowicie, pod koniec iteracja jest sprawdzany warunek, czy iteracja jest możliwa (czyli czy nie został usunięty ostatni z kolejki). Wymaga to 2 razy więcej operacji typu IF, jednakże wygląda na to, że nie da się tego uniknąć.
 		
-		\newpage
 		\section{Naprowadzanie bonusów}
 			\begin{center}
 				\includegraphics[width=0.5\textwidth]{./images/kolizje02}
@@ -178,8 +212,6 @@
 			\end{center}
 			W ekranie początkowym aktualnie wybrany przycisk pulsuje. Za pomocą przekształcenia afinicznego zwiększa i zmniejsza o zadaną wartość w czasie. Jednakże, po kilku minutach, przycisk stawał się znacznie mniejszy od pierwotnej wersji. Wynikało to z niedoskonałości obliczeń zmiennoprzecinkowych.\\
 			Rozwiązaliśmy to resetując skalowanie ($ scale = 1.0 $) w momencie gdy przycisk powinien być w swoim pierwotnym rozmiarze.
-			
-		\section{Wskaźnik wskaźnika wskaźnikiem}
 			
 	
 	\newpage
