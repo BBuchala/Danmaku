@@ -434,7 +434,7 @@ void Stage::ChooseHorizontalPosition(std::string const & pos, float & positionY 
 };
 
 
-void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
+void Stage::CreateEnemies(xml_node <> * time, std::string const & timeValue)
 {
 	std::deque<Enemy*> newEnemyQue;
 	for( xml_node <> * enemy = time->first_node(); enemy; enemy = enemy->next_sibling())
@@ -526,8 +526,8 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 			newEnemyQue.push_back(enemyObj);
 		}
 	}
-	_enemyMap[std::stof(std::string(timeValue))].first = false;
-	_enemyMap[std::stof(std::string(timeValue))].second = newEnemyQue;
+	_enemyMap[std::stof(timeValue)].first = false;
+	_enemyMap[std::stof(timeValue)].second = newEnemyQue;
 };
 
 
@@ -538,12 +538,23 @@ void Stage::CreateStageElements()
 	// iteracja po wszystkich punktach w czasie
 	for(xml_node <> * time = stage->first_node(); time; time = time->next_sibling())
 	{
-		// Pobranie wartoœci punktu w czasie - tylko jedna powinna byæ
-		xml_attribute <>* atr = time->first_attribute();
-		std::string str(atr->name());
-		if (str.compare("sec") == 0)
+		// Pobranie wartoœci punktu w czasie
+		std::string secTime, nodeType;
+		for (xml_attribute <>* timeAtr = time->first_attribute(); timeAtr; timeAtr = timeAtr->next_attribute())
 		{
-			this->CreateEnemies(time, atr->value());
+			std::string str(timeAtr->name());
+			if (str.compare("sec") == 0)
+			{
+				secTime = std::string(timeAtr->value());
+			}
+			else if (str.compare("type") == 0)
+			{
+				nodeType = std::string(timeAtr->value());
+			}
+		}
+		if (nodeType.compare("normal") == 0)
+		{
+			this->CreateEnemies(time, secTime);
 		}
 	}
 };

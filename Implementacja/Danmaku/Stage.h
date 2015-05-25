@@ -63,7 +63,7 @@ private:
 	void CreateStageElements();
 	void ClearDocument();
 
-	void CreateEnemies(xml_node <> * time, char * timeValue);
+	void CreateEnemies(xml_node <> * time, std::string const & timeValue);
 
 	void CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
 
