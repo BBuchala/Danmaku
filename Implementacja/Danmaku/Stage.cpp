@@ -70,7 +70,7 @@ void Stage::ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize)
 };
 
 
-void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * bulletNode, std::string const & patternId, Pattern const pattern)
+void Stage::CreateBullets(EPattern * const epattern, xml_node <> * bulletNode, std::string const & patternId, Pattern const pattern)
 {
 	float bulletSpeed, bulletAcc = 0.0f;
 	BYTE bulletWidth, bulletHeight;
@@ -142,7 +142,7 @@ void Stage::CreateBullets(Enemy * const enemyObj, xml_node <> * bulletNode, std:
 	default:
 		break;
 	}
-	enemyObj->GetPattern(patternId).InitializeBullets(_enemyBulletSprite[bulletImage], bulletSpeed, bulletAcc,
+	epattern->InitializeBullets(_enemyBulletSprite[bulletImage], bulletSpeed, bulletAcc,
 		bulletWidth, bulletHeight, hShape, hSize, pow(bulletScale, 1.0f / 60.0f), D3DXToRadian(bulletRotate));
 };
 
@@ -220,7 +220,7 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 };
 
 
-void Stage::CreateAffineParameters(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId)
+void Stage::CreateAffineParameters(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId)
 {
 	D3DXVECTOR2 translate = D3DXVECTOR2(0.0f, 0.0f);
 	float rotate = 0.0f, scale = 1.0f; 
@@ -245,13 +245,13 @@ void Stage::CreateAffineParameters(Enemy * const enemyObj, xml_node <> * pattern
 			rotate = D3DXToRadian(std::stof(affineAtr->value()));
 		}
 	}
-	enemyObj->GetPattern(patternId).SetTranslation(D3DXVECTOR2(std::pow(translate.x, 1.0f / 60.0f), std::pow(translate.y, 1.0f / 60.0f)));
-	enemyObj->GetPattern(patternId).SetScaleStep(std::pow(scale, 1.0f / 60.0f));
-	enemyObj->GetPattern(patternId).SetRotationStep(rotate);
+	epattern->SetTranslation(D3DXVECTOR2(std::pow(translate.x, 1.0f / 60.0f), std::pow(translate.y, 1.0f / 60.0f)));
+	epattern->SetScaleStep(std::pow(scale, 1.0f / 60.0f));
+	epattern->SetRotationStep(rotate);
 };
 
 
-void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
+void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
 {
 	float par1, par2 = 0.0f, interval = 0.0f;
 	short bulletNumber = 1, number = 1;
@@ -306,11 +306,11 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 			std::string str_tmp = patternNode->name();
 			if (str_tmp.compare("Bullet") == 0)
 			{
-				this->CreateBullets(enemyObj, patternNode, patternIdStr, pattern);
+				this->CreateBullets(&enemyObj->GetPattern(patternIdStr), patternNode, patternIdStr, pattern);
 			}
 			else if (str_tmp.compare("Affine") == 0)
 			{
-				this->CreateAffineParameters(enemyObj, patternNode, patternIdStr);
+				this->CreateAffineParameters(&enemyObj->GetPattern(patternIdStr), patternNode, patternIdStr);
 			}
 		}
 		patternId++;
@@ -500,7 +500,7 @@ void Stage::CreateEnemies(xml_node <> * time, char * timeValue)
 				std::string eStr(enemyNode->name());
 				if (eStr.compare("Pattern") == 0)
 				{
-					this->CreatePatterns(enemyObj, enemyNode, position);
+					this->CreatePatternsForEnemy(enemyObj, enemyNode, position);
 				}
 				else if (eStr.compare("Bonus") == 0)
 				{

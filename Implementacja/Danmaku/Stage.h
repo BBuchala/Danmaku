@@ -64,12 +64,14 @@ private:
 	void ClearDocument();
 
 	void CreateEnemies(xml_node <> * time, char * timeValue);
-	void CreatePatterns(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
-	void CreateBullets(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId,
-			Pattern const pattern);
+
+	void CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
+
+
+	void CreateBullets(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern);
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
 	Road CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
-	void CreateAffineParameters(Enemy * const enemyObj, xml_node <> * patternNode, std::string const & patternId);
+	void CreateAffineParameters(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId);
 
 	void ChoosePattern(std::string const & patternType, Pattern & pattern );
 	void ChooseVerticalPosition(std::string const & pos, float & positionX );
