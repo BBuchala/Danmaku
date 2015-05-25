@@ -2,6 +2,7 @@
 
 #include "IPattern.h"
 #include "EnemyBullet.h"
+#include "Pattern.h"
 
 //// konkretna klasa ka¿dego Patternu
 class EPattern : public IPattern

@@ -9,11 +9,13 @@
 
 // elementy mo¿liwe do utowrzenia
 #include "Enemy.h"			// wrogowie
-#include "Bonus.h"			// bonusy
+#include "BonusFactory.h"			// bonusy
 
 #include "BonusSpriteResource.h"
 #include "EnemySpriteResource.h"
 #include "EnemyBulletSpriteResource.h"
+
+#include "EPatternFactory.h"
 
 #include "String.h"
 

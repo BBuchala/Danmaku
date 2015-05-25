@@ -298,7 +298,7 @@ void Stage::CreatePatterns(Enemy * const enemyObj, xml_node <> * enemyNode, D3DX
 	{
 		std::string patternIdStr = std::to_string(patternId);
 		float activationTime = i * interval;
-		enemyObj->AddPattern(pattern, patternIdStr, par1, par2, bulletNumber, interval, activationTime);
+		enemyObj->AddPattern(patternIdStr, EPatternFactory::Instance().Create(pattern, par1, par2, bulletNumber, activationTime));
 		enemyObj->GetPattern(patternIdStr).SetScale(startScale);
 		enemyObj->GetPattern(patternIdStr).SetRotation(startRotation);
 		for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())

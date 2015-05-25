@@ -5,12 +5,6 @@
 #include "GameObject.h"
 #include "BonusFactory.h"
 #include "EPattern.h"
-#include "Pattern.h"
-#include "EnemyPattern01.h"
-#include "EnemyPattern02.h"
-#include "EnemyPatternLine.h"
-#include "EnemyPatternEllipse.h"
-#include "EnemyPatternSpiral.h"
 
 class Enemy: public GameObject
 {
@@ -51,8 +45,7 @@ public:
 	Enemy(Enemy const & enemy);
 	~Enemy();
 
-	void AddPattern( Pattern const patId, std::string const & patternId, float const par1,
-			float const par2, float const number, float const interval, float const actTime );
+	void AddPattern(std::string const & patternId, EPattern * epattern );
 	bool InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 
 	void Draw(RECT const & rect);

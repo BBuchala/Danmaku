@@ -1,39 +1,50 @@
 #pragma once
 
 #include "EPattern.h"
+#include "EPatternFactory.h"
 
-class EnemyPatternSpiral: public EPattern
+namespace
 {
-	/// Sk³adowe potrzebne do generowania pocisków
-	float _radiusA;
-	float _radiusB;
-
-	/// Wspólna trasa dla wszystkich pocisków
-	std::shared_ptr<Trajectory> _traj;
-
-public:
-	EnemyPatternSpiral(float const radiusA, float const radiusB, float const number, float const activationTime);
-	~EnemyPatternSpiral();
-	void Initialize(D3DXVECTOR2 const & position) override;
-	void Update(float const time, D3DXVECTOR2 const & position) override;
-
-	void Scale();
-	void Rotate();
-
-	void AddBullet();
-
-	void StartBullets(D3DXVECTOR2 const & position) override
+	class EnemyPatternSpiral: public EPattern
 	{
-		_traj->SetStartPoint(position);
-	}
+		/// Sk³adowe potrzebne do generowania pocisków
+		float _radiusA;
+		float _radiusB;
 
-	void SetScale(float const scale) override
+		/// Wspólna trasa dla wszystkich pocisków
+		std::shared_ptr<Trajectory> _traj;
+
+	public:
+		EnemyPatternSpiral(float const radiusA, float const radiusB, float const number, float const activationTime);
+		~EnemyPatternSpiral();
+		void Initialize(D3DXVECTOR2 const & position) override;
+		void Update(float const time, D3DXVECTOR2 const & position) override;
+
+		void Scale();
+		void Rotate();
+
+		void AddBullet();
+
+		void StartBullets(D3DXVECTOR2 const & position) override
+		{
+			_traj->SetStartPoint(position);
+		}
+
+		void SetScale(float const scale) override
+		{
+			_traj->Scale(scale);
+		}
+		void SetRotation(float const rotate) override
+		{
+			_traj->Rotate(rotate);
+		}
+	};
+	// zarejestrowanie patternu w Fabryce
+	EPattern * CreateEnemyPatternSpiral( float const radiusA, float const radiusB, float const number, float const activationTime )
 	{
-		_traj->Scale(scale);
+		return new EnemyPatternSpiral( radiusA, radiusB, number, activationTime );
 	}
-	void SetRotation(float const rotate) override
-	{
-		_traj->Rotate(rotate);
-	}
-};
+	Pattern const patternId = Pattern::SPIRAL;
+	bool const registrered = EPatternFactory::Instance().Register( patternId, CreateEnemyPatternSpiral );
+}
 

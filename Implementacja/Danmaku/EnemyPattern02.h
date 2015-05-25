@@ -1,28 +1,30 @@
 #pragma once
 
 #include "EPattern.h"
-#include "EnemyBullet.h"
 #include "TrajectoryFactory.h"
 
-class EnemyPattern02 : public EPattern
+namespace
 {
-	//// STA£E
-	static const unsigned short BULLET_NUMBER_S	= 1000;
+	class EnemyPattern02 : public EPattern
+	{
+		//// STA£E
+		static const unsigned short BULLET_NUMBER_S	= 1000;
 
-	//// TORY
-	TrajectoryMap trajMap_;
+		//// TORY
+		TrajectoryMap trajMap_;
 
-	float scaleTime;
-	float _elapsedTime;
+		float scaleTime;
+		float _elapsedTime;
 
-public:
-	EnemyPattern02();
-	void Initialize(D3DXVECTOR2 const & position) override;
-	void Update(float const time, D3DXVECTOR2 const & position) override;
+	public:
+		EnemyPattern02();
+		void Initialize(D3DXVECTOR2 const & position) override;
+		void Update(float const time, D3DXVECTOR2 const & position) override;
 
-	void SetPosition(D3DXVECTOR2 const & pos);
+		void SetPosition(D3DXVECTOR2 const & pos);
 
-	void Add();
+		void Add();
 
-	void StartBullets(D3DXVECTOR2 const & position) override {};
-};
+		void StartBullets(D3DXVECTOR2 const & position) override {};
+	};
+}

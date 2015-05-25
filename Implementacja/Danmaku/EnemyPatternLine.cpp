@@ -1,6 +1,6 @@
 #include "EnemyPatternLine.h"
 
-EnemyPatternLine::EnemyPatternLine(float const angle, float const number, float const activationTime)
+EnemyPatternLine::EnemyPatternLine(float const angle, float const length, float const number, float const activationTime)
 								   : EPattern(activationTime)
 {
 	_angle = angle;

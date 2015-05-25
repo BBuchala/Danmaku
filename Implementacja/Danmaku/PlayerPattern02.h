@@ -1,5 +1,5 @@
 #pragma once
-#include "EPattern.h"
+
 #include "PlayerBullet.h"
 #include "PPattern.h"
 
