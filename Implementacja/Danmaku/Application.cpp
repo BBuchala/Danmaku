@@ -31,13 +31,14 @@ void Application::Initialize()
 		throw new Direct3DInitializationFailedException();
 	}
 	this->field = new TitleScreen( gDevice );
+	this->mode = ScreenMode::TITLE;
 	this->timer->Start();
 };
 
 
 void Application::Run()
 {
-	bool game = false;
+	//bool game = false;
 	if (field->Initialize())
 	{
 		// pêtla g³ówna, rysuje i aktualizuje
@@ -62,17 +63,39 @@ void Application::Run()
 				//// ^Kwiat mojej kaiery programistycznej.
 				//// Sasuga ore.
 				field->Run( timer->elapsedTime );
+
+
 				// prze³¹czenie tajtola i gejma
-				if (field->isEnded())
+				if (field->isEnded() && field->NextMode() != ScreenMode::NONE)
 				{
-					game = !game;
+					mode = field->NextMode();
+					//game = !game;
 					delete field;
-					if (game)
+					/*if (game)
 						field = new Game(gDevice);
 					else
-						field = new TitleScreen(gDevice);
+						field = new TitleScreen(gDevice);*/
+					
+
+					switch (mode)
+					{
+						case(ScreenMode::GAME):
+							field = new Game(gDevice);
+							break;
+
+						case(ScreenMode::TITLE):
+							field = new TitleScreen(gDevice);
+							break;
+
+						case(ScreenMode::SCORE_COUNT):
+							field = new ScoreCountScreen(gDevice);
+							break;
+
+					}
 					field->Initialize();
+
 				}
+
 			}
 		}
 	}

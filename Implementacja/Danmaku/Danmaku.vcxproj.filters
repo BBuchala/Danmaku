@@ -237,6 +237,9 @@
     <ClCompile Include="EPatternFactory.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreCountScreen.cpp">
+      <Filter>Source Files\Fields</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -427,6 +430,12 @@
     </ClInclude>
     <ClInclude Include="Spellcard.h">
       <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenMode.h">
+      <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreCountScreen.h">
+      <Filter>Header Files\Fields</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

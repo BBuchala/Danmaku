@@ -110,6 +110,7 @@
     <ClCompile Include="Playfield.cpp" />
     <ClCompile Include="PowerBonus.cpp" />
     <ClCompile Include="ScoreBonus.cpp" />
+    <ClCompile Include="ScoreCountScreen.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="TrajectoryElipse.cpp" />
@@ -171,6 +172,8 @@
     <ClInclude Include="Road.h" />
     <ClInclude Include="ScoreBonus.h" />
     <ClInclude Include="BonusSpriteResource.h" />
+    <ClInclude Include="ScoreCountScreen.h" />
+    <ClInclude Include="ScreenMode.h" />
     <ClInclude Include="Spellcard.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageConst.h" />

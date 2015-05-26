@@ -157,6 +157,7 @@ void Game::Update(float const time)
 	{
 		MessageBoxA(NULL, "GAME OVER", "Wygra³eœ :)", MB_OK);
 		this->ended = true;
+		this->nextMode = ScreenMode::TITLE;
 	}
 
 	if (GetAsyncKeyState(VK_ESCAPE))
@@ -166,6 +167,7 @@ void Game::Update(float const time)
 	if (!GetAsyncKeyState(VK_ESCAPE) && escape)
 	{
 		this->ended = true;
+		this->nextMode = ScreenMode::TITLE;
 	}
 
 	this->stageBackgroundPos.y += 30 * time;
@@ -226,6 +228,7 @@ void Game::Update(float const time)
 	if (player == nullptr)
 	{
 		this->ended = true;
+		this->nextMode = ScreenMode::TITLE;
 		return;
 	}
 
@@ -294,6 +297,7 @@ void Game::DrawScene()
 	else
 	{
 		this->ended = true;
+		this->nextMode == ScreenMode::TITLE;
 		return;
 	}
 
@@ -708,7 +712,7 @@ std::deque<Bonus*>* Game::CreateLeftoverBonus()
 	for (byte i = 0; i < 5; i++)
 	{
 			Bonus * newBonus = BonusFactory::Instance().CreateBonus(BonusType::POWER,
-				D3DXVECTOR2(StageConsts::STAGE_POS_X + rand() % StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + rand() % 100));
+				D3DXVECTOR2(StageConsts::STAGE_POS_X + rand() % StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + rand() % 100), 0.05f);
 			newBonus->SetSprite( bonusSprite_[BonusType::POWER] );
 			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 			bonus->push_back(newBonus);

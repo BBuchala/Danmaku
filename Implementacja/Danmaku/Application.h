@@ -7,6 +7,8 @@
 #include "GraphicsDevice.h"
 #include "Game.h"
 #include "TitleScreen.h"
+#include "ScreenMode.h"
+#include "ScoreCountScreen.h"
 
 class Application
 {
@@ -23,6 +25,8 @@ class Application
 	GraphicsDevice * gDevice;
 	Timer * timer;
 	Playfield * field;
+
+	ScreenMode mode;
 
 public:
 	Application( HINSTANCE hInstance, int const nShowCmd );

@@ -6,6 +6,7 @@
 #include "GameWindow.h"
 #include "GraphicsDevice.h"
 #include "Timer.h"
+#include "ScreenMode.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
@@ -21,6 +22,8 @@ protected:
 	GraphicsDevice * gDevice;
 
 	bool ended;
+
+	ScreenMode nextMode;			// informacja, któr¹ Playfield zwróci na chwilê przed usuniêciem do Application
 
 public:
 	// Konstruktor, destruktor
@@ -59,5 +62,10 @@ public:
 	{
 		return this->ended;
 	};
+
+	inline const ScreenMode NextMode() const
+	{
+		return this->nextMode;
+	}
 };
 
