@@ -16,18 +16,25 @@ namespace
 
 	public:
 		EnemyPatternEllipse(float const radiusA, float const radiusB, float const number, float const activationTime);
+		EnemyPatternEllipse(EnemyPatternEllipse const & other);
 		~EnemyPatternEllipse();
 		void Initialize(D3DXVECTOR2 const & position) override;
 		void Update(float const time, D3DXVECTOR2 const & position) override;
 
 		void Scale();
 		void Rotate();
+		void Rotate(float const theta) override;
 
 		void AddBullet();
 
 		void StartBullets(D3DXVECTOR2 const & position) override
 		{
 			_traj->SetCenterPoint(position);
+		}
+
+		EPattern * Clone() const override
+		{
+			return new EnemyPatternEllipse(*this);
 		}
 	};
 

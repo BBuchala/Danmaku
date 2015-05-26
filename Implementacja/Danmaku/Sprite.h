@@ -55,6 +55,7 @@ public:
 
 	////// RYSOWANIE SPRAJTA W OKNIE
 	void Draw(D3DXVECTOR2 const & position, float scale = 1.0f, float rotation = 0.0f) override;
+	void Draw(D3DXVECTOR2 const & position, D3DXVECTOR2 const & scale, float rotation = 0.0f);
 
 	void SetCurrentTexture( short const number );
 	void ResetValues();

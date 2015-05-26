@@ -28,6 +28,11 @@ namespace
 				(*it)->GetTrajectory()->SetStartPoint(position);
 			}
 		}
+
+		EPattern * Clone() const override
+		{
+			return new EnemyPatternLine(*this);
+		}
 	};
 	// zarejestrowanie patternu w Fabryce
 	EPattern * CreateEnemyPatternLine( float const angle, float const length, float const number, float const activationTime )

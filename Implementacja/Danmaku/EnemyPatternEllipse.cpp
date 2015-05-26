@@ -11,6 +11,16 @@ EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radius
 };
 
 
+EnemyPatternEllipse::EnemyPatternEllipse(EnemyPatternEllipse const & other) : EPattern(other)
+{
+	_radiusA = other._radiusA;
+	_radiusB = other._radiusB;
+	_number = other._number;
+	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
+	this->Initialize(_position);
+}
+
+
 EnemyPatternEllipse::~EnemyPatternEllipse()
 {
 	_traj.reset();
@@ -37,11 +47,6 @@ void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
 		this->Rotate();
 		// Procedurta nadrzêdna
 		EPattern::Update(time, position);
-		// Zmiana po³o¿enia pocisków
-		for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
-		{
-			(*it)->Update(time);
-		}
 	}
 };
 
@@ -64,4 +69,9 @@ void EnemyPatternEllipse::Scale()
 void EnemyPatternEllipse::Rotate()
 {
 	_traj->Rotate(_rotateStep);
+};
+
+void EnemyPatternEllipse::Rotate(float const theta)
+{
+	_traj->Rotate(theta);
 };

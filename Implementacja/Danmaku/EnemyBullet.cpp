@@ -8,6 +8,10 @@ EnemyBullet::EnemyBullet( float const speed, float const acc ) : Bullet(speed, a
 {
 };
 
+EnemyBullet::EnemyBullet(EnemyBullet const & other) : Bullet(other), isGrazed(other.isGrazed)
+{
+};
+
 
 EnemyBullet::~EnemyBullet()
 {

@@ -9,6 +9,33 @@ EPattern::EPattern(float const activationTime) : _activationTime(activationTime)
 };
 
 
+EPattern::EPattern(EPattern const & pattern)
+{
+	_translate = pattern._translate;
+	_rotate = pattern._rotate;
+	_scale = pattern._scale;
+	_activationTime = pattern._activationTime;
+	_activated = pattern._activated;
+	_bulletScale = pattern._bulletScale;
+	_bulletRotate = pattern._bulletRotate;
+	_scaleStep = pattern._scaleStep;
+	_rotateStep = pattern._rotateStep;
+	_position = pattern._position;
+	_bulletSprite = pattern._bulletSprite;
+	_bulletSpeed = pattern._bulletSpeed;
+	_bulletAcc = pattern._bulletAcc;
+	_bulletWidth = pattern._bulletWidth;
+	_bulletHeight = pattern._bulletHeight;
+	_hitboxShape = pattern._hitboxShape;
+	_hitboxSize = pattern._hitboxSize;
+	_scaleStep = pattern._scaleStep;
+	_rotateStep = pattern._rotateStep;
+	_bulletScale = pattern._bulletScale;
+	_bulletRotate = pattern._bulletRotate;
+	_number = pattern._number;
+	_interval = pattern._interval;
+};
+
 EPattern::~EPattern()
 {
 	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
@@ -48,6 +75,7 @@ void EPattern::Update(float const time, D3DXVECTOR2 const & position)
 	{
 		(*it)->Scale(_bulletScale);
 		(*it)->Rotate(_bulletRotate);
+		(*it)->Update(time);
 	}
 };
 
@@ -112,4 +140,14 @@ void EPattern::SetBulletScale(float scale)
 void EPattern::SetBulletRotation(float rotate)
 {
 	_bulletRotate = rotate;
+};
+
+
+void EPattern::Activate(float const actTime, D3DXVECTOR2 const & position)
+{
+	if (!_activated && actTime >= _activationTime)
+	{
+		this->StartBullets(position);
+		_activated = true;
+	}
 };

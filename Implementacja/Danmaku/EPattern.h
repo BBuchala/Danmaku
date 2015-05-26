@@ -50,6 +50,7 @@ protected:
 
 public:
 	EPattern(float const activationTime);
+	EPattern(EPattern const & pattern);
 	virtual ~EPattern();
 	
 	// przekazanie uchwytu
@@ -65,14 +66,7 @@ public:
 
 
 	virtual void StartBullets(D3DXVECTOR2 const & position) = 0;
-	void Activate(float const actTime, D3DXVECTOR2 const & position)
-	{
-		if (!_activated && actTime >= _activationTime)
-		{
-			this->StartBullets(position);
-			_activated = true;
-		}
-	}
+	void Activate(float const actTime, D3DXVECTOR2 const & position);
 
 
 	/// SETTERY
@@ -102,9 +96,9 @@ public:
 	}
 
 	/// PRZEKSZTA£CENIA AFINICZNE
-	void Translate(D3DXVECTOR2 const & translate);
-	void Scale(float const scale);
-	void Rotate(float const rotate);
+	virtual void Translate(D3DXVECTOR2 const & translate);
+	virtual void Scale(float const scale);
+	virtual void Rotate(float const rotate);
 
 	/// Ustawienie wartoœci przekszta³ceñ afinicznych
 	virtual void SetTranslation(D3DXVECTOR2 const & translate);
@@ -119,5 +113,16 @@ public:
 	{
 		_rotateStep = rotateStep;
 	}
+	void SetActivated(bool act)
+	{
+		this->_activated = act;
+	}
+	void ForceActivate(D3DXVECTOR2 const & position)
+	{
+		this->StartBullets(position);
+		_activated = true;
+	};
+
+	virtual EPattern * Clone() const = 0;
 };
 

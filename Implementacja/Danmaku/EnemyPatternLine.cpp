@@ -30,11 +30,7 @@ void EnemyPatternLine::Update(float const time, D3DXVECTOR2 const & position)
 {
 	if (_activated)
 	{
-		// Zmiana po³o¿enia pocisków
-		for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
-		{
-			(*it)->Update(time);
-		}
+		EPattern::Update(time, position);
 	}
 };
 

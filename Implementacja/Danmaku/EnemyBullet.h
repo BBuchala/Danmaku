@@ -19,6 +19,7 @@ protected:
 public:
 	EnemyBullet( float const speed = 0.0f, float const acc = 0.0f );
 	EnemyBullet( D3DXVECTOR2 const & position, float const speed = 0.0f );
+	EnemyBullet(EnemyBullet const & other);
 	~EnemyBullet();
 
 	void SetGrazed( bool const isGrazed );
@@ -26,5 +27,10 @@ public:
 	inline const bool IsGrazed() const
 	{
 		return isGrazed;
+	};
+
+	EnemyBullet * Clone() const
+	{
+		return new EnemyBullet(*this);
 	};
 };

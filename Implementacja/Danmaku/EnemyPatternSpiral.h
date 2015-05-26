@@ -38,6 +38,11 @@ namespace
 		{
 			_traj->Rotate(rotate);
 		}
+
+		EPattern * Clone() const override
+		{
+			return new EnemyPatternSpiral(*this);
+		}
 	};
 	// zarejestrowanie patternu w Fabryce
 	EPattern * CreateEnemyPatternSpiral( float const radiusA, float const radiusB, float const number, float const activationTime )

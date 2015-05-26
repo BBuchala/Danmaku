@@ -9,6 +9,7 @@
 
 // elementy mo¿liwe do utowrzenia
 #include "Enemy.h"			// wrogowie
+#include "Boss.h"
 #include "BonusFactory.h"			// bonusy
 
 #include "BonusSpriteResource.h"
@@ -51,6 +52,9 @@ class Stage
 
 	LPDIRECT3DDEVICE9 _device;
 
+	std::pair<short, Boss*> bossPair;
+	Boss * boss;
+
 public:
 	Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DDEVICE9 device);
 
@@ -64,9 +68,10 @@ private:
 	void ClearDocument();
 
 	void CreateEnemies(xml_node <> * time, std::string const & timeValue);
+	void CreateBoss(xml_node <> * time, std::string const & timeValue);
 
 	void CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
-
+	void CreatePatternsForSpellcard(Spellcard * const spellcard, xml_node <> * patternNode, D3DXVECTOR2 const & position);
 
 	void CreateBullets(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern);
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
@@ -87,6 +92,11 @@ private:
 		char * out = new char[ N + 1 ];
 		std::copy( s.c_str(), ( s.c_str() + N - 1 ), out );
 		return out;
+	}
+public:
+	inline Boss * GetBoss(short key) const
+	{
+		return bossPair.first == key ? bossPair.second : nullptr;
 	}
 
 };

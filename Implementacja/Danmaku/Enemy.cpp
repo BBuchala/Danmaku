@@ -15,10 +15,6 @@ Enemy::Enemy(Enemy const & enemy) : GameObject(enemy.position, enemy.speed, enem
 	isPatternGlued_(enemy.isPatternGlued_), isPatternDying_(enemy.isPatternDying_)
 {
 	this->_bonusMap = enemy._bonusMap;
-	/*for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
-	{
-		this->_pattern[(*it).first] = n(*it).second;
-	}*/
 	this->traj_  = enemy.traj_;
 };
 
@@ -28,7 +24,7 @@ Enemy::~Enemy()
 }
 
 // ----- Initialize Pattern -----------------------------------------------------------------------
-bool Enemy::InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+bool Enemy::InitializePatterns(D3DXVECTOR2 const & position)
 {
 	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 	{

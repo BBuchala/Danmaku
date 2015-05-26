@@ -70,9 +70,6 @@
     <Filter Include="Header Files\Enemies">
       <UniqueIdentifier>{4f3f4cbe-e12c-48dd-bc40-2f5fbebd9f7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Enemies">
-      <UniqueIdentifier>{2a3c785c-91fd-4cbd-ab11-880140aacba4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Patterns\EnemyPatterns">
       <UniqueIdentifier>{5f10f7fb-0d1a-4b4e-85a1-2a530dd8eaf1}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="Header Files\Patterns\PlayerPatterns">
       <UniqueIdentifier>{fdeba899-2f79-43c5-ba9b-c4432540268c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemies">
+      <UniqueIdentifier>{2a3c785c-91fd-4cbd-ab11-880140aacba4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -200,12 +200,6 @@
     </ClCompile>
     <ClCompile Include="PlayerPattern03.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyPattern01.cpp">
-      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyPattern02.cpp">
-      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>Source Files\Fields</Filter>
@@ -371,12 +365,6 @@
     <ClInclude Include="PlayerPattern03.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyPattern01.h">
-      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyPattern02.h">
-      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Header Files\Fields</Filter>
     </ClInclude>
@@ -433,6 +421,12 @@
     </ClInclude>
     <ClInclude Include="EPatternFactory.h">
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Header Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Spellcard.h">
+      <Filter>Header Files\Patterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -96,4 +96,8 @@ public:
 		return speed;
 	}
 
+	inline D3DXVECTOR2 const * GetCenter() const
+	{
+		return &centerPoint;
+	}
 };

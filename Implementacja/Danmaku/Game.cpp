@@ -15,7 +15,7 @@ const RECT Game::GAME_FIELD = {
 };
 
 /* ---- KONSTRUKTOR --------------------------------------------------------------------------- */
-Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
+Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice ), boss(nullptr), bossActivated(false)
 {
 	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
@@ -35,6 +35,14 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice )
 	this->scoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
 	this->powerText = new Font( D3DXVECTOR2( 830, 194 ), 236, 25 );
 	this->grazeText = new Font( D3DXVECTOR2( 830, 218 ), 236, 25 );
+	bossName		= new Font( D3DXVECTOR2( 80, 63 ), 236, 25 );
+	spellcardName	= new Font( D3DXVECTOR2( 400, 63 ), 236, 25 );
+	spellcardtime	= new Font( D3DXVECTOR2( 445, 93 ), 236, 25 );
+	spellcardBonus	= new Font( D3DXVECTOR2( 500, 693 ), 236, 25 );
+
+	bossLifeBar = new Sprite(gDevice->device, Sprite::GetFilePath("bossLifeBar"));
+	bossLifeBarPos = D3DXVECTOR2(StageConsts::STAGE_POS_X + (StageConsts::STAGE_WIDTH - bossLifeBar->GetWidth()) / 2.0f, 38.0f);
+
 	// paski ¿ycia i bomb
 	this->lifeBar = new Bar(D3DXVECTOR2( 830, 115 ), this->player->GetLifeCount());
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
@@ -70,6 +78,10 @@ Game::~Game()
 	// sprajty
 	if (lifeBar) delete lifeBar;
 	if (bombBar) delete bombBar;
+	if (bossName)	delete bossName;
+	if (spellcardName)	delete spellcardName;
+	if (spellcardtime)	delete spellcardtime;
+	if (spellcardBonus)	delete spellcardBonus;
 
 	// bonusy
 	for (unsigned int i = 0; i < bonus_.size(); i++)			// nieporównywalnie czytelniej ni¿ na iteratorach, a wydajnoœæ taka sama
@@ -104,6 +116,10 @@ bool Game::Initialize()
 	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	bossName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	spellcardName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	spellcardtime->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	spellcardBonus->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
 	/////// Inicjalizacja pasków ¿ycia i bomby
 	this->lifeBar->Initialize( gDevice->device, Sprite::GetFilePath("life") );
@@ -137,6 +153,12 @@ void Game::Update(float const time)
 	this->elapsedTime += time;
 
 	// OBS£UGA WYJŒCIA Z GRY
+	if (boss == nullptr && bossActivated)
+	{
+		MessageBoxA(NULL, "GAME OVER", "Wygra³eœ :)", MB_OK);
+		this->ended = true;
+	}
+
 	if (GetAsyncKeyState(VK_ESCAPE))
 	{
 		escape = true;
@@ -149,19 +171,44 @@ void Game::Update(float const time)
 	this->stageBackgroundPos.y += 30 * time;
 
 	//// Odpytanie Stejd¿a o nowe elementy
-	EnemyQue * newEnemies = this->stage->GetEnemies(static_cast<short>(elapsedTime));
-	// Je¿eli maj¹ pojawiæ siê nowi wrogowie
-	if (newEnemies != nullptr)
+	// najpierw boss
+	if (!bossActivated)
 	{
-		enemy_.insert(enemy_.end(), newEnemies->begin(), newEnemies->end());
-		for (EnemyQue::const_iterator it = newEnemies->begin(); it != newEnemies->end(); ++it)
+		this->boss = this->stage->GetBoss(static_cast<short>(elapsedTime));
+		if (boss == nullptr)
 		{
-			PatternMap newPatterns = (*it)->GetPatterns();
-			for (PatternMap::const_iterator it = newPatterns.begin(); it != newPatterns.end(); ++it)
+			EnemyQue * newEnemies = this->stage->GetEnemies(static_cast<short>(elapsedTime));
+			// Je¿eli maj¹ pojawiæ siê nowi wrogowie
+			if (newEnemies != nullptr)
 			{
-				_savedPatterns.push_back((*it).second);
+				enemy_.insert(enemy_.end(), newEnemies->begin(), newEnemies->end());
+				for (EnemyQue::const_iterator it = newEnemies->begin(); it != newEnemies->end(); ++it)
+				{
+					PatternMap newPatterns = (*it)->GetPatterns();
+					for (PatternMap::const_iterator it = newPatterns.begin(); it != newPatterns.end(); ++it)
+					{
+						_savedPatterns.push_back((*it).second);
+					}
+				}
 			}
 		}
+		else
+		{
+			if (!bossActivated)
+			{
+				this->DeleteEnemies();
+				this->DeleteBullets();
+				bossActivated = true;
+			}
+		}
+	}
+
+	/// BOSS
+	if (boss != nullptr)
+	{
+		boss->Update(time);
+		this->currentSpellcard = boss->GetSpellcard();
+		this->currentSpellcard->Update(time, boss->GetCenterPoint());
 	}
 
 	//// Obs³uga wrogów i ich pocisków
@@ -268,6 +315,12 @@ void Game::DrawScene()
 		bonus_[i]->Draw(STAGE_FIELD);
 	}
 
+	if (boss != nullptr)
+	{
+		this->currentSpellcard->Draw(STAGE_FIELD);
+		boss->Draw(STAGE_FIELD);
+	}
+
 
 	//// AVATARY
 	this->gameScreen->Draw(D3DXVECTOR2(0.0f, 0.0f));
@@ -282,6 +335,15 @@ void Game::DrawScene()
 	if (player != nullptr) this->powerText->Draw(this->player->GetPower(), 0, 2);
 	this->powerText->Draw("		        / 4.00");
 	this->grazeText->Draw(graze, 0);
+
+	if (boss != nullptr)
+	{
+		bossName->Draw(boss->GetName());
+		spellcardName->Draw("Spellcard: " + currentSpellcard->GetName());
+		spellcardtime->Draw("Time: " + std::to_string(currentSpellcard->GetTime()));
+		spellcardBonus->Draw("Bonus: " + std::to_string(currentSpellcard->GetBonus()));
+		this->bossLifeBar->Draw(bossLifeBarPos, D3DXVECTOR2(static_cast<float>(boss->GetLife()) / static_cast<float>(boss->GetMaxLife()), 1.0f));
+	}
 
 	//// ¯YCIA I BOMBY
 	this->lifeBar->Draw();
@@ -323,43 +385,10 @@ void Game::clearOutOfBoundsObjects()
 	}
 	/// Wykasowanie wrogów
 	/// Gdy wróg przeby³ okreœlony dystans i nie zosta³ zestrzelony, znika sam
-	EnemyQue::const_iterator e_it = enemy_.begin();
-	while(e_it != enemy_.end())
-	{
-		if ((*e_it)->IsRoadFinished())
-		{
-			delete (*e_it);
-			e_it =  enemy_.erase(e_it);
-		}
-		if (e_it != enemy_.end())
-			++e_it;
-	}
+	this->DeleteEnemies();
+
 	//// Wykasowanie pocisków
-	PatternQue::const_iterator p_it = _savedPatterns.begin();
-	while(p_it != _savedPatterns.end())
-	{
-		if ((*p_it)->IsInitialized())
-		{
-			std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
-			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
-			while(eb_it != ep->end())
-			{
-				if (!(*eb_it)->IsObjectWithinBounds(STAGE_FIELD))
-				{
-					delete (*eb_it);
-					eb_it =  ep->erase(eb_it);
-				}
-				if (eb_it != ep->end())
-					++eb_it;
-			}
-			if (!(*p_it)->HasBulles())
-			{
-				p_it =  _savedPatterns.erase(p_it);
-			}
-		}
-		if (p_it != _savedPatterns.end())
-			++p_it;
-	}
+	this->DeleteBullets();
 }
 
 // Move - kierunek z Enuma, który sprawdzamy. Zwraca fa³sz, je¿eli gracz nie mo¿e siê poruszaæ dalej.
@@ -398,26 +427,38 @@ void Game::CheckCollisions()
 {
 	this->CheckBonusVacuum();			// przyci¹gniêcie bonusów do siebie
 	this->CheckBonusCollisions();		// najpierw zbieramy bonusy, 
-	this->player->IsUsingBomb() ?		// i zabijamy wrogów,
-		this->CheckBombCollisions() :	// albo z bomby, albo za pomoc¹ pocisków,
-		this->CheckEnemyCollisions();	
 	
+
+	if (boss != nullptr)
+	{
+		this->player->IsUsingBomb() ?
+			this->CheckBossBombCollisions()	:
+			this->CheckBossCollisions();
+	}
+	else
+	{
+		this->player->IsUsingBomb() ?		// i zabijamy wrogów,
+			this->CheckBombCollisions() :	// albo z bomby, albo za pomoc¹ pocisków,
+			this->CheckEnemyCollisions();	
+	}
 	this->CheckPlayerGraze();			// oraz siê ocieramy o pociski
 	if (!player->IsInvulnerable())		// je¿eli mo¿na nas zniszczyæ
 	{
-		CheckPlayerCollisions();		// dopiero wtedy te¿ mo¿na straciæ ¿ycie
+		boss == nullptr ?
+		CheckPlayerEnemyCollisions() : 
+		CheckPlayerBossCollisions();		// dopiero wtedy te¿ mo¿na straciæ ¿ycie
 	}
 	if (player->GetLifeCount() == 0)
 	{
 		delete player;
 		player = nullptr;
 
-		MessageBoxA(NULL, "GAME OVER", "Twoja postaæ zginê³a", MB_OK | MB_ICONERROR); 
+		MessageBoxA(NULL, "GAME OVER", "Twoja postaæ zginê³a", MB_OK | MB_ICONERROR);
 	}
 };
 
 
-void Game::CheckPlayerCollisions()
+void Game::CheckPlayerEnemyCollisions()
 {
 	// Czy Gracz zderzy³ siê z którymœ z wrogów
 	EnemyQue::const_iterator e_it = enemy_.begin();
@@ -460,24 +501,90 @@ void Game::CheckPlayerCollisions()
 };
 
 
+void Game::CheckPlayerBossCollisions()
+{
+	// Czy Gracz zderzy³ siê z bossem, jak tak, to traci ¿ycie
+	float distance = Vector::Length( boss->GetCenterPoint(), this->player->GetCenterPoint() );
+	float angle = Vector::Angle(this->player->GetCenterPoint(), boss->GetCenterPoint());
+	if (distance <= boss->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+	{
+		this->MakePlayerLoseLife();
+		return;
+	}
+	// Czy Gracz zderzy³ siê z którymœ z pocisków
+	typedef std::map<std::string, EPattern*> PatternMap;
+	PatternMap * pMap = currentSpellcard->GetPatterns();
+	if (pMap != nullptr)
+	{
+		for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
+		{
+			std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+			while(eb_it != ep->end())
+			{
+				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+				{
+					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
+					this->MakePlayerLoseLife();
+					return;
+				}
+				if (eb_it != ep->end())
+					eb_it++;
+			}
+		}
+	}
+};
+
+
 void Game::CheckPlayerGraze()
 {
-	// Czy Gracz otar³ siê o któryœ z pocisków
-	for (PatternQue::const_iterator p_it = _savedPatterns.begin(); p_it != _savedPatterns.end(); ++p_it)
+	if (boss == nullptr)
 	{
-		std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
-		for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
+		// Czy Gracz otar³ siê o któryœ z pocisków
+		for (PatternQue::const_iterator p_it = _savedPatterns.begin(); p_it != _savedPatterns.end(); ++p_it)
 		{
-			float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-			float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-			// czy ³apie siê w granicê hitboxy + graze_distance
-			if (!(*eb_it)->IsGrazed() &&
-					distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
-					+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
-					+ StageConsts::GRAZE_DISTANCE)
+			std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
+			for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
 			{
-				(*eb_it)->SetGrazed( true );
-				graze++;
+				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+				// czy ³apie siê w granicê hitboxy + graze_distance
+				if (!(*eb_it)->IsGrazed() &&
+						distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
+						+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
+						+ StageConsts::GRAZE_DISTANCE)
+				{
+					(*eb_it)->SetGrazed( true );
+					graze++;
+				}
+			}
+		}
+	}
+	else
+	{
+		typedef std::map<std::string, EPattern*> PatternMap;
+		PatternMap * pMap = currentSpellcard->GetPatterns();
+		if (pMap != nullptr)
+		{
+			for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
+			{
+				std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+				for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
+				{
+					float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+					float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+					// czy ³apie siê w granicê hitboxy + graze_distance
+					if (!(*eb_it)->IsGrazed() &&
+							distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
+							+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
+							+ StageConsts::GRAZE_DISTANCE)
+					{
+						(*eb_it)->SetGrazed( true );
+						graze++;
+					}
+				}
 			}
 		}
 	}
@@ -625,26 +732,26 @@ void Game::CheckBombCollisions()
 {
 	/// Fragment odpowiedzialny za obrywanie wrogów
 	EnemyQue::const_iterator e_it = enemy_.begin();
-		while (e_it != enemy_.end())
+	while (e_it != enemy_.end())
+	{
+		float distance = Vector::Length( player->GetBomb()->GetCenterPoint(), (*e_it)->GetCenterPoint() );
+		float angle = Vector::Angle((*e_it)->GetCenterPoint(), player->GetBomb()->GetCenterPoint());
+		if (distance <= player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
 		{
-			float distance = Vector::Length( player->GetBomb()->GetCenterPoint(), (*e_it)->GetCenterPoint() );
-			float angle = Vector::Angle((*e_it)->GetCenterPoint(), player->GetBomb()->GetCenterPoint());
-			if (distance <= player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+			(*e_it)->TakeDamage( (player->GetBomb()->GetDamage()) );
+			if (!(*e_it)->IsAlive())
 			{
-				(*e_it)->TakeDamage( (player->GetBomb()->GetDamage()) );
-				if (!(*e_it)->IsAlive())
-				{
-					BonusQue * bonus = (*e_it)->GetBonus(gDevice->device, bonusSprite_.GetResources());
-					if (bonus != nullptr)
-						bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());
-					delete (*e_it);
-					e_it = enemy_.erase(e_it);
-				}
-				break;
+				BonusQue * bonus = (*e_it)->GetBonus(gDevice->device, bonusSprite_.GetResources());
+				if (bonus != nullptr)
+					bonus_.insert(bonus_.end(), bonus->begin(), bonus->end());
+				delete (*e_it);
+				e_it = enemy_.erase(e_it);
 			}
-			if (e_it != enemy_.end())
-				++e_it;
+			break;
 		}
+		if (e_it != enemy_.end())
+			++e_it;
+	}
 
 	/// Fragment odpowiedzialny za usuwanie pocisków
 	for (PatternQue::const_iterator p_it = _savedPatterns.begin(); p_it != _savedPatterns.end(); ++p_it)
@@ -658,6 +765,146 @@ void Game::CheckBombCollisions()
 				float angle = Vector::Angle(this->player->GetBomb()->GetCenterPoint(), (*eb_it)->GetCenterPoint());
 				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle)))
 					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
+				if (eb_it != ep->end())
+					eb_it++;
+			}
+		}
+	}
+};
+
+
+void Game::DeleteEnemies()
+{
+	EnemyQue::const_iterator e_it = enemy_.begin();
+	while(e_it != enemy_.end())
+	{
+		if ((*e_it)->IsRoadFinished())
+		{
+			delete (*e_it);
+			e_it =  enemy_.erase(e_it);
+		}
+		if (e_it != enemy_.end())
+			++e_it;
+	}
+};
+
+
+void Game::DeleteBullets()
+{
+	if (!bossActivated)
+	{
+		PatternQue::const_iterator p_it = _savedPatterns.begin();
+		while(p_it != _savedPatterns.end())
+		{
+			if ((*p_it)->IsInitialized())
+			{
+				std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
+				std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+				while(eb_it != ep->end())
+				{
+					if (!(*eb_it)->IsObjectWithinBounds(STAGE_FIELD))
+					{
+						delete (*eb_it);
+						eb_it =  ep->erase(eb_it);
+					}
+					if (eb_it != ep->end())
+						++eb_it;
+				}
+				if (!(*p_it)->HasBulles())
+				{
+					p_it =  _savedPatterns.erase(p_it);
+				}
+			}
+			if (p_it != _savedPatterns.end())
+				++p_it;
+		}
+	}
+	else
+	{
+		typedef std::map<std::string, EPattern*> PatternMap;
+		PatternMap * pMap = currentSpellcard->GetPatterns();
+		if (pMap != nullptr)
+		{
+			PatternMap::const_iterator it = pMap->begin();
+			while (it != pMap->end())
+			{
+				std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+				std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+				while(eb_it != ep->end())
+				{
+					if (!(*eb_it)->IsObjectWithinBounds(STAGE_FIELD))
+					{
+						delete (*eb_it);
+						eb_it =  ep->erase(eb_it);
+					}
+					if (eb_it != ep->end())
+						++eb_it;
+				}
+				if (!(*it).second->HasBulles())
+					it = pMap->erase(it);
+				if (it != pMap->end())
+					++it;
+			}
+		}
+	}
+};
+
+void Game::CheckBossCollisions()
+{
+	// Pociski pobieramy raz
+	std::deque<PlayerBullet*> * pbQue = this->player->GetBullets();
+	std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
+	while(pb_it != pbQue->end())
+	{
+		float distance = Vector::Length( (*pb_it)->GetCenterPoint(), boss->GetCenterPoint() );
+		float angle = Vector::Angle(boss->GetCenterPoint(), (*pb_it)->GetCenterPoint());
+		if (distance <= (*pb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + boss->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+		{
+			boss->TakeDamage( (*pb_it)->Damage() );
+			pb_it = pbQue->erase(pb_it);
+			if (!boss->IsAlive())
+			{
+				delete boss;
+				boss = nullptr;
+				break;
+			}
+		}
+		if (pb_it != pbQue->end())
+			pb_it++;
+	}
+};
+
+void Game::CheckBossBombCollisions()
+{
+	/// obrywanie bossa
+	float distance = Vector::Length( player->GetBomb()->GetCenterPoint(), boss->GetCenterPoint() );
+	float angle = Vector::Angle(boss->GetCenterPoint(), player->GetBomb()->GetCenterPoint());
+	if (distance <= player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + boss->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+	{
+		boss->TakeDamage( (player->GetBomb()->GetDamage()) );
+		if (!boss->IsAlive())
+		{
+			delete boss;
+			boss = nullptr;
+		}
+	}
+	// usuniecie jego pociskow
+	typedef std::map<std::string, EPattern*> PatternMap;
+	PatternMap * pMap = currentSpellcard->GetPatterns();
+	if (pMap != nullptr)
+	{
+		for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
+		{
+			std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+			while(eb_it != ep->end())
+			{
+				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetBomb()->GetCenterPoint() );
+				float angle = Vector::Angle(this->player->GetBomb()->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+				{
+					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
+				}
 				if (eb_it != ep->end())
 					eb_it++;
 			}

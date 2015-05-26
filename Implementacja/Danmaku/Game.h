@@ -14,6 +14,7 @@
 #include "Pattern.h"
 #include "BonusFactory.h"
 #include "Stage.h"
+#include "Boss.h"
 
 #include "StageConst.h"
 
@@ -82,6 +83,16 @@ class Game : public Playfield
 
 	typedef std::shared_ptr<Sprite> SpritePtr;
 
+	Boss * boss;
+	bool bossActivated;
+	Spellcard * currentSpellcard;
+	Font * bossName;
+	Font * spellcardName;
+	Font * spellcardtime;
+	Font * spellcardBonus;
+	Sprite * bossLifeBar;
+	D3DXVECTOR2 bossLifeBarPos;
+
 public:
 	// Konstruktor, destruktor
 	Game( GraphicsDevice * const gDevice );
@@ -92,11 +103,15 @@ public:
 	void CheckBonusVacuum();
 	void CheckBonusCollisions();
 	void CheckEnemyCollisions();
-	void CheckPlayerCollisions();
+	void CheckPlayerEnemyCollisions();
+	void CheckPlayerBossCollisions();
 	void CheckPlayerGraze();
 	void CheckBombCollisions();
 	void MakePlayerLoseLife();
 	std::deque<Bonus*>* CreateLeftoverBonus();
+
+	void CheckBossCollisions();
+	void CheckBossBombCollisions();
 
 	/////// FUNKCJE PLAYFIELD
 	bool Initialize() override;
@@ -115,4 +130,7 @@ private:
 
 	void DrawString();
 	
+	void DeleteEnemies();
+	void DeleteBullets();
+
 };

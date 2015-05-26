@@ -1,7 +1,7 @@
 #include "Stage.h"
 
 Stage::Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DDEVICE9 device)
-	: _gameField(gameField)
+	: _gameField(gameField), boss(nullptr)
 {
 	_stageContents = std::unique_ptr<char>(XML2Char(file));
 	_device = device;
@@ -66,6 +66,14 @@ void Stage::ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize)
 	else if (size.compare("FULL") == 0)
 	{
 		hSize = Hitbox::Size::FULL_LENGTH;
+	}
+	else if (size.compare("ONE_THIRDS") == 0)
+	{
+		hSize = Hitbox::Size::ONE_THIRDS_LENGTH;
+	}
+	else if (size.compare("TWO_THIRDS") == 0)
+	{
+		hSize = Hitbox::Size::TWO_THIRDS_LENGTH;
 	}
 };
 
@@ -251,6 +259,67 @@ void Stage::CreateAffineParameters(EPattern * const epattern, xml_node <> * patt
 };
 
 
+void Stage::CreatePatternsForSpellcard(Spellcard * const spellcard, xml_node <> * patternNode, D3DXVECTOR2 const & position)
+{
+	float par1, par2 = 0.0f, interval = 0.0f;
+	short bulletNumber = 1;
+	Pattern pattern;
+	static short patternId = 1;
+	float startScale = 1.0f, startRotation = 0.0f;
+	for (xml_attribute <>* patternAtr = patternNode->first_attribute(); patternAtr; patternAtr = patternAtr->next_attribute())
+	{
+		std::string pStr(patternAtr->name());
+		if (pStr.compare("type") == 0)
+		{
+			this->ChoosePattern(patternAtr->value(), pattern);
+		}
+		else if (pStr.compare("par1") == 0)
+		{
+			par1 = std::stof(patternAtr->value());
+		}
+		else if (pStr.compare("par2") == 0)
+		{
+			par2 = std::stof(patternAtr->value());
+		}
+		else if (pStr.compare("bulletNumber") == 0)
+		{
+			bulletNumber = std::stoi(patternAtr->value());
+		}
+		else if (pStr.compare("interval") == 0)
+		{
+			interval = std::stof(patternAtr->value());
+		}
+		else if (pStr.compare("scale") == 0)
+		{
+			startScale = D3DXToRadian(std::stof(patternAtr->value()));
+		}
+		else if (pStr.compare("rotation") == 0)
+		{
+			startRotation = D3DXToRadian(std::stof(patternAtr->value()));
+		}
+	}
+	std::string patternIdStr = std::to_string(patternId);
+	float activationTime = interval;
+	spellcard->AddPattern(patternIdStr, EPatternFactory::Instance().Create(pattern, par1, par2, bulletNumber, activationTime));
+	spellcard->GetPattern(patternIdStr)->SetScale(startScale);
+	spellcard->GetPattern(patternIdStr)->SetRotation(startRotation);
+	for (xml_node <> * dNode = patternNode->first_node(); dNode; dNode = dNode->next_sibling())
+	{
+		std::string str_tmp = dNode->name();
+		if (str_tmp.compare("Bullet") == 0)
+		{
+			this->CreateBullets(spellcard->GetPattern(patternIdStr), dNode, patternIdStr, pattern);
+		}
+		else if (str_tmp.compare("Affine") == 0)
+		{
+			this->CreateAffineParameters(spellcard->GetPattern(patternIdStr), dNode, patternIdStr);
+		}
+	}
+	patternId++;
+	spellcard->Initialize(position);
+};
+
+
 void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
 {
 	float par1, par2 = 0.0f, interval = 0.0f;
@@ -315,7 +384,7 @@ void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNo
 		}
 		patternId++;
 	}
-	enemyObj->InitializePatterns(_device, position);
+	enemyObj->InitializePatterns(position);
 };
 
 
@@ -531,6 +600,97 @@ void Stage::CreateEnemies(xml_node <> * time, std::string const & timeValue)
 };
 
 
+void Stage::CreateBoss(xml_node <> * time, std::string const & timeValue)
+{
+	for( xml_node <> * bossNode = time->first_node(); bossNode; bossNode = bossNode->next_sibling())
+	{
+		std::string str(bossNode->name());
+		if (str.compare("Boss") == 0)
+		{
+			std::string image, name;
+			D3DXVECTOR2 position;
+			USHORT life;
+			Hitbox::Size hSize;
+			for ( xml_attribute <>* bossAtr = bossNode->first_attribute(); bossAtr; bossAtr = bossAtr->next_attribute() )
+			{
+				str = std::string(bossAtr->name());
+				if (str.compare("image") == 0)
+				{
+					image = std::string(bossAtr->value());
+					if (this->_enemySprite.Add(image))
+						_enemySprite[image]->Initialize(_device, Sprite::GetFilePath(image));
+				}
+				else if (str.compare("name") == 0)
+				{
+					name = std::string(bossAtr->value());
+				}
+				else if (str.compare("life") == 0)
+				{
+					life = std::stof(bossAtr->value());
+				}
+				else if (str.compare("position.x") == 0)
+				{
+					this->ChooseVerticalPosition(bossAtr->value(), position.x);
+				}
+				else if (str.compare("position.y") == 0)
+				{
+					this->ChooseHorizontalPosition(bossAtr->value(), position.y);
+				}
+				else if (str.compare("hitboxSize") == 0)
+				{
+					this->ChooseHitboxSize(bossAtr->value(), hSize);
+				}
+			}
+
+			this->boss = new Boss(position, life, name);
+			this->boss->InitializeSprite(_enemySprite[image]);
+			this->boss->InitializeHitbox(Hitbox::Shape::ELLIPSE, hSize);
+
+			for (xml_node <> * spellcardNode = bossNode->first_node(); spellcardNode; spellcardNode = spellcardNode->next_sibling())
+			{
+				str = spellcardNode->name();
+				if (str.compare("Spellcard") == 0)
+				{
+					Spellcard * spellcard;
+					std::string name;
+					float time;
+					UINT bonus;
+					for ( xml_attribute <>* spellcardAtr = spellcardNode->first_attribute(); spellcardAtr; spellcardAtr = spellcardAtr->next_attribute() )
+					{
+						str = spellcardAtr->name();
+						if (str.compare("name") == 0)
+						{
+							name = std::string(spellcardAtr->value());
+						}
+						else if (str.compare("time") == 0)
+						{
+							time = std::stof(spellcardAtr->value());
+						}
+						else if (str.compare("bonus") == 0)
+						{
+							bonus = std::stoi(spellcardAtr->value());
+						}
+					}
+					spellcard = new Spellcard(name, time, bonus);
+					for (xml_node <> * patternNode = spellcardNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
+					{
+						str = patternNode->name();
+						if (str.compare("Pattern") == 0)
+						{
+							this->CreatePatternsForSpellcard(spellcard, patternNode, position);
+						}
+						spellcard->SetPosition(boss->GetCenter());
+						this->boss->AddSpellcard(spellcard);
+					}
+				}
+			}
+		}
+	}
+	this->bossPair.first = std::stoi(timeValue);
+	this->bossPair.second = this->boss;
+};
+
+
 void Stage::CreateStageElements()
 {
 	// Pocz¹tek Stejd¿a
@@ -555,6 +715,10 @@ void Stage::CreateStageElements()
 		if (nodeType.compare("normal") == 0)
 		{
 			this->CreateEnemies(time, secTime);
+		}
+		else if (nodeType.compare("boss") == 0)
+		{
+			this->CreateBoss(time, secTime);
 		}
 	}
 };

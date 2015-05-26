@@ -46,7 +46,7 @@ public:
 	~Enemy();
 
 	void AddPattern(std::string const & patternId, EPattern * epattern );
-	bool InitializePatterns(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
+	bool InitializePatterns(D3DXVECTOR2 const & position);
 
 	void Draw(RECT const & rect);
 	void Update( float const time );

@@ -144,6 +144,28 @@ void Sprite::Draw(D3DXVECTOR2 const & position, float scale, float rotation)
 };
 
 
+void Sprite::Draw(D3DXVECTOR2 const & position, D3DXVECTOR2 const & scale, float rotation)
+{
+	if (this->sprite && tex)
+	{
+		this->sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+		D3DXMATRIX mat;
+		D3DXVECTOR2 center2D( position.x, position.y );
+		D3DXVECTOR3 position3D( position.x, position.y, 0.0f );
+
+		// skalowanie i obrót
+		D3DXMatrixTransformation2D( &mat, &center2D, NULL, &scale, &center2D, rotation, NULL );
+
+		this->sprite->SetTransform( &mat );
+
+		this->sprite->Draw(tex[this->currentTex], NULL, NULL, &position3D, this->color);
+
+		this->sprite->End();
+	}
+};
+
+
 void Sprite::SetCurrentTexture( short const number )
 {
 	this->currentTex = number;
