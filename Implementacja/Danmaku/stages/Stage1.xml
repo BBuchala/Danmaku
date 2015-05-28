@@ -106,8 +106,8 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="50" type="boss">
-		<Boss image="Remilia" name="Remilia Scarlet" life="100000000" position.x="HALF" position.y="ONE_THIRDS" hitboxSize="ONE_THIRDS">
+	<Time sec="45" type="boss">
+		<Boss image="Remilia" name="Remilia Scarlet" life="1000000" position.x="HALF" position.y="ONE_THIRDS" hitboxSize="ONE_THIRDS">
 			<Spellcard name="Infinite Ellipse" time="60" bonus="1000000">
 				<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="10" interval="0.20">
 					<Bullet image="BulletRedCircle" width="32" height="32" speed="0.00" hitboxSize="FULL"></Bullet>

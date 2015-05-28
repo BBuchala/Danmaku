@@ -7,6 +7,7 @@
 #include "GraphicsDevice.h"
 #include "Timer.h"
 #include "ScreenMode.h"
+#include "EndStageInfo.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
@@ -24,6 +25,7 @@ protected:
 	bool ended;
 
 	ScreenMode nextMode;			// informacja, któr¹ Playfield zwróci na chwilê przed usuniêciem do Application
+	
 
 public:
 	// Konstruktor, destruktor
@@ -51,11 +53,13 @@ private:
 	// narysowanie nowej sceny
 public:
 	void Draw();
+	virtual EndStageInfo * ReturnInformation(){ return new EndStageInfo();};
 
 private:
 	void BeginScene();
 	virtual void DrawScene() = 0;
 	void EndScene();
+	
 
 public:
 	inline const bool isEnded() const

@@ -17,6 +17,7 @@
 #include "Boss.h"
 
 #include "StageConst.h"
+#include "EndStageInfo.h"
 
 #include "BonusSpriteResource.h"
 #include "PlayerBulletSpriteResource.h"
@@ -119,6 +120,7 @@ public:
 	void Clear() override;
 	void DrawScene() override;
 	void clearOutOfBoundsObjects() override;
+	EndStageInfo * ReturnInformation() override;
 
 private:
 	bool IsPlayerWithinBounds(Move const direction);
@@ -128,8 +130,6 @@ private:
 		return D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT / 2 );
 	}
 
-	void DrawString();
-	
 	void DeleteEnemies();
 	void DeleteBullets();
 

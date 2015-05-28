@@ -133,6 +133,7 @@
     <ClInclude Include="BonusFactory.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="EndStageInfo.h" />
     <ClInclude Include="EnemyBulletSpriteResource.h" />
     <ClInclude Include="EnemyPatternEllipse.h" />
     <ClInclude Include="EnemyPatternLine.h" />

@@ -10,6 +10,8 @@
 #include "ScreenMode.h"
 #include "ScoreCountScreen.h"
 
+#include "EndStageInfo.h"
+
 class Application
 {
 	static const unsigned short WIDTH	= 1024;
@@ -27,6 +29,8 @@ class Application
 	Playfield * field;
 
 	ScreenMode mode;
+
+	EndStageInfo * endStageInfo;	// struktura z danymi do przekazywania dla poszczególnych playfieldów
 
 public:
 	Application( HINSTANCE hInstance, int const nShowCmd );

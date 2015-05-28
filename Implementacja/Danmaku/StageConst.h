@@ -1,3 +1,5 @@
+#pragma once
+
 namespace StageConst
 {
 	static struct StageConsts

@@ -97,6 +97,9 @@
     <Filter Include="Source Files\Enemies">
       <UniqueIdentifier>{2a3c785c-91fd-4cbd-ab11-880140aacba4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Structures">
+      <UniqueIdentifier>{dd2b83b8-069f-455d-adac-4bf56c61f92f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -386,9 +389,6 @@
     <ClInclude Include="PlayerPattern04.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="StageConst.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerPattern05.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
@@ -436,6 +436,12 @@
     </ClInclude>
     <ClInclude Include="ScoreCountScreen.h">
       <Filter>Header Files\Fields</Filter>
+    </ClInclude>
+    <ClInclude Include="StageConst.h">
+      <Filter>Header Files\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="EndStageInfo.h">
+      <Filter>Header Files\Structures</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

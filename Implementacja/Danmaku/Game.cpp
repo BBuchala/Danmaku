@@ -157,7 +157,7 @@ void Game::Update(float const time)
 	{
 		MessageBoxA(NULL, "GAME OVER", "Wygra³eœ :)", MB_OK);
 		this->ended = true;
-		this->nextMode = ScreenMode::TITLE;
+		this->nextMode = ScreenMode::SCORE_COUNT;
 	}
 
 	if (GetAsyncKeyState(VK_ESCAPE))
@@ -297,7 +297,7 @@ void Game::DrawScene()
 	else
 	{
 		this->ended = true;
-		this->nextMode == ScreenMode::TITLE;
+		this->nextMode = ScreenMode::TITLE;
 		return;
 	}
 
@@ -914,4 +914,19 @@ void Game::CheckBossBombCollisions()
 			}
 		}
 	}
+};
+
+EndStageInfo * Game::ReturnInformation()
+{
+	EndStageInfo * tmp = new EndStageInfo();
+
+	tmp->bombs = this->player->GetBombCount();
+	tmp->lives = this->player->GetLifeCount();
+	tmp->currentScore = this->score;
+	tmp->graze = this->graze;
+	tmp->power = this->player->GetPower();
+
+	return tmp;
+
+
 };
