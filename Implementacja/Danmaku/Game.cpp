@@ -15,11 +15,12 @@ const RECT Game::GAME_FIELD = {
 };
 
 /* ---- KONSTRUKTOR --------------------------------------------------------------------------- */
-Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice ), boss(nullptr), bossActivated(false)
+Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) : Playfield( gDevice ), boss(nullptr), bossActivated(false)
 {
 	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
-	score = hiScore = graze = 0;
+	hiScore = graze = 0;
+	score = ( previousStageInfo ) ? previousStageInfo->currentScore : 0;
 	escape = pressed = false;
 	this->elapsedTime = 0.0f;
 
@@ -29,7 +30,10 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice ), boss(nullpt
 	this->stageBackground = new Sprite(gDevice->device, Sprite::GetFilePath("backgroundClouds"));
 	this->stageBackgroundPos = D3DXVECTOR2(StageConsts::STAGE_POS_X, StageConsts::STAGE_POS_Y);
 	// gracz
-	this->player = new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), 3 );
+	this->player = ( previousStageInfo->lives != 0 ) ? 
+		new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), previousStageInfo->power, previousStageInfo->lives, previousStageInfo->bombs)
+		: new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), 3 );
+
 	// dane liczbowe
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
 	this->scoreText = new Font( D3DXVECTOR2( 830, 63 ), 236, 25 );
@@ -53,14 +57,19 @@ Game::Game( GraphicsDevice * const gDevice ) : Playfield( gDevice ), boss(nullpt
 	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::SCORE, D3DXVECTOR2(500,250), 10000));
 	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::LIFE,  D3DXVECTOR2(80,80  )));
 	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::BOMB,  D3DXVECTOR2(650,100)));
+	
+	std::string fileString = std::string("stages/Stage") + std::to_string(previousStageInfo->numberOfStage) + std::string(".xml");
 
-	stage = new Stage("stages/Stage1.xml", &this->STAGE_FIELD, gDevice->device);
+	stage = new Stage(fileString, &this->STAGE_FIELD, gDevice->device);
 
 	// Avatary
 	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
 	{
 		avatar_.push_back(new GameObject(D3DXVECTOR2(728, 484 + i * 61)));
 	}
+
+	// Zachowanie informacji o poprzednim stage'u
+	this->previousStageInfo = previousStageInfo;
 };
 
 /* ---- DESTRUKTOR ---------------------------------------------------------------------------- */
@@ -82,6 +91,8 @@ Game::~Game()
 	if (spellcardName)	delete spellcardName;
 	if (spellcardtime)	delete spellcardtime;
 	if (spellcardBonus)	delete spellcardBonus;
+
+	if (boss) delete boss;
 
 	// bonusy
 	for (unsigned int i = 0; i < bonus_.size(); i++)			// nieporównywalnie czytelniej ni¿ na iteratorach, a wydajnoœæ taka sama
@@ -210,7 +221,8 @@ void Game::Update(float const time)
 	{
 		boss->Update(time);
 		this->currentSpellcard = boss->GetSpellcard();
-		this->currentSpellcard->Update(time, boss->GetCenterPoint());
+		if (this->currentSpellcard)
+			this->currentSpellcard->Update(time, boss->GetCenterPoint());
 	}
 
 	//// Obs³uga wrogów i ich pocisków
@@ -321,7 +333,8 @@ void Game::DrawScene()
 
 	if (boss != nullptr)
 	{
-		this->currentSpellcard->Draw(STAGE_FIELD);
+		if (this->currentSpellcard)
+			this->currentSpellcard->Draw(STAGE_FIELD);
 		boss->Draw(STAGE_FIELD);
 	}
 
@@ -343,9 +356,12 @@ void Game::DrawScene()
 	if (boss != nullptr)
 	{
 		bossName->Draw(boss->GetName());
-		spellcardName->Draw("Spellcard: " + currentSpellcard->GetName());
-		spellcardtime->Draw("Time: " + std::to_string(currentSpellcard->GetTime()));
-		spellcardBonus->Draw("Bonus: " + std::to_string(currentSpellcard->GetBonus()));
+		if (currentSpellcard)
+		{
+			spellcardName->Draw("Spellcard: " + currentSpellcard->GetName());
+			spellcardtime->Draw("Time: " + std::to_string(currentSpellcard->GetTime()));
+			spellcardBonus->Draw("Bonus: " + std::to_string(currentSpellcard->GetBonus())); 
+		}
 		this->bossLifeBar->Draw(bossLifeBarPos, D3DXVECTOR2(static_cast<float>(boss->GetLife()) / static_cast<float>(boss->GetMaxLife()), 1.0f));
 	}
 
@@ -516,26 +532,29 @@ void Game::CheckPlayerBossCollisions()
 		return;
 	}
 	// Czy Gracz zderzy³ siê z którymœ z pocisków
-	typedef std::map<std::string, EPattern*> PatternMap;
-	PatternMap * pMap = currentSpellcard->GetPatterns();
-	if (pMap != nullptr)
+	if (this->currentSpellcard)
 	{
-		for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
+		typedef std::map<std::string, EPattern*> PatternMap;
+		PatternMap * pMap = currentSpellcard->GetPatterns();
+		if (pMap != nullptr)
 		{
-			std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
-			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
-			while(eb_it != ep->end())
+			for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
 			{
-				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+				std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+				std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+				while(eb_it != ep->end())
 				{
-					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
-					this->MakePlayerLoseLife();
-					return;
+					float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+					float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+					if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+					{
+						eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
+						this->MakePlayerLoseLife();
+						return;
+					}
+					if (eb_it != ep->end())
+						eb_it++;
 				}
-				if (eb_it != ep->end())
-					eb_it++;
 			}
 		}
 	}
@@ -568,25 +587,28 @@ void Game::CheckPlayerGraze()
 	}
 	else
 	{
-		typedef std::map<std::string, EPattern*> PatternMap;
-		PatternMap * pMap = currentSpellcard->GetPatterns();
-		if (pMap != nullptr)
+		if (this->currentSpellcard)
 		{
-			for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
+			typedef std::map<std::string, EPattern*> PatternMap;
+			PatternMap * pMap = currentSpellcard->GetPatterns();
+			if (pMap != nullptr)
 			{
-				std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
-				for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
+				for (PatternMap::const_iterator it = pMap->begin(); it != pMap->end(); ++it)
 				{
-					float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-					float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-					// czy ³apie siê w granicê hitboxy + graze_distance
-					if (!(*eb_it)->IsGrazed() &&
-							distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
-							+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
-							+ StageConsts::GRAZE_DISTANCE)
+					std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+					for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
 					{
-						(*eb_it)->SetGrazed( true );
-						graze++;
+						float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
+						float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
+						// czy ³apie siê w granicê hitboxy + graze_distance
+						if (!(*eb_it)->IsGrazed() &&
+								distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
+								+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
+								+ StageConsts::GRAZE_DISTANCE)
+						{
+							(*eb_it)->SetGrazed( true );
+							graze++;
+						}
 					}
 				}
 			}
@@ -825,29 +847,32 @@ void Game::DeleteBullets()
 	}
 	else
 	{
-		typedef std::map<std::string, EPattern*> PatternMap;
-		PatternMap * pMap = currentSpellcard->GetPatterns();
-		if (pMap != nullptr)
+		if (currentSpellcard)
 		{
-			PatternMap::const_iterator it = pMap->begin();
-			while (it != pMap->end())
+			typedef std::map<std::string, EPattern*> PatternMap;
+			PatternMap * pMap = currentSpellcard->GetPatterns();
+			if (pMap != nullptr)
 			{
-				std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
-				std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
-				while(eb_it != ep->end())
+				PatternMap::const_iterator it = pMap->begin();
+				while (it != pMap->end())
 				{
-					if (!(*eb_it)->IsObjectWithinBounds(STAGE_FIELD))
+					std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
+					std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+					while(eb_it != ep->end())
 					{
-						delete (*eb_it);
-						eb_it =  ep->erase(eb_it);
+						if (!(*eb_it)->IsObjectWithinBounds(STAGE_FIELD))
+						{
+							delete (*eb_it);
+							eb_it =  ep->erase(eb_it);
+						}
+						if (eb_it != ep->end())
+							++eb_it;
 					}
-					if (eb_it != ep->end())
-						++eb_it;
+					if (!(*it).second->HasBulles())
+						it = pMap->erase(it);
+					if (it != pMap->end())
+						++it;
 				}
-				if (!(*it).second->HasBulles())
-					it = pMap->erase(it);
-				if (it != pMap->end())
-					++it;
 			}
 		}
 	}
@@ -918,15 +943,11 @@ void Game::CheckBossBombCollisions()
 
 EndStageInfo * Game::ReturnInformation()
 {
-	EndStageInfo * tmp = new EndStageInfo();
+	previousStageInfo->bombs = this->player->GetBombCount();
+	previousStageInfo->lives = this->player->GetLifeCount();
+	previousStageInfo->currentScore = this->score;
+	previousStageInfo->graze = this->graze;
+	previousStageInfo->power = this->player->GetPower();
 
-	tmp->bombs = this->player->GetBombCount();
-	tmp->lives = this->player->GetLifeCount();
-	tmp->currentScore = this->score;
-	tmp->graze = this->graze;
-	tmp->power = this->player->GetPower();
-
-	return tmp;
-
-
+	return previousStageInfo;
 };

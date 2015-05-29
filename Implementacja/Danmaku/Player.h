@@ -53,6 +53,7 @@ protected:
 
 public:
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount = 3 );
+	Player( D3DXVECTOR2 const & pos, float power, BYTE lifeCount, BYTE bombCount = 3 );
 
 	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
 	void Initialize(PlayerBulletSpriteResource const & pbsResource);

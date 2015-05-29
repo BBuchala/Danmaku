@@ -7,4 +7,6 @@ struct EndStageInfo
 	unsigned int currentScore;
 	unsigned int graze;
 	float power;
+
+	unsigned short numberOfStage;
 };

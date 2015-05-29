@@ -1,6 +1,6 @@
 #include "TitleScreen.h"
 
-TitleScreen::TitleScreen( GraphicsDevice * const gDevice ) : Playfield(gDevice),
+TitleScreen::TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStageInfo ) : Playfield(gDevice),
 	pressed(false), enter (false), elapsedTime(0.0f), _buttonScale(1.0f)
 {
 	this->background = new Sprite(gDevice->device, Sprite::GetFilePath( "titlescreen", "png"));
@@ -19,6 +19,8 @@ TitleScreen::TitleScreen( GraphicsDevice * const gDevice ) : Playfield(gDevice),
 		this->button[i] = new Sprite(gDevice->device, buttonFiles);
 		this->buttonPos[i] = D3DXVECTOR2( SCREEN_WIDTH - Button_Size.x - 50.0f, 250.0f + i * (Button_Size.y + 50.0f));
 	}
+
+	this->previousStageInfo = endStageInfo;
 	
 };
 
@@ -104,4 +106,9 @@ void TitleScreen::DrawScene()
 void TitleScreen::Clear()
 {
 	this->gDevice->Clear( D3DXCOLOR ( 1.0f, 1.0f, 1.0f ) );
+};
+
+EndStageInfo * TitleScreen::ReturnInformation()
+{
+	return this->previousStageInfo;
 };

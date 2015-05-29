@@ -13,7 +13,8 @@ Application::Application(HINSTANCE hInstance, int const nShowCmd)
 	this->window = new GameWindow(hInstance, nShowCmd, className, this->windowTitle.c_str(), WIDTH, HEIGHT, hWnd);
 	this->gDevice = new GraphicsDevice();
 	this->timer = new Timer();
-	//this->stageInfo = new EndStageInfo();
+	this->endStageInfo = new EndStageInfo();
+	this->endStageInfo->numberOfStage = 1;
 };
 
 
@@ -31,8 +32,7 @@ void Application::Initialize()
 	{
 		throw new Direct3DInitializationFailedException();
 	}
-	this->field = new TitleScreen( gDevice );
-	//this->field = new ScoreCountScreen ( gDevice, endStageInfo );
+	this->field = new TitleScreen( gDevice, endStageInfo );
 	this->mode = ScreenMode::TITLE;
 	this->timer->Start();
 };
@@ -67,11 +67,9 @@ void Application::Run()
 				field->Run( timer->elapsedTime );
 
 
-				// prze³¹czenie tajtola i gejma
+				// prze³¹czenie screenów
 				if (field->isEnded() && field->NextMode() != ScreenMode::NONE)
 				{
-					if (endStageInfo) delete endStageInfo;		
-
 					mode = field->NextMode();
 
 					endStageInfo = field->ReturnInformation();
@@ -81,11 +79,11 @@ void Application::Run()
 					switch (mode)
 					{
 						case(ScreenMode::GAME):
-							field = new Game(gDevice);
+							field = new Game(gDevice, endStageInfo);
 							break;
 
 						case(ScreenMode::TITLE):
-							field = new TitleScreen(gDevice);
+							field = new TitleScreen(gDevice, endStageInfo);
 							break;
 
 						case(ScreenMode::SCORE_COUNT):

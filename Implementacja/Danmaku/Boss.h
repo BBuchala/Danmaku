@@ -42,10 +42,11 @@ public:
 		GameObject::Update(time);
 		if (isShooting_)
 		{
-			if (_spellcard[currentSc_]->IsSpellcardFinished())
-			{
-				delete _spellcard[currentSc_++];
-			}
+			if (_spellcard[currentSc_])
+				if (_spellcard[currentSc_]->IsSpellcardFinished())
+				{
+					//delete _spellcard[currentSc_++];
+				}
 		}
 	}
 

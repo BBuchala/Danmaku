@@ -28,7 +28,7 @@ class TitleScreen : public Playfield
 	float elapsedTime;
 
 public:
-	TitleScreen( GraphicsDevice * const gDevice );
+	TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStageInfo );
 	~TitleScreen();
 
 	bool Initialize() override;
@@ -36,4 +36,5 @@ public:
 	void Update(float const time) override;
 	void DrawScene() override;
 
+	EndStageInfo * ReturnInformation() override;
 };

@@ -10,7 +10,6 @@ ScoreCountScreen::ScoreCountScreen( GraphicsDevice * const gDevice, EndStageInfo
 	this->totalPoints = new Font( D3DXVECTOR2( 680, 460 ), 236, 25 );
 
 	this->previousStageInfo = _previousStageInfo;
-	//this->hasEndedCounting = false;
 };
 
 
@@ -36,6 +35,8 @@ bool ScoreCountScreen::Initialize()
 	this->totalPoints->Initialize( this->gDevice, 60, 0, "Arial", true, false, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) );
 
 	newTotalScore = previousStageInfo->currentScore;
+	stageExtraBonus = previousStageInfo->numberOfStage * 100000;
+
 	pressed = false;
 	return true;
 };
@@ -50,20 +51,31 @@ void ScoreCountScreen::Update(float const time)
 		if (GetAsyncKeyState(VK_RETURN))
 		{
 			this->ended = true;
-			this->nextMode = ScreenMode::TITLE;
+			this->nextMode = ScreenMode::GAME;
 		}
 	}
 
-	if (this->previousStageInfo->graze > 0 && !GetAsyncKeyState(VK_RETURN))
+	if ( stageExtraBonus > 0 && !GetAsyncKeyState(VK_RETURN))
 	{
+		if (this->previousStageInfo->graze > 0)
+		{
 			this->previousStageInfo->graze--;
 			this->newTotalScore += 100;
+		}
+		else
+		{
+			stageExtraBonus -= 1000;
+			this->newTotalScore += 1000;
+		}
 	}
 	else if (GetAsyncKeyState(VK_RETURN) && !hasEndedCounting)
 	{
 		pressed = true;
 		this->newTotalScore += 100 * this->previousStageInfo->graze;
 		this->previousStageInfo->graze = 0;
+
+		this->newTotalScore += stageExtraBonus;
+		stageExtraBonus = 0;
 
 		hasEndedCounting = true;
 	}
@@ -74,15 +86,13 @@ void ScoreCountScreen::Update(float const time)
 	}
 };
 
-
-
 void ScoreCountScreen::DrawScene()
 {
 	this->background->Draw(D3DXVECTOR2(0.0f, 0.0f));
 	this->currentScore->Draw(this->previousStageInfo->currentScore, StageConsts::SCORE_PADDING);
 	this->grazeBonus->Draw(this->previousStageInfo->graze, 5);
 	this->grazeBonus->Draw("               x 100");
-	this->stageBonus->Draw(100000, 0);
+	this->stageBonus->Draw(stageExtraBonus, 0);
 	this->totalPoints->Draw(newTotalScore, StageConsts::SCORE_PADDING);
 };
 	
@@ -91,4 +101,13 @@ void ScoreCountScreen::DrawScene()
 void ScoreCountScreen::Clear()
 {
 	this->gDevice->Clear( D3DXCOLOR ( 0.0f, 1.0f, 1.0f, 1.0f ) );
+};
+
+
+EndStageInfo * ScoreCountScreen::ReturnInformation()
+{
+	//this-> previousStageInfo->numberOfStage++;			//Do odkomentowania w razie wiêkszej liczby stejd¿y
+
+	this->previousStageInfo->currentScore = newTotalScore;
+	return this->previousStageInfo;
 };

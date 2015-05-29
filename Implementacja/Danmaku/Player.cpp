@@ -15,6 +15,17 @@ const float	Player::INVULNERABLE_TIME = 3.0f;
 	_hitboxSprite = std::unique_ptr<Sprite>(new Sprite());
 };
 
+  Player::Player( D3DXVECTOR2 const & pos, float power, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
+	_isInvulnerable(false), _invulnerableTime(0.0f), _hitboxRotation(0.0f)
+{
+	_lifeCount = lc;
+	_bombCount = bc;
+	_power = power;
+	_powerLevel = 1;
+	_playerPattern = PPatternPtr(new PlayerPattern01());
+	_hitboxSprite = std::unique_ptr<Sprite>(new Sprite());
+};
+
 // --- Initialize Pattern--------------------------------------------------------------------------
 bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {

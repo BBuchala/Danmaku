@@ -45,3 +45,8 @@ void Playfield::EndScene()
 	this->gDevice->End();
 	this->gDevice->Present();
 };
+
+EndStageInfo * Playfield::ReturnInformation()
+{
+	return new EndStageInfo();
+};

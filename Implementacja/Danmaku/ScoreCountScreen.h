@@ -29,12 +29,11 @@ class ScoreCountScreen : public Playfield
 	Font * stageBonus;
 	Font * totalPoints;
 
-	EndStageInfo * previousStageInfo;
-
 	bool hasEndedCounting;
 	bool pressed;
 
 	unsigned int newTotalScore;
+	unsigned int stageExtraBonus;
 
 public:
 	ScoreCountScreen( GraphicsDevice * const gDevice, EndStageInfo * _previousStageInfo );
@@ -44,5 +43,7 @@ public:
 	void Clear();
 	void Update(float const time) override;
 	void DrawScene() override;
+
+	EndStageInfo * ReturnInformation() override;
 
 };

@@ -96,7 +96,7 @@ class Game : public Playfield
 
 public:
 	// Konstruktor, destruktor
-	Game( GraphicsDevice * const gDevice );
+	Game( GraphicsDevice * const gDevice, EndStageInfo * _previousStageInfo );
 	~Game();
 
 	//////// FUNKCJE GAME

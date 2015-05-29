@@ -25,7 +25,8 @@ protected:
 	bool ended;
 
 	ScreenMode nextMode;			// informacja, któr¹ Playfield zwróci na chwilê przed usuniêciem do Application
-	
+	EndStageInfo * previousStageInfo; 	// Info z poprzedniego stage'a (je¿eli by³ takowy)
+
 
 public:
 	// Konstruktor, destruktor
@@ -53,7 +54,7 @@ private:
 	// narysowanie nowej sceny
 public:
 	void Draw();
-	virtual EndStageInfo * ReturnInformation(){ return new EndStageInfo();};
+	virtual EndStageInfo * ReturnInformation();
 
 private:
 	void BeginScene();
