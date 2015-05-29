@@ -110,5 +110,14 @@ void TitleScreen::Clear()
 
 EndStageInfo * TitleScreen::ReturnInformation()
 {
+
+	// Po zrobieniu opcji (pocz¹tkowa iloœæ ¿yæ i ew. bomb) ¿ycia i bomby nie bêd¹ w tej metodzie nadpisywane.
+
+	this->previousStageInfo->bombs = 3;
+	this->previousStageInfo->lives = 3;
+	this->previousStageInfo->currentScore = 0;
+	this->previousStageInfo->graze = 0;
+	this->previousStageInfo->power = 0.00; 
+
 	return this->previousStageInfo;
 };
