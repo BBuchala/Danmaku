@@ -63,7 +63,7 @@ void TitleScreen::Update(float const time)
 	if (enter && !pressed)
 	{
 		this->ended = true;
-		this->nextMode = ScreenMode::GAME;
+		this->previousStageInfo->nextMode = ScreenMode::GAME;
 	}
 
 	if (elapsedTime > 0.0000000f && elapsedTime < 1.0000000f)

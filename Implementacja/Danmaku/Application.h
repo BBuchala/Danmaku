@@ -28,8 +28,6 @@ class Application
 	Timer * timer;
 	Playfield * field;
 
-	ScreenMode mode;
-
 	EndStageInfo * endStageInfo;	// struktura z danymi do przekazywania dla poszczególnych playfieldów
 
 public:

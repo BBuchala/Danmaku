@@ -81,6 +81,7 @@
     <ClCompile Include="BombBonus.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="BonusFactory.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="EnemyPatternEllipse.cpp" />
     <ClCompile Include="EnemyPatternLine.cpp" />
@@ -111,6 +112,7 @@
     <ClCompile Include="PowerBonus.cpp" />
     <ClCompile Include="ScoreBonus.cpp" />
     <ClCompile Include="ScoreCountScreen.cpp" />
+    <ClCompile Include="Spellcard.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="TrajectoryElipse.cpp" />

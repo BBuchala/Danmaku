@@ -15,6 +15,7 @@ Application::Application(HINSTANCE hInstance, int const nShowCmd)
 	this->timer = new Timer();
 	this->endStageInfo = new EndStageInfo();
 	this->endStageInfo->numberOfStage = 1;
+	this->endStageInfo->nextMode = ScreenMode::TITLE;
 };
 
 
@@ -33,7 +34,6 @@ void Application::Initialize()
 		throw new Direct3DInitializationFailedException();
 	}
 	this->field = new TitleScreen( gDevice, endStageInfo );
-	this->mode = ScreenMode::TITLE;
 	this->timer->Start();
 };
 
@@ -68,15 +68,13 @@ void Application::Run()
 
 
 				// prze³¹czenie screenów
-				if (field->isEnded() && field->NextMode() != ScreenMode::NONE)
+				if (field->isEnded())
 				{
-					mode = field->NextMode();
-
 					endStageInfo = field->ReturnInformation();
 
 					delete field;
 
-					switch (mode)
+					switch (endStageInfo->nextMode)
 					{
 						case(ScreenMode::GAME):
 							field = new Game(gDevice, endStageInfo);

@@ -168,7 +168,7 @@ void Game::Update(float const time)
 	{
 		MessageBoxA(NULL, "GAME OVER", "Wygra³eœ :)", MB_OK);
 		this->ended = true;
-		this->nextMode = ScreenMode::SCORE_COUNT;
+		this->previousStageInfo->nextMode = ScreenMode::SCORE_COUNT;
 	}
 
 	if (GetAsyncKeyState(VK_ESCAPE))
@@ -178,7 +178,7 @@ void Game::Update(float const time)
 	if (!GetAsyncKeyState(VK_ESCAPE) && escape)
 	{
 		this->ended = true;
-		this->nextMode = ScreenMode::TITLE;
+		this->previousStageInfo->nextMode = ScreenMode::TITLE;
 	}
 
 	this->stageBackgroundPos.y += 30 * time;
@@ -240,7 +240,7 @@ void Game::Update(float const time)
 	if (player == nullptr)
 	{
 		this->ended = true;
-		this->nextMode = ScreenMode::TITLE;
+		this->previousStageInfo->nextMode = ScreenMode::TITLE;
 		return;
 	}
 
@@ -309,7 +309,7 @@ void Game::DrawScene()
 	else
 	{
 		this->ended = true;
-		this->nextMode = ScreenMode::TITLE;
+		this->previousStageInfo->nextMode = ScreenMode::TITLE;
 		return;
 	}
 
@@ -939,6 +939,8 @@ void Game::CheckBossBombCollisions()
 			}
 		}
 	}
+	// pozbycie siê bonusu punktowego
+	currentSpellcard->BombUsed();
 };
 
 EndStageInfo * Game::ReturnInformation()

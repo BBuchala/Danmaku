@@ -24,7 +24,6 @@ protected:
 
 	bool ended;
 
-	ScreenMode nextMode;			// informacja, któr¹ Playfield zwróci na chwilê przed usuniêciem do Application
 	EndStageInfo * previousStageInfo; 	// Info z poprzedniego stage'a (je¿eli by³ takowy)
 
 
@@ -67,10 +66,5 @@ public:
 	{
 		return this->ended;
 	};
-
-	inline const ScreenMode NextMode() const
-	{
-		return this->nextMode;
-	}
 };
 

@@ -1,6 +1,6 @@
 #include "Playfield.h"
 
-Playfield::Playfield( GraphicsDevice * const gDevice ) : gDevice(gDevice), ended(false), nextMode(ScreenMode::NONE)
+Playfield::Playfield( GraphicsDevice * const gDevice ) : gDevice(gDevice), ended(false)
 {
 };
 

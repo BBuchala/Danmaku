@@ -9,4 +9,6 @@ struct EndStageInfo
 	float power;
 
 	unsigned short numberOfStage;
+
+	ScreenMode nextMode;
 };

@@ -51,7 +51,7 @@ void ScoreCountScreen::Update(float const time)
 		if (GetAsyncKeyState(VK_RETURN))
 		{
 			this->ended = true;
-			this->nextMode = ScreenMode::GAME;
+			this->previousStageInfo->nextMode = ScreenMode::GAME;
 		}
 	}
 

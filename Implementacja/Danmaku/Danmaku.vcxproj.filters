@@ -243,6 +243,12 @@
     <ClCompile Include="ScoreCountScreen.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
+    <ClCompile Include="Spellcard.cpp">
+      <Filter>Source Files\Patterns</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">

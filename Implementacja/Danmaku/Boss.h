@@ -20,73 +20,23 @@ class Boss: public GameObject
 	float waitTime_;		// czas oczekiwania pomiêdzy spellcardami
 	short currentSc_;		// obecnie wystrzeliwany spellcard
 
+	short scId;				// ID przypisywane spellcardom
+
 public:
-	Boss( D3DXVECTOR2 const & position, USHORT const life, std::string const & name )
-		: GameObject(position), isShooting_(true), waitTime_(3.0f), currentSc_(1), name_(name),
-		MAX_LIFE(life), life_(life)
-	{
-	}
-	~Boss()
-	{
+	Boss( D3DXVECTOR2 const & position, USHORT const life, std::string const & name );
+	~Boss();
 
-	};
+	void Draw(RECT const & rect);
+	void Update( float const time );
 
-	void Draw(RECT const & rect)
-	{
-		GameObject::Draw(rect);
-	}
+	bool InitializePatterns(D3DXVECTOR2 const & position);
 
+	void TakeDamage( USHORT const damage );
 
-	void Update( float const time )
-	{
-		GameObject::Update(time);
-		if (isShooting_)
-		{
-			if (_spellcard[currentSc_])
-				if (_spellcard[currentSc_]->IsSpellcardFinished())
-				{
-					//delete _spellcard[currentSc_++];
-				}
-		}
-	}
+	Spellcard * GetSpellcard();
 
-	Spellcard * GetSpellcard()
-	{
-		return _spellcard[currentSc_];
-	}
-
-
-	void TakeDamage( USHORT const damage )
-	{
-		if (life_ - damage < 0  )
-			life_ = 0;
-		else
-			life_ -= damage;
-	}
-
-
-	void SetIsShooting(bool const isShooting)
-	{
-		isShooting_ = isShooting;
-	}
-
-
-	void AddSpellcard(Spellcard * const spellcard)
-	{
-		static short scId = 1;
-		_spellcard[scId] = spellcard;
-		_spellcard[scId]->Activate(this->GetCenterPoint());
-		scId++;
-	}
-
-	bool InitializePatterns(D3DXVECTOR2 const & position)
-	{
-		for (SpellcardMap::const_iterator it = _spellcard.begin(); it != _spellcard.end(); ++it)
-		{
-			(*it).second->Initialize(this->GetCenterPoint());
-		}
-		return true;
-	};
+	void SetIsShooting(bool const isShooting);
+	void AddSpellcard(Spellcard * const spellcard);
 
 	inline bool IsAlive() const
 	{
