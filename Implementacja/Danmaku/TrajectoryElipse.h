@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Trajectory.h"
+#include "TrajectorySimple.h"
 #include "TrajectoryFactory.h"
 
 namespace
 {
-	class TrajectoryElipse : public Trajectory
+	class TrajectoryElipse : public TrajectorySimple
 	{
 		/* pó³osie elipsy */
 		float a;
@@ -34,7 +34,7 @@ namespace
 	};
 
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectoryElipse( D3DXVECTOR2 const & center, float const a, float const b )
+	TrajectorySimple * CreateTrajectoryElipse( D3DXVECTOR2 const & center, float const a, float const b )
 	{
 		return new TrajectoryElipse( center, a, b );
 	};

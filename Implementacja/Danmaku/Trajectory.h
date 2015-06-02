@@ -21,8 +21,7 @@ public:
 	virtual ~Trajectory();
 
 	// ustawienie punktu pocz¹tkowego
-	void SetStartPoint( float const x0, float const y0 );
-	void SetStartPoint( D3DXVECTOR2 const & startPoint );
+	virtual void SetStartPoint( D3DXVECTOR2 const & startPoint );
 	void SetLength(float length);
 
 	virtual void SetCenterPoint(D3DXVECTOR2 const & centerPoint) {};

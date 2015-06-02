@@ -113,6 +113,13 @@ void Enemy::SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, 
 	traj_ = TrajectoryPtr( TrajectoryFactory::Instance().CreateTrajectory(trajectory, position, a, b ) );
 };
 
+// ----- Set Trajectory ---------------------------------------------------------------------------
+void Enemy::SetTrajectory( TrajectoryCurve * trCurve )
+{
+	traj_ = TrajectoryPtr( trCurve );
+};
+
+
 // ----- Set Pattern Dying ------------------------------------------------------------------------
 void Enemy::SetPatternDying(bool const isPatternDying)
 {

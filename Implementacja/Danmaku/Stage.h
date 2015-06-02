@@ -19,6 +19,7 @@
 #include "EPatternFactory.h"
 
 #include "String.h"
+#include "TrajectoryCurve.h"
 
 // biblioteki do parsowania pliku XML
 #include <rapidxml.hpp>
@@ -77,6 +78,7 @@ private:
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
 	Road CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
 	void CreateAffineParameters(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId);
+	void CreatePointsForCurve(TrajectoryCurve * const traj, xml_node <> * trajectory);
 
 	void ChoosePattern(std::string const & patternType, Pattern & pattern );
 	void ChooseVerticalPosition(std::string const & pos, float & positionX );

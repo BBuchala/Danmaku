@@ -6,7 +6,7 @@
 
 namespace
 {
-	class TrajectoryLine : public Trajectory
+	class TrajectoryLine : public TrajectorySimple
 	{
 		D3DXVECTOR2 direction;
 		short length;
@@ -29,7 +29,7 @@ namespace
 	};
 
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectoryLine( D3DXVECTOR2 const & startPoint, float const angle, float const length )
+	TrajectorySimple * CreateTrajectoryLine( D3DXVECTOR2 const & startPoint, float const angle, float const length )
 	{
 		return new TrajectoryLine( startPoint, angle, length );
 	};

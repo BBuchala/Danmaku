@@ -4,7 +4,7 @@
 
 namespace
 {
-	class TrajectoryNone: public Trajectory
+	class TrajectoryNone: public TrajectorySimple
 	{
 		D3DXVECTOR2 _position;
 	public:
@@ -18,7 +18,7 @@ namespace
 		void Rotate( float const theta ) override;
 	};
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectoryNone( D3DXVECTOR2 const & position, float const angle = 0.0f, float const length = 0.0f )
+	TrajectorySimple * CreateTrajectoryNone( D3DXVECTOR2 const & position, float const angle = 0.0f, float const length = 0.0f )
 	{
 		return new TrajectoryNone( position, angle, length );
 	};

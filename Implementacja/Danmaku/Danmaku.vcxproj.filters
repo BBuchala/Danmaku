@@ -449,5 +449,11 @@
     <ClInclude Include="EndStageInfo.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
+    <ClInclude Include="TrajectoryCurve.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySimple.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -30,6 +30,26 @@ float Vector::Angle( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoin
 {
 	float x = abs(startPoint.x - endPoint.x);
 	float y = abs(startPoint.y - endPoint.y);
-	return std::atan(y / x);
+	return std::atan(y / x);	// radiany
+};
+
+D3DXVECTOR2 Vector::Distance( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoint, float const distance )
+{
+	float angle = Vector::Angle(startPoint, endPoint);
+	D3DXVECTOR2 direction;
+	float x = startPoint.x - endPoint.x;
+	float y = startPoint.y - endPoint.y;
+	if (x <= 0)
+		direction.x = +std::cos(angle);
+	else
+		direction.x = -std::cos(angle);
+
+	if (y >= 0)
+		direction.y = -std::sin(angle);
+	else
+		direction.y = +std::sin(angle);
+
+	D3DXVECTOR2 position = startPoint + direction * distance;
+	return position;
 };
 

@@ -15,4 +15,5 @@ public:
 
 	static float Length( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & vector );
 
+	static D3DXVECTOR2 Distance( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoint, float const distance );
 };

@@ -182,10 +182,12 @@
     <ClInclude Include="StageConst.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Trajectory.h" />
+    <ClInclude Include="TrajectoryCurve.h" />
     <ClInclude Include="TrajectoryElipse.h" />
     <ClInclude Include="TrajectoryFactory.h" />
     <ClInclude Include="TrajectoryLine.h" />
     <ClInclude Include="TrajectoryNone.h" />
+    <ClInclude Include="TrajectorySimple.h" />
     <ClInclude Include="TrajectorySpiral.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="Vector.h" />

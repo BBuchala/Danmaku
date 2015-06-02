@@ -190,6 +190,35 @@ void Stage::ChooseTrajectory(std::string const & trajType, Road & traj)
 	{
 		traj = Road::NONE;
 	}
+	else if (trajType.compare("Curve") == 0)
+	{
+		traj = Road::CURVE;
+	}
+};
+
+void Stage::CreatePointsForCurve(TrajectoryCurve * const traj, xml_node <> * trajectoryNode)
+{
+	for (xml_node <> * pointNode = trajectoryNode->first_node(); pointNode; pointNode = pointNode->next_sibling())
+	{
+		std::string str(pointNode->name());
+		if (str.compare("Point") == 0)
+		{
+			D3DXVECTOR2 newPoint;
+			for (xml_attribute <>* pointAtr = pointNode->first_attribute(); pointAtr; pointAtr = pointAtr->next_attribute())
+			{
+				str = std::string(pointAtr->name());
+				if (str.compare("x") == 0)
+				{
+					this->ChooseVerticalPosition(pointAtr->value(), newPoint.x);
+				}
+				else if (str.compare("y") == 0)
+				{
+					this->ChooseHorizontalPosition(pointAtr->value(), newPoint.y);
+				}
+			}
+			traj->AddPoint(newPoint);
+		}
+	}
 };
 
 
@@ -198,12 +227,17 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 	Road trajType;
 	D3DXVECTOR2 startPoint;
 	float a, b = 0.0f;
+	TrajectoryCurve * trajC = new TrajectoryCurve();
 	for (xml_attribute <>* trajectoryAtr = trajectory->first_attribute(); trajectoryAtr; trajectoryAtr = trajectoryAtr->next_attribute())
 	{
 		std::string str(trajectoryAtr->name());
 		if (str.compare("type") == 0)
 		{
 			this->ChooseTrajectory(trajectoryAtr->value(), trajType);
+			if (trajType == Road::CURVE || trajType == Road::BEZIER)
+			{
+				this->CreatePointsForCurve(trajC, trajectory);
+			}
 		}
 		else if (str.compare("center.x") == 0 || str.compare("startPoint.x") == 0)
 		{
@@ -223,7 +257,12 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 			b = std::stof(trajectoryAtr->value());
 		}
 	}
-	enemyObj->SetTrajectory(trajType, startPoint, a, b);
+	if (trajType == Road::CURVE || trajType == Road::BEZIER)
+	{
+		enemyObj->SetTrajectory(trajC);
+	}
+	else
+		enemyObj->SetTrajectory(trajType, startPoint, a, b);
 	return trajType;
 };
 
@@ -455,7 +494,7 @@ void Stage::ChooseVerticalPosition(std::string const & pos, float & positionX )
 		}
 		else if (pos.compare("ONE_THIRDS") == 0)
 		{
-			positionX = (_gameField->bottom - _gameField->top) / 3.0f;
+			positionX = (_gameField->right - _gameField->left) / 3.0f;
 		}
 		else if (pos.compare("HALF") == 0)
 		{
@@ -463,7 +502,7 @@ void Stage::ChooseVerticalPosition(std::string const & pos, float & positionX )
 		}
 		else if (pos.compare("TWO_THIRDS") == 0)
 		{
-			positionX = (_gameField->bottom - _gameField->top) * 2.0f / 3.0f;
+			positionX = (_gameField->right - _gameField->left) * 2.0f / 3.0f;
 		}
 		else if (pos.compare("RIGHT") == 0)
 		{

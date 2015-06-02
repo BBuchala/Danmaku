@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Trajectory.h"
+#include "TrajectorySimple.h"
 #include "TrajectoryFactory.h"
 #include "Vector.h"
 
 namespace
 {
-	class TrajectorySpiral : public Trajectory
+	class TrajectorySpiral : public TrajectorySimple
 	{
 		/* wspó³czynnik obrotu spirali */
 		float a;
@@ -35,7 +35,7 @@ namespace
 	};
 
 	// zarejestrowanie toru w Fabryce
-	Trajectory * CreateTrajectorySpiral( D3DXVECTOR2 const & center, float const a, float const b )
+	TrajectorySimple * CreateTrajectorySpiral( D3DXVECTOR2 const & center, float const a, float const b )
 	{
 		return new TrajectorySpiral( center, a, b );
 	}
