@@ -6,6 +6,6 @@ static enum class Road
 	LINE	= 0x01,
 	ELIPSE	= 0x02,
 	SPIRAL	= 0x03,
-	CURVE	= 0x04,
+	POLYGON	= 0x04,
 	BEZIER	= 0x05
 };

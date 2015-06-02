@@ -5,7 +5,8 @@
 #include "GameObject.h"
 #include "BonusFactory.h"
 #include "EPattern.h"
-#include "TrajectoryCurve.h"
+#include "TrajectoryPolygon.h"
+#include "TrajectoryBezier.h"
 
 class Enemy: public GameObject
 {
@@ -53,7 +54,7 @@ public:
 	void Update( float const time );
 
 	void SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, float const a, float const b = 0.0f );
-	void SetTrajectory( TrajectoryCurve * position );
+	void SetTrajectory( TrajectoryManyPoints * position );
 	void TakeDamage( USHORT const damage );
 
 	void SetBonus(BonusType const bonus, float const value);

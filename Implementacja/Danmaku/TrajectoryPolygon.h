@@ -2,35 +2,24 @@
 
 #include <vector>
 
-#include "ITrajectory.h"
+#include "TrajectoryManyPoints.h"
 #include "Vector.h"
 
-class TrajectoryCurve: public Trajectory
+class TrajectoryPolygon: public TrajectoryManyPoints
 {
-	typedef std::vector<D3DXVECTOR2>	PointVector;
-	PointVector	point;			// zbiór pubktów krzywej
-	typedef std::vector<float>			DistanceVector;
-	DistanceVector			distanceBetweenPoint;	// zbiór d³ugoœci wektorów
+protected:
+	typedef std::vector<float>	DistanceVector;
+	DistanceVector				distanceBetweenPoint;	// zbiór d³ugoœci wektorów
 
-	float totalLength;
+	
 
 public:
-	TrajectoryCurve() : Trajectory(), totalLength(0.0f)
+	TrajectoryPolygon() : TrajectoryManyPoints()
 	{
 	};
 
-	TrajectoryCurve(std::vector<D3DXVECTOR2> const & pointVector) : Trajectory()
+	TrajectoryPolygon(std::vector<D3DXVECTOR2> const & pointVector) : TrajectoryManyPoints(pointVector)
 	{
-		this->point = pointVector;
-		this->CalculateLength();
-	};
-	virtual ~TrajectoryCurve()
-	{
-	};
-
-	void SetStartPoint( D3DXVECTOR2 const & startPoint ) override
-	{
-		this->point[0] = startPoint;
 	};
 
 	/* ------- METODY
@@ -57,9 +46,9 @@ public:
 	}
 
 
-	void AddPoint(D3DXVECTOR2 const & point)
+	void AddPoint(D3DXVECTOR2 const & point) override
 	{
-		this->point.push_back(point);
+		TrajectoryManyPoints::AddPoint(point);
 		int newPointIndex = this->point.size() - 1;
 		if (newPointIndex != 0)
 		{
@@ -69,8 +58,8 @@ public:
 		}
 	}
 
-private:
-	void CalculateLength()
+public:
+	void CalculateLength() override
 	{
 		for (int i = 0; i < point.size() - 1; i++)
 		{
@@ -78,34 +67,13 @@ private:
 			this->totalLength += this->distanceBetweenPoint[this->distanceBetweenPoint.size() - 1];
 		}
 	}
-public:
-	void Translate( D3DXVECTOR2 const & translate ) override
-	{
-		for (PointVector::iterator it = point.begin(); it != point.end(); ++it)
-		{
-			*it += translate;
-		}
-	}
 
 	void Scale( float const scale ) override
 	{
-		for (PointVector::iterator it = point.begin(); it != point.end(); ++it)
-		{
-			*it *= scale;
-		}
+		TrajectoryManyPoints::Scale(scale);
 		for (DistanceVector::iterator it = distanceBetweenPoint.begin(); it != distanceBetweenPoint.end(); ++it)
 		{
 			*it *= scale;
-		}
-		this->totalLength *= scale;
-	}
-
-	void Rotate( float const theta ) override
-	{
-		D3DXVECTOR2 centerPoint = point[0];
-		for (PointVector::iterator it = point.begin(); it != point.end(); ++it)
-		{
-			this->GetRotation(*it, theta);
 		}
 	}
 };

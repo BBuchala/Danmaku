@@ -449,10 +449,16 @@
     <ClInclude Include="EndStageInfo.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="TrajectoryCurve.h">
+    <ClInclude Include="TrajectorySimple.h">
       <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
-    <ClInclude Include="TrajectorySimple.h">
+    <ClInclude Include="TrajectoryBezier.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryPolygon.h">
+      <Filter>Header Files\Trajectories</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryManyPoints.h">
       <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
   </ItemGroup>

@@ -114,7 +114,7 @@ void Enemy::SetTrajectory( Road const trajectory, D3DXVECTOR2 const & position, 
 };
 
 // ----- Set Trajectory ---------------------------------------------------------------------------
-void Enemy::SetTrajectory( TrajectoryCurve * trCurve )
+void Enemy::SetTrajectory( TrajectoryManyPoints * trCurve )
 {
 	traj_ = TrajectoryPtr( trCurve );
 };

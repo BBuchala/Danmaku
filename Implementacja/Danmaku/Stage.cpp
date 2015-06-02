@@ -190,13 +190,17 @@ void Stage::ChooseTrajectory(std::string const & trajType, Road & traj)
 	{
 		traj = Road::NONE;
 	}
-	else if (trajType.compare("Curve") == 0)
+	else if (trajType.compare("Polygon") == 0)
 	{
-		traj = Road::CURVE;
+		traj = Road::POLYGON;
+	}
+	else if (trajType.compare("Bezier") == 0)
+	{
+		traj = Road::BEZIER;
 	}
 };
 
-void Stage::CreatePointsForCurve(TrajectoryCurve * const traj, xml_node <> * trajectoryNode)
+void Stage::CreatePointsForTMP(TrajectoryManyPoints * const traj, xml_node <> * trajectoryNode)
 {
 	for (xml_node <> * pointNode = trajectoryNode->first_node(); pointNode; pointNode = pointNode->next_sibling())
 	{
@@ -227,17 +231,13 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 	Road trajType;
 	D3DXVECTOR2 startPoint;
 	float a, b = 0.0f;
-	TrajectoryCurve * trajC = new TrajectoryCurve();
+	TrajectoryManyPoints * trajC;
 	for (xml_attribute <>* trajectoryAtr = trajectory->first_attribute(); trajectoryAtr; trajectoryAtr = trajectoryAtr->next_attribute())
 	{
 		std::string str(trajectoryAtr->name());
 		if (str.compare("type") == 0)
 		{
 			this->ChooseTrajectory(trajectoryAtr->value(), trajType);
-			if (trajType == Road::CURVE || trajType == Road::BEZIER)
-			{
-				this->CreatePointsForCurve(trajC, trajectory);
-			}
 		}
 		else if (str.compare("center.x") == 0 || str.compare("startPoint.x") == 0)
 		{
@@ -257,8 +257,19 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 			b = std::stof(trajectoryAtr->value());
 		}
 	}
-	if (trajType == Road::CURVE || trajType == Road::BEZIER)
+	if (trajType == Road::POLYGON || trajType == Road::BEZIER)
 	{
+		switch(trajType)
+		{
+		case Road::POLYGON: default:
+			trajC = new TrajectoryPolygon();
+			break;
+		case Road::BEZIER:
+			trajC = new TrajectoryBezier();
+			break;
+		}
+		this->CreatePointsForTMP(trajC, trajectory);
+		trajC->CalculateLength();
 		enemyObj->SetTrajectory(trajC);
 	}
 	else
