@@ -30,11 +30,21 @@
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="ONE_THIRDS" y="100"></Point>
-				<Point x="TWO_THIRDS" y="ONE_THIRDS"></Point>
-				<Point x="TWO_THIRDS" y="TWO_THIRDS"></Point>
 				<Point x="100" y="TWO_THIRDS"></Point>
 			</Trajectory>
-			<Pattern type="Line" par1="-75" bulletNumber="5" number="20" interval="0.1">
+			<Pattern type="Line" par1="-75" bulletNumber="4" number="20" interval="0.1">
+				<Bullet image="BulletYellowCircle" speed="96" width="32" height="32" hitboxSize="HALF"></Bullet>
+			</Pattern>
+		</Enemy>
+	</Time>
+	<Time sec="13" type="normal">
+		<Enemy number="7" distance="32" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
+			<Bonus type="Power" number="1" value="0.1"></Bonus>
+			<Trajectory type="Bezier">
+				<Point x="TWO_THIRDS" y="100"></Point>
+				<Point x="100" y="TWO_THIRDS"></Point>
+			</Trajectory>
+			<Pattern type="Line" par1="-75" bulletNumber="4" number="20" interval="0.1">
 				<Bullet image="BulletYellowCircle" speed="96" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>

@@ -12,7 +12,7 @@ TrajectoryFactory & TrajectoryFactory::Instance()
 	return *pInstance_;
 };
 
-TrajectorySimple * const TrajectoryFactory::CreateTrajectory( Road tracId, D3DXVECTOR2 const & position, float const a, float const b)
+TrajectorySingle * const TrajectoryFactory::CreateTrajectory( Road tracId, D3DXVECTOR2 const & position, float const a, float const b)
 {
 	CallbackMap::const_iterator it = callbacks_.find( tracId );
 	if ( it == callbacks_.end())

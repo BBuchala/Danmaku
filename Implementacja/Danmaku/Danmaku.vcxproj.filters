@@ -100,6 +100,18 @@
     <Filter Include="Header Files\Structures">
       <UniqueIdentifier>{dd2b83b8-069f-455d-adac-4bf56c61f92f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Trajectories\ManyPoints">
+      <UniqueIdentifier>{679f08db-c636-4450-af0a-468894d80907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Trajectories\SinglePoints">
+      <UniqueIdentifier>{15a17667-9c2c-4699-91ba-236dc1038597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Trajectories\SinglePoint">
+      <UniqueIdentifier>{70c3ca22-a78c-424d-b25f-b77c302ceb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Trajectories\ManyPoints">
+      <UniqueIdentifier>{df2b835a-206e-4db7-a6ec-f5c52c6d1bd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -142,15 +154,6 @@
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Trajectory.cpp">
-      <Filter>Source Files\Trajectories</Filter>
-    </ClCompile>
-    <ClCompile Include="TrajectoryElipse.cpp">
-      <Filter>Source Files\Trajectories</Filter>
-    </ClCompile>
-    <ClCompile Include="TrajectorySpiral.cpp">
-      <Filter>Source Files\Trajectories</Filter>
-    </ClCompile>
-    <ClCompile Include="TrajectoryLine.cpp">
       <Filter>Source Files\Trajectories</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
@@ -222,9 +225,6 @@
     <ClCompile Include="PlayerPattern05.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="TrajectoryNone.cpp">
-      <Filter>Source Files\Trajectories</Filter>
-    </ClCompile>
     <ClCompile Include="Bar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -248,6 +248,27 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectorySpiral.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryNone.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryLine.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryElipse.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryManyPoints.cpp">
+      <Filter>Source Files\Trajectories\ManyPoints</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryPolygon.cpp">
+      <Filter>Source Files\Trajectories\ManyPoints</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectoryBezier.cpp">
+      <Filter>Source Files\Trajectories\ManyPoints</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,17 +323,8 @@
     <ClInclude Include="Trajectory.h">
       <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
-    <ClInclude Include="TrajectoryElipse.h">
-      <Filter>Header Files\Trajectories</Filter>
-    </ClInclude>
-    <ClInclude Include="TrajectorySpiral.h">
-      <Filter>Header Files\Trajectories</Filter>
-    </ClInclude>
     <ClInclude Include="ITrajectory.h">
       <Filter>Header Files\Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="TrajectoryLine.h">
-      <Filter>Header Files\Trajectories</Filter>
     </ClInclude>
     <ClInclude Include="ITransformable.h">
       <Filter>Header Files\Interfaces</Filter>
@@ -398,9 +410,6 @@
     <ClInclude Include="PlayerPattern05.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="TrajectoryNone.h">
-      <Filter>Header Files\Trajectories</Filter>
-    </ClInclude>
     <ClInclude Include="Bomb.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -449,17 +458,29 @@
     <ClInclude Include="EndStageInfo.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
-    <ClInclude Include="TrajectorySimple.h">
-      <Filter>Header Files\Trajectories</Filter>
-    </ClInclude>
     <ClInclude Include="TrajectoryBezier.h">
-      <Filter>Header Files\Trajectories</Filter>
+      <Filter>Header Files\Trajectories\ManyPoints</Filter>
     </ClInclude>
     <ClInclude Include="TrajectoryPolygon.h">
-      <Filter>Header Files\Trajectories</Filter>
+      <Filter>Header Files\Trajectories\ManyPoints</Filter>
     </ClInclude>
     <ClInclude Include="TrajectoryManyPoints.h">
-      <Filter>Header Files\Trajectories</Filter>
+      <Filter>Header Files\Trajectories\ManyPoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySpiral.h">
+      <Filter>Header Files\Trajectories\SinglePoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryNone.h">
+      <Filter>Header Files\Trajectories\SinglePoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryLine.h">
+      <Filter>Header Files\Trajectories\SinglePoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectoryElipse.h">
+      <Filter>Header Files\Trajectories\SinglePoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySingle.h">
+      <Filter>Header Files\Trajectories\SinglePoints</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

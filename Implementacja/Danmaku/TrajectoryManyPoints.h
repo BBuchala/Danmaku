@@ -6,60 +6,30 @@
 class TrajectoryManyPoints: public Trajectory
 {
 protected:
+	// definicja wektora punktów
 	typedef std::vector<D3DXVECTOR2>	PointVector;
-	PointVector	point;			// zbiór pubktów krzywej
-
+	// zbiór pubktów
+	PointVector	point;
+	// ca³kowita d³ugoœæ drogi
 	float totalLength;
 
 public:
-	TrajectoryManyPoints() : Trajectory(), totalLength(0.0f)
-	{
-	};
+	// Konstruktory
+	TrajectoryManyPoints();
+	TrajectoryManyPoints(std::vector<D3DXVECTOR2> const & pointVector);
+	// Destruktor
+	virtual ~TrajectoryManyPoints();
 
-	TrajectoryManyPoints(std::vector<D3DXVECTOR2> const & pointVector) : Trajectory()
-	{
-		this->CalculateLength();
-	}
+	/* ==== Metody przeci¹¿one z Trajectory ====== */
+	// ustawienie punktu pocz¹tkowego
+	void SetStartPoint( D3DXVECTOR2 const & startPoint ) override;
+	// Przekszta³cenia afiniczne
+	void Translate( D3DXVECTOR2 const & translate ) override;
+	virtual void Scale( float const scale ) override;
+	void Rotate( float const theta ) override;
 
-	virtual ~TrajectoryManyPoints() 
-	{
-	};
-
-	void SetStartPoint( D3DXVECTOR2 const & startPoint ) override
-	{
-		this->point[0] = startPoint;
-	};
-
-public:
+	// obliczenie d³ugoœci drogi
 	virtual void CalculateLength() = 0;
-
-	virtual void AddPoint(D3DXVECTOR2 const & point)
-	{
-		this->point.push_back(point);
-	}
-
-	void Translate( D3DXVECTOR2 const & translate ) override
-	{
-		for (PointVector::iterator it = point.begin(); it != point.end(); ++it)
-		{
-			*it += translate;
-		}
-	}
-
-	virtual void Scale( float const scale ) override
-	{
-		for (PointVector::iterator it = point.begin(); it != point.end(); ++it)
-		{
-			*it *= scale;
-		}
-		this->totalLength *= scale;
-	}
-
-	void Rotate( float const theta ) override
-	{
-		for (PointVector::iterator it = point.begin(); it != point.end(); ++it)
-		{
-			this->GetRotation(*it, theta);
-		}
-	}
+	// Dodanie nowego punktu do zbioru
+	virtual void AddPoint(D3DXVECTOR2 const & point);
 };

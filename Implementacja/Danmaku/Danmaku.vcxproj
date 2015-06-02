@@ -115,10 +115,13 @@
     <ClCompile Include="Spellcard.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Trajectory.cpp" />
+    <ClCompile Include="TrajectoryBezier.cpp" />
     <ClCompile Include="TrajectoryElipse.cpp" />
     <ClCompile Include="TrajectoryFactory.cpp" />
     <ClCompile Include="TrajectoryLine.cpp" />
+    <ClCompile Include="TrajectoryManyPoints.cpp" />
     <ClCompile Include="TrajectoryNone.cpp" />
+    <ClCompile Include="TrajectoryPolygon.cpp" />
     <ClCompile Include="TrajectorySpiral.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -189,7 +192,7 @@
     <ClInclude Include="TrajectoryFactory.h" />
     <ClInclude Include="TrajectoryLine.h" />
     <ClInclude Include="TrajectoryNone.h" />
-    <ClInclude Include="TrajectorySimple.h" />
+    <ClInclude Include="TrajectorySingle.h" />
     <ClInclude Include="TrajectorySpiral.h" />
     <ClInclude Include="ITransformable.h" />
     <ClInclude Include="Vector.h" />

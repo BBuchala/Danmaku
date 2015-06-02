@@ -2,8 +2,7 @@
 
 #include "Trajectory.h"
 
-class TrajectorySimple: public Trajectory
+class TrajectorySingle: public Trajectory
 {
 	
-
 };
