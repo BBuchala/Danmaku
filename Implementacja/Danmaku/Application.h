@@ -9,6 +9,7 @@
 #include "TitleScreen.h"
 #include "ScreenMode.h"
 #include "ScoreCountScreen.h"
+#include "ScoreField.h"
 
 #include "EndStageInfo.h"
 

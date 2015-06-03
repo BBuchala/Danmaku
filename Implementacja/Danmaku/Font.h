@@ -28,7 +28,7 @@ public:
 			D3DXCOLOR const & color );
 
 	//// Narysowanie tekstu na ekranie
-	void Draw( std::string const & str );
+	void Draw( std::string const & str, short unsigned const padding = 0 );
 
 	//// narysowanie liczby w formie tekstu ze wskazanym wype³nieniem zerami
 	void Draw( int const number, short unsigned const padding );

@@ -12,11 +12,10 @@ class Button
 
 	float _elapsedTime;
 	float _buttonScale;
-	bool _pressed;
 
 public:
 	Button(D3DXVECTOR2 const & position, ButtonType const tag) : _position(position), _tag(tag), 
-		_elapsedTime(0.0f), _buttonScale(1.0f), _pressed(false)
+		_elapsedTime(0.0f), _buttonScale(1.0f)
 	{
 	};
 
@@ -61,19 +60,12 @@ public:
 
 	void Press()
 	{
-		_pressed = true;
 		_sprite->SetCurrentTexture(1);
 	}
 
 	void Unpress()
 	{
-		_pressed = false;
 		_sprite->SetCurrentTexture(0);
-	}
-
-	inline bool IsPressed() const
-	{
-		return _pressed;
 	}
 
 	void ResetAnimation()

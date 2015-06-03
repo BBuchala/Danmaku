@@ -112,6 +112,12 @@
     <Filter Include="Source Files\Trajectories\ManyPoints">
       <UniqueIdentifier>{df2b835a-206e-4db7-a6ec-f5c52c6d1bd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fields\TitleScreen">
+      <UniqueIdentifier>{7a53d19b-3387-40b1-8d7a-2dd11b48c31e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fields\TitleScreen">
+      <UniqueIdentifier>{78541879-b622-4b58-a11c-04f3b68bd161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -136,9 +142,6 @@
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Source Files\Fields</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleScreen.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
@@ -270,6 +273,9 @@
     <ClCompile Include="TrajectoryBezier.cpp">
       <Filter>Source Files\Trajectories\ManyPoints</Filter>
     </ClCompile>
+    <ClCompile Include="TitleScreen.cpp">
+      <Filter>Source Files\Fields\TitleScreen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -291,9 +297,6 @@
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files\Fields</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleScreen.h">
       <Filter>Header Files\Fields</Filter>
     </ClInclude>
     <ClInclude Include="Playfield.h">
@@ -481,6 +484,24 @@
     </ClInclude>
     <ClInclude Include="TrajectorySingle.h">
       <Filter>Header Files\Trajectories\SinglePoints</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScreen.h">
+      <Filter>Header Files\Fields\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Fields\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonType.h">
+      <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreField.h">
+      <Filter>Header Files\Fields\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParser.h">
+      <Filter>Header Files\Fields</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

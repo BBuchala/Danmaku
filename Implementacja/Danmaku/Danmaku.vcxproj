@@ -138,6 +138,8 @@
     <ClInclude Include="BonusFactory.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="ButtonType.h" />
     <ClInclude Include="EndStageInfo.h" />
     <ClInclude Include="EnemyBulletSpriteResource.h" />
     <ClInclude Include="EnemyPatternEllipse.h" />
@@ -158,6 +160,7 @@
     <ClInclude Include="GraphicsDevice.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GameWindowInitializationFailedException.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="IPattern.h" />
     <ClInclude Include="ITrajectory.h" />
     <ClInclude Include="LifeBonus.h" />
@@ -179,6 +182,7 @@
     <ClInclude Include="ScoreBonus.h" />
     <ClInclude Include="BonusSpriteResource.h" />
     <ClInclude Include="ScoreCountScreen.h" />
+    <ClInclude Include="ScoreField.h" />
     <ClInclude Include="ScreenMode.h" />
     <ClInclude Include="Spellcard.h" />
     <ClInclude Include="Stage.h" />
@@ -199,6 +203,7 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="XmlParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

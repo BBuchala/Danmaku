@@ -91,6 +91,10 @@ void Application::Run()
 						case(ScreenMode::NONE):
 							field = nullptr;
 							break;
+
+						case(ScreenMode::SCORES):
+							field = new ScoreField(gDevice, endStageInfo, "scores/scores.xml");
+							break;
 					}
 					if (field != nullptr)
 					{

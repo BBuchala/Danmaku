@@ -7,6 +7,7 @@
 #include "GraphicsDevice.h"
 #include "Playfield.h"
 #include "Sprite.h"
+#include "ScoreField.h"
 
 #define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
@@ -21,12 +22,10 @@ class TitleScreen : public Playfield
 	D3DXVECTOR2 BGposition;
 	// przyciski
 	typedef std::vector<Button*> ButtonVector;
-	ButtonVector _button;		
-	
+	ButtonVector _button;
 	short _chosenButton;
 
 	bool enter;
-	bool arrowBlock;
 
 public:
 	TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStageInfo );

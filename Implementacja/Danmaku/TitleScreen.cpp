@@ -1,7 +1,7 @@
 #include "TitleScreen.h"
 
 TitleScreen::TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStageInfo ) : Playfield(gDevice),
-	enter(false), _chosenButton(0), arrowBlock(false)
+	enter(false), _chosenButton(0)
 {
 	// t³o
 	_background = new Sprite(gDevice->device, Sprite::GetFilePath( "titlescreen", "png"));
@@ -77,18 +77,15 @@ void TitleScreen::Update(float const time)
 	// animacja wybranego przycisku
 	_button[_chosenButton]->Update(time);
 	// czy przycisk zosta³ wciœniêty
-	if (GetAsyncKeyState(VK_RETURN))	// to je ENTER XDD
+	if (this->input->KeyDownOne(DIK_RETURN))
 	{
 		_button[_chosenButton]->Press();
 		enter = true;
 	}
-	else if (enter && !(GetAsyncKeyState(VK_RETURN)))
+	// obs³uga wciœniêtego przycisku
+	if (enter && this->input->KeyUp(DIK_RETURN))
 	{
 		_button[_chosenButton]->Unpress();
-	}
-	// obs³uga wciœniêtego przycisku
-	if (enter && !_button[_chosenButton]->IsPressed())
-	{
 		this->ended = true;
 		ButtonType bType = _button[_chosenButton]->GetType();
 		switch(bType)
@@ -97,14 +94,13 @@ void TitleScreen::Update(float const time)
 			this->previousStageInfo->nextMode = ScreenMode::GAME;
 			break;
 		case ButtonType::SCORES:
-
+			this->previousStageInfo->nextMode = ScreenMode::SCORES;
 			break;
 		case ButtonType::OPTIONS:
-
+			
 			break;
 		case ButtonType::EXIT:
 			this->previousStageInfo->nextMode = ScreenMode::NONE;
-			this->ended = true;
 			break;
 		}
 	}
@@ -130,19 +126,12 @@ void TitleScreen::Clear()
 
 EndStageInfo * TitleScreen::ReturnInformation()
 {
-	if (!this->ended)
-	{
-		// Po zrobieniu opcji (pocz¹tkowa iloœæ ¿yæ i ew. bomb) ¿ycia i bomby nie bêd¹ w tej metodzie nadpisywane.
-		this->previousStageInfo->bombs = 3;
-		this->previousStageInfo->lives = 3;
-		this->previousStageInfo->currentScore = 0;
-		this->previousStageInfo->graze = 0;
-		this->previousStageInfo->power = 0.00; 
+	// Po zrobieniu opcji (pocz¹tkowa iloœæ ¿yæ i ew. bomb) ¿ycia i bomby nie bêd¹ w tej metodzie nadpisywane.
+	this->previousStageInfo->bombs = 3;
+	this->previousStageInfo->lives = 3;
+	this->previousStageInfo->currentScore = 0;
+	this->previousStageInfo->graze = 0;
+	this->previousStageInfo->power = 0.00; 
 
-		return this->previousStageInfo;
-	}
-	else
-	{
-		return this->previousStageInfo;
-	}
+	return this->previousStageInfo;
 };

@@ -32,9 +32,11 @@ bool Font::Initialize( GraphicsDevice * const gDevice, short unsigned const font
 };
 
 
-void Font::Draw( std::string const & str )
+void Font::Draw( std::string const & str, short unsigned const padding )
 {
-	text->DrawText( NULL, str.c_str(), -1, &rect, DT_LEFT | DT_NOCLIP, color );
+	std::stringstream ss;
+	ss << std::setw(padding) << std::setfill(' ') << str;
+	text->DrawText( NULL, ss.str().c_str(), -1, &rect, DT_LEFT | DT_NOCLIP, color );
 };
 
 
