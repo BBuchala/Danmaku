@@ -10,6 +10,12 @@ Playfield::~Playfield()
 };
 
 
+void Playfield::InitializeKeyboardInput(Input const * input)
+{
+	this->input = const_cast<Input*>(input);
+};
+
+
 void Playfield::Run( float const dt )
 {
 	this->Update( dt );

@@ -3,6 +3,7 @@
 #include <Windows.h>
 #include <vector>
 
+#include "Button.h"
 #include "GraphicsDevice.h"
 #include "Playfield.h"
 #include "Sprite.h"
@@ -14,18 +15,18 @@ class TitleScreen : public Playfield
 	//// Liczba przycisków
 	static const unsigned short BUTTON_CNT = 4;
 
-	Sprite * background;
-	Sprite ** button;
-
-	float _buttonScale;
-
+	//// Elementy ekranu
+	// t³o
+	Sprite * _background;		
 	D3DXVECTOR2 BGposition;
-	D3DXVECTOR2 * buttonPos;
+	// przyciski
+	typedef std::vector<Button*> ButtonVector;
+	ButtonVector _button;		
+	
+	short _chosenButton;
 
-	bool pressed;
 	bool enter;
-
-	float elapsedTime;
+	bool arrowBlock;
 
 public:
 	TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStageInfo );

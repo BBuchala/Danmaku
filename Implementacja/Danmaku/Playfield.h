@@ -8,6 +8,7 @@
 #include "Timer.h"
 #include "ScreenMode.h"
 #include "EndStageInfo.h"
+#include "Input.h"
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
@@ -25,6 +26,7 @@ protected:
 	bool ended;
 
 	EndStageInfo * previousStageInfo; 	// Info z poprzedniego stage'a (je¿eli by³ takowy)
+	Input * input;
 
 
 public:
@@ -50,8 +52,10 @@ private:
 	// Myœlê, ¿e siê przyda
 	virtual void clearOutOfBoundsObjects() { }
 
-	// narysowanie nowej sceny
 public:
+	void InitializeKeyboardInput(Input const * input);
+
+	// narysowanie nowej sceny
 	void Draw();
 	virtual EndStageInfo * ReturnInformation();
 

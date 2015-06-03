@@ -21,7 +21,9 @@ class Application
 
 	static unsigned int m_FPS;
 
-	HWND hWnd;	// uchwyt do okna, przekazywany do Device
+	HWND hWnd;							// uchwyt do okna, przekazywany do Device
+	Input * keybInput;					// input z klawiatury
+	LPDIRECTINPUTDEVICE8 keybDevice;
 
 	GameWindow * window;
 	GraphicsDevice * gDevice;

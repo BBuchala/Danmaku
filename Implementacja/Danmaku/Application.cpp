@@ -16,6 +16,7 @@ Application::Application(HINSTANCE hInstance, int const nShowCmd)
 	this->endStageInfo = new EndStageInfo();
 	this->endStageInfo->numberOfStage = 1;
 	this->endStageInfo->nextMode = ScreenMode::TITLE;
+	this->keybInput = new Input();
 };
 
 
@@ -25,15 +26,19 @@ Application::~Application()
 	if (gDevice) delete gDevice;
 	if (timer) delete timer;
 	if (field) delete field;
+	if (keybInput) delete keybInput;
 };
 
 void Application::Initialize()
 {
+	this->keybDevice = keybInput->InitializeKeyboard(hWnd);
+
 	if ( !gDevice->Initialize(hWnd, true )) // przekazanie okna
 	{
 		throw new Direct3DInitializationFailedException();
 	}
 	this->field = new TitleScreen( gDevice, endStageInfo );
+	this->field->InitializeKeyboardInput(keybInput);
 	this->timer->Start();
 };
 
@@ -56,22 +61,17 @@ void Application::Run()
 			}
 			else
 			{
+				keybInput->ReadKeyboard(keybDevice);
 				timer->Update();
 				CalculateFPS( timer->elapsedTime );
-				/* ===== SUPER ZABEZPIECZENIE WSZYSTKIEGO PRZED LAGAMI!! ====== */
-				//// Je¿eli otrzymany czas przekracza 1 klatkê, NIC SIÊ NIE DZIEJE!!
 				if ( m_FPS * timer->elapsedTime > 1.75f )
 					continue;
-				//// ^Kwiat mojej kaiery programistycznej.
-				//// Sasuga ore.
 				field->Run( timer->elapsedTime );
-
 
 				// prze³¹czenie screenów
 				if (field->isEnded())
 				{
 					endStageInfo = field->ReturnInformation();
-
 					delete field;
 
 					switch (endStageInfo->nextMode)
@@ -88,9 +88,17 @@ void Application::Run()
 							field = new ScoreCountScreen(gDevice, endStageInfo);
 							break;
 
+						case(ScreenMode::NONE):
+							field = nullptr;
+							break;
 					}
-					field->Initialize();
-
+					if (field != nullptr)
+					{
+						field->Initialize();
+						this->field->InitializeKeyboardInput(keybInput);
+					}
+					else
+						break;
 				}
 
 			}
