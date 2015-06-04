@@ -127,6 +127,9 @@
     <Filter Include="Source Files\Fields\GameScreen">
       <UniqueIdentifier>{d2b566ec-d64a-4025-bffb-44a16ac3156e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Parsers">
+      <UniqueIdentifier>{fd655d88-89d3-4c1d-8909-d52b11fb4463}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -284,6 +287,30 @@
     </ClCompile>
     <ClCompile Include="ScoreCountScreen.cpp">
       <Filter>Source Files\Fields\GameScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Fields\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreField.cpp">
+      <Filter>Source Files\Fields\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsScreen.cpp">
+      <Filter>Source Files\Fields\TitleScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigParser.cpp">
+      <Filter>Source Files\Parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreParser.cpp">
+      <Filter>Source Files\Parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParser.cpp">
+      <Filter>Source Files\Parsers</Filter>
+    </ClCompile>
+    <ClCompile Include="String.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -494,9 +521,6 @@
     <ClInclude Include="ButtonType.h">
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScoreField.h">
       <Filter>Header Files\Fields\TitleScreen</Filter>
     </ClInclude>
@@ -526,6 +550,9 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Header Files\Fields\GameScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -12,70 +12,40 @@ using namespace rapidxml;
 class XmlParser
 {
 protected:
-	std::string _filePath;
+	std::string _filePath;				// œcie¿ka do parsowanego pliku
 	rapidxml::xml_document <> _doc;		// plik z danymi
 	std::unique_ptr<char> _contents;	// zawartoœæ pliku XML
 
 public:
-	XmlParser(std::string const & file)
-	{
-		_filePath = file;
-	}
+	// Konstruktor
+	XmlParser(std::string const & file);
 
-	void Start()
-	{
-		this->ConvertXMLFile();
-		this->ReadXMLFile();
-		this->Create();
-	}
+	// sprasowanie pliku
+	void Start();
 
-	void ConvertXMLFile()
-	{
-		_contents = std::unique_ptr<char>(XML2Char(_filePath));
-	}
+	// pobranie zawartoœci pliku i przypisanie jej do _contents
+	void GetContents();
 
-	char * XML2Char ( std::string const & stageFile )
-	{
-		std::ifstream file( stageFile );
-		if( file.bad() )
-		{
-			exit( - 1 );
-		}
-		std::filebuf * pbuf = file.rdbuf();
-		long fileLength = static_cast<long>(pbuf->pubseekoff( 0, std::ios::end, std::ios::in ));
-		file.seekg( 0 );
-		char * out = new char[ fileLength + 1 ];
-		file.read( out, fileLength );
-		return out;
-	}
+	// Konwersja XML na char*
+	char * XML2Char ( std::string const & stageFile );
 
-	void ReadXMLFile()
-	{
-		try
-		{
-			_doc.parse<0>(_contents.get());
-		}
-		catch( rapidxml::parse_error e )
-		{
-			e.what();
-		}
-	}
+	// sprawdznie poprawnoœci pliku xml i przypisanie do zmiennej _doc
+	void ReadXMLFile();
 
+	// sposób parsowania plikku
 	virtual void Create() = 0;
 
-	void ClearDocument()
-	{
-		_doc.clear();
-	}
+	// usuniêcie dokumentu z pamiêci
+	void ClearDocument();
 
 
 private:
+	// zmiana stringu z danymi pliku na char* zrozumia³y dla biblioteki
 	inline char * stringToChar( std::string const & s )
 	{
 		unsigned int N = s.length();
 		char * out = new char[ N + 1 ];
 		std::copy( s.c_str(), ( s.c_str() + N - 1 ), out );
 		return out;
-	}
-
+	};
 };

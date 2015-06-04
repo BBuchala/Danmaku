@@ -83,6 +83,8 @@
     <ClCompile Include="BonusFactory.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="EnemyPatternEllipse.cpp" />
     <ClCompile Include="EnemyPatternLine.cpp" />
     <ClCompile Include="EnemyPatternSpiral.cpp" />
@@ -97,9 +99,11 @@
     <ClCompile Include="GraphicsDevice.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="Hitbox.cpp" />
+    <ClCompile Include="Input.cpp" />
     <ClCompile Include="LifeBonus.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameWindowInitializationFailedException.cpp" />
+    <ClCompile Include="OptionsScreen.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerPattern01.cpp" />
@@ -112,8 +116,11 @@
     <ClCompile Include="PowerBonus.cpp" />
     <ClCompile Include="ScoreBonus.cpp" />
     <ClCompile Include="ScoreCountScreen.cpp" />
+    <ClCompile Include="ScoreField.cpp" />
+    <ClCompile Include="ScoreParser.cpp" />
     <ClCompile Include="Spellcard.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="String.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="TrajectoryBezier.cpp" />
     <ClCompile Include="TrajectoryElipse.cpp" />
@@ -127,6 +134,7 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="XmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
