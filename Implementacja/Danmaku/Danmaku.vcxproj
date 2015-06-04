@@ -187,6 +187,7 @@
     <ClInclude Include="BonusSpriteResource.h" />
     <ClInclude Include="ScoreCountScreen.h" />
     <ClInclude Include="ScoreField.h" />
+    <ClInclude Include="ScoreParser.h" />
     <ClInclude Include="ScreenMode.h" />
     <ClInclude Include="Spellcard.h" />
     <ClInclude Include="Stage.h" />

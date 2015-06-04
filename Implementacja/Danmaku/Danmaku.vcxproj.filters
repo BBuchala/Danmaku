@@ -118,6 +118,15 @@
     <Filter Include="Source Files\Fields\TitleScreen">
       <UniqueIdentifier>{78541879-b622-4b58-a11c-04f3b68bd161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Parsers">
+      <UniqueIdentifier>{1a4c7ff3-6ed3-41dd-b0cf-16527e134b4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Fields\GameScreen">
+      <UniqueIdentifier>{8308e69a-761d-4623-a143-79216e6abc6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fields\GameScreen">
+      <UniqueIdentifier>{d2b566ec-d64a-4025-bffb-44a16ac3156e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -171,9 +180,6 @@
     <ClCompile Include="Hitbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Playfield.cpp">
-      <Filter>Source Files\Fields</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
@@ -210,9 +216,6 @@
     <ClCompile Include="PlayerPattern03.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Source Files\Fields</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyPatternLine.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
@@ -242,9 +245,6 @@
     </ClCompile>
     <ClCompile Include="EPatternFactory.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreCountScreen.cpp">
-      <Filter>Source Files\Fields</Filter>
     </ClCompile>
     <ClCompile Include="Spellcard.cpp">
       <Filter>Source Files\Patterns</Filter>
@@ -276,6 +276,15 @@
     <ClCompile Include="TitleScreen.cpp">
       <Filter>Source Files\Fields\TitleScreen</Filter>
     </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Source Files\Fields\GameScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Playfield.cpp">
+      <Filter>Source Files\Fields\GameScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreCountScreen.cpp">
+      <Filter>Source Files\Fields\GameScreen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -297,9 +306,6 @@
       <Filter>Header Files\Bullets</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>Header Files\Fields</Filter>
-    </ClInclude>
-    <ClInclude Include="Playfield.h">
       <Filter>Header Files\Fields</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
@@ -392,9 +398,6 @@
     <ClInclude Include="PlayerPattern03.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Header Files\Fields</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyPatternLine.h">
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
@@ -452,9 +455,6 @@
     <ClInclude Include="ScreenMode.h">
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
-    <ClInclude Include="ScoreCountScreen.h">
-      <Filter>Header Files\Fields</Filter>
-    </ClInclude>
     <ClInclude Include="StageConst.h">
       <Filter>Header Files\Structures</Filter>
     </ClInclude>
@@ -500,9 +500,6 @@
     <ClInclude Include="ScoreField.h">
       <Filter>Header Files\Fields\TitleScreen</Filter>
     </ClInclude>
-    <ClInclude Include="XmlParser.h">
-      <Filter>Header Files\Fields</Filter>
-    </ClInclude>
     <ClInclude Include="OptionsScreen.h">
       <Filter>Header Files\Fields\TitleScreen</Filter>
     </ClInclude>
@@ -513,7 +510,22 @@
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
     <ClInclude Include="ConfigParser.h">
-      <Filter>Header Files\Fields\TitleScreen</Filter>
+      <Filter>Header Files\Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreParser.h">
+      <Filter>Header Files\Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParser.h">
+      <Filter>Header Files\Parsers</Filter>
+    </ClInclude>
+    <ClInclude Include="Playfield.h">
+      <Filter>Header Files\Fields\GameScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreCountScreen.h">
+      <Filter>Header Files\Fields\GameScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Header Files\Fields\GameScreen</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

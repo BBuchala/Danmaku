@@ -101,7 +101,7 @@ void Application::Run()
 							break;
 
 						case(ScreenMode::SCORES):
-							field = new ScoreField(gDevice, endStageInfo, "scores/scores.xml");
+							field = new ScoreField(gDevice, endStageInfo);
 							break;
 
 						case(ScreenMode::OPTIONS):
