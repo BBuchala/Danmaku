@@ -1,7 +1,9 @@
 #include "TitleScreen.h"
 
+unsigned short TitleScreen::_chosenButton = 0;
+
 TitleScreen::TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStageInfo ) : Playfield(gDevice),
-	enter(false), _chosenButton(0)
+	enter(false)
 {
 	// t³o
 	_background = new Sprite(gDevice->device, Sprite::GetFilePath( "titlescreen", "png"));
@@ -35,7 +37,6 @@ TitleScreen::TitleScreen( GraphicsDevice * const gDevice, EndStageInfo * endStag
 		_button[i]->Initialize(gDevice, buttonFiles);
 	}
 	this->previousStageInfo = endStageInfo;
-	
 };
 
 
@@ -97,7 +98,7 @@ void TitleScreen::Update(float const time)
 			this->previousStageInfo->nextMode = ScreenMode::SCORES;
 			break;
 		case ButtonType::OPTIONS:
-			
+			this->previousStageInfo->nextMode = ScreenMode::OPTIONS;
 			break;
 		case ButtonType::EXIT:
 			this->previousStageInfo->nextMode = ScreenMode::NONE;
@@ -121,17 +122,10 @@ void TitleScreen::DrawScene()
 
 void TitleScreen::Clear()
 {
-	this->gDevice->Clear( D3DXCOLOR ( 1.0f, 1.0f, 1.0f ) );
+	this->gDevice->Clear( D3DXCOLOR ( 1.0f, 1.0f, 1.0f, 1.0f ) );
 };
 
 EndStageInfo * TitleScreen::ReturnInformation()
 {
-	// Po zrobieniu opcji (pocz¹tkowa iloœæ ¿yæ i ew. bomb) ¿ycia i bomby nie bêd¹ w tej metodzie nadpisywane.
-	this->previousStageInfo->bombs = 3;
-	this->previousStageInfo->lives = 3;
-	this->previousStageInfo->currentScore = 0;
-	this->previousStageInfo->graze = 0;
-	this->previousStageInfo->power = 0.00; 
-
 	return this->previousStageInfo;
 };

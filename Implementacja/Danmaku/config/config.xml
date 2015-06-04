@@ -1,0 +1,14 @@
+<Config>
+	<Lifes number="6"/>
+	<Bombs number="2"/>
+	<Controls>
+		<Key type="UP" key="UPARROW"/>
+		<Key type="DOWN" key="DOWNARROW"/>
+		<Key type="LEFT" key="LEFTARROW"/>
+		<Key type="RIGHT" key="RIGHTARROW"/>
+		<Key type="SHOOT" key="Z"/>
+		<Key type="BOMB" key="X"/>
+		<Key type="FOCUS" key="LSHIFT"/>
+	</Controls>
+</Config>
+

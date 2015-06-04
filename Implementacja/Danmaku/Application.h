@@ -10,7 +10,8 @@
 #include "ScreenMode.h"
 #include "ScoreCountScreen.h"
 #include "ScoreField.h"
-
+#include "OptionsScreen.h"
+#include "ConfigParser.h"
 #include "EndStageInfo.h"
 
 class Application
@@ -32,6 +33,8 @@ class Application
 	Playfield * field;
 
 	EndStageInfo * endStageInfo;	// struktura z danymi do przekazywania dla poszczególnych playfieldów
+
+	ConfigParser * _config;
 
 public:
 	Application( HINSTANCE hInstance, int const nShowCmd );

@@ -17,6 +17,7 @@ Application::Application(HINSTANCE hInstance, int const nShowCmd)
 	this->endStageInfo->numberOfStage = 1;
 	this->endStageInfo->nextMode = ScreenMode::TITLE;
 	this->keybInput = new Input();
+	_config = new ConfigParser("config/config.xml", keybInput);
 };
 
 
@@ -40,6 +41,11 @@ void Application::Initialize()
 	this->field = new TitleScreen( gDevice, endStageInfo );
 	this->field->InitializeKeyboardInput(keybInput);
 	this->timer->Start();
+	_config->Start();
+	endStageInfo->bombs = _config->GetBombNumber();
+	endStageInfo->lives = _config->GetLifeNumber();
+	keybInput->SetGameControls(_config->GameControls());
+	_config->ClearDocument();
 };
 
 
@@ -61,6 +67,8 @@ void Application::Run()
 			}
 			else
 			{
+				if (keybDevice->Poll() != DI_OK)
+					keybDevice->Acquire();
 				keybInput->ReadKeyboard(keybDevice);
 				timer->Update();
 				CalculateFPS( timer->elapsedTime );
@@ -95,11 +103,15 @@ void Application::Run()
 						case(ScreenMode::SCORES):
 							field = new ScoreField(gDevice, endStageInfo, "scores/scores.xml");
 							break;
+
+						case(ScreenMode::OPTIONS):
+							field = new OptionsScreen(gDevice, endStageInfo, _config);
+							break;
 					}
 					if (field != nullptr)
 					{
-						field->Initialize();
 						this->field->InitializeKeyboardInput(keybInput);
+						field->Initialize();
 					}
 					else
 						break;

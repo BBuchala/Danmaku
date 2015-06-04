@@ -21,7 +21,7 @@ Font::~Font()
 bool Font::Initialize( GraphicsDevice * const gDevice, short unsigned const fontHeight, 
 		short unsigned const fontWidth, std::string const & font, bool bold, bool italic, D3DXCOLOR const & color )
 {
-	this->color = color;
+	this->SetColor(color);
 	if (D3DXCreateFont( gDevice->device, fontHeight, fontWidth, bold ? FW_BOLD : FW_NORMAL, 1, italic,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
 		font.c_str(), &text ))
@@ -52,4 +52,9 @@ void Font::Draw( float const number, short unsigned const padding, short unsigne
 	std::stringstream ss;
 	ss << std::setw(padding) << std::setfill('0') << std::fixed << std::setprecision(precision) << number;
 	text->DrawText( NULL, ss.str().c_str(), -1, &rect, DT_LEFT | DT_NOCLIP, color );
+};
+
+void Font::SetColor(D3DXCOLOR const & color)
+{
+	this->color = color;
 };

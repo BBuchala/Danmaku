@@ -9,12 +9,12 @@
 #include "Sprite.h"
 #include "ScoreField.h"
 
-#define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
-
 class TitleScreen : public Playfield
 {
 	//// Liczba przycisków
 	static const unsigned short BUTTON_CNT = 4;
+	//// Wybrany przycisk
+	static unsigned short _chosenButton;
 
 	//// Elementy ekranu
 	// t³o
@@ -23,7 +23,6 @@ class TitleScreen : public Playfield
 	// przyciski
 	typedef std::vector<Button*> ButtonVector;
 	ButtonVector _button;
-	short _chosenButton;
 
 	bool enter;
 

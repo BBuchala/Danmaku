@@ -140,6 +140,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ButtonType.h" />
+    <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="EndStageInfo.h" />
     <ClInclude Include="EnemyBulletSpriteResource.h" />
     <ClInclude Include="EnemyPatternEllipse.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EPatternFactory.h" />
     <ClInclude Include="Font.h" />
+    <ClInclude Include="GameControls.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="EnemyBullet.h" />
@@ -165,6 +167,8 @@
     <ClInclude Include="ITrajectory.h" />
     <ClInclude Include="LifeBonus.h" />
     <ClInclude Include="Move.h" />
+    <ClInclude Include="Option.h" />
+    <ClInclude Include="OptionsScreen.h" />
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />

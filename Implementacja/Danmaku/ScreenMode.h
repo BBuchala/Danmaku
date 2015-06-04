@@ -8,5 +8,6 @@ static enum class ScreenMode
 	SCORE_COUNT	= 0x04,
 	//SCORE_SAVE  = 0x08,
 	//OPTIONS	= 0x0F
-	SCORES		= 0x1F
+	SCORES		= 0x1F,
+	OPTIONS		= 0x20
 };

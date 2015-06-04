@@ -21,7 +21,6 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	////// Dane liczbowe po prawej stronie
 	hiScore = graze = 0;
 	score = ( previousStageInfo ) ? previousStageInfo->currentScore : 0;
-	escape = pressed = false;
 	this->elapsedTime = 0.0f;
 
 	/* ==== PRZYDZIELENIE PAMIÊCI OBIEKTOM KLAS ======= */
@@ -171,11 +170,7 @@ void Game::Update(float const time)
 		this->previousStageInfo->nextMode = ScreenMode::SCORE_COUNT;
 	}
 
-	if (GetAsyncKeyState(VK_ESCAPE))
-	{
-		escape = true;
-	}
-	if (!GetAsyncKeyState(VK_ESCAPE) && escape)
+	if (input->KeyDownOne(DIK_ESCAPE))
 	{
 		this->ended = true;
 		this->previousStageInfo->nextMode = ScreenMode::TITLE;
@@ -246,38 +241,38 @@ void Game::Update(float const time)
 
 	//// OBS£UGA RUCHU GRACZA
 	Move move = Move::NONE;
-	if ( GetAsyncKeyState(VK_UP) && IsPlayerWithinBounds(Move::UP) )
+	if ( input->GameKey(GameControl::UP) && IsPlayerWithinBounds(Move::UP) )
 	{
 		move |= Move::UP;
 	}
-	if ( GetAsyncKeyState(VK_DOWN) && IsPlayerWithinBounds(Move::DOWN) )
+	if ( input->GameKey(GameControl::DOWN) && IsPlayerWithinBounds(Move::DOWN) )
 	{
 		move |= Move::DOWN;
 	}
-	if ( GetAsyncKeyState(VK_LEFT) && IsPlayerWithinBounds(Move::LEFT) )
+	if ( input->GameKey(GameControl::LEFT) && IsPlayerWithinBounds(Move::LEFT) )
 	{
 		move |= Move::LEFT;
 	}
-	if ( GetAsyncKeyState(VK_RIGHT) && IsPlayerWithinBounds(Move::RIGHT) )
+	if ( input->GameKey(GameControl::RIGHT) && IsPlayerWithinBounds(Move::RIGHT) )
 	{
 		move |= Move::RIGHT;
 	}
 
 	this->player->SetFocus(false);
 
-	if (GetAsyncKeyState(VK_LSHIFT))
+	if (input->GameKey(GameControl::FOCUS))
 	{
 		this->player->SetFocus(true);		
 	}
 
 	this->player->SetIsShooting(false);
 
-	if (GetAsyncKeyState(0x5A) && !player->IsUsingBomb())
+	if (input->GameKey(GameControl::SHOOT) && !player->IsUsingBomb())
 	{
 		this->player->SetIsShooting(true);
 	}
 
-	if (GetAsyncKeyState(0x58))
+	if (input->GameKey(GameControl::BOMB))
 	{
 		if(this->player->UseBomb())
 		{

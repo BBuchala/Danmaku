@@ -36,4 +36,6 @@ public:
 	/// Narysowanie liczby zmiennoprzecinkowej z okreœlon¹ precyzj¹
 	void Draw( float const number, short unsigned const padding, short unsigned const precision );
 
+	/// Wybór koloru
+	void SetColor(D3DXCOLOR const & color);
 };

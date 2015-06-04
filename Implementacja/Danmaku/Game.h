@@ -77,7 +77,6 @@ class Game : public Playfield
 
 	float elapsedTime;
 
-	bool escape;
 	bool pressed;
 
 	Stage * stage;

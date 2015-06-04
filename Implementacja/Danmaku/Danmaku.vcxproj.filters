@@ -503,5 +503,17 @@
     <ClInclude Include="XmlParser.h">
       <Filter>Header Files\Fields</Filter>
     </ClInclude>
+    <ClInclude Include="OptionsScreen.h">
+      <Filter>Header Files\Fields\TitleScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Option.h">
+      <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="GameControls.h">
+      <Filter>Header Files\Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigParser.h">
+      <Filter>Header Files\Fields\TitleScreen</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

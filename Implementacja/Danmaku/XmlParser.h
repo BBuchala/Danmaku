@@ -12,20 +12,26 @@ using namespace rapidxml;
 class XmlParser
 {
 protected:
+	std::string _filePath;
 	rapidxml::xml_document <> _doc;		// plik z danymi
 	std::unique_ptr<char> _contents;	// zawartoœæ pliku XML
 
 public:
 	XmlParser(std::string const & file)
 	{
-		_contents = std::unique_ptr<char>(XML2Char(file));
+		_filePath = file;
 	}
 
 	void Start()
 	{
+		this->ConvertXMLFile();
 		this->ReadXMLFile();
 		this->Create();
-		this->ClearDocument();
+	}
+
+	void ConvertXMLFile()
+	{
+		_contents = std::unique_ptr<char>(XML2Char(_filePath));
 	}
 
 	char * XML2Char ( std::string const & stageFile )

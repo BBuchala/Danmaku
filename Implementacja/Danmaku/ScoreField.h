@@ -5,12 +5,6 @@
 #include "Sprite.h"
 #include "XmlParser.h"
 
-#include <memory>
-#include <rapidxml.hpp>
-#include <rapidxml_print.hpp>
-
-using namespace rapidxml;
-
 class ScoreField: public Playfield, public XmlParser
 {
 	Sprite * _background;
@@ -25,7 +19,8 @@ class ScoreField: public Playfield, public XmlParser
 	GraphicsDevice * _gDevice;
 
 public:
-	ScoreField(GraphicsDevice * const gDevice, EndStageInfo * endStageInfo, std::string const & file) : Playfield(gDevice), XmlParser(file)
+	ScoreField(GraphicsDevice * const gDevice, EndStageInfo * endStageInfo, std::string const & file)
+		: Playfield(gDevice), XmlParser(file)
 	{
 		_background = new Sprite(gDevice->device, Sprite::GetFilePath("scoresscreen"));
 		_BGposition = D3DXVECTOR2(0.0f, 0.0f);
@@ -62,6 +57,7 @@ public:
 			}
 			_entry.push_back(newEntry);
 		}
+		this->ClearDocument();
 	};
 
 	void Update(float const time) override
@@ -71,7 +67,6 @@ public:
 			this->ended = true;
 		}
 	}
-
 	void DrawScene() override
 	{
 		_background->Draw(_BGposition);
