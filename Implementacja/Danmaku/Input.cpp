@@ -2,7 +2,7 @@
 
 /* ---- Initialize Keyboard
    ------------------------------------------------------------------------------------------- */
-LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND han_Window)
+LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND hwnd)
 {
 	for (int i = 0; i < 256; i++)
 	{
@@ -16,7 +16,7 @@ LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND han_Window)
 	p_dx_KeybObject->CreateDevice(GUID_SysKeyboard, &p_dx_KeybDevice, NULL);
  
 	p_dx_KeybDevice->SetDataFormat(&c_dfDIKeyboard);
-	p_dx_KeybDevice->SetCooperativeLevel(han_Window, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
+	p_dx_KeybDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
 	p_dx_KeybDevice->Acquire();
 
 	this->CreateDictionary();
@@ -28,7 +28,7 @@ LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND han_Window)
    ------------------------------------------------------------------------------------------- */
 void Input::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
 {
-	p_Keyb->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
+	p_Keyb->GetDeviceState(sizeof(chr_KeybState), (LPVOID)&chr_KeybState);
 };
 
  /* ---- Get Key Down
@@ -114,16 +114,16 @@ void Input::CreateDictionary()
 	this->dictionary[50]  = "M";
 	this->dictionary[51]  = ",";
 	this->dictionary[52]  = ".";
-	this->dictionary[53]  = "RSHIFT";
-	this->dictionary[54]  = "NUMEPAD*";
-	this->dictionary[55]  = "LALT";
-	this->dictionary[56]  = "SPACE";
-	this->dictionary[57]  = "CAPSLOCK";
-	this->dictionary[58]  = "F1";
-	this->dictionary[59]  = "F2";
-	this->dictionary[60]  = "F3";
-	this->dictionary[61]  = "F4";
-	this->dictionary[62]  = "F5";
+	this->dictionary[53]  = "/";
+	this->dictionary[54]  = "RSHIFT";
+	this->dictionary[55]  = "NUMEPAD*";
+	this->dictionary[56]  = "LALT";
+	this->dictionary[57]  = "SPACE";
+	this->dictionary[58]  = "CAPSLOCK";
+	this->dictionary[59]  = "F1";
+	this->dictionary[60]  = "F2";
+	this->dictionary[61]  = "F3";
+	this->dictionary[62]  = "F4";
 	this->dictionary[63]  = "F5";
 	this->dictionary[64]  = "F6";
 	this->dictionary[65]  = "F7";
@@ -167,7 +167,7 @@ void Input::CreateDictionary()
 	this->dictionary[157] = "RCTRL";
 	this->dictionary[179] = "NUMEPAD,";
 	this->dictionary[181] = "NUMEPAD/";
-	this->dictionary[183] = "SYSRQ";
+	this->dictionary[183] = "PRINTSCREEN";
 	this->dictionary[184] = "RALT";
 	this->dictionary[197] = "PAUSE";
 	this->dictionary[199] = "HOME";
@@ -175,7 +175,7 @@ void Input::CreateDictionary()
 	this->dictionary[201] = "PAGEUP";
 	this->dictionary[203] = "LEFTARROW";
 	this->dictionary[205] = "RIGHTARROW";
-	this->dictionary[207] = "END,";
+	this->dictionary[207] = "END";
 	this->dictionary[208] = "DOWNARROW";
 	this->dictionary[209] = "PAGEDOWN";
 	this->dictionary[210] = "INSERT";

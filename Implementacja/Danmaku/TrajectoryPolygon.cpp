@@ -10,7 +10,6 @@ TrajectoryPolygon::TrajectoryPolygon() : TrajectoryManyPoints()
    ------------------------------------------------------------------------------------------- */
 TrajectoryPolygon::TrajectoryPolygon(std::vector<D3DXVECTOR2> const & pointVector) : TrajectoryManyPoints(pointVector)
 {
-	this->CalculateLength();
 };
 
 /* ---- Get Position
@@ -40,13 +39,6 @@ D3DXVECTOR2 TrajectoryPolygon::GetPosition( float const dis )
 void TrajectoryPolygon::AddPoint(D3DXVECTOR2 const & point)
 {
 	TrajectoryManyPoints::AddPoint(point);
-	int newPointIndex = this->point.size() - 1;
-	if (newPointIndex != 0)
-	{
-		float newDistance = Vector::Length(this->point[newPointIndex - 1], this->point[newPointIndex]);
-		this->distanceBetweenPoint.push_back(newDistance);
-		this->totalLength += newDistance;
-	}
 };
 
 /* ---- Calculate Length
@@ -55,7 +47,8 @@ void TrajectoryPolygon::CalculateLength()
 {
 	for (int i = 0; i < point.size() - 1; i++)
 	{
-		this->distanceBetweenPoint.push_back(Vector::Length(this->point[i], this->point[i + 1]));
+		float newDistance = Vector::Length(this->point[i], this->point[i + 1]);
+		this->distanceBetweenPoint.push_back(newDistance);
 		this->totalLength += this->distanceBetweenPoint[this->distanceBetweenPoint.size() - 1];
 	}
 };

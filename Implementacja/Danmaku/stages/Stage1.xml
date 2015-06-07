@@ -25,11 +25,28 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="10" type="normal">
+	<Time sec="9" type="normal">
+		<Enemy number="7" distance="32" start="32" image="YukkuriReimu" life="500" speed="200" length="800">
+			<Bonus type="Power" number="1" value="0.1"></Bonus>
+			<Trajectory type="Polygon">
+				<Point x="LEFT"  y="TWO_THIRDS"></Point>
+				<Point x="LEFT"  y="ONE_THIRDS"></Point>
+				<Point x="RIGHT" y="ONE_THIRDS"></Point>
+				<Point x="RIGHT" y="TWO_THIRDS"></Point>
+				<Point x="LEFT"  y="TWO_THIRDS"></Point>
+			</Trajectory>
+			<Pattern type="Line" par1="-75" bulletNumber="5" number="20" interval="0.3">
+				<Bullet image="BulletYellowCircle" speed="96" width="32" height="32" hitboxSize="HALF"></Bullet>
+			</Pattern>
+		</Enemy>
+	</Time>
+	<Time sec="15" type="normal">
 		<Enemy number="7" distance="32" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="ONE_THIRDS" y="100"></Point>
+				<Point x="TWO_THIRDS" y="ONE_THIRDS"></Point>
+				<Point x="TWO_THIRDS" y="TWO_THIRDS"></Point>
 				<Point x="100" y="TWO_THIRDS"></Point>
 			</Trajectory>
 			<Pattern type="Line" par1="-75" bulletNumber="4" number="20" interval="0.1">
@@ -37,11 +54,13 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="13" type="normal">
+	<Time sec="18" type="normal">
 		<Enemy number="7" distance="32" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="TWO_THIRDS" y="100"></Point>
+				<Point x="TWO_THIRDS" y="ONE_THIRDS"></Point>
+				<Point x="TWO_THIRDS" y="TWO_THIRDS"></Point>
 				<Point x="100" y="TWO_THIRDS"></Point>
 			</Trajectory>
 			<Pattern type="Line" par1="-75" bulletNumber="4" number="20" interval="0.1">
@@ -49,7 +68,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="17" type="normal">
+	<Time sec="23" type="normal">
 		<Enemy number="3" distance="18" start="-30" image="YukkuriCirno" life="500" speed="50" length="150">
 			<Bonus type="Score" number="5" value="10000"></Bonus>
 			<Trajectory type="Ellipse" center.x="LEFT" center.y="TOP" a="300" b="200"></Trajectory>
@@ -71,7 +90,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="22" type="normal">
+	<Time sec="28" type="normal">
 		<Enemy number="6" distance="18" start="-30" image="YukkuriChen" life="600" speed="50" length="100">
 			<Bonus type="Score" number="5" value="10000"></Bonus>
 			<Trajectory type="Ellipse" center.x="LEFT" center.y="TOP" a="300" b="500"></Trajectory>
@@ -93,7 +112,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="28" type="normal">
+	<Time sec="34" type="normal">
 		<Enemy number="1" start="0" image="YukkuriSakuya" life="3000" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="TOP" a="-90"></Trajectory>
 			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="20" number="10" interval="0.20">
@@ -106,7 +125,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="35" type="normal">
+	<Time sec="42" type="normal">
 		<Enemy number="1" start="0" image="YukkuriYuyuko" life="4000" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="TOP" a="-90"></Trajectory>
 			<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="10" number="10" interval="0.40">
@@ -117,7 +136,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="42" type="normal">
+	<Time sec="50" type="normal">
 		<Enemy number="1" start="0" image="YukkuriSuwako" life="5000" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="HALF" a="0" b="24"></Trajectory>
 			<Pattern type="Spiral" par1="0" par2="0.15" bulletNumber="50" number="1" interval="0.40" rotation="0.0">
@@ -130,7 +149,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="50" type="boss">
+	<Time sec="58" type="boss">
 		<Boss image="Remilia" name="Remilia Scarlet" life="1000000" position.x="HALF" position.y="ONE_THIRDS" hitboxSize="ONE_THIRDS">
 			<Spellcard name="Infinite Ellipse" time="60" bonus="1000000">
 				<Pattern type="Ellipse" par1="10" par2="10" bulletNumber="10" interval="0.20">
