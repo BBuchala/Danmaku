@@ -20,9 +20,9 @@ D3DXVECTOR2 TrajectoryBezier::GetPosition( float const dis )
 	// zapisanie obecnej tablicy punktów
 	PointVector pointSave = PointVector(this->point);
 	// Obliczenie obecnego punktu
-	for	(int k = 1; k < pointSave.size(); ++k)
+	for (size_t k = 1; k < pointSave.size(); ++k)
 	{
-		for	(int i = 0; i < pointSave.size() - k; ++i)
+		for (size_t i = 0; i < pointSave.size() - k; ++i)
 		{
 			for	(int j = 0; j < 2; ++j)
 			{
@@ -49,8 +49,8 @@ void TrajectoryBezier::AddPoint(D3DXVECTOR2 const & point)
 D3DXVECTOR2 TrajectoryBezier::FindPoint(double t, D3DXVECTOR2 start, D3DXVECTOR2 c1, D3DXVECTOR2 c2, D3DXVECTOR2 end)
 {
 	D3DXVECTOR2 found;
-	found.x = this->FindPoint(t, start.x, c1.x, c2.x, end.x);
-	found.y = this->FindPoint(t, start.y, c1.y, c2.y, end.y);
+	found.x = static_cast<float>(this->FindPoint(t, start.x, c1.x, c2.x, end.x));
+	found.y = static_cast<float>(this->FindPoint(t, start.y, c1.y, c2.y, end.y));
 	return found;
 };
 
@@ -129,7 +129,7 @@ void TrajectoryBezier::CalculateLength4P()
 		{
 			double x_diff = actualPoint.x - previousPoint.x;
 			double y_diff = actualPoint.y - previousPoint.y;
-			this->totalLength += sqrt(pow(x_diff, 2) + pow(y_diff, 2));
+			this->totalLength += static_cast<float>(sqrt(pow(x_diff, 2) + pow(y_diff, 2)));
 		}
 		previousPoint = actualPoint;
 	}
