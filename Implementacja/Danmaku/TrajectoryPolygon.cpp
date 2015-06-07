@@ -19,7 +19,7 @@ D3DXVECTOR2 TrajectoryPolygon::GetPosition( float const dis )
 	D3DXVECTOR2 position;
 	float distance = fmod(dis < 0.00f ? fmod(dis + totalLength, totalLength) : dis, totalLength);
 	float tmpDistance = 0.0f;
-	int i = 0;
+	size_t i = 0;
 	for (; i < distanceBetweenPoint.size(); i++)
 	{
 		if (distance >= tmpDistance && distance <= tmpDistance + distanceBetweenPoint[i])
@@ -45,7 +45,7 @@ void TrajectoryPolygon::AddPoint(D3DXVECTOR2 const & point)
    ------------------------------------------------------------------------------------------- */
 void TrajectoryPolygon::CalculateLength()
 {
-	for (int i = 0; i < point.size() - 1; i++)
+	for (size_t i = 0; i < point.size() - 1; i++)
 	{
 		float newDistance = Vector::Length(this->point[i], this->point[i + 1]);
 		this->distanceBetweenPoint.push_back(newDistance);

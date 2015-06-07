@@ -709,7 +709,7 @@ void Stage::CreateBoss(xml_node <> * time, std::string const & timeValue)
 				}
 				else if (str.compare("life") == 0)
 				{
-					life = std::stof(bossAtr->value());
+					life = static_cast<USHORT>(std::stof(bossAtr->value()));
 				}
 				else if (str.compare("position.x") == 0)
 				{
