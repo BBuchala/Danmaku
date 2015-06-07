@@ -554,5 +554,8 @@
     <ClInclude Include="Input.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyPatternBezier.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

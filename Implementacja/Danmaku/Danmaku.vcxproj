@@ -151,6 +151,7 @@
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="EndStageInfo.h" />
     <ClInclude Include="EnemyBulletSpriteResource.h" />
+    <ClInclude Include="EnemyPatternBezier.h" />
     <ClInclude Include="EnemyPatternEllipse.h" />
     <ClInclude Include="EnemyPatternLine.h" />
     <ClInclude Include="EnemyPatternSpiral.h" />

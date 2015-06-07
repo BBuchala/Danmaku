@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Stage background="backgroundClouds">
+	<!-- Pojedyczna Reimu -->
 	<Time sec="1" type="normal">
 		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="500" speed="450" length="700">
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
@@ -9,6 +10,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
+	<!-- Atak krzyżowy Reimu -->
 	<Time sec="4" type="normal">
 		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="550" speed="450" length="700">
 			<Bonus type="Power" number="2" value="0.1"></Bonus>
@@ -25,6 +27,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
+	<!-- Reimu na prostokątnym kwadracie -->
 	<Time sec="9" type="normal">
 		<Enemy number="7" distance="32" start="32" image="YukkuriReimu" life="500" speed="200" length="800">
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
@@ -40,8 +43,55 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="15" type="normal">
-		<Enemy number="7" distance="32" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
+	<!-- Koishi z sercami -->
+	<Time sec="14" type="normal">
+		<Enemy number="1" start="0" image="YukkuriKoishi" life="4000" speed="0" length="500">
+			<Bonus type="Power" number="1" value="0.1"></Bonus>
+			<Trajectory type="None" center.x="HALF" center.y="HALF" a="0"></Trajectory>
+			<Pattern type="Bezier" bulletNumber="1" number="30" interval="0.20">
+				<Bullet image="BulletRedCircle" speed="200" width="40" height="40" hitboxSize="FULL"></Bullet>
+				<Point x="307"  y="253"></Point>
+				<Point x="568"  y="111"></Point>
+				<Point x="692"  y="467"></Point>
+				<Point x="337"  y="723"></Point>
+			</Pattern>
+			<Pattern type="Bezier" bulletNumber="1" number="30" interval="0.20">
+				<Bullet image="BulletRedCircle" speed="200" width="40" height="40" hitboxSize="FULL"></Bullet>
+				<Point x="307"  y="253"></Point>
+				<Point x="146"  y="111"></Point>
+				<Point x="22"   y="467"></Point>
+				<Point x="337"  y="723"></Point>
+			</Pattern>
+			<Pattern type="Line" par1="-30" bulletNumber="5" number="5" interval="1.0">
+				<Bullet image="BulletHeart" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF">
+					<Affine scale="1.2" rotate="4.0"></Affine>
+				</Bullet>
+			</Pattern>
+			<Pattern type="Line" par1="-60" bulletNumber="5" number="5" interval="1.0">
+				<Bullet image="BulletHeart" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF">
+					<Affine scale="1.2" rotate="4.0"></Affine>
+				</Bullet>
+			</Pattern>
+			<Pattern type="Line" par1="-90" bulletNumber="5" number="5" interval="1.0">
+				<Bullet image="BulletHeart" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF">
+					<Affine scale="1.2" rotate="4.0"></Affine>
+				</Bullet>
+			</Pattern>
+			<Pattern type="Line" par1="-120" bulletNumber="5" number="5" interval="1.0">
+				<Bullet image="BulletHeart" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF">
+					<Affine scale="1.2" rotate="4.0"></Affine>
+				</Bullet>
+			</Pattern>
+			<Pattern type="Line" par1="-150" bulletNumber="5" number="5" interval="1.0">
+				<Bullet image="BulletHeart" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF">
+					<Affine scale="1.2" rotate="4.0"></Affine>
+				</Bullet>
+			</Pattern>
+		</Enemy>
+	</Time>
+	<!--  -->
+	<Time sec="17" type="normal">
+		<Enemy number="7" distance="96" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="ONE_THIRDS" y="100"></Point>
@@ -54,8 +104,9 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="18" type="normal">
-		<Enemy number="7" distance="32" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
+	<!--  -->
+	<Time sec="20" type="normal">
+		<Enemy number="7" distance="96" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
 			<Bonus type="Power" number="1" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="TWO_THIRDS" y="100"></Point>
@@ -68,8 +119,9 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="23" type="normal">
-		<Enemy number="3" distance="18" start="-30" image="YukkuriCirno" life="500" speed="50" length="150">
+	<!-- Cirno i Reimu na elipsie -->
+	<Time sec="24" type="normal">
+		<Enemy number="3" distance="32" start="-30" image="YukkuriCirno" life="500" speed="50" length="150">
 			<Bonus type="Score" number="5" value="10000"></Bonus>
 			<Trajectory type="Ellipse" center.x="LEFT" center.y="TOP" a="300" b="200"></Trajectory>
 			<Pattern type="Line" par1="-85" bulletNumber="1" number="20" interval="0.5">
@@ -79,7 +131,7 @@
 				<Bullet image="BulletRedCircle" speed="150" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
-		<Enemy number="3" distance="18" start="60" image="YukkuriReimu" life="500" speed="50" length="150">
+		<Enemy number="3" distance="32" start="60" image="YukkuriReimu" life="500" speed="50" length="150">
 			<Bonus type="Score" number="5" value="20000"></Bonus>
 			<Trajectory type="Ellipse" center.x="RIGHT" center.y="TOP" a="300" b="200"></Trajectory>
 			<Pattern type="Line" par1="-135" bulletNumber="1" number="20" interval="0.5">
@@ -90,7 +142,8 @@
 			</Pattern>
 		</Enemy>
 	</Time>
-	<Time sec="28" type="normal">
+	<!-- Chen i Youmu na elipsie -->
+	<Time sec="29" type="normal">
 		<Enemy number="6" distance="18" start="-30" image="YukkuriChen" life="600" speed="50" length="100">
 			<Bonus type="Score" number="5" value="10000"></Bonus>
 			<Trajectory type="Ellipse" center.x="LEFT" center.y="TOP" a="300" b="500"></Trajectory>
@@ -112,6 +165,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
+	<!-- Sakuya -->
 	<Time sec="34" type="normal">
 		<Enemy number="1" start="0" image="YukkuriSakuya" life="3000" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="TOP" a="-90"></Trajectory>
@@ -125,6 +179,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
+	<!-- Yuyuko atakuje elipsami -->
 	<Time sec="42" type="normal">
 		<Enemy number="1" start="0" image="YukkuriYuyuko" life="4000" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="TOP" a="-90"></Trajectory>
@@ -136,6 +191,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
+	<!-- Suwako ze spiralami -->
 	<Time sec="50" type="normal">
 		<Enemy number="1" start="0" image="YukkuriSuwako" life="5000" speed="0" length="500">
 			<Trajectory type="None" center.x="HALF" center.y="HALF" a="0" b="24"></Trajectory>
@@ -149,6 +205,7 @@
 			</Pattern>
 		</Enemy>
 	</Time>
+	<!-- REMI REMI REMI <33 -->
 	<Time sec="58" type="boss">
 		<Boss image="Remilia" name="Remilia Scarlet" life="1000000" position.x="HALF" position.y="ONE_THIRDS" hitboxSize="ONE_THIRDS">
 			<Spellcard name="Infinite Ellipse" time="60" bonus="1000000">

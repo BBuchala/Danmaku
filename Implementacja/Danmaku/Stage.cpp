@@ -169,6 +169,10 @@ void Stage::ChoosePattern(std::string const & patternType, Pattern & pattern )
 	{
 		pattern = Pattern::SPIRAL;
 	}
+	else if (patternType.compare("Bezier") == 0)
+	{
+		pattern = Pattern::BEZIER;
+	}
 };
 
 
@@ -370,7 +374,7 @@ void Stage::CreatePatternsForSpellcard(Spellcard * const spellcard, xml_node <> 
 };
 
 
-void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNode, D3DXVECTOR2 const & position)
+void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNode)
 {
 	float par1, par2 = 0.0f, interval = 0.0f;
 	short bulletNumber = 1, number = 1;
@@ -417,7 +421,20 @@ void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNo
 	{
 		std::string patternIdStr = std::to_string(patternId);
 		float activationTime = i * interval;
-		enemyObj->AddPattern(patternIdStr, EPatternFactory::Instance().Create(pattern, par1, par2, bulletNumber, activationTime));
+		EPattern * newPattern;
+		if (pattern != Pattern::BEZIER)
+		{
+			newPattern = EPatternFactory::Instance().Create(pattern, par1, par2, bulletNumber, activationTime);
+		}
+		else
+		{
+			TrajectoryBezier * tBezier = new TrajectoryBezier();
+			this->CreatePointsForTMP(tBezier, enemyNode);
+			tBezier->CalculateLength();
+			tBezier->SetLoop(true);
+			newPattern = new EnemyPatternBezier(tBezier, bulletNumber, activationTime);
+		}
+		enemyObj->AddPattern(patternIdStr, newPattern);
 		enemyObj->GetPattern(patternIdStr).SetScale(startScale);
 		enemyObj->GetPattern(patternIdStr).SetRotation(startRotation);
 		for (xml_node <> * patternNode = enemyNode->first_node(); patternNode; patternNode = patternNode->next_sibling())
@@ -434,7 +451,6 @@ void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNo
 		}
 		patternId++;
 	}
-	enemyObj->InitializePatterns(position);
 };
 
 
@@ -619,7 +635,7 @@ void Stage::CreateEnemies(xml_node <> * time, std::string const & timeValue)
 				std::string eStr(enemyNode->name());
 				if (eStr.compare("Pattern") == 0)
 				{
-					this->CreatePatternsForEnemy(enemyObj, enemyNode, position);
+					this->CreatePatternsForEnemy(enemyObj, enemyNode);
 				}
 				else if (eStr.compare("Bonus") == 0)
 				{
@@ -630,6 +646,7 @@ void Stage::CreateEnemies(xml_node <> * time, std::string const & timeValue)
 					trajType = this->CreateTrajectory(enemyObj, enemyNode);
 				}
 			}
+			enemyObj->InitializePatterns(position);
 			switch(trajType)
 			{
 			case Road::ELIPSE: case Road::SPIRAL:

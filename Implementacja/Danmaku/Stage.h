@@ -8,7 +8,7 @@
 #include <deque>
 
 // elementy mo¿liwe do utowrzenia
-#include "Enemy.h"			// wrogowie
+#include "Enemy.h"					// wrogowie
 #include "Boss.h"
 #include "BonusFactory.h"			// bonusy
 
@@ -17,6 +17,8 @@
 #include "EnemyBulletSpriteResource.h"
 
 #include "EPatternFactory.h"
+
+#include "EnemyPatternBezier.h"
 
 #include "String.h"
 #include "TrajectoryBezier.h"
@@ -72,7 +74,7 @@ private:
 	void CreateEnemies(xml_node <> * time, std::string const & timeValue);
 	void CreateBoss(xml_node <> * time, std::string const & timeValue);
 
-	void CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemy, D3DXVECTOR2 const & position);
+	void CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemy);
 	void CreatePatternsForSpellcard(Spellcard * const spellcard, xml_node <> * patternNode, D3DXVECTOR2 const & position);
 
 	void CreateBullets(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern);

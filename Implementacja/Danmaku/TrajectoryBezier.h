@@ -7,6 +7,9 @@
 class TrajectoryBezier: public TrajectoryManyPoints
 {
 public:
+	// czy krzywa siê zapêtla
+	bool _loopFlag;
+
 	// zwrócenie pozycji na linii w postaci wektora
 	D3DXVECTOR2 GetPosition( float const dis ) override;
 
@@ -19,6 +22,12 @@ public:
 
 	// Obliczenie d³ugoœci linii Beziera
 	void CalculateLength() override;
+
+	// Konstruktor
+	TrajectoryBezier();
+
+	// Ustawienie loopu
+	void SetLoop(bool value);
 	
 private:
 	// Obliczenie d³ugoœci linii dla 2 punktów

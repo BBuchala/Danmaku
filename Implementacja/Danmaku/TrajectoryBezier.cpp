@@ -1,11 +1,22 @@
 #include "TrajectoryBezier.h"
 
+/* ---- Konstruktor
+   ------------------------------------------------------------------------------------------- */
+TrajectoryBezier::TrajectoryBezier() : _loopFlag(false)
+{
+};
+
 /* ---- Get Position
    ------------------------------------------------------------------------------------------- */
 D3DXVECTOR2 TrajectoryBezier::GetPosition( float const dis )
 {
 	// znormalizowanie wartoœci
-	float tt = (float) dis / this->totalLength;
+	float distance;
+	if (_loopFlag)
+		distance = fmod(dis > totalLength || dis < 0.0f ? fmod(dis + totalLength, totalLength) : dis, totalLength);
+	else
+		distance = dis;
+	float tt = (float) distance / this->totalLength;
 	// zapisanie obecnej tablicy punktów
 	PointVector pointSave = PointVector(this->point);
 	// Obliczenie obecnego punktu
@@ -122,4 +133,12 @@ void TrajectoryBezier::CalculateLength4P()
 		}
 		previousPoint = actualPoint;
 	}
+};
+
+
+/* ---- Set Loop
+   ------------------------------------------------------------------------------------------- */
+void TrajectoryBezier::SetLoop(bool value)
+{
+	_loopFlag = value;
 };
