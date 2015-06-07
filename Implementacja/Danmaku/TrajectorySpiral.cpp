@@ -29,16 +29,6 @@ void TrajectorySpiral::SetCenterPoint( D3DXVECTOR2 const & center )
 };
 
 
-D3DXVECTOR2 TrajectorySpiral::GetPosition( float const t )
-{
-	float radius = this->a + this->b * t;
-	D3DXVECTOR2 position = Vector::Polar(radius, t);
-	GetRotation(position, theta);
-	position += startPoint;
-	return position;
-};
-
-
 void TrajectorySpiral::Translate( D3DXVECTOR2 const & translate )
 {
 	startPoint += translate;

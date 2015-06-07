@@ -169,6 +169,14 @@ void Stage::ChoosePattern(std::string const & patternType, Pattern & pattern )
 	{
 		pattern = Pattern::SPIRAL;
 	}
+	else if (patternType.compare("Fermat") == 0)
+	{
+		pattern = Pattern::SPIRAL_FERMAT;
+	}
+	else if (patternType.compare("Hyperbolic") == 0)
+	{
+		pattern = Pattern::SPIRAL_HYPER;
+	}
 	else if (patternType.compare("Bezier") == 0)
 	{
 		pattern = Pattern::BEZIER;
@@ -189,6 +197,14 @@ void Stage::ChooseTrajectory(std::string const & trajType, Road & traj)
 	else if (trajType.compare("Spiral") == 0)
 	{
 		traj = Road::SPIRAL;
+	}
+	else if (trajType.compare("Fermat") == 0)
+	{
+		traj = Road::SPIRAL_FERMAT;
+	}
+	else if (trajType.compare("Hyperbolic") == 0)
+	{
+		traj = Road::SPIRAL_HYPER;
 	}
 	else if (trajType.compare("None") == 0)
 	{

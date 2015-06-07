@@ -130,6 +130,18 @@
     <Filter Include="Source Files\Parsers">
       <UniqueIdentifier>{fd655d88-89d3-4c1d-8909-d52b11fb4463}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Trajectories\SinglePoint\Spirals">
+      <UniqueIdentifier>{8541221e-2f88-4645-802c-95650b904ac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Trajectories\SinglePoints\Spirals">
+      <UniqueIdentifier>{0a9e2d20-b4aa-4837-8e0f-7b82a7e1e470}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Patterns\EnemyPatterns\Spirals">
+      <UniqueIdentifier>{7e72da47-38ad-43b9-ba40-84b7c7798c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Patterns\EnemyPatterns\Spirals">
+      <UniqueIdentifier>{0327b656-f949-4b4e-be98-1cd4e47cb8e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -243,9 +255,6 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyPatternSpiral.cpp">
-      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
-    </ClCompile>
     <ClCompile Include="EPatternFactory.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
@@ -254,9 +263,6 @@
     </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Source Files\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="TrajectorySpiral.cpp">
-      <Filter>Source Files\Trajectories\SinglePoint</Filter>
     </ClCompile>
     <ClCompile Include="TrajectoryNone.cpp">
       <Filter>Source Files\Trajectories\SinglePoint</Filter>
@@ -311,6 +317,30 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectorySpiral.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectorySpiralFermat.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectorySpiralArchimedean.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="TrajectorySpiralHyperbolic.cpp">
+      <Filter>Source Files\Trajectories\SinglePoint\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPatternSpiral.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPatternSpiralFermat.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPatternSpiralHyperbolic.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPatternSpiralArchimedean.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns\Spirals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -467,9 +497,6 @@
     <ClInclude Include="PlayerBulletSpriteResource.h">
       <Filter>Header Files\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyPatternSpiral.h">
-      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
-    </ClInclude>
     <ClInclude Include="EPatternFactory.h">
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
@@ -496,9 +523,6 @@
     </ClInclude>
     <ClInclude Include="TrajectoryManyPoints.h">
       <Filter>Header Files\Trajectories\ManyPoints</Filter>
-    </ClInclude>
-    <ClInclude Include="TrajectorySpiral.h">
-      <Filter>Header Files\Trajectories\SinglePoints</Filter>
     </ClInclude>
     <ClInclude Include="TrajectoryNone.h">
       <Filter>Header Files\Trajectories\SinglePoints</Filter>
@@ -556,6 +580,30 @@
     </ClInclude>
     <ClInclude Include="EnemyPatternBezier.h">
       <Filter>Header Files\Patterns\EnemyPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySpiralArchimedean.h">
+      <Filter>Header Files\Trajectories\SinglePoints\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySpiralFermat.h">
+      <Filter>Header Files\Trajectories\SinglePoints\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySpiralHyperbolic.h">
+      <Filter>Header Files\Trajectories\SinglePoints\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="TrajectorySpiral.h">
+      <Filter>Header Files\Trajectories\SinglePoints\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternSpiral.h">
+      <Filter>Header Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternSpiralFermat.h">
+      <Filter>Header Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternSpiralHyperbolic.h">
+      <Filter>Header Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatternSpiralArchimedean.h">
+      <Filter>Header Files\Patterns\EnemyPatterns\Spirals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

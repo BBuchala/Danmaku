@@ -7,7 +7,6 @@ EnemyPatternSpiral::EnemyPatternSpiral(float const radiusA, float const radiusB,
 	_radiusA = radiusA;
 	_radiusB = radiusB;
 	_number = number;
-	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::SPIRAL, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
 };
 
 
@@ -60,3 +59,19 @@ void EnemyPatternSpiral::Rotate()
 {
 	_traj->Rotate(_rotateStep);
 };
+
+
+void EnemyPatternSpiral::StartBullets(D3DXVECTOR2 const & position)
+{
+	_traj->SetStartPoint(position);
+}
+
+void EnemyPatternSpiral::SetScale(float const scale)
+{
+	_traj->Scale(scale);
+}
+void EnemyPatternSpiral::SetRotation(float const rotate)
+{
+	_traj->Rotate(rotate);
+}
+

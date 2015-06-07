@@ -3,10 +3,9 @@
 #include "EPattern.h"
 #include "EPatternFactory.h"
 
-namespace
-{
 	class EnemyPatternSpiral: public EPattern
 	{
+	protected:
 		/// Sk³adowe potrzebne do generowania pocisków
 		float _radiusA;
 		float _radiusB;
@@ -25,31 +24,9 @@ namespace
 
 		void AddBullet();
 
-		void StartBullets(D3DXVECTOR2 const & position) override
-		{
-			_traj->SetStartPoint(position);
-		}
+		void StartBullets(D3DXVECTOR2 const & position) override;
 
-		void SetScale(float const scale) override
-		{
-			_traj->Scale(scale);
-		}
-		void SetRotation(float const rotate) override
-		{
-			_traj->Rotate(rotate);
-		}
-
-		EPattern * Clone() const override
-		{
-			return new EnemyPatternSpiral(*this);
-		}
+		void SetScale(float const scale) override;
+		void SetRotation(float const rotate) override;
 	};
-	// zarejestrowanie patternu w Fabryce
-	EPattern * CreateEnemyPatternSpiral( float const radiusA, float const radiusB, float const number, float const activationTime )
-	{
-		return new EnemyPatternSpiral( radiusA, radiusB, number, activationTime );
-	}
-	Pattern const patternId = Pattern::SPIRAL;
-	bool const registrered = EPatternFactory::Instance().Register( patternId, CreateEnemyPatternSpiral );
-}
 

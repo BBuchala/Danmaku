@@ -88,6 +88,9 @@
     <ClCompile Include="EnemyPatternEllipse.cpp" />
     <ClCompile Include="EnemyPatternLine.cpp" />
     <ClCompile Include="EnemyPatternSpiral.cpp" />
+    <ClCompile Include="EnemyPatternSpiralArchimedean.cpp" />
+    <ClCompile Include="EnemyPatternSpiralFermat.cpp" />
+    <ClCompile Include="EnemyPatternSpiralHyperbolic.cpp" />
     <ClCompile Include="EPattern.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -130,6 +133,9 @@
     <ClCompile Include="TrajectoryNone.cpp" />
     <ClCompile Include="TrajectoryPolygon.cpp" />
     <ClCompile Include="TrajectorySpiral.cpp" />
+    <ClCompile Include="TrajectorySpiralArchimedean.cpp" />
+    <ClCompile Include="TrajectorySpiralFermat.cpp" />
+    <ClCompile Include="TrajectorySpiralHyperbolic.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -155,6 +161,9 @@
     <ClInclude Include="EnemyPatternEllipse.h" />
     <ClInclude Include="EnemyPatternLine.h" />
     <ClInclude Include="EnemyPatternSpiral.h" />
+    <ClInclude Include="EnemyPatternSpiralArchimedean.h" />
+    <ClInclude Include="EnemyPatternSpiralFermat.h" />
+    <ClInclude Include="EnemyPatternSpiralHyperbolic.h" />
     <ClInclude Include="EnemySpriteResource.h" />
     <ClInclude Include="EPattern.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
@@ -213,6 +222,9 @@
     <ClInclude Include="TrajectorySingle.h" />
     <ClInclude Include="TrajectorySpiral.h" />
     <ClInclude Include="ITransformable.h" />
+    <ClInclude Include="TrajectorySpiralArchimedean.h" />
+    <ClInclude Include="TrajectorySpiralFermat.h" />
+    <ClInclude Include="TrajectorySpiralHyperbolic.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
