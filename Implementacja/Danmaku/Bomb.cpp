@@ -1,10 +1,10 @@
 #include "Bomb.h"
 
-Bomb::Bomb(D3DXVECTOR2 const & position, float const speed): GameObject( position, speed ), maxTime(3.0f), damage(30.0)
+Bomb::Bomb(D3DXVECTOR2 const & position, float const speed) : GameObject(position, speed), maxTime(3.0f), damage(static_cast<unsigned short>(30.0))
 {
 };
 
-Bomb::Bomb( Bomb const & bomb) : GameObject(bomb), maxTime(3.0f), damage(30.0)
+Bomb::Bomb(Bomb const & bomb) : GameObject(bomb), maxTime(3.0f), damage(static_cast<unsigned short>(30.0))
 {
 };
 
@@ -18,7 +18,7 @@ void Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 	this->InitializeSprite(sprite);
 	this->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::EXTENDED_LENGTH);
 	this->inUse = false;
-	this->shift = D3DXVECTOR2(this->GetSprite()->GetWidth()/2,this->GetSprite()->GetHeight());
+	this->shift = D3DXVECTOR2((float)(this->GetSprite()->GetWidth()/2),(float)(this->GetSprite()->GetHeight()));
 }
 
 void Bomb::Update(float const time)

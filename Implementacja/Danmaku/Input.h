@@ -22,7 +22,7 @@ class Input
 
 public:
 	// inicjalizacja obs³ugi klawiszy
-	LPDIRECTINPUTDEVICE8 InitializeKeyboard(HWND hwnd);
+	LPDIRECTINPUTDEVICE8 InitializeKeyboard(HWND han_Window);
 	// odczytanie stanu klawiatury
 	void ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb);
 

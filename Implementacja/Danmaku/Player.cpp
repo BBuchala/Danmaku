@@ -307,5 +307,5 @@ bool Player::UseBomb()
 
 bool Player::InitializeHitboxSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
 {
-	return _hitboxSprite->Initialize(device, file, 4 * this->hitbox->GetRadiusA(), 4 * this->hitbox->GetRadiusB());
+	return _hitboxSprite->Initialize(device, file, 4 * static_cast<UINT>(this->hitbox->GetRadiusA()), 4 * static_cast<UINT>(this->hitbox->GetRadiusB()));
 };

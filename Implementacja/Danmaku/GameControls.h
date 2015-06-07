@@ -7,7 +7,8 @@ enum class GameControl {
 	RIGHT			= 0x03,
 	SHOOT			= 0x04,
 	BOMB			= 0x05,
-	FOCUS			= 0x06
+	FOCUS			= 0x06,
+	ER				= 0x07
 };
 
 inline std::string GameControl2String(GameControl option)
@@ -21,6 +22,7 @@ inline std::string GameControl2String(GameControl option)
 	case GameControl::SHOOT:		return "SHOOT";
 	case GameControl::BOMB:			return "BOMB";
 	case GameControl::FOCUS:		return "FOCUS";
+	case GameControl::ER:			return "ERROR";
     }
 };
 
@@ -40,4 +42,7 @@ inline GameControl String2GameControl(std::string const & str)
 		return GameControl::BOMB;
 	else if (str.compare("FOCUS") == 0)
 		return GameControl::FOCUS;
+	else{
+		return GameControl::ER;
+	}
 };

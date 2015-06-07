@@ -30,8 +30,8 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	this->stageBackgroundPos = D3DXVECTOR2(StageConsts::STAGE_POS_X, StageConsts::STAGE_POS_Y);
 	// gracz
 	this->player = ( previousStageInfo->lives != 0 ) ? 
-		new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), previousStageInfo->power, previousStageInfo->lives, previousStageInfo->bombs)
-		: new Player( D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ), 3 );
+		new Player(D3DXVECTOR2(StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f), previousStageInfo->power, static_cast<BYTE>(previousStageInfo->lives), static_cast<BYTE>(previousStageInfo->bombs))
+		: new Player(D3DXVECTOR2(StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f), 3);
 
 	// dane liczbowe
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
@@ -64,7 +64,7 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	// Avatary
 	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
 	{
-		avatar_.push_back(new GameObject(D3DXVECTOR2(728, 484 + i * 61)));
+		avatar_.push_back(new GameObject(D3DXVECTOR2(728, static_cast<float>( 484 + i * 61))));
 	}
 
 	// Zachowanie informacji o poprzednim stage'u
@@ -725,11 +725,11 @@ void Game::MakePlayerLoseLife()
 std::deque<Bonus*>* Game::CreateLeftoverBonus()
 {
 	std::deque<Bonus*> * bonus = new std::deque<Bonus*>();
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(NULL)));
 	for (byte i = 0; i < 5; i++)
 	{
 			Bonus * newBonus = BonusFactory::Instance().CreateBonus(BonusType::POWER,
-				D3DXVECTOR2(StageConsts::STAGE_POS_X + rand() % StageConsts::STAGE_WIDTH, StageConsts::STAGE_POS_Y + rand() % 100), 0.05f);
+				D3DXVECTOR2(static_cast<float>(StageConsts::STAGE_POS_X + rand() % StageConsts::STAGE_WIDTH), static_cast<float>(StageConsts::STAGE_POS_Y + rand() % 100)), 0.05f);
 			newBonus->SetSprite( bonusSprite_[BonusType::POWER] );
 			newBonus->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
 			bonus->push_back(newBonus);

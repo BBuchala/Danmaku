@@ -25,14 +25,14 @@ bool OptionsScreen::Initialize()
 	// miejsce na nazwy opcji
 	for (int i = 0; i < 9; i++)
 	{
-		Font * newEntry = new Font( D3DXVECTOR2( 200, 50 + (i + 1) * 50 ), 400, 60 );
+		Font * newEntry = new Font(D3DXVECTOR2(200, static_cast<float>( 50 + (i + 1) * 50)), 400, 60);
 		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _optionColor);
 		_optionText.push_back(newEntry);
 	}
 	// wartoœci opcji
 	for (int i = 0; i < 9; i++)
 	{
-		Font * newEntry = new Font( D3DXVECTOR2( 500, 50 + (i + 1) * 50 ), 400, 60 );
+		Font * newEntry = new Font(D3DXVECTOR2(500, static_cast<float> (50 + (i + 1) * 50)), 400, 60);
 		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _valueColor );
 		_valueText.push_back(newEntry);
 	}

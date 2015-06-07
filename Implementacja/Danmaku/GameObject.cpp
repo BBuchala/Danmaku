@@ -49,7 +49,7 @@ bool GameObject::InitializeSprite(SpritePtr sprite)
 
 bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size )
 {
-	this->hitbox = HitboxPtr( new Hitbox( shape, size, sprite->GetWidth(), sprite->GetHeight(), this->centerPoint ) );
+	this->hitbox = HitboxPtr(new Hitbox(shape, size, static_cast<float>(sprite->GetWidth()), static_cast<float>(sprite->GetHeight()), this->centerPoint));
 	return true;
 };
 

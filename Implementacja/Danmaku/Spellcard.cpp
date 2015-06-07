@@ -44,7 +44,7 @@ void Spellcard::Update(float time, D3DXVECTOR2 const & position)
 		time_ = 0.0f;
 
 	if (startBonus_ - 20000 * time >= 0 && !wasBombUsed)
-		startBonus_ -= 20000 * time;
+		startBonus_ -= static_cast<UINT>(20000 * time);
 	else
 		startBonus_ = 0;
 

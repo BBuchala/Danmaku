@@ -23,7 +23,7 @@ void EnemyPatternSpiral::Initialize(D3DXVECTOR2 const & position)
 	for (int i = 0; i < _number; i++)
 	{
 		AddBullet();
-		_bullet[i]->SetDistance(i );
+		_bullet[i]->SetDistance(static_cast<float>(i));
 	}
 };
 
