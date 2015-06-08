@@ -8,7 +8,7 @@ enum class GameControl {
 	SHOOT			= 0x04,
 	BOMB			= 0x05,
 	FOCUS			= 0x06,
-	ER				= 0x07
+	ER				= 0x08
 };
 
 inline std::string GameControl2String(GameControl option)

@@ -10,7 +10,8 @@ enum class OPTION {
 	SHOOT			= 0x06,
 	BOMB			= 0x07,
 	FOCUS			= 0x08,
-	ER				= 0x09
+	RESET			= 0x09,
+	ER				= 0x10
 };
 
 inline OPTION operator++(OPTION & option)
@@ -25,7 +26,8 @@ inline OPTION operator++(OPTION & option)
 	case OPTION::RIGHT:			return option = OPTION::SHOOT;
 	case OPTION::SHOOT:			return option = OPTION::BOMB;
 	case OPTION::BOMB:			return option = OPTION::FOCUS;
-	case OPTION::FOCUS:			return option = OPTION::LIFE_NUMBER;
+	case OPTION::FOCUS:			return option = OPTION::RESET;
+	case OPTION::RESET:			return option = OPTION::LIFE_NUMBER;
 	default:
 		return OPTION::ER;
 
@@ -36,7 +38,7 @@ inline OPTION operator--(OPTION & option)
 {
 	switch(option)
     {
-    case OPTION::LIFE_NUMBER:	return option = OPTION::FOCUS;
+    case OPTION::LIFE_NUMBER:	return option = OPTION::RESET;
     case OPTION::BOMB_NUMBER:	return option = OPTION::LIFE_NUMBER;
     case OPTION::UP:			return option = OPTION::BOMB_NUMBER;
     case OPTION::DOWN:			return option = OPTION::UP;
@@ -45,6 +47,7 @@ inline OPTION operator--(OPTION & option)
 	case OPTION::SHOOT:			return option = OPTION::RIGHT;
 	case OPTION::BOMB:			return option = OPTION::SHOOT;
 	case OPTION::FOCUS:			return option = OPTION::BOMB;
+	case OPTION::RESET:			return option = OPTION::FOCUS;
 	default:
 		return OPTION::ER;
     }
@@ -63,6 +66,7 @@ inline std::string Option2String(OPTION option)
 	case OPTION::SHOOT:			return "SHOOT";
 	case OPTION::BOMB:			return "BOMB";
 	case OPTION::FOCUS:			return "FOCUS";
+	case OPTION::RESET:			return "RESET";
 	default:  return "ERROR";
 
     }
@@ -84,10 +88,12 @@ inline OPTION String2Option(std::string const & str)
 		return OPTION::RIGHT;
 	else if (str.compare("SHOOT") == 0)
 		return OPTION::SHOOT;
-	else if (str.compare("SHOOT") == 0)
-		return OPTION::SHOOT;
+	else if (str.compare("BOMB") == 0)
+		return OPTION::BOMB;
 	else if (str.compare("FOCUS") == 0)
 		return OPTION::FOCUS;
+	else if (str.compare("RESET") == 0)
+		return OPTION::RESET;
 	else
 	{
 		return OPTION::ER;

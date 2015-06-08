@@ -9,6 +9,7 @@
 #include "Option.h"
 #include "GameControls.h"
 #include "ConfigParser.h"
+#include <string>
 
 class OptionsScreen: public Playfield
 {
@@ -33,6 +34,8 @@ class OptionsScreen: public Playfield
 	// flagi oznaczaj¹ce zmiany parametrów
 	bool _changeFlag;
 	bool _keyFlag;
+	bool choice = false;
+	int* tab = new int(9);
 	// Ÿród³o ustawieñ
 	ConfigParser * _config;
 
@@ -51,6 +54,15 @@ public:
 	void ChangeBombCount();
 	// zmiana liczby ¿yæ
 	void ChangeLifeCount();
+	//resetowanie ustawien
+	void ResetSettings();
+	//przypisanie starych wartoœci
+	void SetOldKey();
+	//zmina decyzji
+	std::string GetDecision();
+	//ustawienie decyzji
+	void SetDecision(bool decision);
+	
 	// zmiana klawisza steruj¹cego
 	void ChangeKey();
 
