@@ -17,6 +17,11 @@ const RECT Game::GAME_FIELD = {
 /* ---- KONSTRUKTOR --------------------------------------------------------------------------- */
 Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) : Playfield( gDevice ), boss(nullptr), bossActivated(false)
 {
+	// Przygotowanie do obs³ugi b³êdów
+	// Zachowanie informacji o poprzednim stage'u
+	this->previousStageInfo = previousStageInfo;
+	this->previousStageInfo->nextMode = ScreenMode::TITLE;
+
 	/* ==== PRZYDZIELENIE WARTOŒCI SK£ADOWYM ========= */
 	////// Dane liczbowe po prawej stronie
 	hiScore = graze = 0;
@@ -29,9 +34,11 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	this->stageBackground = new Sprite(gDevice->device, Sprite::GetFilePath("backgroundClouds"));
 	this->stageBackgroundPos = D3DXVECTOR2(StageConsts::STAGE_POS_X, StageConsts::STAGE_POS_Y);
 	// gracz
-	this->player = ( previousStageInfo->lives != 0 ) ? 
-		new Player(D3DXVECTOR2(StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f), previousStageInfo->power, static_cast<BYTE>(previousStageInfo->lives), static_cast<BYTE>(previousStageInfo->bombs))
-		: new Player(D3DXVECTOR2(StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f), 3);
+	if (previousStageInfo->lives != 0 )
+		this->player = new Player(D3DXVECTOR2(StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f),
+				previousStageInfo->power, static_cast<BYTE>(previousStageInfo->lives), static_cast<BYTE>(previousStageInfo->bombs));
+	else
+		this->player = new Player(D3DXVECTOR2(StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2, StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f), 3);
 
 	// dane liczbowe
 	this->hiScoreText = new Font( D3DXVECTOR2( 830, 39 ), 236, 25 );
@@ -59,9 +66,6 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	{
 		avatar_.push_back(new GameObject(D3DXVECTOR2(728, static_cast<float>( 484 + i * 61))));
 	}
-
-	// Zachowanie informacji o poprzednim stage'u
-	this->previousStageInfo = previousStageInfo;
 };
 
 /* ---- DESTRUKTOR ---------------------------------------------------------------------------- */

@@ -13,8 +13,8 @@ int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLi
 	try
 	{
 		Application app = Application( hInstance, nShowCmd );
-		app.Initialize();
-		app.Run();
+		if (app.Initialize())
+			app.Run();
 	}
 	catch (GameWindowInitializationFailedException e)
 	{

@@ -1,7 +1,5 @@
 #include "XmlParser.h"
 
-
-
 /* ---- Konstruktor
    ------------------------------------------------------------------------------------------- */
 XmlParser::XmlParser(std::string const & file) : _filePath(file)
@@ -13,12 +11,8 @@ XmlParser::XmlParser(std::string const & file) : _filePath(file)
 void XmlParser::Start()
 {
 	this->GetContents();
-	if (prawda == false){
-
-		this->ReadXMLFile();
-		this->Create();
-	}
-	
+	this->ReadXMLFile();
+	this->Create();
 };
 
 /* ---- Get Contents
@@ -35,14 +29,7 @@ char * XmlParser::XML2Char ( std::string const & stageFile )
 	std::ifstream file( stageFile );
 	if( file.fail() )
 	{
-		if (numbers == 1){
-			MessageBox(NULL, "Niepoprawna nazwa badz brak pliku XML", "Error!", MB_OK | MB_ICONERROR);
-			prawda = true;
-		}
-		else{
-			MessageBox(NULL, "Niepoprawna nazwa badz brak pliku XML z opcjami ", "Error!", MB_OK | MB_ICONERROR);
-			exit(-1);
-		}
+		throw XmlOpenFailed(stageFile);
 	}
 	std::filebuf * pbuf = file.rdbuf();
 	long fileLength = static_cast<long>(pbuf->pubseekoff( 0, std::ios::end, std::ios::in ));
@@ -58,11 +45,14 @@ void XmlParser::ReadXMLFile()
 {
 	try
 	{
+		std::string what(_contents.get());
 		_doc.parse<0>(_contents.get());
 	}
 	catch( rapidxml::parse_error e )
 	{
-		e.what();
+		std::string str(e.what());
+		if (!str.compare("expected <") == 0)
+			throw XmlParseFailed(_filePath);
 	}
 };
 

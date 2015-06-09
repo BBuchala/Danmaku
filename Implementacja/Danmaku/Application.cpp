@@ -30,7 +30,7 @@ Application::~Application()
 	if (keybInput) delete keybInput;
 };
 
-void Application::Initialize()
+bool Application::Initialize()
 {
 	this->keybDevice = keybInput->InitializeKeyboard(hWnd);
 
@@ -41,11 +41,20 @@ void Application::Initialize()
 	this->field = new TitleScreen( gDevice, endStageInfo );
 	this->field->InitializeKeyboardInput(keybInput);
 	this->timer->Start();
-	_config->Start();
-	endStageInfo->bombs = _config->GetBombNumber();
-	endStageInfo->lives = _config->GetLifeNumber();
-	keybInput->SetGameControls(_config->GameControls());
-	_config->ClearDocument();
+	try
+	{
+		_config->Start();
+		endStageInfo->bombs = _config->GetBombNumber();
+		endStageInfo->lives = _config->GetLifeNumber();
+		keybInput->SetGameControls(_config->GameControls());
+		_config->ClearDocument();
+		return true;
+	}
+	catch (FileException & ex)
+	{
+		ex.ToMessageBox();
+		return false;
+	}
 };
 
 
@@ -81,48 +90,74 @@ void Application::Run()
 				// prze³¹czenie screenów
 				if (field->isEnded())
 				{
-					endStageInfo = field->ReturnInformation();
-					delete field;
-
-					switch (endStageInfo->nextMode)
-					{
-						case(ScreenMode::GAME):
-							field = new Game(gDevice, endStageInfo);
-							break;
-
-						case(ScreenMode::TITLE):
-							field = new TitleScreen(gDevice, endStageInfo);
-							break;
-
-						case(ScreenMode::SCORE_COUNT):
-							field = new ScoreCountScreen(gDevice, endStageInfo);
-							break;
-
-						case(ScreenMode::NONE):
-							field = nullptr;
-							break;
-
-						case(ScreenMode::SCORES):
-							field = new ScoreField(gDevice, endStageInfo);
-							break;
-
-						case(ScreenMode::OPTIONS):
-							field = new OptionsScreen(gDevice, endStageInfo, _config);
-							break;
-					}
-					if (field != nullptr)
-					{
-						this->field->InitializeKeyboardInput(keybInput);
-						field->Initialize();
-					}
-					else
+					if (!Create())
 						break;
 				}
-
 			}
 		}
 	}
 };
+
+
+bool Application::Create()
+{
+	endStageInfo = field->ReturnInformation();
+	delete field;
+	CreateNewField(endStageInfo->nextMode);
+
+	if (field != nullptr)
+	{
+		this->field->InitializeKeyboardInput(keybInput);
+		if (!field->Initialize())
+		{
+			this->Create();
+		}
+		return true;
+	}
+	else
+		return false;
+};
+
+
+void Application::CreateNewField(ScreenMode fieldType)
+{
+	switch (endStageInfo->nextMode)
+	{
+	case(ScreenMode::GAME):
+		try
+		{
+			field = new Game(gDevice, endStageInfo);
+		}
+		catch(StageCreationFailed ex)
+		{
+			ex.ToMessageBox();
+			// Rekurencja, nioch nioch XD
+			this->CreateNewField(endStageInfo->nextMode);
+		}
+		break;
+
+	case(ScreenMode::TITLE): default:
+		field = new TitleScreen(gDevice, endStageInfo);
+		break;
+
+	case(ScreenMode::SCORE_COUNT):
+		field = new ScoreCountScreen(gDevice, endStageInfo);
+		break;
+
+	case(ScreenMode::NONE):
+		field = nullptr;
+		break;
+
+	case(ScreenMode::SCORES):
+		field = new ScoreField(gDevice, endStageInfo);
+		break;
+
+	case(ScreenMode::OPTIONS):
+		field = new OptionsScreen(gDevice, endStageInfo, _config);
+		break;
+	}
+};
+
 
 
 void Application::CalculateFPS( float const dt )

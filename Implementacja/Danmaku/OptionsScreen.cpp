@@ -24,25 +24,34 @@ OptionsScreen::OptionsScreen(GraphicsDevice * const gDevice, EndStageInfo * endS
    ------------------------------------------------------------------------------------------- */
 bool OptionsScreen::Initialize()
 {
-	_config->Start();
-	this->SetOldKey();
-	// miejsce na nazwy opcji
-	for (int i = 0; i < 10; i++)
+	try
 	{
-		Font * newEntry = new Font(D3DXVECTOR2(200, static_cast<float>( 50 + (i + 1) * 50)), 400, 60);
-		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _optionColor);
-		_optionText.push_back(newEntry);
+		_config->Start();
+		this->SetOldKey();
+		// miejsce na nazwy opcji
+		for (int i = 0; i < 10; i++)
+		{
+			Font * newEntry = new Font(D3DXVECTOR2(200, static_cast<float>( 50 + (i + 1) * 50)), 400, 60);
+			newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _optionColor);
+			_optionText.push_back(newEntry);
+		}
+		// wartoœci opcji
+		for (int i = 0; i < 10; i++)
+		{
+			Font * newEntry = new Font(D3DXVECTOR2(500, static_cast<float> (50 + (i + 1) * 50)), 400, 60);
+			newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _valueColor );
+			_valueText.push_back(newEntry);
+		}
+		_optionText[(UINT)_currentOption]->SetColor(_chosenColor);
+		_valueText[(UINT)_currentOption]->SetColor(_chosenColor);
+		return true;
 	}
-	// wartoœci opcji
-	for (int i = 0; i < 10; i++)
+	catch (FileException & ex)
 	{
-		Font * newEntry = new Font(D3DXVECTOR2(500, static_cast<float> (50 + (i + 1) * 50)), 400, 60);
-		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _valueColor );
-		_valueText.push_back(newEntry);
+		ex.ToMessageBox();
+		ended = true;
+		return false;
 	}
-	_optionText[(UINT)_currentOption]->SetColor(_chosenColor);
-	_valueText[(UINT)_currentOption]->SetColor(_chosenColor);
-	return true;
 };
 
 /* ---- Update

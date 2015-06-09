@@ -1,9 +1,7 @@
-#ifndef EX_DIRECT3D_INIT_FAILED_H
-#define EX_DIRECT3D_INIT_FAILED_H
-
+#pragma once
 #include "IException.h"
 
-class Direct3DInitializationFailedException: public IException
+class StageCreationFailed: public IException
 {
 public:
 	// zwrócenie komunikatu
@@ -12,6 +10,3 @@ public:
 	// pokazanie message boxa
 	void ToMessageBox() override;
 };
-
-
-#endif

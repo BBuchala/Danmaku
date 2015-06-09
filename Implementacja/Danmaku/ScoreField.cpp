@@ -10,7 +10,7 @@ ScoreField::ScoreField(GraphicsDevice * const gDevice, EndStageInfo * endStageIn
 	this->previousStageInfo = endStageInfo;
 	endStageInfo->nextMode = ScreenMode::TITLE;
 	_gDevice = gDevice;
-	_scores = new ScoreParser("scores/scores.xml",1);
+	_scores = new ScoreParser("scores/scores.xml");
 };
 
 /* ---- Destruktor
@@ -50,23 +50,32 @@ void ScoreField::DrawScene()
    ------------------------------------------------------------------------------------------- */
 bool ScoreField::Initialize()
 {
-	_scores->Start();
-	for (int i = 0; i < 3; i++)
+	try
 	{
-		Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(i) + 1) * 200, 30), 400, 60);
-		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) );
-		_entryText.push_back(newEntry);
-	}
-	for (size_t i = 0; i < _scores->GetEntries().size(); i++)
-	{
-		for (int j = 0; j < 3; j++)
+		_scores->Start();
+		for (int i = 0; i < 3; i++)
 		{
-			Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(j)+1) * 200, 50 + (static_cast<float>(i) + 1) * 50), 400, 60);
-			newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) );
+			Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(i) + 1) * 200, 30), 400, 60);
+			newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) );
 			_entryText.push_back(newEntry);
 		}
+		for (size_t i = 0; i < _scores->GetEntries().size(); i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(j)+1) * 200, 50 + (static_cast<float>(i) + 1) * 50), 400, 60);
+				newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) );
+				_entryText.push_back(newEntry);
+			}
+		}
+		return true;
 	}
-	return true;
+	catch (FileException & ex)
+	{
+		ex.ToMessageBox();
+		ended = true;
+		return false;
+	}
 };
 
 /* ---- Retur nInformation

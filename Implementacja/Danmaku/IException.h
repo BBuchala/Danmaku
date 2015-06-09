@@ -9,6 +9,7 @@
 #define EX_H
 
 #include <string>
+#include <Windows.h>
 
 class IException
 {

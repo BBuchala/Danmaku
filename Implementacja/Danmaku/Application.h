@@ -40,8 +40,10 @@ public:
 	Application( HINSTANCE hInstance, int const nShowCmd );
 	~Application();
 
-	void Initialize();
+	bool Initialize();
 	void Run();
+	void CreateNewField(ScreenMode fieldType);
+	bool Create();
 	
 
 private:

@@ -27,6 +27,7 @@
 // biblioteki do parsowania pliku XML
 #include <rapidxml.hpp>
 #include <rapidxml_print.hpp>
+#include "StageCreationFailed.h"
 
 using namespace rapidxml;
 

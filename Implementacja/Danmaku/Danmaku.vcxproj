@@ -96,6 +96,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EPatternFactory.cpp" />
+    <ClCompile Include="FileException.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="ScoreParser.cpp" />
     <ClCompile Include="Spellcard.cpp" />
     <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="StageCreationFailed.cpp" />
     <ClCompile Include="String.cpp" />
     <ClCompile Include="Trajectory.cpp" />
     <ClCompile Include="TrajectoryBezier.cpp" />
@@ -142,6 +144,8 @@
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="XmlOpenFailed.cpp" />
+    <ClCompile Include="XmlParseFailed.cpp" />
     <ClCompile Include="XmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +175,7 @@
     <ClInclude Include="Direct3DInitializationFailedException.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EPatternFactory.h" />
+    <ClInclude Include="FileException.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameControls.h" />
     <ClInclude Include="Hitbox.h" />
@@ -214,6 +219,7 @@
     <ClInclude Include="Spellcard.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="StageConst.h" />
+    <ClInclude Include="StageCreationFailed.h" />
     <ClInclude Include="String.h" />
     <ClInclude Include="Trajectory.h" />
     <ClInclude Include="TrajectoryBezier.h" />
@@ -233,6 +239,8 @@
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="XmlOpenFailed.h" />
+    <ClInclude Include="XmlParseFailed.h" />
     <ClInclude Include="XmlParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

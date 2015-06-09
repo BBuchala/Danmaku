@@ -16,7 +16,7 @@ char * Stage::XML2Char ( std::string const & stageFile )
 	std::ifstream file( stageFile );
 	if( file.bad() )
 	{
-		exit( - 1 );
+		throw StageCreationFailed();
 	}
 	std::filebuf * pbuf = file.rdbuf();
 	long fileLength = static_cast<long>(pbuf->pubseekoff( 0, std::ios::end, std::ios::in ));
@@ -35,7 +35,9 @@ void Stage::ReadXMLFile()
 	}
 	catch( rapidxml::parse_error e )
 	{
-		e.what();
+		std::string str(e.what());
+		if (!str.compare("expected <") == 0)
+			throw StageCreationFailed();
 	}
 };
 
