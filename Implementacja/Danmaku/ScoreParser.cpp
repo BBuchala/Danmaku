@@ -2,8 +2,9 @@
 
 /* ---- Konstruktor
    ------------------------------------------------------------------------------------------- */
-ScoreParser::ScoreParser(std::string const & file) : XmlParser(file)
+ScoreParser::ScoreParser(std::string const & file, int number) : XmlParser(file)
 {
+	numbers = number;
 };
 
 /* ---- Create

@@ -6,6 +6,8 @@
 #include <memory>
 #include <rapidxml.hpp>
 #include <rapidxml_print.hpp>
+#include <Windows.h>
+
 
 using namespace rapidxml;
 
@@ -14,7 +16,10 @@ class XmlParser
 protected:
 	std::string _filePath;				// œcie¿ka do parsowanego pliku
 	rapidxml::xml_document <> _doc;		// plik z danymi
-	std::unique_ptr<char> _contents;	// zawartoœæ pliku XML
+	std::unique_ptr<char> _contents;
+	// zawartoœæ pliku XML
+	bool prawda = false;
+	int numbers;
 
 public:
 	// Konstruktor

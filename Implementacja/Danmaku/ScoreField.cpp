@@ -10,7 +10,7 @@ ScoreField::ScoreField(GraphicsDevice * const gDevice, EndStageInfo * endStageIn
 	this->previousStageInfo = endStageInfo;
 	endStageInfo->nextMode = ScreenMode::TITLE;
 	_gDevice = gDevice;
-	_scores = new ScoreParser("scores/scores.xml");
+	_scores = new ScoreParser("scores/scores.xml",1);
 };
 
 /* ---- Destruktor

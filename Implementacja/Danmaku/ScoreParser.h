@@ -12,7 +12,7 @@ class ScoreParser: public XmlParser
 
 public:
 	// Konstruktor
-	ScoreParser(std::string const & file);
+	ScoreParser(std::string const & file, int number);
 	// Przetowrzenie pliku
 	void Create() override;
 

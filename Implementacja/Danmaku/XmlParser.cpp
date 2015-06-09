@@ -1,5 +1,7 @@
 #include "XmlParser.h"
 
+
+
 /* ---- Konstruktor
    ------------------------------------------------------------------------------------------- */
 XmlParser::XmlParser(std::string const & file) : _filePath(file)
@@ -11,8 +13,12 @@ XmlParser::XmlParser(std::string const & file) : _filePath(file)
 void XmlParser::Start()
 {
 	this->GetContents();
-	this->ReadXMLFile();
-	this->Create();
+	if (prawda == false){
+
+		this->ReadXMLFile();
+		this->Create();
+	}
+	
 };
 
 /* ---- Get Contents
@@ -27,9 +33,16 @@ void XmlParser::GetContents()
 char * XmlParser::XML2Char ( std::string const & stageFile )
 {
 	std::ifstream file( stageFile );
-	if( file.bad() )
+	if( file.fail() )
 	{
-		exit( - 1 );
+		if (numbers == 1){
+			MessageBox(NULL, "Niepoprawna nazwa badz brak pliku XML", "Error!", MB_OK | MB_ICONERROR);
+			prawda = true;
+		}
+		else{
+			MessageBox(NULL, "Niepoprawna nazwa badz brak pliku XML z opcjami ", "Error!", MB_OK | MB_ICONERROR);
+			exit(-1);
+		}
 	}
 	std::filebuf * pbuf = file.rdbuf();
 	long fileLength = static_cast<long>(pbuf->pubseekoff( 0, std::ios::end, std::ios::in ));
