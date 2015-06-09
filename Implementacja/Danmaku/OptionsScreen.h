@@ -34,8 +34,8 @@ class OptionsScreen: public Playfield
 	// flagi oznaczaj¹ce zmiany parametrów
 	bool _changeFlag;
 	bool _keyFlag;
-	bool choice = false;
-	int* tab = new int(9);
+	bool _choice;
+	int * _tab;
 	// Ÿród³o ustawieñ
 	ConfigParser * _config;
 

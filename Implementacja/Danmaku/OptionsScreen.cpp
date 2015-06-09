@@ -3,7 +3,8 @@
 /* ---- Konstruktor
    ------------------------------------------------------------------------------------------- */
 OptionsScreen::OptionsScreen(GraphicsDevice * const gDevice, EndStageInfo * endStageInfo, ConfigParser * config)
-	: Playfield(gDevice), _currentOption(OPTION::LIFE_NUMBER), _changeFlag(false), _keyFlag(false)
+	: Playfield(gDevice), _currentOption(OPTION::LIFE_NUMBER), _changeFlag(false), _keyFlag(false),
+	_choice(false)
 {
 	_background = new Sprite(gDevice->device, Sprite::GetFilePath("optionscreen"));
 	_BGposition = D3DXVECTOR2(0.0f, 0.0f);
@@ -15,7 +16,7 @@ OptionsScreen::OptionsScreen(GraphicsDevice * const gDevice, EndStageInfo * endS
 	_valueColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 	_chosenColor = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	_changeColor = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
-	
+	_tab = new int[9];
 	
 };
 
@@ -87,7 +88,7 @@ void OptionsScreen::Update(float const time)
 			{
 				_changeFlag = false;
 				this->ResetOptionColor(_currentOption);
-				choice = false;
+				_choice = false;
 			}
 			break;
 		}
@@ -198,13 +199,13 @@ void OptionsScreen::ResetSettings()
 	if (this->input->KeyDownOne(DIK_UPARROW))
 	{	
 		decision = true;
-		_config->SetKey(GameControl::UP,	200);
-		_config->SetKey(GameControl::DOWN,	208);
-		_config->SetKey(GameControl::LEFT,	203);
-		_config->SetKey(GameControl::RIGHT, 205);
-		_config->SetKey(GameControl::SHOOT,	44);
-		_config->SetKey(GameControl::BOMB,	45);
-		_config->SetKey(GameControl::FOCUS,	42);
+		_config->SetKey(GameControl::UP,	DIK_UPARROW);
+		_config->SetKey(GameControl::DOWN,	DIK_DOWNARROW);
+		_config->SetKey(GameControl::LEFT,	DIK_LEFTARROW);
+		_config->SetKey(GameControl::RIGHT, DIK_RIGHTARROW);
+		_config->SetKey(GameControl::SHOOT,	DIK_Z);
+		_config->SetKey(GameControl::BOMB,	DIK_X);
+		_config->SetKey(GameControl::FOCUS,	DIK_LSHIFT);
 		_config->SetBombNumber(4);
 		_config->SetLifeNumber(5);
 
@@ -214,15 +215,15 @@ void OptionsScreen::ResetSettings()
 	else if (this->input->KeyDownOne(DIK_DOWNARROW))
 	{
 		decision = false;
-		_config->SetKey(GameControl::UP,	tab[0]);
-		_config->SetKey(GameControl::DOWN,	tab[1]);
-		_config->SetKey(GameControl::LEFT,	tab[2]);
-		_config->SetKey(GameControl::RIGHT,	tab[3]);
-		_config->SetKey(GameControl::SHOOT, tab[4]);
-		_config->SetKey(GameControl::BOMB,	tab[5]);
-		_config->SetKey(GameControl::FOCUS, tab[6]);
-		_config->SetBombNumber(tab[7]);
-		_config->SetLifeNumber(tab[8]);
+		_config->SetKey(GameControl::UP,	_tab[0]);
+		_config->SetKey(GameControl::DOWN,	_tab[1]);
+		_config->SetKey(GameControl::LEFT,	_tab[2]);
+		_config->SetKey(GameControl::RIGHT,	_tab[3]);
+		_config->SetKey(GameControl::SHOOT, _tab[4]);
+		_config->SetKey(GameControl::BOMB,	_tab[5]);
+		_config->SetKey(GameControl::FOCUS, _tab[6]);
+		_config->SetBombNumber(_tab[7]);
+		_config->SetLifeNumber(_tab[8]);
 		SetDecision(decision);
 		
 	}
@@ -231,24 +232,24 @@ void OptionsScreen::ResetSettings()
 }
 void OptionsScreen::SetOldKey(){
 
-	tab[0] = _config->GetKey(GameControl::UP);
-	tab[1] = _config->GetKey(GameControl::DOWN);
-	tab[2] = _config->GetKey(GameControl::LEFT);
-	tab[3] = _config->GetKey(GameControl::RIGHT);
-	tab[4] = _config->GetKey(GameControl::SHOOT);
-	tab[5] = _config->GetKey(GameControl::BOMB);
-	tab[6] = _config->GetKey(GameControl::FOCUS);
-	tab[7] = _config->GetBombNumber();
-	tab[8] = _config->GetLifeNumber();
+	_tab[0] = _config->GetKey(GameControl::UP);
+	_tab[1] = _config->GetKey(GameControl::DOWN);
+	_tab[2] = _config->GetKey(GameControl::LEFT);
+	_tab[3] = _config->GetKey(GameControl::RIGHT);
+	_tab[4] = _config->GetKey(GameControl::SHOOT);
+	_tab[5] = _config->GetKey(GameControl::BOMB);
+	_tab[6] = _config->GetKey(GameControl::FOCUS);
+	_tab[7] = _config->GetBombNumber();
+	_tab[8] = _config->GetLifeNumber();
 
 }
 
 std::string OptionsScreen::GetDecision(){
 
-	if (choice == true){
+	if (_choice == true){
 		return "TRUE";
 	}
-	else if (choice == false)
+	else if (_choice == false)
 		return "FALSE";
 	else
 		return "ERROR";
@@ -256,7 +257,7 @@ std::string OptionsScreen::GetDecision(){
 }
 void OptionsScreen::SetDecision(bool decision){
 
-	choice = decision;
+	_choice = decision;
 }
 
 /* ---- Change Life Count
