@@ -1,73 +1,36 @@
 #include "Hitbox.h"
 
-Hitbox::Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const radiusA, float const radiusB, D3DXVECTOR2 const & position )
-	: theta(0.0f)
+Hitbox::Hitbox( D3DXVECTOR2 * const position ) : _theta(0.0f)
 {
-	float divisor;
-	switch(size)
-	{
-	case ONE_THIRDS_LENGTH:
-		divisor = 6.0f;
-		break;
-	case HALF_LENGTH: default:
-		divisor = 4.0f;
-		break;
-	case TWO_THIRDS_LENGTH:
-		divisor = 3.0f;
-		break;
-	case FULL_LENGTH:
-		divisor = 2.0f;
-		break;
-	case EXTENDED_LENGTH:
-		divisor = 1.00f;		// daje trochê lepsze ofekty ni¿ 1.0f, ale muszê jeszcze poeksperymentowaæ z kszta³tem obrazka i hitboxa
-		break;
-	}
-	switch(shape)
-	{
-	case CIRCLE:
-		radiusA_ = radiusB_ = min(radiusA, radiusB) / divisor;
-		break;
-	case ELLIPSE:
-		radiusA_ = radiusA / divisor;
-		radiusB_ = radiusB / divisor;
-		break;
-	}
-	this->position = const_cast<D3DXVECTOR2*>(&position);
+	_position = const_cast<D3DXVECTOR2*>(position);
 };
 
-Hitbox::Hitbox( Hitbox const & h) : radiusA_(h.radiusA_), radiusB_(h.radiusB_), theta(h.theta)
-{
-};
 
 void Hitbox::Translate( D3DXVECTOR2 const & translate )
 {
-	*this->position += translate;
-};
-
-
-void Hitbox::Scale( float const scale )
-{
-	radiusA_ *= scale;
-	radiusB_ *= scale;
+	*_position += translate;
 };
 
 
 void Hitbox::Rotate( float const theta )
 {
-	this->theta += theta;
+	_theta += theta;
 };
 
 
-void Hitbox::SetRadius( float const radius )
+float Hitbox::GetDivisor(Hitbox::Size hSize)
 {
-	SetRadius(radius, radius);
+	switch(hSize)
+	{
+	case ONE_THIRDS_LENGTH:
+		return 6.0f;
+	case HALF_LENGTH: default:
+		return 4.0f;
+	case TWO_THIRDS_LENGTH:
+		return 3.0f;
+	case FULL_LENGTH:
+		return 2.0f;
+	case EXTENDED_LENGTH:
+		return 1.00f;
+	}
 };
-
-
-void Hitbox::SetRadius( float const radiusA, float const radiusB )
-{
-	radiusA_ = radiusA;
-	radiusB_ = radiusB;
-};
-
-

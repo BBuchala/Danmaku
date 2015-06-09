@@ -48,7 +48,7 @@ void Stage::ChooseHitboxShape(std::string const & shape, Hitbox::Shape & hShape)
 	}
 	else if (shape.compare("ELLIPSE") == 0)
 	{
-		hShape = Hitbox::Shape::ELLIPSE;
+		hShape = Hitbox::Shape::ELIPSE;
 	}
 };
 
@@ -672,7 +672,7 @@ void Stage::CreateEnemies(xml_node <> * time, std::string const & timeValue)
 				enemyObj->SetSpeed(D3DXToRadian(enemyObj->GetSpeed()));
 				break;
 			}
-			enemyObj->InitializeHitbox(Hitbox::Shape::ELLIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
+			enemyObj->InitializeHitbox(Hitbox::Shape::ELIPSE, Hitbox::Size::TWO_THIRDS_LENGTH);
 			enemyObj->SetDistance(tmp_start - i * tmp_distance);
 			enemyObj->GetTrajectory()->SetLength(tmp_start + tmp_length + i * tmp_distance);
 			newEnemyQue.push_back(enemyObj);
@@ -727,7 +727,7 @@ void Stage::CreateBoss(xml_node <> * time, std::string const & timeValue)
 
 			this->boss = new Boss(position, life, name);
 			this->boss->InitializeSprite(_enemySprite[image]);
-			this->boss->InitializeHitbox(Hitbox::Shape::ELLIPSE, hSize);
+			this->boss->InitializeHitbox(Hitbox::Shape::ELIPSE, hSize);
 
 			for (xml_node <> * spellcardNode = bossNode->first_node(); spellcardNode; spellcardNode = spellcardNode->next_sibling())
 			{

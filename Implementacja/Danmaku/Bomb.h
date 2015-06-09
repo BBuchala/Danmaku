@@ -2,6 +2,8 @@
 
 #include "GameObject.h"
 
+#define DEBUG
+
 class Bomb: public GameObject
 	{	
 	private:
@@ -14,18 +16,18 @@ class Bomb: public GameObject
 		bool inUse;
 		// przesuniêcie wzglêdem œrodka gracza
 		D3DXVECTOR2 shift;
-
+		D3DXVECTOR2 * _playerPosition;	// wskaŸnik na pozycjê gracza
+#ifdef DEBUG
+		Sprite * tmp;
+#endif
 	public:
-		Bomb (D3DXVECTOR2 const & position, float const speed);
+		Bomb (D3DXVECTOR2 * const playerPosition, float const speed);
 		Bomb ( Bomb const & bomb );
 		~Bomb();
 
-
 		void Initialize(LPDIRECT3DDEVICE9 device);
-
 		void Update(float const time) override;
-		// Sytuacja co z PlayerPatternem, póki co nie mam pomys³u jak to za³ataæ.
-		void Update(float const time, D3DXVECTOR2 const & position); 
+		void Draw( RECT const & rect ) override;
 
 		void Launch();
 

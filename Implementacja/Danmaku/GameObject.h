@@ -4,7 +4,8 @@
 #include <memory>
 
 #include "GraphicsDevice.h"
-#include "Hitbox.h"
+#include "HitboxCircle.h"
+#include "HitboxElipse.h"
 #include "Sprite.h"
 
 class GameObject
@@ -83,7 +84,7 @@ public:
 
 	inline D3DXVECTOR2 GetCenterPoint() const
 	{
-		return this->position + this->GetSprite()->GetCenterPoint();
+		return this->centerPoint;
 	}
 
 	inline Hitbox * const GetHitbox() const

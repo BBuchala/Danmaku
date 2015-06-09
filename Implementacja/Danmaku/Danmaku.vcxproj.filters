@@ -142,6 +142,12 @@
     <Filter Include="Source Files\Patterns\EnemyPatterns\Spirals">
       <UniqueIdentifier>{0327b656-f949-4b4e-be98-1cd4e47cb8e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Hitboxes">
+      <UniqueIdentifier>{c2053850-b935-48ba-9cef-c66891e651c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Hitboxes">
+      <UniqueIdentifier>{ed3bbda5-b7a1-4fa5-8945-c5582c346dba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -165,9 +171,6 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\Bullets</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files\Fields</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
@@ -190,9 +193,6 @@
       <Filter>Source Files\Trajectories</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hitbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerBullet.cpp">
@@ -288,9 +288,6 @@
     <ClCompile Include="Stage.cpp">
       <Filter>Source Files\Fields\GameScreen</Filter>
     </ClCompile>
-    <ClCompile Include="Playfield.cpp">
-      <Filter>Source Files\Fields\GameScreen</Filter>
-    </ClCompile>
     <ClCompile Include="ScoreCountScreen.cpp">
       <Filter>Source Files\Fields\GameScreen</Filter>
     </ClCompile>
@@ -341,6 +338,21 @@
     </ClCompile>
     <ClCompile Include="EnemyPatternSpiralArchimedean.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClCompile>
+    <ClCompile Include="Hitbox.cpp">
+      <Filter>Source Files\Hitboxes</Filter>
+    </ClCompile>
+    <ClCompile Include="HitboxCircle.cpp">
+      <Filter>Source Files\Hitboxes</Filter>
+    </ClCompile>
+    <ClCompile Include="HitboxElipse.cpp">
+      <Filter>Source Files\Hitboxes</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Fields\GameScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Playfield.cpp">
+      <Filter>Source Files\Fields</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -408,9 +420,6 @@
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hitbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bar.h">
@@ -604,6 +613,15 @@
     </ClInclude>
     <ClInclude Include="EnemyPatternSpiralArchimedean.h">
       <Filter>Header Files\Patterns\EnemyPatterns\Spirals</Filter>
+    </ClInclude>
+    <ClInclude Include="Hitbox.h">
+      <Filter>Header Files\Hitboxes</Filter>
+    </ClInclude>
+    <ClInclude Include="HitboxCircle.h">
+      <Filter>Header Files\Hitboxes</Filter>
+    </ClInclude>
+    <ClInclude Include="HitboxElipse.h">
+      <Filter>Header Files\Hitboxes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

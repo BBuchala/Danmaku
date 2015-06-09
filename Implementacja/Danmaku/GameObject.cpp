@@ -17,7 +17,7 @@ GameObject::~GameObject()
 };
 
 
-GameObject::GameObject( GameObject const & go ) : hitbox(new Hitbox(*go.hitbox))
+GameObject::GameObject( GameObject const & go ) : hitbox(go.hitbox->Clone())
 {
 	this->position = go.position;
 	this->centerPoint = go.centerPoint;
@@ -49,7 +49,15 @@ bool GameObject::InitializeSprite(SpritePtr sprite)
 
 bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size )
 {
-	this->hitbox = HitboxPtr(new Hitbox(shape, size, static_cast<float>(sprite->GetWidth()), static_cast<float>(sprite->GetHeight()), this->centerPoint));
+	switch(shape)
+	{
+	case Hitbox::Shape::CIRCLE: default:
+		hitbox = HitboxPtr(new HitboxCircle(size, static_cast<float>( min(sprite->GetWidth(), sprite->GetHeight()) ), &centerPoint));
+		break;
+	case Hitbox::Shape::ELIPSE:
+		hitbox = HitboxPtr(new HitboxElipse(size, static_cast<float>(sprite->GetWidth()) / 2.0f, static_cast<float>(sprite->GetHeight()) / 2.0f, &centerPoint));
+		break;
+	}
 	return true;
 };
 

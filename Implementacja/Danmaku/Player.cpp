@@ -37,7 +37,7 @@ bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & pos
 
 void Player::InitializeBomb()
 {
-	_bomb = BombPtr(new Bomb(this->GetCenterPoint(), this->GetSpeed()));
+	_bomb = BombPtr(new Bomb(&centerPoint, this->GetSpeed()));
 };
 
 
@@ -90,12 +90,14 @@ void Player::Update(float const time, Move const move)
 	this->Shoot( time );
 
 	//
-	this->_bomb->Update( time, this->GetCenterPoint() );
+	this->_bomb->Update(time);
 
 	if (_isFocused)
 	{
 		this->_hitboxRotation += D3DXToRadian(5.0f);
 	}
+
+	GameObject::Update(time);
 };
 
 // --- Draw ---------------------------------------------------------------------------------------
@@ -253,7 +255,7 @@ void Player::ChangePlayerPattern()
 
 	switch(_powerLevel)
 	{
-		case 1:
+		case 1: default:
 			_playerPattern = PPatternPtr(new PlayerPattern01());
 			break;
 
@@ -271,10 +273,6 @@ void Player::ChangePlayerPattern()
 
 		case 5:
 			_playerPattern = PPatternPtr(new PlayerPattern05());
-			break;
-
-		default:													// Zostawiam na wypadek bugu
-			_playerPattern = PPatternPtr(new PlayerPattern01());		
 			break;
 	}
 	_playerPattern->LoadSprite(*_pbsResource);
@@ -307,5 +305,16 @@ bool Player::UseBomb()
 
 bool Player::InitializeHitboxSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
 {
-	return _hitboxSprite->Initialize(device, file, 4 * static_cast<UINT>(this->hitbox->GetRadiusA()), 4 * static_cast<UINT>(this->hitbox->GetRadiusB()));
+	Hitbox * h = hitbox.get();
+	HitboxCircle * hCircle = dynamic_cast<HitboxCircle*>(h);
+	if (hCircle != NULL)
+	{
+		return _hitboxSprite->Initialize(device, file, 4 * static_cast<UINT>(hCircle->GetRadius()), 4 * static_cast<UINT>(hCircle->GetRadius()));
+	}
+	HitboxElipse * hElipse = dynamic_cast<HitboxElipse*>(h);
+	if (hElipse != NULL)
+	{
+		return _hitboxSprite->Initialize(device, file, 4 * static_cast<UINT>(hElipse->GetRadiusA()), 4 * static_cast<UINT>(hElipse->GetRadiusB()));
+	}
+	return false;
 };

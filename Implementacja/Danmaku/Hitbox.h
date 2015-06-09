@@ -7,17 +7,15 @@
 
 class Hitbox : public ITransformable
 {
-	float radiusA_;
-	float radiusB_;
-	float theta;
-	D3DXVECTOR2 * position;
+protected:
+	typedef D3DXVECTOR2* PVECTOR2;
+	PVECTOR2 _position;
+	float _theta;
 
 public:
-	//// MO¯LIWE WERSJE HITBOXA
 	static enum Shape
 	{
-		CIRCLE				=	0x00,
-		ELLIPSE				=	0x01
+		CIRCLE, ELIPSE
 	};
 	static enum Size
 	{
@@ -27,38 +25,24 @@ public:
 		FULL_LENGTH			=	0x04,
 		EXTENDED_LENGTH     =   0x08
 	};
-
-	///////// KONSTRUKTORY
-	// Konstruktor - przyjmuje pozycjê, promienie i widocznoœæ
-	// Nastêpnie nale¿y zainicjalizowaæ sprajt
-	Hitbox( Hitbox::Shape const shape, Hitbox::Size const size, float const radiusA, float const radiusB, D3DXVECTOR2 const & position );
-	Hitbox( Hitbox const & h);
+	// Konstruktor
+	Hitbox( D3DXVECTOR2 * const position );
 
 	//////// TRANSFORMABLE
 	void Translate( D3DXVECTOR2 const & translate ) override;
-	void Scale( float const scale ) override;
 	void Rotate( float const theta ) override;
 
-	//////// SETTERY
-	void SetRadius( float const radius );
-	void SetRadius( float const radiusA, float const radiusB );
+	// sprawdzenie kolizji z innym hitboxem
+	virtual bool TestCollision(Hitbox * collider, USHORT grazeDistance = 0) = 0;
 
+	// klonowanie
+	virtual Hitbox * Clone() = 0;
 
-	//////// GETTERY
-	inline const float GetRadius(float const angle) const
+	inline D3DXVECTOR2 GetPosition() const
 	{
-		float res = Vector::Length(*position, *position + Vector::Polar(radiusA_, radiusB_, angle + theta));
-		return res;
-	};
-
-	inline const float GetRadiusA() const
-	{
-		return radiusA_;
+		return *_position;
 	}
 
-	inline const float GetRadiusB() const
-	{
-		return radiusB_;
-	}
-
+protected:
+	float GetDivisor(Hitbox::Size hSize);
 };

@@ -19,19 +19,21 @@ D3DXVECTOR2 Vector::Polar( float const radiusA, float const radiusB, float const
 };
 
 
-float Vector::Length( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & vector )
+float Vector::Length( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoint )
 {
-	D3DXVECTOR2 diff = vector - startPoint;
-	return sqrt(D3DXVec2Dot(&diff, &diff));
+	D3DXVECTOR2 diff = endPoint - startPoint;
+	float distance = sqrt(D3DXVec2Dot(&diff, &diff));
+	return distance;
 };
 
 
 float Vector::Angle( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoint )
 {
-	float x = abs(startPoint.x - endPoint.x);
-	float y = abs(startPoint.y - endPoint.y);
-	return std::atan(y / x);	// radiany
+	float x = abs(endPoint.x - startPoint.x);
+	float y = abs(endPoint.y - startPoint.y);
+	return std::atan2(y, x);	// radiany
 };
+
 
 D3DXVECTOR2 Vector::Distance( D3DXVECTOR2 const & startPoint, D3DXVECTOR2 const & endPoint, float const distance )
 {

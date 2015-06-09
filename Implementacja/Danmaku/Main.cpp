@@ -7,8 +7,6 @@
 
 #include "Application.h"
 
-#define DEBUG
-
 //Main windows function
 int WINAPI WinMain(HINSTANCE hInstance,	 HINSTANCE hPrevInstance,  LPSTR lpCmdLine, int nShowCmd)
 {

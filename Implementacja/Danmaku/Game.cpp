@@ -49,13 +49,6 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	// paski ¿ycia i bomb
 	this->lifeBar = new Bar(D3DXVECTOR2( 830, 115 ), this->player->GetLifeCount());
 	this->bombBar = new Bar(D3DXVECTOR2( 830, 140 ), this->player->GetBombCount());
-
-	// bonusy
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::POWER, D3DXVECTOR2(200,100)));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::POWER, D3DXVECTOR2(400,50 )));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::SCORE, D3DXVECTOR2(500,250), 10000));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::LIFE,  D3DXVECTOR2(80,80  )));
-	bonus_.push_back(BonusFactory::Instance().CreateBonus(BonusType::BOMB,  D3DXVECTOR2(650,100)));
 	
 	std::string fileString = std::string("stages/Stage") + std::to_string(previousStageInfo->numberOfStage) + std::string(".xml");
 
@@ -479,10 +472,7 @@ void Game::CheckPlayerEnemyCollisions()
 	EnemyQue::const_iterator e_it = enemy_.begin();
 	while (e_it != enemy_.end())
 	{
-		float distance = Vector::Length( (*e_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-		float angle = Vector::Angle(this->player->GetCenterPoint(), (*e_it)->GetCenterPoint());
-		// je¿eli hitboxy zderzy³y siê
-		if (distance <= (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+		if ((*e_it)->GetHitbox()->TestCollision(player->GetHitbox()))
 		{
 			e_it = enemy_.erase(e_it);	// usuniêcie wroga z kolejki
 			this->MakePlayerLoseLife();
@@ -500,9 +490,7 @@ void Game::CheckPlayerEnemyCollisions()
 		{
 			while (eb_it != ep->end())
 			{
-				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+				if ((*eb_it)->GetHitbox()->TestCollision(player->GetHitbox()))
 				{
 					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
 					this->MakePlayerLoseLife();
@@ -519,9 +507,7 @@ void Game::CheckPlayerEnemyCollisions()
 void Game::CheckPlayerBossCollisions()
 {
 	// Czy Gracz zderzy³ siê z bossem, jak tak, to traci ¿ycie
-	float distance = Vector::Length( boss->GetCenterPoint(), this->player->GetCenterPoint() );
-	float angle = Vector::Angle(this->player->GetCenterPoint(), boss->GetCenterPoint());
-	if (distance <= boss->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+	if (boss->GetHitbox()->TestCollision(player->GetHitbox()))
 	{
 		this->MakePlayerLoseLife();
 		return;
@@ -539,9 +525,7 @@ void Game::CheckPlayerBossCollisions()
 				std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
 				while(eb_it != ep->end())
 				{
-					float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-					float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-					if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+					if ((*eb_it)->GetHitbox()->TestCollision(player->GetHitbox()))
 					{
 						eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
 						this->MakePlayerLoseLife();
@@ -566,13 +550,9 @@ void Game::CheckPlayerGraze()
 			std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
 			for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
 			{
-				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
 				// czy ³apie siê w granicê hitboxy + graze_distance
 				if (!(*eb_it)->IsGrazed() &&
-						distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
-						+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
-						+ StageConsts::GRAZE_DISTANCE)
+					 (*eb_it)->GetHitbox()->TestCollision(player->GetHitbox(), StageConsts::GRAZE_DISTANCE))
 				{
 					(*eb_it)->SetGrazed( true );
 					graze++;
@@ -593,13 +573,9 @@ void Game::CheckPlayerGraze()
 					std::deque<EnemyBullet*> * ep = (*it).second->GetBullets();
 					for (std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin(); eb_it != ep->end(); ++eb_it)
 					{
-						float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetCenterPoint() );
-						float angle = Vector::Angle(this->player->GetCenterPoint(), (*eb_it)->GetCenterPoint());
 						// czy ³apie siê w granicê hitboxy + graze_distance
 						if (!(*eb_it)->IsGrazed() &&
-								distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180))
-								+ this->player->GetHitbox()->GetRadius(D3DXToRadian(angle))
-								+ StageConsts::GRAZE_DISTANCE)
+							 (*eb_it)->GetHitbox()->TestCollision(player->GetHitbox(), StageConsts::GRAZE_DISTANCE))
 						{
 							(*eb_it)->SetGrazed( true );
 							graze++;
@@ -622,9 +598,7 @@ void Game::CheckEnemyCollisions()
 		EnemyQue::const_iterator e_it = enemy_.begin();
 		while (e_it != enemy_.end())
 		{
-			float distance = Vector::Length( (*pb_it)->GetCenterPoint(), (*e_it)->GetCenterPoint() );
-			float angle = Vector::Angle((*e_it)->GetCenterPoint(), (*pb_it)->GetCenterPoint());
-			if (distance <= (*pb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+			if ((*pb_it)->GetHitbox()->TestCollision((*e_it)->GetHitbox()))
 			{
 				(*e_it)->TakeDamage( (*pb_it)->Damage() );
 				pb_it = pbQue->erase(pb_it);
@@ -658,14 +632,10 @@ void Game::CheckBonusCollisions()
 			bonus_[i]->SetTrajectoryTowardsPlayer(player->GetCenterPoint());
 		}
 	}
-
 	// sprawdŸ kolizje z bonusami
 	for (unsigned short i = 0; i < bonus_.size(); i++)
 	{
-		// odleg³oœæ miêdzy œrodkami dwóch obiektów
-		float grazeDistance = Vector::Length( bonus_[i]->GetCenterPoint(), this->player->GetCenterPoint() );
-		float angle = Vector::Angle(this->player->GetCenterPoint(), bonus_[i]->GetCenterPoint());
-		if ( grazeDistance <= bonus_[i]->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetHitbox()->GetRadius(D3DXToRadian(angle)) + StageConsts::GRAZE_DISTANCE )
+		if (bonus_[i]->GetHitbox()->TestCollision(player->GetHitbox(), StageConsts::GRAZE_DISTANCE))
 		{
 			switch ( bonus_[i]->GetBonusId() )
 			{
@@ -755,9 +725,7 @@ void Game::CheckBombCollisions()
 	EnemyQue::const_iterator e_it = enemy_.begin();
 	while (e_it != enemy_.end())
 	{
-		float distance = Vector::Length( player->GetBomb()->GetCenterPoint(), (*e_it)->GetCenterPoint() );
-		float angle = Vector::Angle((*e_it)->GetCenterPoint(), player->GetBomb()->GetCenterPoint());
-		if (distance <= player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + (*e_it)->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+		if (player->GetBomb()->GetHitbox()->TestCollision((*e_it)->GetHitbox()))
 		{
 			(*e_it)->TakeDamage( (player->GetBomb()->GetDamage()) );
 			if (!(*e_it)->IsAlive())
@@ -782,10 +750,10 @@ void Game::CheckBombCollisions()
 		{
 			while (eb_it != ep->end())
 			{
-				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetBomb()->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetBomb()->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+				if ((*eb_it)->GetHitbox()->TestCollision(player->GetBomb()->GetHitbox()))
+				{
 					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
+				}
 				if (eb_it != ep->end())
 					eb_it++;
 			}
@@ -880,9 +848,7 @@ void Game::CheckBossCollisions()
 	std::deque<PlayerBullet*>::const_iterator pb_it = pbQue->begin();
 	while(pb_it != pbQue->end())
 	{
-		float distance = Vector::Length( (*pb_it)->GetCenterPoint(), boss->GetCenterPoint() );
-		float angle = Vector::Angle(boss->GetCenterPoint(), (*pb_it)->GetCenterPoint());
-		if (distance <= (*pb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + boss->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+		if ((*pb_it)->GetHitbox()->TestCollision(boss->GetHitbox()))
 		{
 			boss->TakeDamage( (*pb_it)->Damage() );
 			pb_it = pbQue->erase(pb_it);
@@ -901,9 +867,7 @@ void Game::CheckBossCollisions()
 void Game::CheckBossBombCollisions()
 {
 	/// obrywanie bossa
-	float distance = Vector::Length( player->GetBomb()->GetCenterPoint(), boss->GetCenterPoint() );
-	float angle = Vector::Angle(boss->GetCenterPoint(), player->GetBomb()->GetCenterPoint());
-	if (distance <= player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + boss->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+	if (player->GetBomb()->GetHitbox()->TestCollision(boss->GetHitbox()))
 	{
 		boss->TakeDamage( (player->GetBomb()->GetDamage()) );
 		if (!boss->IsAlive())
@@ -923,9 +887,7 @@ void Game::CheckBossBombCollisions()
 			std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
 			while(eb_it != ep->end())
 			{
-				float distance = Vector::Length( (*eb_it)->GetCenterPoint(), this->player->GetBomb()->GetCenterPoint() );
-				float angle = Vector::Angle(this->player->GetBomb()->GetCenterPoint(), (*eb_it)->GetCenterPoint());
-				if (distance <= (*eb_it)->GetHitbox()->GetRadius(D3DXToRadian(angle + 180)) + this->player->GetBomb()->GetHitbox()->GetRadius(D3DXToRadian(angle)))
+				if ((*eb_it)->GetHitbox()->TestCollision(player->GetBomb()->GetHitbox()))
 				{
 					eb_it = ep->erase(eb_it);	// usuniêcie pocisku z kolejki
 				}
