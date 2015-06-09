@@ -15,6 +15,8 @@ OptionsScreen::OptionsScreen(GraphicsDevice * const gDevice, EndStageInfo * endS
 	_valueColor = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
 	_chosenColor = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	_changeColor = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+	
+	
 };
 
 /* ---- Initialize
@@ -22,15 +24,16 @@ OptionsScreen::OptionsScreen(GraphicsDevice * const gDevice, EndStageInfo * endS
 bool OptionsScreen::Initialize()
 {
 	_config->Start();
+	this->SetOldKey();
 	// miejsce na nazwy opcji
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		Font * newEntry = new Font(D3DXVECTOR2(200, static_cast<float>( 50 + (i + 1) * 50)), 400, 60);
 		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _optionColor);
 		_optionText.push_back(newEntry);
 	}
 	// wartoœci opcji
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		Font * newEntry = new Font(D3DXVECTOR2(500, static_cast<float> (50 + (i + 1) * 50)), 400, 60);
 		newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, _valueColor );
@@ -45,20 +48,30 @@ bool OptionsScreen::Initialize()
    ------------------------------------------------------------------------------------------- */
 void OptionsScreen::Update(float const time)
 {
+	
 	if (_changeFlag)
 	{
 		this->SetOptionColor(_currentOption, _changeColor);
+		
 		switch(_currentOption)
 		{
 		case 0:
 			this->ChangeLifeCount();
+			this->SetOldKey();
 			break;
 		case 1:
 			this->ChangeBombCount();
+			this->SetOldKey();
+			break;
+		case 9:
+			
+			this->ResetSettings();
+			
 			break;
 		default:
 			_keyFlag = true;
 			this->ChangeKey();
+			this->SetOldKey();
 			if (!_keyFlag)
 			{
 				_changeFlag = false;
@@ -69,11 +82,12 @@ void OptionsScreen::Update(float const time)
 		// zawierdzenie zmian
 		switch(_currentOption)
 		{
-		case 0: case 1:
+		case 0: case 1: case 9:
 			if (this->input->KeyDownOne(DIK_RETURN))
 			{
 				_changeFlag = false;
 				this->ResetOptionColor(_currentOption);
+				choice = false;
 			}
 			break;
 		}
@@ -91,7 +105,7 @@ void OptionsScreen::Update(float const time)
 		}
 		if (this->input->KeyDownOne(DIK_DOWNARROW))
 		{
-			if (_currentOption != OPTION::FOCUS)
+			if (_currentOption != OPTION::RESET)
 			{
 				this->ResetOptionColor(_currentOption);
 				this->SetOptionColor(++_currentOption, _chosenColor);
@@ -130,6 +144,7 @@ void OptionsScreen::DrawScene()
 	_optionText[(UINT)OPTION::SHOOT]->Draw("Shoot");
 	_optionText[(UINT)OPTION::BOMB]->Draw("Bomb");
 	_optionText[(UINT)OPTION::FOCUS]->Draw("Focus");
+	_optionText[(UINT)OPTION::RESET]->Draw("Reset");
 
 	_valueText[(UINT)OPTION::LIFE_NUMBER]->Draw(_config->GetLifeNumber(), 0);
 	_valueText[(UINT)OPTION::BOMB_NUMBER]->Draw(_config->GetBombNumber(), 0);
@@ -140,7 +155,9 @@ void OptionsScreen::DrawScene()
 	_valueText[(UINT)OPTION::SHOOT]->Draw(input->KeyName(_config->GetKey(GameControl::SHOOT)));
 	_valueText[(UINT)OPTION::BOMB]->Draw(input->KeyName(_config->GetKey(GameControl::BOMB)));
 	_valueText[(UINT)OPTION::FOCUS]->Draw(input->KeyName(_config->GetKey(GameControl::FOCUS)));
+	_valueText[(UINT)OPTION::RESET]->Draw(OptionsScreen::GetDecision());
 };
+
 
 /* ---- Return Information
    ------------------------------------------------------------------------------------------- */
@@ -173,6 +190,74 @@ void OptionsScreen::ChangeBombCount()
 		}
 	}
 };
+
+void OptionsScreen::ResetSettings()
+{
+	bool decision;
+	
+	if (this->input->KeyDownOne(DIK_UPARROW))
+	{	
+		decision = true;
+		_config->SetKey(GameControl::UP,	200);
+		_config->SetKey(GameControl::DOWN,	208);
+		_config->SetKey(GameControl::LEFT,	203);
+		_config->SetKey(GameControl::RIGHT, 205);
+		_config->SetKey(GameControl::SHOOT,	44);
+		_config->SetKey(GameControl::BOMB,	45);
+		_config->SetKey(GameControl::FOCUS,	42);
+		_config->SetBombNumber(4);
+		_config->SetLifeNumber(5);
+
+		SetDecision(decision);
+		
+	}
+	else if (this->input->KeyDownOne(DIK_DOWNARROW))
+	{
+		decision = false;
+		_config->SetKey(GameControl::UP,	tab[0]);
+		_config->SetKey(GameControl::DOWN,	tab[1]);
+		_config->SetKey(GameControl::LEFT,	tab[2]);
+		_config->SetKey(GameControl::RIGHT,	tab[3]);
+		_config->SetKey(GameControl::SHOOT, tab[4]);
+		_config->SetKey(GameControl::BOMB,	tab[5]);
+		_config->SetKey(GameControl::FOCUS, tab[6]);
+		_config->SetBombNumber(tab[7]);
+		_config->SetLifeNumber(tab[8]);
+		SetDecision(decision);
+		
+	}
+
+
+}
+void OptionsScreen::SetOldKey(){
+
+	tab[0] = _config->GetKey(GameControl::UP);
+	tab[1] = _config->GetKey(GameControl::DOWN);
+	tab[2] = _config->GetKey(GameControl::LEFT);
+	tab[3] = _config->GetKey(GameControl::RIGHT);
+	tab[4] = _config->GetKey(GameControl::SHOOT);
+	tab[5] = _config->GetKey(GameControl::BOMB);
+	tab[6] = _config->GetKey(GameControl::FOCUS);
+	tab[7] = _config->GetBombNumber();
+	tab[8] = _config->GetLifeNumber();
+
+}
+
+std::string OptionsScreen::GetDecision(){
+
+	if (choice == true){
+		return "TRUE";
+	}
+	else if (choice == false)
+		return "FALSE";
+	else
+		return "ERROR";
+
+}
+void OptionsScreen::SetDecision(bool decision){
+
+	choice = decision;
+}
 
 /* ---- Change Life Count
    ------------------------------------------------------------------------------------------- */
