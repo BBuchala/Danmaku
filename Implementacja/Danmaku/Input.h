@@ -26,6 +26,9 @@ public:
 	// odczytanie stanu klawiatury
 	void ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb);
 
+	// wyzerowanie stanu inputu
+	void Erase();
+
 	// zapisanie kontrolek gry
 	void SetGameControls(GameInput gInput);
 

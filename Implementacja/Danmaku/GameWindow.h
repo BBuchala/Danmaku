@@ -31,9 +31,6 @@ private:
 	bool InitializeWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className, LPCSTR const windowTitle,
 		int const x, int const y, int const width, int const height, HWND & hWnd);
 
-	// klawiatura
-	bool InitializeInput(HWND & hWnd);
-
 	// funkcja zajmuj¹ca siê obs³ug¹ danych wejœciowych, ³apie zdarzenia i przerwania
 	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

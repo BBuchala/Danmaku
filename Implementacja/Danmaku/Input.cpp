@@ -31,6 +31,17 @@ void Input::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
 	p_Keyb->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
 };
 
+ /* ---- Erase
+   ------------------------------------------------------------------------------------------- */
+void Input::Erase()
+{
+	for (int i = 0; i < 256; i++)
+	{
+		chr_KeybState[i] = 0;
+	}
+};
+
+
  /* ---- Get Key Down
    ------------------------------------------------------------------------------------------- */
 unsigned char Input::GetKeyDown()
@@ -49,18 +60,12 @@ unsigned char Input::GetKeyDown()
    ------------------------------------------------------------------------------------------- */
 unsigned char Input::KeyNumber(std::string const & name)
 {
-	
-	
 	for(Dictionary::const_iterator it = dictionary.begin(); it != dictionary.end(); ++it)
 	{
 		if ((*it).second.compare(name) == 0)
 		{
 			return (*it).first;
 		}
-
-		
-		
-		
 	}
 	return 0;
 };

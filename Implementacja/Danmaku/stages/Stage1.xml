@@ -2,8 +2,8 @@
 <Stage background="backgroundClouds">
 	<!-- Pojedyczna Reimu -->
 	<Time sec="1" type="normal">
-		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="500" speed="450" length="700">
-			<Bonus type="Power" number="1" value="0.1"></Bonus>
+		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="100" speed="450" length="700">
+			<Bonus type="Power" number="5" value="0.1"></Bonus>
 			<Trajectory type="Line" startPoint.x="LEFT" startPoint.y="ONE_THIRDS" a="0"></Trajectory>
 			<Pattern type="Line" par1="-75" bulletNumber="5" number="10" interval="0.1">
 				<Bullet image="BulletBlueCircle" speed="96" width="32" height="32" hitboxSize="HALF"></Bullet>
@@ -12,15 +12,15 @@
 	</Time>
 	<!-- Atak krzyżowy Reimu -->
 	<Time sec="4" type="normal">
-		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="550" speed="450" length="700">
-			<Bonus type="Power" number="2" value="0.1"></Bonus>
+		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="150" speed="450" length="700">
+			<Bonus type="Power" number="5" value="0.1"></Bonus>
 			<Trajectory type="Line" startPoint.x="LEFT" startPoint.y="ONE_THIRDS" a="0"></Trajectory>
 			<Pattern type="Line" par1="-75" bulletNumber="5" number="15" interval="0.1">
 				<Bullet image="BulletBlueCircle" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF"></Bullet>
 			</Pattern>
 		</Enemy>
 		<Enemy number="1" distance="96" start="-32" image="YukkuriReimu" life="575" speed="-450" length="700">
-			<Bonus type="Score" number="3" value="1000"></Bonus>
+			<Bonus type="Score" number="5" value="1000"></Bonus>
 			<Trajectory type="Line" startPoint.x="RIGHT" startPoint.y="ONE_THIRDS" a="0"></Trajectory>
 			<Pattern type="Line" par1="-105" bulletNumber="5" number="15" interval="0.1">
 				<Bullet image="BulletRedCircle" speed="96" acc="50.0" width="32" height="32" hitboxSize="HALF"></Bullet>
@@ -29,8 +29,8 @@
 	</Time>
 	<!-- Reimu na prostokątnym kwadracie -->
 	<Time sec="9" type="normal">
-		<Enemy number="7" distance="32" start="32" image="YukkuriReimu" life="500" speed="200" length="800">
-			<Bonus type="Power" number="1" value="0.1"></Bonus>
+		<Enemy number="7" distance="32" start="32" image="YukkuriReimu" life="100" speed="200" length="800">
+			<Bonus type="Power" number="3" value="0.1"></Bonus>
 			<Trajectory type="Polygon">
 				<Point x="LEFT"  y="TWO_THIRDS"></Point>
 				<Point x="LEFT"  y="ONE_THIRDS"></Point>
@@ -46,7 +46,7 @@
 	<!-- Koishi z sercami -->
 	<Time sec="14" type="normal">
 		<Enemy number="1" start="0" image="YukkuriKoishi" life="4000" speed="0" length="500">
-			<Bonus type="Power" number="1" value="0.1"></Bonus>
+			<Bonus type="Score" number="10" value="0.1"></Bonus>
 			<Trajectory type="None" center.x="HALF" center.y="HALF" a="0"></Trajectory>
 			<Pattern type="Bezier" bulletNumber="1" number="30" interval="0.20">
 				<Bullet image="BulletRedCircle" speed="200" width="40" height="40" hitboxSize="FULL"></Bullet>
@@ -91,8 +91,8 @@
 	</Time>
 	<!--  -->
 	<Time sec="17" type="normal">
-		<Enemy number="7" distance="96" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
-			<Bonus type="Power" number="1" value="0.1"></Bonus>
+		<Enemy number="7" distance="96" start="-32" image="YukkuriReimu" life="200" speed="200" length="750">
+			<Bonus type="Power" number="5" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="ONE_THIRDS" y="100"></Point>
 				<Point x="TWO_THIRDS" y="ONE_THIRDS"></Point>
@@ -106,8 +106,8 @@
 	</Time>
 	<!--  -->
 	<Time sec="20" type="normal">
-		<Enemy number="7" distance="96" start="-32" image="YukkuriReimu" life="500" speed="200" length="750">
-			<Bonus type="Power" number="1" value="0.1"></Bonus>
+		<Enemy number="7" distance="96" start="-32" image="YukkuriReimu" life="250" speed="200" length="750">
+			<Bonus type="Score" number="10" value="0.1"></Bonus>
 			<Trajectory type="Bezier">
 				<Point x="TWO_THIRDS" y="100"></Point>
 				<Point x="TWO_THIRDS" y="ONE_THIRDS"></Point>

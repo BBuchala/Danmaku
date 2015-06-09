@@ -67,9 +67,11 @@ void Application::Run()
 			}
 			else
 			{
+				keybInput->Erase();
 				if (keybDevice->Poll() != DI_OK)
 					keybDevice->Acquire();
 				keybInput->ReadKeyboard(keybDevice);
+
 				timer->Update();
 				CalculateFPS( timer->elapsedTime );
 				if ( m_FPS * timer->elapsedTime > 1.75f )

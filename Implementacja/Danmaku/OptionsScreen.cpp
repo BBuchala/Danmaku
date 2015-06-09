@@ -65,9 +65,7 @@ void OptionsScreen::Update(float const time)
 			this->SetOldKey();
 			break;
 		case 9:
-			
 			this->ResetSettings();
-			
 			break;
 		default:
 			_keyFlag = true;
@@ -164,8 +162,8 @@ void OptionsScreen::DrawScene()
    ------------------------------------------------------------------------------------------- */
 EndStageInfo * OptionsScreen::ReturnInformation()
 {
-	this->previousStageInfo->bombs = _config->GetLifeNumber();
-	this->previousStageInfo->lives = _config->GetBombNumber();
+	this->previousStageInfo->lives = _config->GetLifeNumber();
+	this->previousStageInfo->bombs = _config->GetBombNumber();
 	this->previousStageInfo->currentScore = 0;
 	this->previousStageInfo->graze = 0;
 	this->previousStageInfo->power = 0.00;
@@ -222,8 +220,8 @@ void OptionsScreen::ResetSettings()
 		_config->SetKey(GameControl::SHOOT, _tab[4]);
 		_config->SetKey(GameControl::BOMB,	_tab[5]);
 		_config->SetKey(GameControl::FOCUS, _tab[6]);
-		_config->SetBombNumber(_tab[7]);
-		_config->SetLifeNumber(_tab[8]);
+		_config->SetLifeNumber(_tab[7]);
+		_config->SetBombNumber(_tab[8]);
 		SetDecision(decision);
 		
 	}
@@ -239,8 +237,8 @@ void OptionsScreen::SetOldKey(){
 	_tab[4] = _config->GetKey(GameControl::SHOOT);
 	_tab[5] = _config->GetKey(GameControl::BOMB);
 	_tab[6] = _config->GetKey(GameControl::FOCUS);
-	_tab[7] = _config->GetBombNumber();
-	_tab[8] = _config->GetLifeNumber();
+	_tab[7] = _config->GetLifeNumber();
+	_tab[8] = _config->GetBombNumber();
 
 }
 
@@ -284,8 +282,7 @@ void OptionsScreen::ChangeLifeCount()
    ------------------------------------------------------------------------------------------- */
 void OptionsScreen::ChangeKey()
 {
-	unsigned char newChar;
-	newChar = this->input->GetKeyDown();
+	unsigned char newChar = this->input->GetKeyDown();
 	if (newChar != 0)
 	{
 		_keyFlag = false;

@@ -295,11 +295,7 @@ void Game::DrawScene()
 	if (player != nullptr)
 		player->Draw(STAGE_FIELD);
 	else
-	{
-		this->ended = true;
-		this->previousStageInfo->nextMode = ScreenMode::TITLE;
 		return;
-	}
 
 	//// POCISKI
 	for (PatternQue::const_iterator s_it = _savedPatterns.begin(); s_it != _savedPatterns.end(); s_it++)
@@ -902,11 +898,11 @@ void Game::CheckBossBombCollisions()
 
 EndStageInfo * Game::ReturnInformation()
 {
-	previousStageInfo->bombs = this->player->GetBombCount();
-	previousStageInfo->lives = this->player->GetLifeCount();
+	previousStageInfo->bombs = player == nullptr ? 0 : this->player->GetBombCount();
+	previousStageInfo->lives = player == nullptr ? 0 : this->player->GetLifeCount();
 	previousStageInfo->currentScore = this->score;
 	previousStageInfo->graze = this->graze;
-	previousStageInfo->power = this->player->GetPower();
+	previousStageInfo->power = player == nullptr ? 0 : this->player->GetPower();
 
 	return previousStageInfo;
 };

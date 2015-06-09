@@ -5,8 +5,7 @@
 GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
 					   LPCSTR const windowTitle, int const x, int const y, int const width, int const height, HWND & hWnd)
 {
-	if (!this->InitializeWindow(hInstance, nCmdShow, className, windowTitle, x, y, width, height, hWnd)
-		|| !this->InitializeInput(hWnd))
+	if (!this->InitializeWindow(hInstance, nCmdShow, className, windowTitle, x, y, width, height, hWnd))
 	{
 		throw new GameWindowInitializationFailedException();
 	}
@@ -62,27 +61,6 @@ bool GameWindow::InitializeWindow(HINSTANCE const & hInstance, int const nCmdSho
 };
 
 
-bool GameWindow::InitializeInput(HWND & hWnd)
-{
-	RAWINPUTDEVICE input[2];
-	input[0].usUsagePage = 0x01;	// 
-	input[0].usUsage = 0x06;		// klawiatura
-	input[0].dwFlags = 0;			// domyœlnie
-	input[0].hwndTarget = NULL;		// follow keyboard focus
-
-	input[1].usUsagePage = 0x01;	// 
-	input[1].usUsage = 0x02;		// myszka
-	input[1].dwFlags = 0;			// domyœlnie
-	input[1].hwndTarget = 0;		// follow keyboard focus
-
-	if (RegisterRawInputDevices(input, 2, sizeof(input[0])) == FALSE)
-	{
-		return false;
-	}
-	return true;
-};
-
-
 // reakcja okna na input, afaik
 LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -91,31 +69,6 @@ LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 	{
 		case WM_DESTROY:
 			PostQuitMessage(0);
-			return 0;
-		case WM_INPUT:
-			{
-				UINT dwSize;
-				// pobranie rozmiaru informacji
-				GetRawInputData((HRAWINPUT)lParam, RID_INPUT, NULL, &dwSize, sizeof(RAWINPUTHEADER));
-				LPBYTE lpb = new BYTE[dwSize];
-				if (lpb == NULL) return 0;
-				GetRawInputData((HRAWINPUT)lParam, RID_INPUT, lpb, &dwSize, sizeof(RAWINPUTHEADER));
-				RAWINPUT * raw = (RAWINPUT*) lpb;
-				
-				if (raw->header.dwType == RIM_TYPEKEYBOARD)
-				{
-					if (raw->data.keyboard.Message == WM_KEYDOWN || 
-						raw->data.keyboard.Message == WM_SYSKEYDOWN)
-					{
-						 std::string info =
-							 "Pressed VKey: " + std::to_string(raw->data.keyboard.VKey) + 
-							 " ( " + (char) raw->data.keyboard.VKey + " )" + 
-							 " with Flag: " + std::to_string(raw->data.keyboard.Flags) + 
-							 '\n';
-						 OutputDebugString(info.c_str());
-					}
-				}
-			}
 			return 0;
 
 		// przeci¹ganie okna po klikniêciu na obszar kliencki
@@ -131,8 +84,4 @@ LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, 
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	return 0;
-	
 };
-
-
-
