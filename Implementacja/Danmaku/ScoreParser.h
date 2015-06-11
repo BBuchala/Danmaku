@@ -5,6 +5,9 @@
 
 class ScoreParser: public XmlParser
 {
+	// maksymalna liczba zapisanych wyników gry
+	static const unsigned short MAX_RECORDS = 12;
+
 	// rekordy z wynikami
 	typedef std::vector<std::string>	Entry;
 	typedef std::vector<Entry>			EntryVector;
@@ -21,4 +24,9 @@ public:
 	{
 		return _entry;
 	};
+
+	inline unsigned short GetMaxRecordNumber() const
+	{
+		return MAX_RECORDS;
+	}
 };
