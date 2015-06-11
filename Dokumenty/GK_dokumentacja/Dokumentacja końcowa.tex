@@ -53,93 +53,22 @@
 \begin{document}
 	\bibliographystyle{plain}
 	
-	% ************************************************************
-	% --- Strona tytułowa
-	% ************************************************************
-	\begin{titlepage}
-		\begin{table}[htbp]
-			\centering
-			\begin{tabular}{|c|c|c|c|c|c|c|}
-				\hline
-				\multicolumn{7}{|c|}{\textbf{{\LARGE Grafika Komputerowa}}} \bigstrut\\[4pt]
-				\hline
-				Rok akademicki & Termin & Rodzaj studiów & Kierunek & Prowadzący & Grupa & Sekcja \bigstrut\\
-				\hline
-				\multicolumn{1}{|c|}{\multirow{2}[4]{*}{{\large 2014/2015}}} & \multicolumn{1}{c|}{{\large Piątek}} & \multicolumn{1}{c|}{\multirow{2}[4]{*}{{\large SSI}}} & \multicolumn{1}{c|}{\multirow{2}[4]{*}{{\large INF}}} & \multicolumn{1}{c|}{\multirow{2}[4]{*}{\begin{tabular}{@{}c@{}}{\large dr} \\[-9pt] {\large Ewa Lach}\end{tabular}}} & \multicolumn{1}{c|}{\multirow{2}[4]{*}{{\large GKiO3}}} & \multicolumn{1}{c|}{\multirow{2}[4]{*}{{\large 1}}} \bigstrut\\
-				\cline{2-2}    \multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{{\large 09:30 - 11:00}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} \bigstrut\\
-				\hline
-			\end{tabular}%
-		\end{table}%
-		
-		\centering
-		\includegraphics[width=0.6\textwidth]{./images/logo.png}
-		\\\vspace{10mm}
-		\textbf{{\huge Dokumentacja końcowa}}\\\vspace{5mm}
-		\textbf{{\Huge Danmaku Shooter}}
-		\\
-		\vfill
-		\begin{flushright}
-			{\Large \textbf{Skład sekcji}:}\\
-			\begin{tabular}{rr}
-				{\Large Buchała} & {\Large Bartłomiej}\\[-3pt]
-				{\Large Forczmański} & {\Large Mateusz}\\[-3pt]
-				{\Large Motyka} & {\Large Marek}\\[-3pt]
-				{\Large Wudecki} & {\Large Wojciech}
-			\end{tabular}
-		\end{flushright}
-		
-	\end{titlepage}
+	\input{./tex/strona_tytulowa}
 	
-	\part{\huge \textbf{Treść zadania}}
+	\input{./tex/tresc_zadania}
 	
-	\newpage
-	\part{\huge \textbf{Analiza zadania}}
-		\section{Sprawdzanie kolizji - okrąg czy elipsa?}
-			W trakcie naszej pracy nad programem początkowo wykorzystywaliśmy okrąg do sprawdzania kolizji. Wysokość i szerokość wszystkich sprajtów była w przybliżeniu równa, więc punkty środkowe okręgu i sprajta były równe, a promieniem był krótszy z boków. Jednak po czasie pojawiły się kształty (np. bomba), dla których obsługa kolizji poprzez okrąg wyglądałaby nieatrakcyjnie. Wówczas postanowiliśmy wykorzystać elipsę. Okrąg jest jedynie specjalnym przypadkiem elipsy o równych półosiach. Gdy obiekt miał mieć hitbox w kształcie elipsy, dłuższy bok definiował długość jednej półosi, a krótszy drugiej.\\\\
-			Rozwiązanie to okazało się bardzo mało efektywne - do wykrywania kolizji potrzebny były dodatkowy parametr, kąt pomiędzy obiektami. Dla jednego testu należało obliczyć ten kąt, następnie obliczyć długość promienia elipsy dla tego kąta u obu obiektów i dopiero wtedy była znane zajście kolizji. Dla hitboxów o równych osiach powodowało to mnóstwo niepotrzebnych obliczeń. Nawet pominięcie ich w przypadku równych półosi wymagało obliczania i przekazania kąta, który dla każdej elipsy był niezbędny.\\\\
-			W takiej sytuacji mieliśmy dwie możliwości:
-			\begin{enumerate}
-				\item \textit{Zmiana elipsy wieloma okręgami} - eliminuje wykorzystanie elipsy, jednak dla każdego obiektu jest potrzebne zdefiniowanie ile okręgów potrzebuje, w którym miejscu i o jakiej wielkości, tak, by dopasować je do kształtu sprajta. Projektowanie ciała okręgów byłoby niezwykle niewygodne bez wsparcia designerskiego, którego nasza gra nie miała. 
-				\item \textit{Osobne klasy dla okręgu i elipsy} - okręgu potrzebowałyby jak najmniejszej liczby danych i obliczeń, a elipsa pozostałaby obsługiwana. Wadą jest naruszenie zasad polimorfizmu - przy każdym teście okręgi nie potrzebują kąta między obiektami, więc przekazywanie ich jest zbędne i prowadzi do niepotrzebnych operacji.
-			\end{enumerate}
-		\section{Sprawdzanie kolizji - zastrzyk zależności}
-			Rozwiązaniem problemu opisanego w powyższym rozdziale okazał się wzorzec projektowy, zastrzyk zależności (\emph{dependency injection}). Realizujemy go w ten sposób, że przy każdym teście kolizji, do jednego hitboxa wstrzykujemy drugi - pierwszy zna swoje metody działania, rzutuje drugi na odpowiedni typ i sprawdza kolizję zwracając true lub false.\\\\
-			Rozwiązanie jest skuteczne, ponieważ jeżeli w teście kolizji znajduje się elipsa, to pobiera one dane jakiej jej potrzeba. Jeżeli nie, test wykonywany jest najmniejszym możliwym kosztem. Sprawdzaniem, z którym typem hitboxa mamy do czynienia zajmuje się mechanizm RTTI.
+	\input{./tex/analiza_zadania}
 	
-	\newpage
-	\part{\huge \textbf{Podział pracy}}
+	\input{./tex/podzial_pracy}
 	
-	\newpage
-	\part{\huge \textbf{Specyfikacja zewnętrzna}}
+	\input{./tex/specyfikacja_zewnetrzna}
 	
-	\newpage
-	\part{\huge \textbf{Przykład działania}}
+	\input{./tex/przyklad_dzialania}
 	
-	\newpage
-	\part{\huge \textbf{Specyfikacja wewnętrzna}}
+	\input{./tex/specyfikacja_wewnetrzna}
 	
-	\newpage
-	\part{\huge \textbf{Testowanie i uruchamianie}}
+	\input{./tex/testowanie_i_uruchamianie}
 	
-	\newpage
-	\part{\huge \textbf{Wnioski}}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	\input{./tex/wnioski}
 	
 \end{document}
