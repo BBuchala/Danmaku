@@ -689,6 +689,8 @@ void Game::MakePlayerLoseLife()
 	this->player->SetPosition(D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2,
 			StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ));
 	this->player->SetIsInvulnerable();
+	this->player->SetBombCount(2);
+	this->bombBar->SetCount(2);
 };
 
 

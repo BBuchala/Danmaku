@@ -10,6 +10,7 @@
 
 #include "EndStageInfo.h"
 #include "StageConst.h"
+#include "ConfigParser.h"
 
 //#define D3DXCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
@@ -28,6 +29,9 @@ class ScoreCountScreen : public Playfield
 	Font * grazeBonus;
 	Font * stageBonus;
 	Font * totalPoints;
+	Font * coefficient;
+
+	ConfigParser * _config;
 
 	bool hasEndedCounting;
 	bool pressed;
@@ -35,8 +39,10 @@ class ScoreCountScreen : public Playfield
 	unsigned int newTotalScore;
 	unsigned int stageExtraBonus;
 
+	double pointCoefficient;
+
 public:
-	ScoreCountScreen( GraphicsDevice * const gDevice, EndStageInfo * _previousStageInfo );
+	ScoreCountScreen( GraphicsDevice * const gDevice, EndStageInfo * _previousStageInfo, ConfigParser * config);
 	~ScoreCountScreen();
 
 	bool Initialize() override;

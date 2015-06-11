@@ -141,7 +141,7 @@ void Application::CreateNewField(ScreenMode fieldType)
 		break;
 
 	case(ScreenMode::SCORE_COUNT):
-		field = new ScoreCountScreen(gDevice, endStageInfo);
+		field = new ScoreCountScreen(gDevice, endStageInfo, _config);
 		break;
 
 	case(ScreenMode::NONE):

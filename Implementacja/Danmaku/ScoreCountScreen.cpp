@@ -1,13 +1,16 @@
 #include "ScoreCountScreen.h"
 
-ScoreCountScreen::ScoreCountScreen( GraphicsDevice * const gDevice, EndStageInfo * _previousStageInfo ) : Playfield(gDevice), hasEndedCounting(false)
+ScoreCountScreen::ScoreCountScreen( GraphicsDevice * const gDevice, EndStageInfo * _previousStageInfo, ConfigParser * config) : Playfield(gDevice), hasEndedCounting(false), pointCoefficient(1.0f)
  {
 	this->background = new Sprite(gDevice->device, Sprite::GetFilePath( "scorescreen", "png"));
 
-	this->currentScore = new Font( D3DXVECTOR2( 630, 135 ), 236, 25 );
-	this->grazeBonus = new Font( D3DXVECTOR2( 630, 260 ), 236, 25 );
-	this->stageBonus = new Font( D3DXVECTOR2( 630, 200 ), 236, 25 );
-	this->totalPoints = new Font( D3DXVECTOR2( 680, 460 ), 236, 25 );
+	this->currentScore = new Font( D3DXVECTOR2( 580, 135 ), 236, 25 );
+	this->grazeBonus = new Font( D3DXVECTOR2( 580, 260 ), 236, 25 );
+	this->stageBonus = new Font( D3DXVECTOR2( 580, 200 ), 236, 25 );
+	this->totalPoints = new Font( D3DXVECTOR2( 630, 460 ), 236, 25 );
+	this->coefficient = new Font ( D3DXVECTOR2( 865, 190 ), 236, 25 );
+
+	this->_config = config;
 
 	this->previousStageInfo = _previousStageInfo;
 };
@@ -21,6 +24,7 @@ ScoreCountScreen::~ScoreCountScreen()
 	if(grazeBonus) delete grazeBonus;
 	if(stageBonus) delete stageBonus;
 	if(totalPoints) delete totalPoints;
+	if(coefficient) delete coefficient;
 };
 
 
@@ -32,12 +36,31 @@ bool ScoreCountScreen::Initialize()
 	this->currentScore->Initialize( this->gDevice, 60, 0, "Arial", true, false, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 	this->grazeBonus->Initialize( this->gDevice, 60, 0, "Arial", true, false, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f) );
 	this->stageBonus->Initialize( this->gDevice, 60, 0, "Arial", true, false, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f) );
+	this->coefficient->Initialize( this->gDevice, 120, 0, "Arial", true, false, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f) );
 	this->totalPoints->Initialize( this->gDevice, 60, 0, "Arial", true, false, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) );
 
+	pointCoefficient = 1.3 - 0.1 * _config->GetLifeNumber();
+
+
 	newTotalScore = previousStageInfo->currentScore;
-	stageExtraBonus = previousStageInfo->numberOfStage * 100000;
+	stageExtraBonus = previousStageInfo->numberOfStage * 100000 * pointCoefficient;
 
 	pressed = false;
+
+	try
+	{
+		_config->Start();
+	}
+	catch (FileException & ex)
+	{
+		ex.ToMessageBox();
+		ended = true;
+		return false;
+	}
+
+	
+
+
 	return true;
 };
 
@@ -60,18 +83,18 @@ void ScoreCountScreen::Update(float const time)
 		if (this->previousStageInfo->graze > 0)
 		{
 			this->previousStageInfo->graze--;
-			this->newTotalScore += 100;
+			this->newTotalScore += 100 * pointCoefficient;
 		}
 		else
 		{
-			stageExtraBonus -= 1000;
-			this->newTotalScore += 1000;
+			stageExtraBonus -= 500;
+			this->newTotalScore += 500;
 		}
 	}
 	else if (GetAsyncKeyState(VK_RETURN) && !hasEndedCounting)
 	{
 		pressed = true;
-		this->newTotalScore += 100 * this->previousStageInfo->graze;
+		this->newTotalScore += 100 * this->previousStageInfo->graze * pointCoefficient;
 		this->previousStageInfo->graze = 0;
 
 		this->newTotalScore += stageExtraBonus;
@@ -90,8 +113,9 @@ void ScoreCountScreen::DrawScene()
 {
 	this->background->Draw(D3DXVECTOR2(0.0f, 0.0f));
 	this->currentScore->Draw(this->previousStageInfo->currentScore, StageConsts::SCORE_PADDING);
-	this->grazeBonus->Draw(this->previousStageInfo->graze, 5);
-	this->grazeBonus->Draw("               x 100");
+	this->grazeBonus->Draw(this->previousStageInfo->graze, 4);
+	this->grazeBonus->Draw("        x100");
+	this->coefficient->Draw(pointCoefficient, 0, 1);
 	this->stageBonus->Draw(stageExtraBonus, 0);
 	this->totalPoints->Draw(newTotalScore, StageConsts::SCORE_PADDING);
 };

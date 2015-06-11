@@ -69,3 +69,8 @@ int Bar::operator--(int)
 	DecrementCount();
 	return oldCount;
 }
+
+void Bar::SetCount(short newCount)
+{
+	this->count = newCount;
+}
