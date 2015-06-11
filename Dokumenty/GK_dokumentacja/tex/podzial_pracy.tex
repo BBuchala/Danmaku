@@ -1,3 +1,72 @@
 % !TeX spellcheck = pl_PL
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\renewcommand{\arraystretch}{1.5}
 \newpage
 \part{\huge \textbf{Podział pracy}}
+	\begin{center}
+		\begin{tabular}{|p{0.45\textwidth}|p{0.45\textwidth}|}
+			\hline {\large \textbf{1.~Buchała Bartłomiej}}
+			&  {\large \textbf{2.~Forczmański Mateusz}} \\
+			\hline
+			\vspace{-5mm}
+			\begin{itemize}
+				\item Interfejs graficzny i wyświetlanie danych
+				\item Ruch gracza po planszy
+				\item Strzelanie pociskami przez gracza
+				\item Implementacja wzorców pocisków gracza
+				\item Wystrzelenie bomby
+				\item Narysowanie sprajtów pocisków gracza\newline i bomby
+				\item Umożliwienie pociskom ruchu po wybranych torach
+				\item Usuwanie pocisków z pamięci gdy znajdą się poza planszą
+				\item Sprawne przechodzenie pomiędzy planszami
+				\item Zapisywanie uzyskanego wyniku do pliku
+				\item Utworzenie klasy Spellcard dla Bossa
+			\end{itemize}
+			& \vspace{-5mm}
+			\begin{itemize}
+				\item Inicjalizacja urządzenia graficznego\newline Direct3D 9
+				\item Trajektorie obiektów i wyliczanie przesunięcia
+				\item Przekształcenia afiniczne sprajtów\newline i trajektorii
+				\item Synchronizacja sprajtów z obiektami gry
+				\item Wzory pocisków wrogów: kształt linii, elipsy i spirali
+				\item Wczytywanie planszy gry z pliku XML
+				\item Zarządzenie zasobami sprajtów
+				\item Utworzenie fabryk obiektów
+				\item Utworzenie parserów XML
+				\item Obsługa wadliwego formatu plików\newline wejściowych
+				\item Obsługa zakończenia gry po pokonaniu bossa
+			\end{itemize} \\
+			\hline {\large \textbf{3.~Motyka Marek}}
+			&  {\large \textbf{4.~Wudecki Wojciech}} \\
+			\hline 
+			\vspace{-5mm}
+			\begin{itemize}
+				\item Utworzenie hitboxa, jego typów oraz kształtów
+				\item Obsługa kolizji między hitboxami
+				\item Możliwość wykrywania kolizji z elipsą
+				\item Wykrywanie oraz zwiększanie otarć\newline między obiektami
+				\item Utworzenie i obsługa wszystkich bonusów
+				\item Realizacja zmian po zderzeniu z bonusem
+				\item Przyciąganie bonusów ku graczowi
+				\item Usuwanie bonusów z pamięci
+				\item Implementacja DirectInput i reakcji na wciskanie klawiszy
+				\item Możliwość definiowania własnych klawiszy
+				\item Wyświetlanie napisów w grze (klasa Font)
+			\end{itemize}
+			& \vspace{-5mm}
+			\begin{itemize}
+				\item Narysowanie i napisanie ekranu powitalnego
+				\item Utworzenie klasy nadrzędnej Playfield jako miejsca, gdzie mogą być wyświetlanie elementy gry
+				\item Utworzenie wrogów, ich klasy i sprajtów
+				\item Realizacja zależności pomiędzy wrogami, a ich wzorami pocisków
+				\item Strzelanie pociskami przez wrogów
+				\item Generowanie bonusów przez wrogów
+				\item Narysowanie tła
+				\item Wyświetlanie wyników w podmenu Scores
+				\item Możliwość zmiany ustawień w podmenu Options
+				\item Resetowanie ustawień do wartości\newline domyślnych
+			\end{itemize} \\
+			\hline 
+		\end{tabular} 
+	\end{center}
+	
