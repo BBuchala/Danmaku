@@ -55,7 +55,7 @@ bool ScoreField::Initialize()
 		_scores->Start();
 		for (int i = 0; i < 3; i++)
 		{
-			Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(i) + 1) * 200, 30), 400, 60);
+			Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(i) + 1) * 200, 60), 400, 60);
 			newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) );
 			_entryText.push_back(newEntry);
 		}
@@ -63,7 +63,7 @@ bool ScoreField::Initialize()
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(j)+1) * 200, 50 + (static_cast<float>(i) + 1) * 50), 400, 60);
+				Font * newEntry = new Font(D3DXVECTOR2((static_cast<float>(j)+1) * 200, 80 + (static_cast<float>(i) + 1) * 50), 400, 60);
 				newEntry->Initialize( _gDevice, 40, 0, "Arial", true, false, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) );
 				_entryText.push_back(newEntry);
 			}
