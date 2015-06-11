@@ -19,6 +19,8 @@ public:
 	// Przetowrzenie pliku
 	void Create() override;
 
+	ULONG GetHighestScore();
+
 	// Zwrócenie rekordów
 	inline EntryVector GetEntries() const
 	{

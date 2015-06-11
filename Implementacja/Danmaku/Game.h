@@ -22,6 +22,8 @@
 #include "BonusSpriteResource.h"
 #include "PlayerBulletSpriteResource.h"
 
+#include "ScoreParser.h"
+
 // wyj¹tki
 #include "Direct3DInitializationFailedException.h"
 
@@ -92,6 +94,8 @@ class Game : public Playfield
 	Font * spellcardBonus;
 	Sprite * bossLifeBar;
 	D3DXVECTOR2 bossLifeBarPos;
+
+	ScoreParser * _scores;
 
 public:
 	// Konstruktor, destruktor

@@ -66,6 +66,8 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	{
 		avatar_.push_back(new GameObject(D3DXVECTOR2(728, static_cast<float>( 484 + i * 61))));
 	}
+
+	_scores = new ScoreParser("scores/scores.xml");
 };
 
 /* ---- DESTRUKTOR ---------------------------------------------------------------------------- */
@@ -73,6 +75,7 @@ Game::~Game()
 {
 	if (gameScreen) delete gameScreen;
 	if (player) delete player;
+	if (_scores) delete _scores;
 
 	// usuniêcie danych liczbowych
 	if (hiScoreText) delete hiScoreText;
@@ -100,6 +103,10 @@ Game::~Game()
 /* ---- Initialize ---------------------------------------------------------------------------- */
 bool Game::Initialize()
 {
+	// ustawienie aktualnego high score'a
+	_scores->Start();
+	this->hiScore = _scores->GetHighestScore();
+
 	bonusSprite_.Add(BonusType::POWER);
 	bonusSprite_.Add(BonusType::LIFE);
 	bonusSprite_.Add(BonusType::SCORE);

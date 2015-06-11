@@ -37,3 +37,16 @@ void ScoreParser::Create()
 		_entry.push_back(newEntry);
 	}
 };
+
+/* ---- Get Highest Score
+   ------------------------------------------------------------------------------------------- */
+ULONG ScoreParser::GetHighestScore()
+{
+	ULONG highestScore = 0;
+	for(EntryVector::const_iterator it = _entry.begin(); it != _entry.end(); ++it)
+	{
+		ULONG score = std::stol((*it)[1]);
+		if (score > highestScore) highestScore = score;
+	}
+	return highestScore;
+};
