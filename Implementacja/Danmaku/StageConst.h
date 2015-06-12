@@ -1,10 +1,13 @@
 #pragma once
 
 /// <summary>
-/// Sta³e wykorzystywane w grze
+/// Przestrzeñ sta³ych
 /// </summary>
 namespace StageConst
 {
+	/// <summary>
+	/// Sta³e wykorzystywane w grze
+	/// </summary>
 	static struct StageConsts
 	{
 		//// ==== STA£E

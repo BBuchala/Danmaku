@@ -14,6 +14,9 @@
 #include "ConfigParser.h"
 #include "EndStageInfo.h"
 
+/// <summary>
+/// Aplikacja gry, punkt wejœcia
+/// </summary>
 class Application
 {
 	static const unsigned short WIDTH	= 1024;

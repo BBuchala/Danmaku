@@ -11,6 +11,9 @@
 #include "ConfigParser.h"
 #include <string>
 
+/// <summary>
+/// Ekran z opcjami
+/// </summary>
 class OptionsScreen: public Playfield
 {
 	// t³o

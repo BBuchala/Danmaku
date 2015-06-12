@@ -4,6 +4,9 @@
 #include "ButtonType.h"
 #include "Sprite.h"
 
+/// <summary>
+/// Przycisk na ekranie powitalnym
+/// </summary>
 class Button
 {
 	Sprite * _sprite;		// sprajt z paroma teksturami

@@ -6,6 +6,9 @@
 #include "GameControls.h"
 #include "Input.h"
 
+/// <summary>
+/// Parser pliku konfiguracyjnego
+/// </summary>
 class ConfigParser: public XmlParser
 {
 	// liczba ¿yæ i bomb

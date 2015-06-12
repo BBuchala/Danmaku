@@ -7,6 +7,9 @@
 
 #include "IDrawable.h"
 
+/// <summary>
+/// Klasa przechowuj¹ca informacje o rysunkach (sprajtach)
+/// </summary>
 class Sprite : public IDrawable
 {
 	//////// SK£ADOWE ////////////////////////////
@@ -98,6 +101,11 @@ public:
 	}
 
 	///// FUNKCJE TWORZ¥CE ŒCIE¯KI DO SPRAJTÓW
+	inline static std::string GetFilePath( std::string const & name, int const i, int const j, std::string const & ext )
+	{
+		return IMG_PATH + name + std::to_string(i) + std::to_string(j) + '.' + ext;
+	};
+
 	inline static std::string GetFilePath( std::string const & name, int const number, std::string const & ext )
 	{
 		return IMG_PATH + name + std::to_string(number) + '.' + ext;

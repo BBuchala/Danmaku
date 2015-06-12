@@ -1,6 +1,9 @@
 #pragma once
 #include "FileException.h"
 
+/// <summary>
+/// Wyj¹tek zwi¹zany z niepowodzeniem parsowania pliku XML
+/// </summary>
 class XmlParseFailedException: public FileException
 {
 public:

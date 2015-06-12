@@ -27,11 +27,14 @@
 // biblioteki do parsowania pliku XML
 #include <rapidxml.hpp>
 #include <rapidxml_print.hpp>
-#include "StageCreationFailed.h"
+#include "StageCreationFailedException.h"
 
 using namespace rapidxml;
 
 
+/// <summary>
+/// Plansza gry, pojedynczy poziom
+/// </summary>
 class Stage
 {
 	rapidxml::xml_document <> _stageDoc;		// plik z danymi o stejd¿u

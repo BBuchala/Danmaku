@@ -3,6 +3,9 @@
 #include <vector>
 #include "XmlParser.h"
 
+/// <summary>
+/// Parser pliku z wynikami
+/// </summary>
 class ScoreParser: public XmlParser
 {
 	// maksymalna liczba zapisanych wyników gry

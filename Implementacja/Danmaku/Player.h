@@ -12,6 +12,9 @@
 
 #include "PlayerBulletSpriteResource.h"
 
+/// <summary>
+/// Gracz, którego mo¿na kontrolowaæ
+/// </summary>
 class Player : public GameObject
 {
 protected:

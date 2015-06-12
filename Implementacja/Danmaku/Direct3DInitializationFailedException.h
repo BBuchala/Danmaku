@@ -3,6 +3,9 @@
 
 #include "IException.h"
 
+/// <summary>
+/// Wyj¹tek wyrzucany gry nie uda³o siê zainicjalizowaæ Direct3D
+/// </summary>
 class Direct3DInitializationFailedException: public IException
 {
 public:

@@ -149,7 +149,7 @@ void Application::CreateNewField(ScreenMode fieldType)
 		{
 			field = new Game(gDevice, endStageInfo);
 		}
-		catch(StageCreationFailed ex)
+		catch(StageCreationFailedException ex)
 		{
 			ex.ToMessageBox();
 			// Rekurencja, nioch nioch XD

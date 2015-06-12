@@ -8,6 +8,9 @@
 #include "HitboxElipse.h"
 #include "Sprite.h"
 
+/// <summary>
+/// Podstawowa klasa dla ka¿dego obiektu gry
+/// </summary>
 class GameObject
 {
 protected:

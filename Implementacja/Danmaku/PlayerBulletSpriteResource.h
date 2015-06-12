@@ -3,6 +3,9 @@
 #include "Sprite.h"
 #include "Resource.h"
 
+/// <summary>
+/// ród³o sprajtów dla pocisków gracza
+/// </summary>
 class PlayerBulletSpriteResource: public Resource<std::string, Sprite>
 {
 public:

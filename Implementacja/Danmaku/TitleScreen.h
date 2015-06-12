@@ -9,6 +9,9 @@
 #include "Sprite.h"
 #include "ScoreField.h"
 
+/// <summary>
+/// Ekran powitalny
+/// </summary>
 class TitleScreen : public Playfield
 {
 	//// Liczba przycisków

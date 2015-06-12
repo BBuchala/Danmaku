@@ -8,6 +8,9 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
+/// <summary>
+/// Klasa odpowiadaj¹ca za komunikacjê z klawiatur¹
+/// </summary>
 class Input
 {
 	// stan klawiszy oraz info, czy by³y ju¿ wciœniête

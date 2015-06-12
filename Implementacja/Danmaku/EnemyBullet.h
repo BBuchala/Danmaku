@@ -9,7 +9,6 @@
 
 #include "Bullet.h"
 
-
 /// <summary>
 /// Wrogi pocisk
 /// </summary>

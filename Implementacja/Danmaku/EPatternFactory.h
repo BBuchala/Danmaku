@@ -4,6 +4,9 @@
 #include <map>
 
 
+/// <summary>
+/// Fabryka wrogich wzorów pocisków
+/// </summary>
 class EPatternFactory
 {
 	typedef EPattern * (*CreateEPatternCallback)( float const par1, float const par2, float const number, float const activationTime );

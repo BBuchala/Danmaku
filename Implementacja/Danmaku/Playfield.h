@@ -12,6 +12,9 @@
 
 #define MYCOLOR( r, g, b ) D3DCOLOR_COLORVALUE( r, g, b, 0xFF )
 
+/// <summary>
+/// Klasa nadrzêdna dla wszystkich pól i scen, gdzie mo¿na coœ wyœwietlaæ
+/// </summary>
 class Playfield
 {
 protected:

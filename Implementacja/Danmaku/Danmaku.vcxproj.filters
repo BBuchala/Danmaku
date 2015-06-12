@@ -342,9 +342,6 @@
     <ClCompile Include="Playfield.cpp">
       <Filter>Source Files\Fields</Filter>
     </ClCompile>
-    <ClCompile Include="StageCreationFailed.cpp">
-      <Filter>Source Files\Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="FileException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
@@ -362,6 +359,9 @@
     </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="StageCreationFailedException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -620,9 +620,6 @@
     <ClInclude Include="HitboxElipse.h">
       <Filter>Header Files\Hitboxes</Filter>
     </ClInclude>
-    <ClInclude Include="StageCreationFailed.h">
-      <Filter>Header Files\Exceptions</Filter>
-    </ClInclude>
     <ClInclude Include="FileException.h">
       <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
@@ -643,6 +640,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="StageCreationFailedException.h">
+      <Filter>Header Files\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

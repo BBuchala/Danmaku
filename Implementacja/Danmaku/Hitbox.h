@@ -5,6 +5,9 @@
 #include "IDrawable.h"
 #include "ITransformable.h"
 
+/// <summary>
+/// Kszta³t odpowiadaj¹cy za obs³ugê kolizji
+/// </summary>
 class Hitbox : public ITransformable
 {
 protected:

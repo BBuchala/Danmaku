@@ -3,7 +3,7 @@
 TrajectoryFactory * TrajectoryFactory::pInstance_ = 0;
 
 /// <summary>
-/// Utworzenie singletonu fabryik.
+/// Utworzenie singletonu fabryki.
 /// </summary>
 /// <returns></returns>
 TrajectoryFactory & TrajectoryFactory::Instance()

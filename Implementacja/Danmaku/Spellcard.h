@@ -2,6 +2,9 @@
 
 #include "EPattern.h"
 
+/// <summary>
+/// Klasa odpowiadaj¹ca za obs³ugê ataków bossa
+/// </summary>
 class Spellcard
 {
 protected:
@@ -30,7 +33,6 @@ public:
 	
 	void AddPattern(std::string const & key, EPattern * const epattern);
 
-
 	EPattern * GetPattern(std::string const & key);
 	PatternMap * GetPatterns();
 
@@ -38,21 +40,37 @@ public:
 	void SetPosition(D3DXVECTOR2 const * position);
 	void BombUsed();
 
+	/// <summary>
+	/// Czy spellcard zakoñczy³ swe dzia³anie.
+	/// </summary>
+	/// <returns></returns>
 	inline bool IsSpellcardFinished() const
 	{
 		return time_ == 0.0f ? true : false;
 	}
 
+	/// <summary>
+	/// Zwrócenie nazwy spellcardu.
+	/// </summary>
+	/// <returns></returns>
 	inline const std::string & GetName() const
 	{
 		return name_;
 	}
 
+	/// <summary>
+	/// Zwrócenie aktualnego czasu trwania.
+	/// </summary>
+	/// <returns></returns>
 	inline const float GetTime() const
 	{
 		return time_;
 	}
 
+	/// <summary>
+	/// Zwrócenie bonusu.
+	/// </summary>
+	/// <returns></returns>
 	inline const UINT GetBonus() const
 	{
 		return startBonus_;

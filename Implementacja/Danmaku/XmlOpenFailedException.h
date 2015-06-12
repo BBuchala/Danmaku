@@ -1,6 +1,9 @@
 #pragma once
 #include "FileException.h"
 
+/// <summary>
+/// Wyj¹tek zwi¹zany z nieudanym otarciem pliku XML
+/// </summary>
 class XmlOpenFailedException: public FileException
 {
 public:

@@ -31,6 +31,9 @@
 
 using namespace StageConst;
 
+/// <summary>
+/// G³ówna klasa gry
+/// </summary>
 class Game : public Playfield
 {
 	////// ==== STA£E

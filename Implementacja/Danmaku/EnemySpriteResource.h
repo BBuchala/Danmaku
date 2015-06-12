@@ -3,6 +3,9 @@
 #include "Sprite.h"
 #include "Resource.h"
 
+/// <summary>
+/// ród³o sprajtów dla wrogów
+/// </summary>
 class EnemySpriteResource: public Resource<std::string, Sprite>
 {
 	/// <summary>

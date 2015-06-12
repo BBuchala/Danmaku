@@ -16,7 +16,7 @@ char * Stage::XML2Char ( std::string const & stageFile )
 	std::ifstream file( stageFile );
 	if( file.bad() )
 	{
-		throw StageCreationFailed();
+		throw StageCreationFailedException();
 	}
 	std::filebuf * pbuf = file.rdbuf();
 	long fileLength = static_cast<long>(pbuf->pubseekoff( 0, std::ios::end, std::ios::in ));
@@ -37,7 +37,7 @@ void Stage::ReadXMLFile()
 	{
 		std::string str(e.what());
 		if (!str.compare("expected <") == 0)
-			throw StageCreationFailed();
+			throw StageCreationFailedException();
 	}
 };
 
@@ -664,7 +664,7 @@ void Stage::CreateEnemies(xml_node <> * time, std::string const & timeValue)
 					trajType = this->CreateTrajectory(enemyObj, enemyNode);
 				}
 			}
-			enemyObj->InitializePatterns(position);
+			enemyObj->InitializePatterns();
 			switch(trajType)
 			{
 			case Road::ELIPSE: case Road::SPIRAL:

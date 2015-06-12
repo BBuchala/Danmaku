@@ -12,7 +12,6 @@
 
 #include <memory>
 
-
 /// <summary>
 /// Pocisk, jaki mo¿e zostaæ wystrzelony
 /// </summary>

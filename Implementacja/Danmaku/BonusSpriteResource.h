@@ -4,6 +4,9 @@
 #include "BonusType.h"
 #include "Resource.h"
 
+/// <summary>
+/// ród³o sprajtów dla bonusów
+/// </summary>
 class BonusSpriteResource: public Resource<BonusType, Sprite>
 {
 public:

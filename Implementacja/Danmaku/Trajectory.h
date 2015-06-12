@@ -4,6 +4,9 @@
 #include "ITrajectory.h"
 #include "ITransformable.h"
 
+/// <summary>
+/// Tor po jakim mo¿na siê poruszaæ
+/// </summary>
 class Trajectory : public ITrajectory, public ITransformable
 {
 protected:

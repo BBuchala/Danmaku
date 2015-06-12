@@ -16,6 +16,9 @@
 
 using namespace StageConst;
 
+/// <summary>
+/// Ekran podsumowuj¹cy wynik gry
+/// </summary>
 class ScoreCountScreen : public Playfield
 {
 

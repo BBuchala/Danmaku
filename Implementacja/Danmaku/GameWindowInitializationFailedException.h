@@ -3,6 +3,9 @@
 
 #include "IException.h"
 
+/// <summary>
+/// Wyj¹tek zwi¹zany z b³êdn¹ inicjalizacj¹ okna
+/// </summary>
 class GameWindowInitializationFailedException: public IException
 {
 public:

@@ -5,6 +5,9 @@
 #include "Sprite.h"
 #include "ScoreParser.h"
 
+/// <summary>
+/// Ekran z wynikami
+/// </summary>
 class ScoreField: public Playfield
 {
 	typedef std::vector<std::string>	Entry;
