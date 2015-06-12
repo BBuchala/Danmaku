@@ -29,7 +29,7 @@ char * XmlParser::XML2Char ( std::string const & stageFile )
 	std::ifstream file( stageFile );
 	if( file.fail() )
 	{
-		throw XmlOpenFailed(stageFile);
+		throw XmlOpenFailedException(stageFile);
 	}
 	std::filebuf * pbuf = file.rdbuf();
 	long fileLength = static_cast<long>(pbuf->pubseekoff( 0, std::ios::end, std::ios::in ));
@@ -52,7 +52,7 @@ void XmlParser::ReadXMLFile()
 	{
 		std::string str(e.what());
 		if (!str.compare("expected <") == 0)
-			throw XmlParseFailed(_filePath);
+			throw XmlParseFailedException(_filePath);
 	}
 };
 

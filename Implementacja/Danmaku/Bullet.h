@@ -13,12 +13,22 @@
 #include <memory>
 
 
+/// <summary>
+/// Pocisk, jaki mo¿e zostaæ wystrzelony
+/// </summary>
 class Bullet : public GameObject
 {
-	// definicja wspólnego wskaŸnika na tor
+	/// <summary>
+	/// Definicja wspólnego wskaŸnika na tor
+	/// </summary>
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
+	/// <summary>
+	/// Trajektoria pocisku
+	/// </summary>
 	TrajectoryPtr trajectory;
-
+	/// <summary>
+	/// Dystans jaki pocisk przeby³
+	/// </summary>
 	float distance;
 
 public:
@@ -32,6 +42,10 @@ public:
 	void SetTrajectory( TrajectoryPtr const & trajectory );
 	void SetDistance( float const distance );
 
+	/// <summary>
+	/// Zwraca trajektoriê
+	/// </summary>
+	/// <returns></returns>
 	inline TrajectoryPtr const GetTrajectory() const
 	{
 		return trajectory;

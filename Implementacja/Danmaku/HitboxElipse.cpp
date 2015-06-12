@@ -1,5 +1,12 @@
 #include "HitboxElipse.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="HitboxElipse"/>.
+/// </summary>
+/// <param name="size">Rozmiar.</param>
+/// <param name="radiusA">Pierwsza pó³-oœ.</param>
+/// <param name="radiusB">Druga pó³-oœ.</param>
+/// <param name="position">Pozycja.</param>
 HitboxElipse::HitboxElipse(  Hitbox::Size size, float radiusA, float radiusB, D3DXVECTOR2 * const position )
 	 : Hitbox(position)
 {
@@ -9,12 +16,22 @@ HitboxElipse::HitboxElipse(  Hitbox::Size size, float radiusA, float radiusB, D3
 };
 
 
+/// <summary>
+/// Skaluje hitbox
+/// </summary>
+/// <param name="scale">skala.</param>
 void HitboxElipse::Scale( float const scale )
 {
 	_radiusA *= scale;
 	_radiusB *= scale;
 };
 
+/// <summary>
+/// Sprawdza czy nast¹pi³a kolizja z przekazanym hitboxem
+/// </summary>
+/// <param name="collider">Drugi hitbox.</param>
+/// <param name="grazeDistance">Grejz dystans.</param>
+/// <returns></returns>
 bool HitboxElipse::TestCollision(Hitbox * collider, USHORT grazeDistance)
 {
 	HitboxCircle * hCircle = dynamic_cast<HitboxCircle*>(collider);
@@ -48,6 +65,10 @@ bool HitboxElipse::TestCollision(Hitbox * collider, USHORT grazeDistance)
 };
 
 
+/// <summary>
+/// Klonuje ten hitbox
+/// </summary>
+/// <returns></returns>
 Hitbox * HitboxElipse::Clone()
 {
 	return new HitboxElipse(*this);

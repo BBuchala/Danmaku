@@ -38,6 +38,10 @@ public:
 	// klonowanie
 	virtual Hitbox * Clone() = 0;
 
+	/// <summary>
+	/// Zwraca po³o¿enie.
+	/// </summary>
+	/// <returns></returns>
 	inline D3DXVECTOR2 GetPosition() const
 	{
 		return *_position;

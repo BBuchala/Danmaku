@@ -1,6 +1,9 @@
 #pragma once
 #include "IException.h"
 
+/// <summary>
+/// Wyj¹tek zwi¹zany z obs³ug¹ plików wejœciowych
+/// </summary>
 class FileException: public IException
 {
 protected:

@@ -1,7 +1,17 @@
 #include "GameWindow.h"
 
-
-// utworzenie okna wg parametrów
+/// <summary>
+/// Tworzy nowe okno <see cref="GameWindow"/>.
+/// </summary>
+/// <param name="hInstance">The h instance.</param>
+/// <param name="nCmdShow">The n command show.</param>
+/// <param name="className">Name of the class.</param>
+/// <param name="windowTitle">The window title.</param>
+/// <param name="x">Pozycja w poziomie.</param>
+/// <param name="y">Pozycja w pionie.</param>
+/// <param name="width">Szerokoœæ okna.</param>
+/// <param name="height">Wysokoœæ okna.</param>
+/// <param name="hWnd">Uchwyt do okna.</param>
 GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
 					   LPCSTR const windowTitle, int const x, int const y, int const width, int const height, HWND & hWnd)
 {
@@ -11,6 +21,16 @@ GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR c
 	}
 };
 
+/// <summary>
+/// Tworzy nowe okno <see cref="GameWindow"/>.
+/// </summary>
+/// <param name="hInstance">The h instance.</param>
+/// <param name="nCmdShow">The n command show.</param>
+/// <param name="className">Name of the class.</param>
+/// <param name="windowTitle">The window title.</param>
+/// <param name="width">Szerokoœæ okna.</param>
+/// <param name="height">Wysokoœæ okna.</param>
+/// <param name="hWnd">Uchwyt do okna.</param>
 GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
 					   LPCSTR const windowTitle, int const width, int const height, HWND & hWnd)
 {
@@ -20,6 +40,19 @@ GameWindow::GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR c
 		width, height, hWnd);
 };
 
+/// <summary>
+/// Funkcja tworz¹ca okno i zwracaj¹ca informacjê, czy siê to uda³o
+/// </summary>
+/// <param name="hInstance">The h instance.</param>
+/// <param name="nCmdShow">The n command show.</param>
+/// <param name="className">Name of the class.</param>
+/// <param name="windowTitle">The window title.</param>
+/// <param name="x">Pozycja w poziomie.</param>
+/// <param name="y">Pozycja w pionie.</param>
+/// <param name="width">Szerokoœæ okna.</param>
+/// <param name="height">Wysokoœæ okna.</param>
+/// <param name="hWnd">Uchwyt do okna.</param>
+/// <returns>Czy siê uda³o</returns>
 bool GameWindow::InitializeWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className,
 								  LPCSTR const windowTitle, int const x, int const y, int const width, int const height, HWND & hWnd)
 {
@@ -61,7 +94,14 @@ bool GameWindow::InitializeWindow(HINSTANCE const & hInstance, int const nCmdSho
 };
 
 
-// reakcja okna na input, afaik
+/// <summary>
+/// Funkcja zajmuj¹ca siê obs³ug¹ danych wejœciowych, ³apie zdarzenia i przerwania
+/// </summary>
+/// <param name="hWnd">Uchwyt do okna.</param>
+/// <param name="message">Wiadomoœæ.</param>
+/// <param name="wParam">Wartoœci polimorficzne.</param>
+/// <param name="lParam">Long parametr.</param>
+/// <returns></returns>
 LRESULT CALLBACK GameWindow::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UINT uHitTest;

@@ -12,6 +12,9 @@
 
 #include "Direct3DInitializationFailedException.h"
 
+/// <summary>
+/// Urz¹dzenie graficzne do tworzenia sprajtów
+/// </summary>
 class GraphicsDevice
 {
 public:
@@ -24,7 +27,6 @@ private:
 public:
 	GraphicsDevice();
 
-	// utworzenie w³aœciwego obiektu Device
 	bool Initialize(HWND & hWnd, bool const windowed);
 
 	void ReleaseObjects();

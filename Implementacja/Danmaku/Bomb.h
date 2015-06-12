@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 
-#define DEBUG
+#undef DEBUG
 
 class Bomb: public GameObject
 	{	

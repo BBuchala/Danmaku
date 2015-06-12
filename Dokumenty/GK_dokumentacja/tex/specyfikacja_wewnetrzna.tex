@@ -1,6 +1,113 @@
 % !TeX spellcheck = pl_PL
 % --- Specyfikacja wewnętrzna jest dokumentacją techniczną powstałego oprogramowania.
 % --- Umieścić link do automatycznie wygenerowanej dokumentacji na podstawie komentarzy.
-% --- Można również opisać ciekawsze/ważniejsze elementy kodu źródłowego (funkcje, obiekty,algorytmy)
+% --- Można również opisać ciekawsze/ważniejsze elementy kodu źródłowego (funkcje, obiekty, algorytmy)
 \newpage
 \part{\huge \textbf{Specyfikacja wewnętrzna}}
+	\section{Dokumentacja techniczna}
+		Można ją znaleźć tutaj: 
+		
+	\section{Wybrane funkcje}
+		\subsection{Przekształcenia afiniczne}
+			\begin{lstlisting}[language=C++]
+				void Hitbox::Translate( D3DXVECTOR2 const & translate )
+				{
+					*_position += translate;
+				};
+			\end{lstlisting}
+			\begin{lstlisting}[language=C++]
+				void GameObject::Scale( float const scale )
+				{
+					this->scale *= scale;
+					this->hitbox->Scale( scale );
+				};
+			\end{lstlisting}
+			\begin{lstlisting}[language=C++]
+				void Trajectory::GetRotation( D3DXVECTOR2 & pos, float const theta )
+				{
+					D3DXMATRIX mat; 
+					mat._11 = cos(theta);	mat._12 = sin(theta);	mat._13 = 0.0f;		mat._14 = 0.0f;
+					mat._21 = -sin(theta);	mat._22 = cos(theta);	mat._23 = 0.0f;		mat._24 = 0.0f;
+					mat._31 = 0.0f;			mat._32 = 0.0f;			mat._33 = 1.0f;		mat._34 = 0.0f;
+					mat._41 = 0.0f;			mat._42 = 0.0f;			mat._43 = 0.0f;		mat._44 = 1.0f;
+					D3DXVec2TransformCoord(&pos, &pos, &mat);
+				};
+			\end{lstlisting}
+	
+		\subsection{Sprawdzenie kolizji gracza z pociskami}
+			\begin{lstlisting}[language=C++]
+				for (PatternQue::const_iterator p_it = _savedPatterns.begin(); p_it != _savedPatterns.end(); ++p_it)
+				{
+					std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
+					std::deque<EnemyBullet*>::const_iterator eb_it = ep->begin();
+					{
+						while (eb_it != ep->end())
+						{
+							if ((*eb_it)->GetHitbox()->TestCollision(player->GetHitbox()))
+							{
+								eb_it = ep->erase(eb_it);	// usunięcie pocisku z kolejki
+								this->MakePlayerLoseLife();
+								return;
+							}
+							if (eb_it != ep->end())
+								eb_it++;
+						}
+					}
+				}
+			\end{lstlisting}
+			\begin{lstlisting}[language=C++]
+				bool HitboxCircle::TestCollision(Hitbox * collider, USHORT grazeDistance)
+				{
+					HitboxCircle * hCircle = dynamic_cast<HitboxCircle*>(collider);
+					if (hCircle != NULL)
+					{
+						float distance = Vector::Length(*_position, collider->GetPosition());
+						if (distance <= _radius + hCircle->GetRadius() + grazeDistance)
+						{
+							return true;
+						}
+						return false;
+					}
+					HitboxElipse * hElipse = dynamic_cast<HitboxElipse*>(collider);
+					if (hElipse != NULL)
+					{
+						float distance = Vector::Length(hElipse->GetPosition(), *_position);
+						float angle = Vector::Angle( *_position, hElipse->GetPosition());
+						float radialLength = hElipse->GetRadialLength(angle);
+						float maxDistance = _radius + radialLength + grazeDistance;
+						if (distance <= maxDistance)
+						{
+							return true;
+						}
+						return false;
+					}
+					return false;
+				};
+			\end{lstlisting}
+		\subsection{Obliczanie położenia na krzywej Beziera}
+			\begin{lstlisting}[language=C++]
+				D3DXVECTOR2 TrajectoryBezier::GetPosition( float const dis )
+				{
+					// znormalizowanie wartości
+					float distance;
+					if (_loopFlag)
+						distance = fmod(dis > totalLength || dis < 0.0f ? fmod(dis + totalLength, totalLength) : dis, totalLength);
+					else
+						distance = dis;
+					float tt = (float) distance / this->totalLength;
+					// zapisanie obecnej tablicy punktów
+					PointVector pointSave = PointVector(this->point);
+					// Obliczenie obecnego punktu
+					for (size_t k = 1; k < pointSave.size(); ++k)
+					{
+						for (size_t i = 0; i < pointSave.size() - k; ++i)
+						{
+							for	(int j = 0; j < 2; ++j)
+							{
+							pointSave[i][j] = (1 - tt) * pointSave[i][j] + tt * pointSave[i + 1][j];
+							}
+						}
+					}
+					return pointSave[0];
+				};
+			\end{lstlisting}

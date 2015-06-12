@@ -1,9 +1,18 @@
 #include "GraphicsDevice.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="GraphicsDevice"/>.
+/// </summary>
 GraphicsDevice::GraphicsDevice()
 {
 };
 
+/// <summary>
+/// Utworzenie w³aœciwego obiektu Device
+/// </summary>
+/// <param name="hWnd">Uchwyt do okna.</param>
+/// <param name="windowed">Jeœli <c>true</c> [uruchomiony w oknie].</param>
+/// <returns></returns>
 bool GraphicsDevice::Initialize(HWND & hWnd, bool windowed)
 {
 	// utworznie wskaŸnika do Direct 3D
@@ -16,9 +25,6 @@ bool GraphicsDevice::Initialize(HWND & hWnd, bool windowed)
 	presentationParams.hDeviceWindow = hWnd; // nasze okno
 	
 	// utworzenie diwajsa
-	// D3DADAPTER_DEFAULT = Primary display adapter (default graphics card)
-	// D3DDEVTYPE_HAL = Hardware rasterization
-	// D3DCREATE_MIXED_VERTEXPROCESSING = Uses both hardware and software for 3D calculations
 	if ( !SUCCEEDED ( direct3d->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		D3DCREATE_MIXED_VERTEXPROCESSING, &presentationParams, &device ) ) )
 	{
@@ -28,7 +34,9 @@ bool GraphicsDevice::Initialize(HWND & hWnd, bool windowed)
 	return true;
 };
 
-// zwolenienie pamiêci
+/// <summary>
+/// Zwolenienie pamiêci
+/// </summary>
 void GraphicsDevice::ReleaseObjects()
 {
 	if (this->device)
@@ -43,25 +51,34 @@ void GraphicsDevice::ReleaseObjects()
 };
 
 
+/// <summary>
+/// Wyczyszczenie diwajsa
+/// </summary>
+/// <param name="color">Kolor.</param>
 void GraphicsDevice::Clear(D3DCOLOR const & color)
 {
-	// 2nd param 'NULL' clears the entire back buffer.
 	device->Clear(0, NULL, D3DCLEAR_TARGET, color, 1.0f, 0);
 }
 
-// rozpoczêcie rysowania
+/// <summary>
+/// Rozpoczêcie rysowania
+/// </summary>
 void GraphicsDevice::Begin()
 {
 	device->BeginScene();
 }
 
-// zakoñczenie rysowania
+/// <summary>
+/// Zakoñczenie rysowania
+/// </summary>
 void GraphicsDevice::End()
 {
 	device->EndScene();
 }
 
-// Zaprezentowanie naszej narysowanej sceny w oknie
+/// <summary>
+/// Zaprezentowanie naszej narysowanej sceny w oknie
+/// </summary>
 void GraphicsDevice::Present()
 {
 	device->Present(NULL, NULL, NULL, NULL);

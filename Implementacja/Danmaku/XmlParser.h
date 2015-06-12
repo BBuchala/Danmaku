@@ -8,8 +8,8 @@
 #include <rapidxml_print.hpp>
 #include <Windows.h>
 
-#include "XmlOpenFailed.h"
-#include "XmlParseFailed.h"
+#include "XmlOpenFailedException.h"
+#include "XmlParseFailedException.h"
 
 using namespace rapidxml;
 

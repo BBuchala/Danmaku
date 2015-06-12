@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Rodzaje mo¿liwych do kontrolek gry.
+/// </summary>
 enum class GameControl {
 	UP				= 0x00,
 	DOWN			= 0x01,
@@ -11,6 +14,12 @@ enum class GameControl {
 	ER				= 0x07
 };
 
+/// <summary>
+/// Konwersja rodzaju bonusu na jego reprezentacjê w postaci stringu.
+/// Jeœli nie istnieje, to zwraca komunikat o b³êdzie
+/// </summary>
+/// <param name="option">Typ kontrolki.</param>
+/// <returns></returns>
 inline std::string GameControl2String(GameControl option)
 {
 	switch(option)
@@ -25,7 +34,11 @@ inline std::string GameControl2String(GameControl option)
 	case GameControl::ER:			return "ERROR";
     }
 };
-
+/// <summary>
+/// Konwersja stringu do rodzaju kontrolki.
+/// </summary>
+/// <param name="str">treœæ napisu.</param>
+/// <returns>Kontrolkê, jeœli nie istnieje, to zwraca komunikat o b³êdzie</returns>
 inline GameControl String2GameControl(std::string const & str)
 {
 	if (str.compare("UP") == 0)

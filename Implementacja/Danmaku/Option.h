@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Mo¿liwe opcja konfiguracji.
+/// </summary>
 enum class OPTION {
 	LIFE_NUMBER		= 0x00,
 	BOMB_NUMBER		= 0x01,
@@ -14,6 +17,11 @@ enum class OPTION {
 	ER				= 0x10
 };
 
+/// <summary>
+/// Zwiêksza opcjê odpoednio o 1, wg listy.
+/// </summary>
+/// <param name="option">Opcja.</param>
+/// <returns></returns>
 inline OPTION operator++(OPTION & option)
 {
 	switch(option)
@@ -30,10 +38,13 @@ inline OPTION operator++(OPTION & option)
 	case OPTION::RESET:			return option = OPTION::LIFE_NUMBER;
 	default:
 		return OPTION::ER;
-
     }
 };
-
+/// <summary>
+/// Zmniejsza opcjê odpoednio o 1, wg listy.
+/// </summary>
+/// <param name="option">Opcja.</param>
+/// <returns></returns>
 inline OPTION operator--(OPTION & option)
 {
 	switch(option)
@@ -52,7 +63,11 @@ inline OPTION operator--(OPTION & option)
 		return OPTION::ER;
     }
 };
-
+/// <summary>
+/// Konwersja rodzaju opcji na jej reprezentacjê w postaci stringu.
+/// </summary>
+/// <param name="option">Opcja.</param>
+/// <returns>Napis, jeœli opcja nie istnieje, to komunikat o b³êdzie.</returns>
 inline std::string Option2String(OPTION option)
 {
 	switch(option)
@@ -71,7 +86,11 @@ inline std::string Option2String(OPTION option)
 
     }
 };
-
+/// <summary>
+/// Konwersja stringu na rodzaj opcji.
+/// </summary>
+/// <param name="option">Opcja.</param>
+/// <returns>Odpowiedni enum, jeœli nie istnieje, to komunikat o b³êdzie.</returns>
 inline OPTION String2Option(std::string const & str)
 {
 	if (str.compare("LIFE_NUMBER") == 0)

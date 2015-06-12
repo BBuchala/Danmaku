@@ -1,6 +1,9 @@
 #ifndef _BONUS_TYPE_
 #define _BONUS_TYPE_
 
+/// <summary>
+/// Rodzaje mo¿liwych do utworzenia bonusów.
+/// </summary>
 static enum class BonusType
 {
 	NONE	= 0x00,
@@ -10,6 +13,11 @@ static enum class BonusType
 	SCORE	= 0x08
 };
 
+/// <summary>
+/// Konwersja rodzaju bonusu na jego reprezentacjê w postaci stringu.
+/// </summary>
+/// <param name="bt">Typ bonusu.</param>
+/// <returns></returns>
 static const char * BonusToString(BonusType bt)
 {
 	switch(bt)

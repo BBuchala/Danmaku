@@ -4,17 +4,35 @@
 #include "GameObject.h"
 #include "TrajectoryFactory.h"
 
+/// <summary>
+/// Bonus jaki gracz mo¿e zebraæ w trakcie gry
+/// </summary>
 class Bonus: public GameObject
 {
 protected:
-	// definicja wspólnego wskaŸnika na tor
+	/// <summary>
+	/// Definicja wspólnego wskaŸnika na tor
+	/// </summary>
 	typedef Trajectory* TrajectoryPtr;
+	/// <summary>
+	/// Trajektoria po jakiej porusza siê pocisk
+	/// </summary>
 	TrajectoryPtr trajectory;
-
+	/// <summary>
+	/// Dystans jaki pocisk przebieg³
+	/// </summary>
 	float distance;
-	std::string fileName;				// Nazwa pliku, z którego pobierany bêdzie sprite. Definiowana w klasach pochodnych
-
+	/// <summary>
+	/// Nazwa pliku, z którego pobierany bêdzie sprite
+	/// </summary>
+	std::string fileName;
+	/// <summary>
+	/// Wartoœæ bonusu pocisku
+	/// </summary>
 	float value;
+	/// <summary>
+	/// Czy pocisk zosta³ "zassany" przez gracza
+	/// </summary>
 	bool _vacuumed;
 
 public:
@@ -24,35 +42,59 @@ public:
 	virtual ~Bonus();
 
 	void SetSprite(SpritePtr sprite);
-
-	// METODA DO AKTUALIZACJI POZYCJI OBIEKTU
 	void Update(float const time) override;
 
-	// METODA SPRAWDZAJ¥CA, CZY BONUS ZNAJDUJE SIÊ W OBSZARZE GRY
+	/// <summary>
+	/// Determines whether [is bonus within bounds] [the specified x].
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="width">The width.</param>
+	/// <param name="height">The height.</param>
+	/// <returns></returns>
 	bool isBonusWithinBounds(const short x, const short y, const short width, const short height);
 
 	virtual BonusType GetBonusId() const = 0;
 
+	/// <summary>
+	/// Ustawia przebyty dystans.
+	/// </summary>
+	/// <param name="distance">Dystans.</param>
 	void SetDistance(float const distance)
 	{
 		this->distance = distance;
 	}
-
+	/// <summary>
+	/// Realizuje bonus zgodnie ze swoimi zasadami. Mog¹ one zostac przeci¹¿one
+	/// </summary>
+	/// <returns>Wartoœæ bonusu</returns>
 	virtual inline float Realize() const
 	{
 		return value;
 	}
 
+	/// <summary>
+	/// Zwraca trajektoriê.
+	/// </summary>
+	/// <returns>Trajektoria.</returns>
 	inline Trajectory * const GetTrajectory() const
 	{
 		return trajectory;
 	}
 
+	/// <summary>
+	/// Zwraca informacjê, czy bonus zosta³ ju¿ zasyœniêty
+	/// </summary>
+	/// <returns></returns>
 	inline bool IsVacuumed() const
 	{
 		return _vacuumed;
 	}
 
+	/// <summary>
+	/// Ustawia trajektoriê bonusu w kierunku gracza
+	/// </summary>
+	/// <param name="position">The position.</param>
 	void SetTrajectoryTowardsPlayer(D3DXVECTOR2 const & position)
 	{
 		this->GetTrajectory()->SetTrajectoryTowards(GetCenterPoint(), position);

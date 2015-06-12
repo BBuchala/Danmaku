@@ -30,7 +30,7 @@ public:
 	// zarejestrowanie nowej trajektorii
 	bool RegisterTrajectory( Road const tracId, CreateTrajectoryCallback createFn );
 
-	// usuniêcie trajektorii z mapy
+	// 
 	bool UnregisterTrajectory( Road const tracId );
 
 };

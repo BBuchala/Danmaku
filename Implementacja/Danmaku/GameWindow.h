@@ -1,25 +1,19 @@
-/* ======================================================== *\
- *  @GameWindow.h
- *  @Opis: Implementacja klasy GameWindow
- *  Klasa potrafi stworzyæ okno w WIN API, które
- *  zajmuje siê wyœwietlaniem... wszyskego.
- *  @Utworzona: 21.03.2015 12:06
- *  @Autor: Mateusz Forczmañski
-\* ======================================================== */
-
 #pragma once
 
 #include <windows.h>
 #include <string>
 #include "GameWindowInitializationFailedException.h"
 
+/// <summary>
+/// Okno gry
+/// </summary>
 class GameWindow
 {
 	// informacje o oknie
 	WNDCLASSEX wincl;
 
 public:
-	// tworzy nowe okno wg podanych parametrów
+	// 
 	GameWindow(HINSTANCE const & hInstance, int const nCmdShow, LPCSTR const className, LPCSTR const windowTitle,
 		int const width, int const height, HWND & hWnd);
 	// tworzy nowe okno wg podanych parametrów

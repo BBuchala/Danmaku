@@ -2,11 +2,16 @@
 
 #include "Bullet.h"
 
-
+/// <summary>
+/// Pociski, jaki mo¿e wystrzeliæ gracz
+/// </summary>
 class PlayerBullet : public Bullet
 {
 protected:
 	
+	/// <summary>
+	/// Obra¿enia jakie pocisk mo¿e zadaæ
+	/// </summary>
 	short unsigned damage;
 
 public:
@@ -16,6 +21,10 @@ public:
 
 	void SetDamage( short unsigned const damage);
 
+	/// <summary>
+	/// Zwrócenie zadawanych obra¿eñ
+	/// </summary>
+	/// <returns></returns>
 	inline const short unsigned Damage() const
 	{
 		return damage;

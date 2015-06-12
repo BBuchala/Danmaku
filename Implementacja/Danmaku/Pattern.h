@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Mo¿liwe rodzaje wrogich wzorów
+/// </summary>
 static enum class Pattern
 {
 	NONE			= 0x00,

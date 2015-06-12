@@ -27,6 +27,12 @@ public:
 	virtual void SetCenterPoint(D3DXVECTOR2 const & centerPoint) {};
 	virtual void SetTrajectoryTowards(D3DXVECTOR2 const & myPosition, D3DXVECTOR2 const & position) {};
 
+	/// <summary>
+	/// Czy droga zosta³a ukoñczona, czyli
+	/// czy przekazany dystans jest wiêkszy od jej d³ugoœci
+	/// </summary>
+	/// <param name="distance">Dystans.</param>
+	/// <returns></returns>
 	inline bool IsRoadFinished(float const distance) const
 	{
 		return distance >= _length ? true : false;

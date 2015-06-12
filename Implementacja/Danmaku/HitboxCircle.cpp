@@ -1,5 +1,11 @@
 #include "HitboxCircle.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="HitboxCircle"/>.
+/// </summary>
+/// <param name="size">Rozmiar.</param>
+/// <param name="radius">Promieñ.</param>
+/// <param name="position">Pozycja.</param>
 HitboxCircle::HitboxCircle( Hitbox::Size size, float radius, D3DXVECTOR2 * const position ) : Hitbox(position)
 {
 	float divisor = GetDivisor(size);
@@ -7,12 +13,22 @@ HitboxCircle::HitboxCircle( Hitbox::Size size, float radius, D3DXVECTOR2 * const
 };
 
 
+/// <summary>
+/// Skaluje hitbox
+/// </summary>
+/// <param name="scale">skala.</param>
 void HitboxCircle::Scale( float const scale )
 {
 	_radius *= scale;
 };
 
 
+/// <summary>
+/// Sprawdza czy nast¹pi³a kolizja z przekazanym hitboxem
+/// </summary>
+/// <param name="collider">Drugi hitbox.</param>
+/// <param name="grazeDistance">Grejz dystans.</param>
+/// <returns></returns>
 bool HitboxCircle::TestCollision(Hitbox * collider, USHORT grazeDistance)
 {
 	HitboxCircle * hCircle = dynamic_cast<HitboxCircle*>(collider);
@@ -42,6 +58,10 @@ bool HitboxCircle::TestCollision(Hitbox * collider, USHORT grazeDistance)
 };
 
 
+/// <summary>
+/// Klonuje ten hitbox
+/// </summary>
+/// <returns></returns>
 Hitbox * HitboxCircle::Clone()
 {
 	return new HitboxCircle(*this);

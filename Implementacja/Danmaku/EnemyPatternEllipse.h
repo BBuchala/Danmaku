@@ -7,11 +7,11 @@ namespace
 {
 	class EnemyPatternEllipse: public EPattern
 	{
-		/// Sk³adowe potrzebne do generowania pocisków
+		// Sk³adowe potrzebne do generowania pocisków
 		float _radiusA;
 		float _radiusB;
 
-		/// Wspólna trasa dla wszystkich pocisków
+		// Wspólna trasa dla wszystkich pocisków
 		std::shared_ptr<Trajectory> _traj;
 
 	public:

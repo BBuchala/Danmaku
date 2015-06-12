@@ -31,7 +31,10 @@ public:
 	void Unpress();
 	void ResetAnimation();
 
-	// Zwrócenie rodzaju przycisku
+	/// <summary>
+	/// Zwrócenie rodzaju przycisku.
+	/// </summary>
+	/// <returns></returns>
 	inline ButtonType GetType() const
 	{
 		return _tag;

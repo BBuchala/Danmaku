@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Mo¿liwoœci ruchu gracza
+/// </summary>
 static enum class Move
 {
 	NONE	= 0x00,

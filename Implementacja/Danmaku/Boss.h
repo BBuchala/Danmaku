@@ -5,6 +5,9 @@
 #include "GameObject.h"
 #include "Spellcard.h"
 
+/// <summary>
+/// Ostatni wróg do pokonania
+/// </summary>
 class Boss: public GameObject
 {
 	USHORT const MAX_LIFE;
@@ -29,7 +32,7 @@ public:
 	void Draw(RECT const & rect);
 	void Update( float const time );
 
-	bool InitializePatterns(D3DXVECTOR2 const & position);
+	bool InitializePatterns();
 
 	void TakeDamage( USHORT const damage );
 
@@ -38,21 +41,37 @@ public:
 	void SetIsShooting(bool const isShooting);
 	void AddSpellcard(Spellcard * const spellcard);
 
+	/// <summary>
+	/// Czy boss jeszcze ¿yje
+	/// </summary>
+	/// <returns></returns>
 	inline bool IsAlive() const
 	{
 		return life_ == 0 ? false : true;
 	}
 
+	/// <summary>
+	/// Zwraca imiê.
+	/// </summary>
+	/// <returns></returns>
 	inline const std::string & GetName() const
 	{
 		return this->name_;
 	}
 
+	/// <summary>
+	/// Zwraca liczbê ¿ycia.
+	/// </summary>
+	/// <returns></returns>
 	inline const USHORT GetLife() const
 	{
 		return life_;
 	}
 
+	/// <summary>
+	/// Zwraca maksymaln¹ wartoœæ ¿ycia.
+	/// </summary>
+	/// <returns></returns>
 	inline const USHORT GetMaxLife() const
 	{
 		return MAX_LIFE;

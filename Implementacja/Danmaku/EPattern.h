@@ -4,27 +4,27 @@
 #include "EnemyBullet.h"
 #include "Pattern.h"
 
-//// konkretna klasa ka¿dego Patternu
+// konkretna klasa ka¿dego Patternu
 class EPattern : public IPattern
 {
 protected:
-	/// Definicja kolejki wrogich pocisków
+	// Definicja kolejki wrogich pocisków
 	typedef std::deque<EnemyBullet*> EBulletQue;
 	// definicja wspólnego wskaŸnika na tor
 	typedef std::shared_ptr<Trajectory> TrajectoryPtr;
-	/// Definicja mapy trajektorii
+	// Definicja mapy trajektorii
 	typedef std::map<std::string, TrajectoryPtr> TrajectoryMap;
-	/// Definicja pary do mapy trajektorii
+	// Definicja pary do mapy trajektorii
 	typedef std::pair<std::string, TrajectoryPtr> TrajectoryPair;
 
-	//// POCISKI
+	// POCISKI
 	EBulletQue _bullet;
 
-	/// Sk³adowe potrzebne do generowania pocisków
+	// Sk³adowe potrzebne do generowania pocisków
 	float _number;
 	float _interval;
 
-	/// Kontrolki przekszta³ceñ afinicznych
+	// Kontrolki przekszta³ceñ afinicznych
 	D3DXVECTOR2 _translate;
 	float _scale;
 	float _scaleStep;
@@ -33,7 +33,7 @@ protected:
 	float _bulletScale;
 	float _bulletRotate;
 
-	/// W³aœciwoœci generowanych pocisków
+	// W³aœciwoœci generowanych pocisków
 	std::shared_ptr<Sprite> _bulletSprite;
 	float _bulletSpeed;
 	float _bulletAcc;

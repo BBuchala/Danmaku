@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Mo¿liwe rodzaje trajektorii
+/// </summary>
 static enum class Road
 {
 	NONE			= 0x00,

@@ -4,12 +4,17 @@
 #include "Sprite.h"
 #include <map>
 
+/// <summary>
+/// Fabryka bonusów
+/// </summary>
 class BonusFactory
 {
 	typedef Bonus * (*CreateBonusCallback)( D3DXVECTOR2 const & position, float const value, float const speed );
 	typedef std::map<BonusType, CreateBonusCallback> CallbackMap;
 
-	// mapa wywo³añ
+	/// <summary>
+	/// mapa wywo³añ
+	/// </summary>
 	CallbackMap callbacks_;
 
 	// instancja fabryki

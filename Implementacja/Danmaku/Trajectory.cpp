@@ -1,22 +1,36 @@
 #include "Trajectory.h"
 
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Trajectory"/>.
+/// </summary>
 Trajectory::Trajectory() : theta(0.0f)
 {
 };
 
 
+/// <summary>
+/// Niszczy instancjê klasy <see cref="Trajectory"/>.
+/// </summary>
 Trajectory::~Trajectory()
 {
 };
 
 
+/// <summary>
+/// Wybranie punktu startowego.
+/// </summary>
+/// <param name="startPoint">Punkt startowy.</param>
 void Trajectory::SetStartPoint( D3DXVECTOR2 const & startPoint )
 {
 	this->startPoint = startPoint;
 };
 
-// obrót
+/// <summary>
+/// Obrócenie trajektorii o wybrany k¹t wzglêdem wskazanej pozycji.
+/// </summary>
+/// <param name="pos">Pozycja.</param>
+/// <param name="theta">K¹t.</param>
 void Trajectory::GetRotation( D3DXVECTOR2 & pos, float const theta )
 {
 	D3DXMATRIX mat; 
@@ -28,6 +42,10 @@ void Trajectory::GetRotation( D3DXVECTOR2 & pos, float const theta )
 };
 
 
+/// <summary>
+/// Ustawienie d³ugoœci drogi.
+/// </summary>
+/// <param name="length">D³ugoœæ.</param>
 void Trajectory::SetLength(float length)
 {
 	_length = length;

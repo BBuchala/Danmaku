@@ -10,10 +10,15 @@
 #include "Bullet.h"
 
 
+/// <summary>
+/// Wrogi pocisk
+/// </summary>
 class EnemyBullet : public Bullet
 {
 protected:
-	// czy gracz otar³ siê o pocisk
+	/// <summary>
+	/// Czy gracz otar³ siê o pocisk
+	/// </summary>
 	bool isGrazed;
 
 public:
@@ -24,11 +29,19 @@ public:
 
 	void SetGrazed( bool const isGrazed );
 
+	/// <summary>
+	/// Czy pocisk zosta³ zgrejzowany
+	/// </summary>
+	/// <returns></returns>
 	inline const bool IsGrazed() const
 	{
 		return isGrazed;
 	};
 
+	/// <summary>
+	/// Klonuje pocisk
+	/// </summary>
+	/// <returns></returns>
 	EnemyBullet * Clone() const
 	{
 		return new EnemyBullet(*this);

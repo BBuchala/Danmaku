@@ -3,6 +3,11 @@
 unsigned int Application::m_FPS = 60;
 
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Application"/>.
+/// </summary>
+/// <param name="hInstance">The h instance.</param>
+/// <param name="nShowCmd">The n show command.</param>
 Application::Application(HINSTANCE hInstance, int const nShowCmd)
 {
 	LPCSTR const className = "danmakuWindow";
@@ -20,7 +25,9 @@ Application::Application(HINSTANCE hInstance, int const nShowCmd)
 	_config = new ConfigParser("config/config.xml", keybInput);
 };
 
-
+/// <summary>
+/// Niszczy instancjê klasy <see cref="Application"/>.
+/// </summary>
 Application::~Application()
 {
 	if (window) delete window;
@@ -30,6 +37,10 @@ Application::~Application()
 	if (keybInput) delete keybInput;
 };
 
+/// <summary>
+/// Inicjalizuje aplikacjê
+/// </summary>
+/// <returns></returns>
 bool Application::Initialize()
 {
 	this->keybDevice = keybInput->InitializeKeyboard(hWnd);
@@ -58,6 +69,9 @@ bool Application::Initialize()
 };
 
 
+/// <summary>
+/// Uruchomienie aplikacji
+/// </summary>
 void Application::Run()
 {
 	//bool game = false;
@@ -99,6 +113,11 @@ void Application::Run()
 };
 
 
+
+/// <summary>
+/// Utworzenie miejsca, gdzie apliakcja bêdzie dzia³aæ.
+/// </summary>
+/// <returns></returns>
 bool Application::Create()
 {
 	endStageInfo = field->ReturnInformation();
@@ -118,7 +137,9 @@ bool Application::Create()
 		return false;
 };
 
-
+/// <summary>
+/// Utworzenie odpowiedniego pola.
+/// </summary>
 void Application::CreateNewField(ScreenMode fieldType)
 {
 	switch (endStageInfo->nextMode)
@@ -160,6 +181,10 @@ void Application::CreateNewField(ScreenMode fieldType)
 
 
 
+/// <summary>
+/// Obliczenie liczby klatek na sekundê
+/// </summary>
+/// <param name="dt">Próbka czasu.</param>
 void Application::CalculateFPS( float const dt )
 {
 	static int frameCount;
