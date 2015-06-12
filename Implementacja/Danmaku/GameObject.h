@@ -72,31 +72,55 @@ public:
 
 
 	// Gettery
+	/// <summary>
+	/// Zwraca referencjê do sprajta.
+	/// </summary>
+	/// <returns></returns>
 	inline const SpritePtr& GetSprite() const
 	{
 		return this->sprite;
 	}
 
+	/// <summary>
+	/// Zwraca pozycjê obiektu.
+	/// </summary>
+	/// <returns></returns>
 	inline const D3DXVECTOR2& GetPosition() const
 	{
 		return this->position;
 	}
 
+	/// <summary>
+	/// Zwraca punkt centeralny obiektu.
+	/// </summary>
+	/// <returns></returns>
 	inline D3DXVECTOR2 GetCenterPoint() const
 	{
 		return this->centerPoint;
 	}
 
+	/// <summary>
+	/// Zwraca wskaŸnik do hitboxa.
+	/// </summary>
+	/// <returns></returns>
 	inline Hitbox * const GetHitbox() const
 	{
 		return hitbox.get();
 	}
 
+	/// <summary>
+	/// Zwraca prêdkoœæ.
+	/// </summary>
+	/// <returns></returns>
 	inline float GetSpeed() const
 	{
 		return speed;
 	}
 
+	/// <summary>
+	/// Zwrócenie wskaŸnika do punktu centralnego obiektu.
+	/// </summary>
+	/// <returns></returns>
 	inline D3DXVECTOR2 const * GetCenter() const
 	{
 		return &centerPoint;

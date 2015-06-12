@@ -22,7 +22,7 @@ class Input
 
 public:
 	// inicjalizacja obs³ugi klawiszy
-	LPDIRECTINPUTDEVICE8 InitializeKeyboard(HWND han_Window);
+	LPDIRECTINPUTDEVICE8 InitializeKeyboard(HWND hwnd);
 	// odczytanie stanu klawiatury
 	void ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb);
 
@@ -33,7 +33,11 @@ public:
 	void SetGameControls(GameInput gInput);
 
 	/* ==== Zwrócenie informacji o stanie klawiatury ================================= */
-	// zwraca nazwê klawisza o podanym ID
+	/// <summary>
+	/// Zwraca nazwê klawisza o podanym ID.
+	/// </summary>
+	/// <param name="key">Klucz.</param>
+	/// <returns></returns>
 	inline std::string KeyName(UCHAR key)
 	{
 		return this->dictionary[key];
@@ -43,7 +47,11 @@ public:
 	// ze wszystkich wciœniêtych klawiszy zwraca pierwszy z nich
 	unsigned char GetKeyDown();
 
-	// czy klawisz jest wciœniêty
+	/// <summary>
+	/// Czy klawisz jest wciœniêty.
+	/// </summary>
+	/// <param name="key">Klucz.</param>
+	/// <returns></returns>
 	inline bool KeyDown(UCHAR key)
 	{
 		if (chr_KeybState[key] & 0x80) 
@@ -57,7 +65,11 @@ public:
 			return false;
 		}
 	};
-	// czy klawisz nie jest wciœniêty
+	/// <summary>
+	/// Czy klawisz nie jest wciœniêty.
+	/// </summary>
+	/// <param name="key">Klucz.</param>
+	/// <returns></returns>
 	inline bool KeyUp(UCHAR key)
 	{
 		if (chr_KeybState[key] & 0x80) 
@@ -71,8 +83,13 @@ public:
 			return true;
 		}
 	};
-	// czy klawisz zosta³ wciœniêty RAZ
-	// jeœli tak, to w czasie jednego updatu zwraca raz true, a nastêpnie je blokuje
+	
+	/// <summary>
+	/// czy klawisz zosta³ wciœniêty RAZ
+	/// jeœli tak, to w czasie jednego updatu zwraca raz true, a nastêpnie je blokuje
+	/// </summary>
+	/// <param name="key">Klucz.</param>
+	/// <returns></returns>
 	inline bool KeyDownOne(UCHAR key)
 	{
 		if (chr_KeybState[key] & 0x80)
@@ -94,12 +111,20 @@ public:
 		return false;
 	};
 
-	// czy klawisz gry o podanym ID zosta³ wciœniêty
+	/// <summary>
+	/// Czy klawisz gry o podanym ID zosta³ wciœniêty
+	/// </summary>
+	/// <param name="gKey">Klucz.</param>
+	/// <returns></returns>
 	inline bool GameKey(GameControl const gKey)
 	{
 		return KeyDown(this->gameInput[gKey]);
 	};
-	// czy klawisz gry o podanym ID zosta³ wciœniêty RAZ
+	/// <summary>
+	/// Czy klawisz gry o podanym ID zosta³ wciœniêty RAZ.
+	/// </summary>
+	/// <param name="gKey">Kontrolka dla klucza.</param>
+	/// <returns></returns>
 	inline bool GameKeyOne(GameControl const gKey)
 	{
 		return KeyDownOne(this->gameInput[gKey]);

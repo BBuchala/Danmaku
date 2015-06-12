@@ -2,6 +2,9 @@
 
 #include <d3d9.h>
 
+/// <summary>
+/// Mo¿liwoœæ bycia narysowanym
+/// </summary>
 class IDrawable
 {
 public:

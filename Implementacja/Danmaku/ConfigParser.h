@@ -25,37 +25,65 @@ public:
 	void Create();
 	// Uruchomienie parsowania
 	void Initialize();
-	// zapisanie dokonanych zmian do pliku
+	// Zapisanie dokonanych zmian do pliku
 	void SaveOptions();
 
 	/* === GETTRY I SETTERY ================================== */
-	// liczba ¿yæ
+	/// <summary>
+	/// Zwrócenie liczby ¿yæ.
+	/// </summary>
+	/// <returns></returns>
 	inline BYTE GetLifeNumber()
 	{
 		return lifeNumber;
 	};
+	/// <summary>
+	/// Ustawienie liczby ¿yæ.
+	/// </summary>
+	/// <param name="number">Liczby ¿yæ.</param>
 	inline void SetLifeNumber(BYTE number)
 	{
 		lifeNumber = number;
 	};
-	// liczba bomb
+	/// <summary>
+	/// Zwrócenie liczby bomb.
+	/// </summary>
+	/// <returns></returns>
 	inline BYTE GetBombNumber()
 	{
 		return bombNumber;
 	};
+	/// <summary>
+	/// Ustawienie liczby bomb.
+	/// </summary>
+	/// <param name="number">Liczby bomb.</param>
 	inline void SetBombNumber(BYTE number)
 	{
 		bombNumber = number;
 	};
 	// klawisze
+	/// <summary>
+	/// Przypisanie klawisza do kontrolki.
+	/// </summary>
+	/// <param name="type">Typ kontrolki.</param>
+	/// <param name="key">Klucz.</param>
 	inline void SetKey(GameControl type, UCHAR key)
 	{
 		keyMap[type] = key;
 	};
+	/// <summary>
+	/// Zwrócenie id klawisza.
+	/// </summary>
+	/// <param name="type">Typ kontrolki.</param>
+	/// <returns></returns>
 	inline UCHAR GetKey(GameControl type)
 	{
 		return keyMap[type];
 	};
+	/// <summary>
+	/// Zwrócenie kontrolek gry.
+	/// </summary>
+	/// <returns></returns>
 	inline KeyMap GameControls()
 	{
 		return keyMap;

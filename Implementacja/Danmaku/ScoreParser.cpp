@@ -1,13 +1,18 @@
 #include "ScoreParser.h"
 
-/* ---- Konstruktor
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="ScoreParser"/>.
+/// </summary>
+/// <param name="file">Plik wejœciowy.</param>
 ScoreParser::ScoreParser(std::string const & file) : XmlParser(file)
 {
 };
 
-/* ---- Create
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Przetowrzenie pliku.
+/// </summary>
 void ScoreParser::Create()
 {
 	xml_node <> * firstNode = _doc.first_node();
@@ -38,8 +43,11 @@ void ScoreParser::Create()
 	}
 };
 
-/* ---- Get Highest Score
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Zwrócenie najwy¿szego wyniku z zapisanych.
+/// </summary>
+/// <returns></returns>
 ULONG ScoreParser::GetHighestScore()
 {
 	ULONG highestScore = 0;

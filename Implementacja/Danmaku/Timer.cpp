@@ -1,5 +1,9 @@
 #include "Timer.h"
 
+/// <summary>
+/// Rozpoczêcie naliczania.
+/// </summary>
+/// <returns></returns>
 bool Timer::Start()
 {
 	bool result = true;
@@ -8,6 +12,10 @@ bool Timer::Start()
 	return result;
 };
 
+/// <summary>
+/// Ustawienie czêstotliwoœci.
+/// </summary>
+/// <returns></returns>
 bool Timer::SetCountsPerSecond()
 {
 	LARGE_INTEGER countsPerSecond;
@@ -19,6 +27,10 @@ bool Timer::SetCountsPerSecond()
 	return false;
 };
 
+/// <summary>
+/// Ustawienie poprzedniego czasu.
+/// </summary>
+/// <returns></returns>
 bool Timer::SetPreviousTime()
 {
 	LARGE_INTEGER prevTime;
@@ -32,6 +44,9 @@ bool Timer::SetPreviousTime()
 };
 
 
+/// <summary>
+/// Aktualizacja licznika.
+/// </summary>
 void Timer::Update()
 {
 	LARGE_INTEGER curTime;
@@ -42,6 +57,9 @@ void Timer::Update()
 };
 
 
+/// <summary>
+/// Resets licznika.
+/// </summary>
 void Timer::Reset()
 {
 	LARGE_INTEGER curTime;

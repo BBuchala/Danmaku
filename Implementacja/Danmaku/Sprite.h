@@ -61,37 +61,43 @@ public:
 	void ResetValues();
 
 	////////// GETTERY ////////////////////
-	
-	// szerokoœæ
+	/// <summary>
+	/// Zwraca szerokoœæ sprajta.
+	/// </summary>
+	/// <returns></returns>
 	inline const int GetWidth() const
 	{
 		return this->width;
 	};
 
-	// wysokoœæ
+	/// <summary>
+	/// Zwraca wysokoœæ sprajta.
+	/// </summary>
+	/// <returns></returns>
 	inline const int GetHeight() const
 	{
 		return this->height;
 	};
 
-	// czy prawid³owo siê wykona³
+	/// <summary>
+	/// Czy prawid³owo siê wykona³
+	/// </summary>
+	/// <returns></returns>
 	inline const bool IsInitialized() const
 	{
 		return this->initialized;
 	};
 
-	// zwraca po³o¿enie œrodka obiektu (i tym samym hitboxa)
+	/// <summary>
+	/// Zwraca po³o¿enie œrodka obiektu (i tym samym hitboxa).
+	/// </summary>
+	/// <returns></returns>
 	inline const D3DXVECTOR2& GetCenterPoint() const
 	{
 		return this->center;
 	}
 
 	///// FUNKCJE TWORZ¥CE ŒCIE¯KI DO SPRAJTÓW
-	inline static std::string GetFilePath( std::string const & name, int const i, int const j, std::string const & ext )
-	{
-		return IMG_PATH + name + std::to_string(i) + std::to_string(j) + '.' + ext;
-	};
-
 	inline static std::string GetFilePath( std::string const & name, int const number, std::string const & ext )
 	{
 		return IMG_PATH + name + std::to_string(number) + '.' + ext;

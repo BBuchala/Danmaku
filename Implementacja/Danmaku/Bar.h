@@ -3,6 +3,9 @@
 #include "Sprite.h"
 
 
+/// <summary>
+/// Klasa odpowiadaj¹ca za tworznie pasków z ikonami
+/// </summary>
 class Bar
 {
 private:

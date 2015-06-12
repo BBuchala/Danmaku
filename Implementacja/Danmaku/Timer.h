@@ -2,6 +2,9 @@
 
 #include <Windows.h>
 
+/// <summary>
+/// Klasa licznika, odpowiada za mierzenie czasu
+/// </summary>
 class Timer
 {
 public:

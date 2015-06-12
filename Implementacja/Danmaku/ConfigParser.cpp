@@ -1,14 +1,20 @@
 #include "ConfigParser.h"
 
-/* ---- Konstruktor
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="ConfigParser"/>.
+/// </summary>
+/// <param name="file">Plik wejœciowy.</param>
+/// <param name="input">Input gry.</param>
 ConfigParser::ConfigParser(std::string const & file, Input * input) : XmlParser(file)
 {
 	_gameInput = input;
 };
 
-/* ---- Create
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Sparsowanie pliku.
+/// </summary>
 void ConfigParser::Create()
 {
 	xml_node <> * firstNode = _doc.first_node();
@@ -64,15 +70,19 @@ void ConfigParser::Create()
 	}
 };
 
-/* ---- Initialize
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Uruchomienie parsowania.
+/// </summary>
 void ConfigParser::Initialize()
 {
 	this->Start();
 }
 
-/* ---- Save Options
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Zapisanie dokonanych zmian do pliku.
+/// </summary>
 void ConfigParser::SaveOptions()
 {
 	xml_node <> * firstNode = _doc.first_node();

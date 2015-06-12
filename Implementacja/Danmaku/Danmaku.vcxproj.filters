@@ -88,9 +88,6 @@
     <Filter Include="Header Files\Resources">
       <UniqueIdentifier>{8c7d25e1-dcd6-46d8-9062-b8a189389bd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Resources">
-      <UniqueIdentifier>{5b61e82c-bba8-44e3-8341-829cbffbfe77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Patterns\PlayerPatterns">
       <UniqueIdentifier>{fdeba899-2f79-43c5-ba9b-c4432540268c}</UniqueIdentifier>
     </Filter>

@@ -7,6 +7,10 @@
 class BonusSpriteResource: public Resource<BonusType, Sprite>
 {
 public:
+	/// <summary>
+	/// Utworzenie materia³ów.
+	/// </summary>
+	/// <param name="gDevice">Urz¹dznie graficzne.</param>
 	void Create(GraphicsDevice * const gDevice) override
 	{
 		for (Map::const_iterator it = _map.begin(); it != _map.end(); ++it)

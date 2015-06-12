@@ -1,13 +1,18 @@
 #include "XmlParser.h"
 
-/* ---- Konstruktor
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="XmlParser"/>.
+/// </summary>
+/// <param name="file">The file.</param>
 XmlParser::XmlParser(std::string const & file) : _filePath(file)
 {
 };
 
-/* ---- Start
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Sprasowanie pliku.
+/// </summary>
 void XmlParser::Start()
 {
 	this->GetContents();
@@ -15,15 +20,21 @@ void XmlParser::Start()
 	this->Create();
 };
 
-/* ---- Get Contents
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Pobranie zawartoœci pliku i przypisanie jej do _contents.
+/// </summary>
 void XmlParser::GetContents()
 {
 	_contents = std::unique_ptr<char>(XML2Char(_filePath));
 };
 
-/* ---- XML 2 Char
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Konwersja XML na char*.
+/// </summary>
+/// <param name="stageFile">Plik wejœciowy XML.</param>
+/// <returns></returns>
 char * XmlParser::XML2Char ( std::string const & stageFile )
 {
 	std::ifstream file( stageFile );
@@ -39,8 +50,10 @@ char * XmlParser::XML2Char ( std::string const & stageFile )
 	return out;
 };
 
-/* ---- Read XML File
-   ------------------------------------------------------------------------------------------- */
+
+/// <summary>
+/// Sprawdznie poprawnoœci pliku xml i przypisanie do zmiennej _doc.
+/// </summary>
 void XmlParser::ReadXMLFile()
 {
 	try
@@ -56,8 +69,9 @@ void XmlParser::ReadXMLFile()
 	}
 };
 
-/* ---- Clear Document
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Usuniêcie dokumentu z pamiêci.
+/// </summary>
 void XmlParser::ClearDocument()
 {
 	_doc.clear();

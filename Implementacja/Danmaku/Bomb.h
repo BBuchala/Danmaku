@@ -4,10 +4,12 @@
 
 #undef DEBUG
 
+/// <summary>
+/// Bomba, której mo¿e u¿ywac gracz
+/// </summary>
 class Bomb: public GameObject
 	{	
 	private:
-
 		const float maxTime;
 		float elapsedTime;
 
@@ -31,11 +33,19 @@ class Bomb: public GameObject
 
 		void Launch();
 
+		/// <summary>
+		/// Czy bomba jest wykorzystywana.
+		/// </summary>
+		/// <returns></returns>
 		inline bool InUse()
 		{
 			return inUse;
 		}
 
+		/// <summary>
+		/// Zwrócenie obra¿eñ jakie zadaje.
+		/// </summary>
+		/// <returns></returns>
 		inline unsigned short GetDamage() const
 		{
 			return this->damage;

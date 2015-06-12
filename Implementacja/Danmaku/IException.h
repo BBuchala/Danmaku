@@ -1,16 +1,12 @@
-/* ======================================================== *\
- *  @IException.h
- *  @Opis: Interfejs dla wyj¹tków
- *  @Utworzona: 21.03.2015 19:02
- *  @Autor: Mateusz Forczmañski
-\* ======================================================== */
-
 #ifndef EX_H
 #define EX_H
 
 #include <string>
 #include <Windows.h>
 
+/// <summary>
+/// Wzór dla wyj¹tku
+/// </summary>
 class IException
 {
 public:

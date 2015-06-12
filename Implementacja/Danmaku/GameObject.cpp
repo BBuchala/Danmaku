@@ -1,22 +1,32 @@
 #include "GameObject.h"
 
-////////// KONSTRUKTOR ///////////////////////
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="GameObject"/>.
+/// </summary>
+/// <param name="pos">Pozycja.</param>
+/// <param name="speed">Szybkoœæ.</param>
+/// <param name="acc">Przyspieszenie.</param>
 GameObject::GameObject(D3DXVECTOR2 const & pos, float const speed, float const acc)
 	: acceleration(acc), scale(1.0f), rotation(0.0f)
 {
-	///// Przydzielenie wartoœci sk³adowym
+	// Przydzielenie wartoœci sk³adowym
 	this->SetPosition(pos);
 	this->speed = speed;
 	this->hitbox = NULL;
 };
 
+/// <summary>
+/// Niszczy instancjê klasy <see cref="GameObject"/>.
+/// </summary>
 
-////////// DESTRUKTOR ///////////////////////
 GameObject::~GameObject()
 {
 };
 
-
+/// <summary>
+/// Tworzy kopiê instacji klasy <see cref="GameObject"/>.
+/// </summary>
+/// <param name="bonus">Obiekt do skopiowania</param>
 GameObject::GameObject( GameObject const & go ) : hitbox(go.hitbox->Clone())
 {
 	this->position = go.position;
@@ -28,13 +38,19 @@ GameObject::GameObject( GameObject const & go ) : hitbox(go.hitbox->Clone())
 	this->rotation = go.rotation;
 };
 
-
+/// <summary>
+/// Ustawia punkt centralny.
+/// </summary>
 void GameObject::SetCenterPoint()
 {
 	this->centerPoint = this->position + this->GetSprite()->GetCenterPoint();
 };
 
-
+/// <summary>
+/// Inicjalizuje sprajt.
+/// </summary>
+/// <param name="sprite">The sprite.</param>
+/// <returns></returns>
 bool GameObject::InitializeSprite(SpritePtr sprite)
 {
 	this->sprite = sprite;
@@ -46,7 +62,12 @@ bool GameObject::InitializeSprite(SpritePtr sprite)
 	return true;
 };
 
-
+/// <summary>
+/// Inicjalizuje hitbox.
+/// </summary>
+/// <param name="shape">The shape.</param>
+/// <param name="size">The size.</param>
+/// <returns></returns>
 bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const size )
 {
 	switch(shape)
@@ -61,7 +82,10 @@ bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const
 	return true;
 };
 
-
+/// <summary>
+/// Narysowanie
+/// </summary>
+/// <param name="rect">Protok¹t w którym sprajt mo¿e byæ rysowany.</param>
 void GameObject::Draw( RECT const & rect )
 {
 	if (this->sprite && IsObjectWithinBounds(rect))
@@ -71,6 +95,11 @@ void GameObject::Draw( RECT const & rect )
 };
 
 
+/// <summary>
+/// Czy obiekt znajduje siê w przekazanym prostok¹cie
+/// </summary>
+/// <param name="rect">Granice.</param>
+/// <returns></returns>
 bool GameObject::IsObjectWithinBounds( RECT const & rect )
 {
 	D3DXVECTOR2 center = this->GetCenterPoint();
@@ -88,7 +117,10 @@ bool GameObject::IsObjectWithinBounds( RECT const & rect )
 	return true;
 };
 
-
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
 void GameObject::Update(float const time)
 {
 	this->speed += this->acceleration * time;
@@ -96,24 +128,40 @@ void GameObject::Update(float const time)
 };
 
 
+/// <summary>
+/// Ustawia pozycjê.
+/// </summary>
+/// <param name="v">Pozycja.</param>
 void GameObject::SetPosition(D3DXVECTOR2 const & v)
 {
 	this->position = v;
 };
 
 
+/// <summary>
+/// Ustawia szybkoœæ.
+/// </summary>
+/// <param name="speed">Szybkoœæ.</param>
 void GameObject::SetSpeed(float const speed)
 {
 	this->speed = speed;
 };
 
 
+/// <summary>
+/// Ustawia przyspieszenie.
+/// </summary>
+/// <param name="acc">Przyspieszenie.</param>
 void GameObject::SetAcceleration(float const acc)
 {
 	this->acceleration = acc;
 };
 
 
+/// <summary>
+/// Obraca obiekt o wskazany k¹t.
+/// </summary>
+/// <param name="angle">K¹t.</param>
 void GameObject::Rotate( float const angle )
 {
 	this->rotation += angle;
@@ -121,6 +169,10 @@ void GameObject::Rotate( float const angle )
 
 
 
+/// <summary>
+/// Zmienia rozmiar wg skali.
+/// </summary>
+/// <param name="scale">Skala.</param>
 void GameObject::Scale( float const scale )
 {
 	this->scale *= scale;
@@ -129,6 +181,10 @@ void GameObject::Scale( float const scale )
 
 
 
+/// <summary>
+/// Przesuwa obiekt.
+/// </summary>
+/// <param name="dv">Przesuniêcie.</param>
 void GameObject::Translate( D3DXVECTOR2 const & dv )
 {
 	this->position += dv;

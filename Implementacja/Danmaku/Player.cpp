@@ -1,10 +1,14 @@
 #include "Player.h"
 
-// --- STA£E -------------------------------------------------------------------------------------
 const float	Player::INVULNERABLE_TIME = 3.0f;
 
-// --- Konstruktor--------------------------------------------------------------------------------
- Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
+/// <summary>
+/// Tworzy nowπ instacjÍ klasy <see cref="Player"/>.
+/// </summary>
+/// <param name="pos">Pozycja.</param>
+/// <param name="lc">Liczba øyÊ.</param>
+/// <param name="bc">Liczba bomb.</param>
+Player::Player( D3DXVECTOR2 const & pos, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
 	_isInvulnerable(false), _invulnerableTime(0.0f), _hitboxRotation(0.0f)
 {
 	_lifeCount = lc;
@@ -15,7 +19,14 @@ const float	Player::INVULNERABLE_TIME = 3.0f;
 	_hitboxSprite = std::unique_ptr<Sprite>(new Sprite());
 };
 
-  Player::Player( D3DXVECTOR2 const & pos, float power, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
+/// <summary>
+/// Tworzy nowπ instacjÍ klasy <see cref="Player"/>.
+/// </summary>
+/// <param name="pos">Pozycja.</param>
+/// <param name="power">Moc.</param>
+/// <param name="lc">Liczba øyÊ.</param>
+/// <param name="bc">Liczba bomb.</param>
+Player::Player( D3DXVECTOR2 const & pos, float power, BYTE lc, BYTE bc ) : GameObject( pos, SPEED ), _isFocused(false),
 	_isInvulnerable(false), _invulnerableTime(0.0f), _hitboxRotation(0.0f)
 {
 	_lifeCount = lc;
@@ -26,7 +37,12 @@ const float	Player::INVULNERABLE_TIME = 3.0f;
 	_hitboxSprite = std::unique_ptr<Sprite>(new Sprite());
 };
 
-// --- Initialize Pattern--------------------------------------------------------------------------
+/// <summary>
+/// Inicjalizuje Pattern.
+/// </summary>
+/// <param name="device">Wskaünik do urzπdzenia direct3d.</param>
+/// <param name="position">Pozycja.</param>
+/// <returns></returns>
 bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
 {
 	_playerPattern->Initialize(this->GetCenterPoint());
@@ -35,20 +51,29 @@ bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & pos
 };
 
 
+/// <summary>
+/// Inicjalizacja bomby.
+/// </summary>
 void Player::InitializeBomb()
 {
 	_bomb = BombPtr(new Bomb(&centerPoint, this->GetSpeed()));
 };
 
 
+/// <summary>
+/// Inicjalizacja gracza.
+/// </summary>
+/// <param name="pbsResource">èrÛd≥o sprajtÛw dla pociskÛw gracza.</param>
 void Player::Initialize(PlayerBulletSpriteResource const & pbsResource)
 {
 	_pbsResource = const_cast<PlayerBulletSpriteResource*>(&pbsResource);
 	_playerPattern->LoadSprite(*_pbsResource);
 };
 
-
-// --- Update -------------------------------------------------------------------------------------
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">PrÛbka czasu.</param>
 void Player::Update(float const time, Move const move)
 {
 	/// --- OBS£UGA FOCUSA 
@@ -100,7 +125,10 @@ void Player::Update(float const time, Move const move)
 	GameObject::Update(time);
 };
 
-// --- Draw ---------------------------------------------------------------------------------------
+/// <summary>
+/// Narysowanie
+/// </summary>
+/// <param name="rect">Protokπt w ktÛrym sprajt moøe byÊ rysowany.</param>
 void Player::Draw(RECT const & rect)
 {
 		// bomba
@@ -130,95 +158,131 @@ void Player::Draw(RECT const & rect)
 	}
 };
 
-// --- Get Focus ----------------------------------------------------------------------------------
+/// <summary>
+/// Zwraca focus.
+/// </summary>
+/// <returns></returns>
 bool Player::GetFocus() const
 {
 	return _isFocused;
 }
 
-// --- Get Life Count -----------------------------------------------------------------------------
+/// <summary>
+/// Zwraca liczbÍ øyÊ.
+/// </summary>
+/// <returns></returns>
 BYTE Player::GetLifeCount()
 {
 	return _lifeCount;
 }
 
-// --- Get Bomb Count -----------------------------------------------------------------------------
+/// <summary>
+/// Zwraca liczbÍ bomb.
+/// </summary>
+/// <returns></returns>
 BYTE Player::GetBombCount()
 {
 	return _bombCount;
 }
 
-// --- Set Focus -----------------------------------------------------------------------------------
+/// <summary>
+/// Ustawia focus
+/// </summary>
+/// <param name="focus">The focus.</param>
 void Player::SetFocus(bool const focus)
 {
 	_isFocused = focus;
 }
-
-// --- Set Life Count -----------------------------------------------------------------------------
+/// <summary>
+/// Ustawia liczbÍ øyÊ.
+/// </summary>
+/// <param name="bombcount">Liczba øyÊ.</param>
 void Player::SetLifeCount(BYTE const lifecount)
 {
 	_lifeCount = lifecount;
 }
 
-// --- Set Bomb Count -----------------------------------------------------------------------------
+/// <summary>
+/// Ustawia liczbÍ bomb.
+/// </summary>
+/// <param name="bombcount">Liczba bomb.</param>
 void Player::SetBombCount(BYTE const bombcount)
 {
 	_bombCount = bombcount;
 }
 
-// --- Is Shooting -----------------------------------------------------------------------------
+/// <summary>
+/// Czy gracz strzela.
+/// </summary>
+/// <returns></returns>
 bool Player::IsShooting()
 {
 	return _playerPattern->IsKeyPressed();
 }
 
-// --- Set Is Shooting ---------------------------------------------------------------------------
+/// <summary>
+/// Ustawia, czy gracz strzela bπdü nie.
+/// </summary>
+/// <param name="isShooting">jeúli <c>true</c> [to strzela].</param>
 void Player::SetIsShooting(bool isShooting)
 {
 	_playerPattern->SetKeyPressed(isShooting);
 }
 
-// --- Has Pattern Changed ------------------------------------------------------------------------
+/// <summary>
+/// Czy wzÛr siÍ zmieni≥.
+/// </summary>
+/// <returns></returns>
 bool Player::HasPatternChanged()
 {
 	return _hasPatternChanged;
 }
 
-// --- Set Has Pattern Changed --------------------------------------------------------------------
+/// <summary>
+/// Czy wzÛr pociskÛw siÍ zmieni≥.
+/// </summary>
+/// <param name="hasPatterChanged">jeúli <c>true</c> [to wzÛr siÍ zmieni≥].</param>
 void Player::SetHasPatternChanged(bool hasPatterChanged)
 {
 	_hasPatternChanged = hasPatterChanged;
 }
 
-// --- Increment Life Count ----------------------------------------------------------------------
+/// <summary>
+/// Inkrementuje liczbÍ øyÊ.
+/// </summary>
 void Player::IncrementLifeCount()
 {
 	if (_lifeCount < 8)
 		_lifeCount++;
 }
 
-// --- Decrement Life Count ----------------------------------------------------------------------
+/// <summary>
+/// Dekrementuje liczbÍ øyÊ.
+/// </summary>
 void Player::DecrementLifeCount()
 {
 	if (_lifeCount > 0)
 		_lifeCount--;
 }
 
-// --- Increment Bomb Count ----------------------------------------------------------------------
+/// <summary>
+/// Inkrementuje liczbÍ bomb.
+/// </summary>
 void Player::IncrementBombCount()
 {
 	if (_bombCount < 8)
 		_bombCount++;
 }
 
-// --- Decrement Bomb Count ----------------------------------------------------------------------
+/// <summary>
+/// Dekrementuje liczbÍ bomb.
+/// </summary>
 void Player::DecrementBombCount()
 {
 	if (_bombCount > 0)							// to powinno siÍ sprawdzaÊ przy metodzie UseBomb()
 		_bombCount--;
 }
 
-// --- Calculate Power Level ----------------------------------------------------------------------
 // MetodÍ wywo≥ujemy tylko przy zebraniu bonusu/utracie øycia (zmianie stanu pola power)
 void Player::CalculatePowerLevel()
 {
@@ -231,7 +295,6 @@ void Player::CalculatePowerLevel()
 	}
 }
 
-// --- Add To Power ------------------------------------------------------------------------------
 void Player::AddToPower(const float value)
 {
 	if((_power += value) > 4)
@@ -239,7 +302,6 @@ void Player::AddToPower(const float value)
 	CalculatePowerLevel();
 }
 
-// --- Sub From Power -----------------------------------------------------------------------------
 void Player::SubFromPower(const float value)
 {
 	if((_power -= value) < 0)
@@ -247,7 +309,6 @@ void Player::SubFromPower(const float value)
 	CalculatePowerLevel();
 }
 
-// --- Change Player Pattern ---------------------------------------------------------------------
 void Player::ChangePlayerPattern()
 {
 	if (_playerPattern)
@@ -279,19 +340,28 @@ void Player::ChangePlayerPattern()
 	_hasPatternChanged = true;
 }
 
-// --- Shoot ------------------------------------------------------------------------------------
+/// <summary>
+/// Strzelanie.
+/// </summary>
+/// <param name="time">PrÛbka czasu.</param>
 void Player::Shoot( float const time )
 {
 	_playerPattern->Update( time, this->GetCenterPoint());
 }
 
-// --- SetIsInvulnerable--------------------------------------------------------------------------
+/// <summary>
+/// Ustawia niezniszczalnoúÊ gracza.
+/// </summary>
 void Player::SetIsInvulnerable()
 {
 	_invulnerableTime = INVULNERABLE_TIME;
 	_isInvulnerable = true;
 }
 
+/// <summary>
+/// Czy korzysta z bomby.
+/// </summary>
+/// <returns>true - uda≥o siÍ odpaliÊ bombÍ, false - nie mamy bomb do odpalenia.</returns>
 bool Player::UseBomb()
 {
 	if (!IsUsingBomb() && _bombCount > 0)	
@@ -303,6 +373,12 @@ bool Player::UseBomb()
 	return false;
 }
 
+/// <summary>
+/// Inicjalizacja sprajta hitboxa.
+/// </summary>
+/// <param name="device">Urzπdzenie graficzne.</param>
+/// <param name="file">åcieøka do pliku sprajta.</param>
+/// <returns>Czy inicjalizacja siÍ uda≥a.</returns>
 bool Player::InitializeHitboxSprite( LPDIRECT3DDEVICE9 device, std::string const & file )
 {
 	Hitbox * h = hitbox.get();

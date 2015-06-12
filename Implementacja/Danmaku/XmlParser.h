@@ -13,6 +13,9 @@
 
 using namespace rapidxml;
 
+/// <summary>
+/// Klasa odpowiadaj¹ca za parsowanie plików XML
+/// </summary>
 class XmlParser
 {
 protected:
@@ -44,7 +47,11 @@ public:
 
 
 private:
-	// zmiana stringu z danymi pliku na char* zrozumia³y dla biblioteki
+	/// <summary>
+	/// Zmiana stringu z danymi pliku na char* zrozumia³y dla biblioteki
+	/// </summary>
+	/// <param name="s">String.</param>
+	/// <returns></returns>
 	inline char * stringToChar( std::string const & s )
 	{
 		unsigned int N = s.length();

@@ -1,8 +1,11 @@
 #include "Input.h"
 
-/* ---- Initialize Keyboard
-   ------------------------------------------------------------------------------------------- */
-LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND han_Window)
+/// <summary>
+/// Inicjalizacja obs³ugi klawiszy.
+/// </summary>
+/// <param name="hwnd">Uchwyt do okna.</param>
+/// <returns></returns>
+LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND hwnd)
 {
 	for (int i = 0; i < 256; i++)
 	{
@@ -16,7 +19,7 @@ LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND han_Window)
 	p_dx_KeybObject->CreateDevice(GUID_SysKeyboard, &p_dx_KeybDevice, NULL);
  
 	p_dx_KeybDevice->SetDataFormat(&c_dfDIKeyboard);
-	p_dx_KeybDevice->SetCooperativeLevel(han_Window, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
+	p_dx_KeybDevice->SetCooperativeLevel(hwnd, DISCL_FOREGROUND|DISCL_NONEXCLUSIVE);
 	p_dx_KeybDevice->Acquire();
 
 	this->CreateDictionary();
@@ -24,15 +27,18 @@ LPDIRECTINPUTDEVICE8 Input::InitializeKeyboard(HWND han_Window)
 	return p_dx_KeybDevice;
 };
 
- /* ---- Read Keyboard
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Odczytanie stanu klawiatury.
+/// </summary>
+/// <param name="p_Keyb">Klawiatura.</param>
 void Input::ReadKeyboard(LPDIRECTINPUTDEVICE8 p_Keyb)
 {
 	p_Keyb->GetDeviceState(sizeof(chr_KeybState),(LPVOID)&chr_KeybState);
 };
 
- /* ---- Erase
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Wyzerowanie stanu inputu.
+/// </summary>
 void Input::Erase()
 {
 	for (int i = 0; i < 256; i++)
@@ -41,9 +47,10 @@ void Input::Erase()
 	}
 };
 
-
- /* ---- Get Key Down
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Ze wszystkich wciœniêtych klawiszy zwraca pierwszy z nich.
+/// </summary>
+/// <returns></returns>
 unsigned char Input::GetKeyDown()
 {
 	for (int i = 0; i < 256; ++i)
@@ -56,8 +63,11 @@ unsigned char Input::GetKeyDown()
 	return 0;	// zero nie ma przydzielonego klawisza
 };
 
- /* ---- Key Number
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Zwraca id klawisza o wskazanej nazwie.
+/// </summary>
+/// <param name="name">Nazwa.</param>
+/// <returns>Jeœli nie istnieje, to zwraca zero</returns>
 unsigned char Input::KeyNumber(std::string const & name)
 {
 	for(Dictionary::const_iterator it = dictionary.begin(); it != dictionary.end(); ++it)
@@ -70,8 +80,9 @@ unsigned char Input::KeyNumber(std::string const & name)
 	return 0;
 };
 
- /* ---- Create Dictionary
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Utworzenie s³ownika.
+/// </summary>
 void Input::CreateDictionary()
 {
 	this->dictionary[1]   = "ESC";
@@ -199,8 +210,10 @@ void Input::CreateDictionary()
 	this->dictionary[223] = "WINDOWS";
 };
 
- /* ---- Set Game Controls
-   ------------------------------------------------------------------------------------------- */
+/// <summary>
+/// Zapisanie kontrolek gry.
+/// </summary>
+/// <param name="gInput">Input dla obiektu gry.</param>
 void Input::SetGameControls(GameInput gInput)
 {
 	this->gameInput = gInput;

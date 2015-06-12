@@ -2,6 +2,9 @@
 
 #include <d3dx9.h>
 
+/// <summary>
+/// Mo¿liwoœæ przekszta³cania: ruch, skalowanie i obrót
+/// </summary>
 class ITransformable
 {
 public:

@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Sta³e wykorzystywane w grze
+/// </summary>
 namespace StageConst
 {
 	static struct StageConsts

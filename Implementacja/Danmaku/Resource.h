@@ -3,6 +3,9 @@
 #include <memory>
 #include "GraphicsDevice.h"
 
+/// <summary>
+/// Klasa przechowuj¹ca materia³y
+/// </summary>
 template <class K, class V>
 class Resource
 {
@@ -14,6 +17,11 @@ protected:
 public:
 	virtual void Create(GraphicsDevice * const gDevice) = 0;
 
+	/// <summary>
+	/// Dodanie nowego elementu do mapy.
+	/// </summary>
+	/// <param name="key">The key.</param>
+	/// <returns></returns>
 	bool Add(K const & key)
 	{
 		bool success = false;
@@ -25,6 +33,10 @@ public:
 		return success;
 	}
 
+	/// <summary>
+	/// Zwrócenie materia³ów.
+	/// </summary>
+	/// <returns></returns>
 	inline Map const & GetResources() const
 	{
 		return _map;

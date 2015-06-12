@@ -3,6 +3,9 @@
 #include <D3dx9.h>
 #include <cmath>
 
+/// <summary>
+/// Klasa, która zawiera metody statyczne operuj¹ce na wektorach
+/// </summary>
 class Vector
 {
 public:

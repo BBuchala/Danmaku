@@ -6,6 +6,9 @@
 #include "Bullet.h"
 #include "TrajectoryFactory.h"
 
+/// <summary>
+/// Szablon wzoru pocisków
+/// </summary>
 class IPattern
 {
 protected:

@@ -95,38 +95,57 @@ public:
 	void Shoot(float const time);
 
 	// Bomba
-	bool UseBomb();										// true - uda³o siê odpaliæ bombê, false - nie mamy bomb do odpalenia
+	bool UseBomb();
 
-	inline D3DXVECTOR2 GetBombPosition()
-	{
-		return _bomb->GetCenterPoint();
-	}
-
+	/// <summary>
+	/// Zwraca hitbox bomby.
+	/// </summary>
+	/// <returns></returns>
 	inline Hitbox * GetBombHitbox()
 	{
 		return _bomb->GetHitbox();
 	}
 
+	/// <summary>
+	/// Zwraca bombê.
+	/// </summary>
+	/// <returns></returns>
 	inline BombPtr GetBomb()
 	{
 		return _bomb;
 	}
 
+	/// <summary>
+	/// Zwraca aktualn¹ moc gracza.
+	/// </summary>
+	/// <returns></returns>
 	inline float GetPower()
 	{
 		return _power;
 	};
 
+	/// <summary>
+	/// Zwraca wszystkie pociski jakie gracz wygenerowa³.
+	/// </summary>
+	/// <returns></returns>
 	inline PBulletQue * GetBullets() const
 	{
 		return &_playerPattern->GetBullets();
 	};
 
+	/// <summary>
+	/// Czy gracza u¿ywa bomby w danej chwili.
+	/// </summary>
+	/// <returns></returns>
 	inline bool const IsUsingBomb() const
 	{
 		return _bomb->InUse();
 	};
 
+	/// <summary>
+	/// Czy gracza w danej chwili mo¿na zraniæ.
+	/// </summary>
+	/// <returns></returns>
 	inline bool const IsInvulnerable() const
 	{
 		return _isInvulnerable;

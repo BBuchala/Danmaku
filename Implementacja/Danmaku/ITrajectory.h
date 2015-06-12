@@ -2,6 +2,9 @@
 
 #include <d3dx9.h>
 
+/// <summary>
+/// Szablon trajektorii
+/// </summary>
 class ITrajectory
 {
 public:

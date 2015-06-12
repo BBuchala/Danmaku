@@ -4,12 +4,22 @@
 const std::string Sprite::IMG_PATH	= "img/";
 
 /* ---- KONSTRUKTOR --------------- */
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Sprite"/>.
+/// </summary>
 Sprite::Sprite()
 {
 	this->ResetValues();
 };
 
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Sprite"/>.
+/// </summary>
+/// <param name="device">Urz¹dzenie graficzne.</param>
+/// <param name="file">Œcie¿ka do pliku.</param>
+/// <param name="width">Wybrana szerokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ szerokoœæ. </param>
+/// <param name="height">Wybrana wysokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ wysokoœæ. </param>
 Sprite::Sprite(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const width, UINT const height)
 {
 	this->ResetValues();
@@ -17,6 +27,13 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const wi
 };
 
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Sprite"/>.
+/// </summary>
+/// <param name="device">Urz¹dzenie graficzne.</param>
+/// <param name="file">Œcie¿ka do plików.</param>
+/// <param name="width">Wybrana szerokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ szerokoœæ. </param>
+/// <param name="height">Wybrana wysokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ wysokoœæ. </param>
 Sprite::Sprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVect, UINT const width, UINT const height)
 {
 	this->ResetValues();
@@ -24,6 +41,9 @@ Sprite::Sprite(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & fileVe
 };
 
 
+/// <summary>
+/// Zresetowanie wartoœci sprajta.
+/// </summary>
 void Sprite::ResetValues()
 {
 	// przezroczystoœæ - brak
@@ -36,6 +56,9 @@ void Sprite::ResetValues()
 };
 
 
+/// <summary>
+/// Niszczy instancjê klasy <see cref="Sprite"/>.
+/// </summary>
 Sprite::~Sprite()
 {
 	if (sprite)
@@ -54,6 +77,14 @@ Sprite::~Sprite()
 };
 
 
+/// <summary>
+/// Tworzy sprajt z jednego pliku (jedna tekstura)
+/// </summary>
+/// <param name="device">Urz¹dzenie graficzne.</param>
+/// <param name="file">Œcie¿ka do pliku.</param>
+/// <param name="width">Wybrana szerokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ szerokoœæ. </param>
+/// <param name="height">Wybrana wysokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ wysokoœæ. </param>
+/// <returns></returns>
 bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, UINT const width, UINT const height )
 {
 	std::vector<std::string> v;
@@ -62,6 +93,14 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::string const & file, UINT
 };
 
 
+/// <summary>
+/// Tworzy sprajt z kilka plików (wiele tekstur).
+/// </summary>
+/// <param name="device">Urz¹dzenie graficzne.</param>
+/// <param name="file">Œcie¿ka do plików.</param>
+/// <param name="width">Wybrana szerokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ szerokoœæ. </param>
+/// <param name="height">Wybrana wysokoœæ sprajta. Domyœlnie przyjmuje jego faktyczn¹ wysokoœæ. </param>
+/// <returns></returns>
 bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const & file, UINT const width, UINT const height )
 {
 	if (!initialized)
@@ -113,6 +152,9 @@ bool Sprite::Initialize(LPDIRECT3DDEVICE9 device, std::vector<std::string> const
 };
 
 
+/// <summary>
+/// Ustawia punkt centralny sprajta.
+/// </summary>
 void Sprite::SetCenterPoint( )
 {
 	this->center.x = this->GetWidth() / 2.0f;
@@ -121,7 +163,12 @@ void Sprite::SetCenterPoint( )
 
 
 
-// position - górny, lewy róg sprajta
+/// <summary>
+/// Rysuje sprajt zgodnie ze wskazanymi danymi.
+/// </summary>
+/// <param name="position">Pozycja sprajta - jego górny, lewey róg.</param>
+/// <param name="scale">Skala o jak¹ sprajt zostanie przeksta³cony.</param>
+/// <param name="rotation">K¹t o jaki sprajt zostanie obrócony.</param>
 void Sprite::Draw(D3DXVECTOR2 const & position, float scale, float rotation)
 {
 	if (this->sprite && tex)
@@ -144,6 +191,12 @@ void Sprite::Draw(D3DXVECTOR2 const & position, float scale, float rotation)
 };
 
 
+/// <summary>
+/// Rysuje sprajt zgodnie ze wskazanymi danymi.
+/// </summary>
+/// <param name="position">Pozycja sprajta - jego górny, lewey róg.</param>
+/// <param name="scale">Skala o jak¹ sprajt zostanie przeksta³cony.</param>
+/// <param name="rotation">K¹t o jaki sprajt zostanie obrócony.</param>
 void Sprite::Draw(D3DXVECTOR2 const & position, D3DXVECTOR2 const & scale, float rotation)
 {
 	if (this->sprite && tex)
@@ -166,6 +219,10 @@ void Sprite::Draw(D3DXVECTOR2 const & position, D3DXVECTOR2 const & scale, float
 };
 
 
+/// <summary>
+/// Wybiera aktualn¹ teksturê sprajta.
+/// </summary>
+/// <param name="number">Numer tektury.</param>
 void Sprite::SetCurrentTexture( short const number )
 {
 	this->currentTex = number;

@@ -1,18 +1,34 @@
 #include "Bomb.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Bomb"/>.
+/// </summary>
+/// <param name="playerPosition">Pozycja gracza.</param>
+/// <param name="speed">Szybkoœæ.</param>
 Bomb::Bomb(D3DXVECTOR2 * const playerPosition, float const speed) : GameObject(position, speed), maxTime(3.0f), damage(30)
 {
 	_playerPosition = playerPosition;
 };
 
+/// <summary>
+/// Tworzy kopiê instacji klasy <see cref="Bomb"/>.
+/// </summary>
+/// <param name="bomb">The bomb.</param>
 Bomb::Bomb(Bomb const & bomb) : GameObject(bomb), maxTime(3.0f), damage(30)
 {
 };
 
+/// <summary>
+/// Niszczy instancjê klasy <see cref="Bomb"/>.
+/// </summary>
 Bomb::~Bomb()
 {
 };
 
+/// <summary>
+/// Inicjalizuje obiekt bomby
+/// </summary>
+/// <param name="device">Urz¹dznie graficzne.</param>
 void Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 {	
 	SpritePtr sprite = SpritePtr(new Sprite(device, Sprite::GetFilePath( "master_spark")));
@@ -30,6 +46,10 @@ void Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 #endif
 }
 
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
 void Bomb::Update(float const time)
 {
 	if (inUse)
@@ -46,6 +66,10 @@ void Bomb::Update(float const time)
 	}
 };
 
+/// <summary>
+/// Narysowanie bomby
+/// </summary>
+/// <param name="rect">Protok¹t w którym sprajt mo¿e byæ rysowany.</param>
 void Bomb::Draw( RECT const & rect )
 {
 	GameObject::Draw(rect);
@@ -62,6 +86,9 @@ void Bomb::Draw( RECT const & rect )
 #endif
 };
 
+/// <summary>
+/// Odpalenie bomby.
+/// </summary>
 void Bomb::Launch()
 {
 	elapsedTime = 0;

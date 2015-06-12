@@ -21,12 +21,19 @@ public:
 
 	ULONG GetHighestScore();
 
-	// Zwrócenie rekordów
+	/// <summary>
+	/// Zwrócenie rekordów.
+	/// </summary>
+	/// <returns></returns>
 	inline EntryVector GetEntries() const
 	{
 		return _entry;
 	};
 
+	/// <summary>
+	/// Zwrócenie maksymalnej liczby rekordów.
+	/// </summary>
+	/// <returns></returns>
 	inline unsigned short GetMaxRecordNumber() const
 	{
 		return MAX_RECORDS;
