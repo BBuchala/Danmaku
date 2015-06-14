@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "BombInitializationFailedException.h"
 
 #undef DEBUG
 
@@ -27,7 +28,7 @@ class Bomb: public GameObject
 		Bomb ( Bomb const & bomb );
 		~Bomb();
 
-		void Initialize(LPDIRECT3DDEVICE9 device);
+		bool Initialize(LPDIRECT3DDEVICE9 device);
 		void Update(float const time) override;
 		void Draw( RECT const & rect ) override;
 

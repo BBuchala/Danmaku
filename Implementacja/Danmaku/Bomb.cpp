@@ -29,21 +29,22 @@ Bomb::~Bomb()
 /// Inicjalizuje obiekt bomby
 /// </summary>
 /// <param name="device">Urz¹dznie graficzne.</param>
-void Bomb::Initialize(LPDIRECT3DDEVICE9 device)
+bool Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 {	
-	SpritePtr sprite = SpritePtr(new Sprite(device, Sprite::GetFilePath( "master_spark")));
-	this->InitializeSprite(sprite);
-
+	bool success = true;
+	SpritePtr sprite = SpritePtr(new Sprite(device, Sprite::GetFilePath("master_spark")));
+	success &= this->InitializeSprite(sprite);
 	this->shift = D3DXVECTOR2(static_cast<float>(this->GetSprite()->GetWidth()) / 2.0f, static_cast<float>(this->GetSprite()->GetHeight()));
 	this->SetPosition(*_playerPosition - shift);
 	this->SetCenterPoint();
-
-	this->InitializeHitbox(Hitbox::Shape::ELIPSE, Hitbox::Size::EXTENDED_LENGTH);
 	this->inUse = false;
-	
+	success &= this->InitializeHitbox(Hitbox::Shape::ELIPSE, Hitbox::Size::EXTENDED_LENGTH);
+
 #ifdef DEBUG
 	tmp = new Sprite(device, Sprite::GetFilePath( "bonusPower"));
 #endif
+
+	return success;
 }
 
 /// <summary>

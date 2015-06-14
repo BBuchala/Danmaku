@@ -84,12 +84,14 @@
     <ClCompile Include="Bar.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombBonus.cpp" />
+    <ClCompile Include="BombInitializationFailedException.cpp" />
     <ClCompile Include="Bonus.cpp" />
     <ClCompile Include="BonusFactory.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ConfigParser.cpp" />
+    <ClCompile Include="EnemyPatternBezier.cpp" />
     <ClCompile Include="EnemyPatternEllipse.cpp" />
     <ClCompile Include="EnemyPatternLine.cpp" />
     <ClCompile Include="EnemyPatternSpiral.cpp" />
@@ -104,6 +106,7 @@
     <ClCompile Include="FileException.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameInitializationFailedException.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsDevice.cpp" />
     <ClCompile Include="GameWindow.cpp" />
@@ -117,6 +120,8 @@
     <ClCompile Include="OptionsScreen.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="PlayerBulletInitializationFailedException.cpp" />
+    <ClCompile Include="PlayerInitializationFailedException.cpp" />
     <ClCompile Include="PlayerPattern01.cpp" />
     <ClCompile Include="PlayerPattern02.cpp" />
     <ClCompile Include="PlayerPattern03.cpp" />
@@ -158,6 +163,7 @@
     <ClInclude Include="Bar.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombBonus.h" />
+    <ClInclude Include="BombInitializationFailedException.h" />
     <ClInclude Include="Bonus.h" />
     <ClInclude Include="BonusType.h" />
     <ClInclude Include="BonusFactory.h" />
@@ -183,6 +189,7 @@
     <ClInclude Include="FileException.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameControls.h" />
+    <ClInclude Include="GameInitializationFailedException.h" />
     <ClInclude Include="Hitbox.h" />
     <ClInclude Include="HitboxCircle.h" />
     <ClInclude Include="HitboxElipse.h" />
@@ -204,7 +211,9 @@
     <ClInclude Include="Pattern.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerBulletInitializationFailedException.h" />
     <ClInclude Include="PlayerBulletSpriteResource.h" />
+    <ClInclude Include="PlayerInitializationFailedException.h" />
     <ClInclude Include="PlayerPattern01.h" />
     <ClInclude Include="PlayerPattern02.h" />
     <ClInclude Include="PlayerPattern03.h" />

@@ -4,7 +4,7 @@
 typedef std::map<std::string, EPattern*> PatternMap;
 
 /// <summary>
-/// ITworzy now¹ instacjê klasy <see cref="Spellcard"/>.
+/// Tworzy now¹ instacjê klasy <see cref="Spellcard"/>.
 /// </summary>
 /// <param name="name">Nazwa.</param>
 /// <param name="time">Czas trwania.</param>
@@ -33,11 +33,11 @@ Spellcard::~Spellcard()
 /// Inicjalizacja.
 /// </summary>
 /// <param name="position">Pozycja dla wzorów.</param>
-void Spellcard::Initialize(D3DXVECTOR2 const & position)
+void Spellcard::SetPatternsPosition()
 {
 	for (PatternMap::const_iterator it = sourcePattern_.begin(); it != sourcePattern_.end(); ++it)
 	{
-		(*it).second->Initialize(position);
+		(*it).second->SetPositionPtr(position_);
 	}
 }
 
@@ -59,7 +59,7 @@ void Spellcard::Draw(RECT const & rect)
 /// </summary>
 /// <param name="time">Próbka czasu.</param>
 /// <param name="position">Pozycja.</param>
-void Spellcard::Update(float time, D3DXVECTOR2 const & position)
+void Spellcard::Update(float time)
 {
 	if ( time_ - time >= 0.0000f)
 		time_ -= time;
@@ -82,11 +82,13 @@ void Spellcard::Update(float time, D3DXVECTOR2 const & position)
 		{
 			static USHORT id = 1;
 			this->pattern_[std::to_string(id)] = (*it).second->Clone();
-			// Nowa pozycja specjalnie dla Remi :3
-			D3DXVECTOR2 newPosition = *position_;
+			D3DXVECTOR2 newPosition = D3DXVECTOR2(*position_);
 			newPosition.x -= 24.0f;
 			newPosition.y -= 4.0f;
-			this->pattern_[std::to_string(id)]->StartBullets(newPosition);
+			this->pattern_[std::to_string(id)]->SetPositionPtr(new D3DXVECTOR2(newPosition));
+			this->pattern_[std::to_string(id)]->CreateBullets();
+			this->pattern_[std::to_string(id)]->ForceActivate();
+			this->pattern_[std::to_string(id)]->StartBullets();
 			++id;
 		}
 		_elapsedTime = 0.0f;
@@ -94,7 +96,7 @@ void Spellcard::Update(float time, D3DXVECTOR2 const & position)
 	for (PatternMap::const_iterator it = pattern_.begin(); it != pattern_.end(); ++it)
 	{
 		(*it).second->Rotate(0.5f * time);
-		(*it).second->Update(time, position);
+		(*it).second->Update(time);
 	}
 }
 
@@ -131,24 +133,25 @@ PatternMap * Spellcard::GetPatterns()
 }
 
 /// <summary>
+/// Ustawia wskaŸnik na pozycjê.
+/// </summary>
+/// <param name="pos">Pozycja.</param>
+void Spellcard::SetPositionPtr(D3DXVECTOR2 * const pos)
+{
+	position_ = pos;
+};
+
+/// <summary>
 /// Aktywacja spellcardu.
 /// </summary>
 /// <param name="position">Pozycja.</param>
-void Spellcard::Activate(D3DXVECTOR2 const & position)
+void Spellcard::Activate()
 {
 	for (PatternMap::const_iterator it = sourcePattern_.begin(); it != sourcePattern_.end(); ++it)
 	{
-		(*it).second->ForceActivate(position);
+		(*it).second->CreateBullets();
+		(*it).second->ForceActivate();
 	}
-}
-
-/// <summary>
-/// Ustawia pozycjê.
-/// </summary>
-/// <param name="position">The position.</param>
-void Spellcard::SetPosition(D3DXVECTOR2 const * position)
-{
-	this->position_ = position;
 }
 
 /// <summary>

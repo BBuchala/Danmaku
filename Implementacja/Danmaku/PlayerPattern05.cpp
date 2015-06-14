@@ -1,28 +1,31 @@
 #include "PlayerPattern05.h"
 
-
+/// <summary>
+/// Tworzy nowπ instacjÍ klasy <see cref="PlayerPattern05"/>.
+/// </summary>
 PlayerPattern05::PlayerPattern05(void)
 {
+	leftShift = D3DXVECTOR2(20,15);
+	rightShift = D3DXVECTOR2(-20,15);
 }
 
-
+/// <summary>
+/// Niszczy instancjÍ klasy <see cref="PlayerPattern05"/>.
+/// </summary>
 PlayerPattern05::~PlayerPattern05(void)
 {
 }
 
-void PlayerPattern05::Initialize(D3DXVECTOR2 const & position)
-{
-	PPattern::Initialize(position);
-	leftShift = D3DXVECTOR2(20,15);
-	rightShift = D3DXVECTOR2(-20,15);
-};
-
-void PlayerPattern05::Update(float const time, D3DXVECTOR2 const & playerPos)
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">PrÛbka czasu.</param>
+void PlayerPattern05::Update(float const time)
 {
 	if (this->elapsedTime >= 0.07000f)
 		{
 			if (this->isKeyPressed)
-				Add(playerPos);
+				AddBullet();
 			this->elapsedTime = 0;
 		}
 		this->elapsedTime += time;
@@ -34,7 +37,10 @@ void PlayerPattern05::Update(float const time, D3DXVECTOR2 const & playerPos)
 	}
 }
 
-void PlayerPattern05::Add(D3DXVECTOR2 const & playerPos)
+/// <summary>
+/// Dodanie nowego pocisku.
+/// </summary>
+void PlayerPattern05::AddBullet()
 {
 	for (int i = 0; i < 2; i++ )
 	{
@@ -61,16 +67,16 @@ void PlayerPattern05::Add(D3DXVECTOR2 const & playerPos)
 		switch (i % 2)
 		{
 			case 0:
-				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - leftShift, D3DXToRadian(90) ) ) );
-				newBullet2->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - rightShift, D3DXToRadian(85) ) ) );
-				newBullet3->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos + leftShift, D3DXToRadian(-90) ) ) );
-				newBullet4->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - rightShift, D3DXToRadian(80) ) ) );
+				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - leftShift, D3DXToRadian(90) ) ) );
+				newBullet2->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - rightShift, D3DXToRadian(85) ) ) );
+				newBullet3->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position + leftShift, D3DXToRadian(-90) ) ) );
+				newBullet4->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - rightShift, D3DXToRadian(80) ) ) );
 				break;
 			case 1:
-				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - rightShift, D3DXToRadian(90) ) ) );
-				newBullet2->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - leftShift, D3DXToRadian(95) ) ) );
-				newBullet3->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos + rightShift, D3DXToRadian(-90) ) ) );
-				newBullet4->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - leftShift, D3DXToRadian(100) ) ) );
+				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - rightShift, D3DXToRadian(90) ) ) );
+				newBullet2->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - leftShift, D3DXToRadian(95) ) ) );
+				newBullet3->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position + rightShift, D3DXToRadian(-90) ) ) );
+				newBullet4->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - leftShift, D3DXToRadian(100) ) ) );
 				break;
 
 			default:
@@ -83,10 +89,14 @@ void PlayerPattern05::Add(D3DXVECTOR2 const & playerPos)
 	}
 }
 
+/// <summary>
+/// Za≥adowanie sprajtÛw dla pociskÛw.
+/// </summary>
+/// <param name="pbsResource">èrÛd≥o sprajtÛw pociskÛw.</param>
 void PlayerPattern05::LoadSprite(PlayerBulletSpriteResource & pbsResource)
 {
-	templateSprite = pbsResource["PlayerBullet3"];
-	templateSprite2 = pbsResource["PlayerBullet2"];
-	templateSprite3 = pbsResource["PlayerBullet4"];
-	templateSprite4 = pbsResource["PlayerBullet1"];
+	this->LoadBulletType(templateSprite, "PlayerBullet3", pbsResource);
+	this->LoadBulletType(templateSprite2, "PlayerBullet2", pbsResource);
+	this->LoadBulletType(templateSprite3, "PlayerBullet4", pbsResource);
+	this->LoadBulletType(templateSprite4, "PlayerBullet1", pbsResource);
 };

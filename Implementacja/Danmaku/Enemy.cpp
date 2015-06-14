@@ -44,7 +44,8 @@ bool Enemy::InitializePatterns()
 {
 	for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 	{
-		(*it).second->Initialize(this->GetCenterPoint());
+		(*it).second->SetPositionPtr(&centerPoint);
+		(*it).second->CreateBullets();
 	}
 	return true;
 };
@@ -64,7 +65,7 @@ void Enemy::Update( float const time )
 	{
 		for (PatternMap::const_iterator it = _pattern.begin(); it != _pattern.end(); ++it)
 		{
-			(*it).second->Activate(_actTime, this->GetCenterPoint());
+			(*it).second->Activate(_actTime);
 		}
 	}
 };

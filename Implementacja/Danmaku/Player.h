@@ -11,6 +11,7 @@
 #include "Bomb.h"
 
 #include "PlayerBulletSpriteResource.h"
+#include "PlayerInitializationFailedException.h"
 
 /// <summary>
 /// Gracz, którego mo¿na kontrolowaæ
@@ -58,11 +59,10 @@ public:
 	Player( D3DXVECTOR2 const & pos, BYTE lifeCount, BYTE bombCount = 3 );
 	Player( D3DXVECTOR2 const & pos, float power, BYTE lifeCount, BYTE bombCount = 3 );
 
-	bool InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position);
-	void Initialize(PlayerBulletSpriteResource const & pbsResource);
+	bool Initialize(PlayerBulletSpriteResource const & pbsResource);
+	bool InitializePattern(LPDIRECT3DDEVICE9 device);
 	bool InitializeHitboxSprite( LPDIRECT3DDEVICE9 device, std::string const & file );
-
-	void InitializeBomb();
+	bool InitializeBomb(LPDIRECT3DDEVICE9 device);
 
 	// Przeci¹¿one metody GameObject
 	void Update(float const time, Move const move);

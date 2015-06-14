@@ -65,6 +65,7 @@ class Stage
 
 public:
 	Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DDEVICE9 device);
+	~Stage();
 
 	std::deque<Enemy*> * const GetEnemies(short const time);
 	void RemoveEnemies(short const key);

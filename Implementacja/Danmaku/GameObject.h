@@ -11,7 +11,7 @@
 /// <summary>
 /// Podstawowa klasa dla ka¿dego obiektu gry
 /// </summary>
-class GameObject
+class GameObject: public ITransformable
 {
 protected:
 	/* === Sk³adowe === */
@@ -29,12 +29,6 @@ protected:
 	float rotation;
 
 public:
-	static enum SpriteType
-	{
-		NORMAL	= 0x00,
-		MOVABLE	= 0x01
-	};
-
 	/* ==== KONSTRUKTORY ============== */
 	// pozycja + szybkoœæ + przyspieszenie
 	GameObject(D3DXVECTOR2 const & pos, float const speed = 0, float const acc = 0);
@@ -69,9 +63,9 @@ public:
 	}
 
 	// transformacje
-	void Translate( D3DXVECTOR2 const & dv );
-	void Rotate( float const angle );
-	void Scale( float const scale );
+	void Translate( D3DXVECTOR2 const & dv ) override;
+	void Rotate( float const angle ) override;
+	void Scale( float const scale ) override;
 
 
 	// Gettery

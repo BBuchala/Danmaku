@@ -44,6 +44,11 @@ public:
 
 	ResourcePtr operator[] (K const & rhs)
 	{
-		return _map[rhs];
+		Map::const_iterator it = _map.find(rhs);
+		if ( it != _map.end())
+		{
+			return _map[rhs];
+		}
+		return nullptr;
 	}
 };

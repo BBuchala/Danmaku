@@ -3,30 +3,34 @@
 #include "EPattern.h"
 #include "EPatternFactory.h"
 
-	class EnemyPatternSpiral: public EPattern
-	{
-	protected:
-		/// Sk³adowe potrzebne do generowania pocisków
-		float _radiusA;
-		float _radiusB;
+/// <summary>
+/// Klasa nadrzêdna dla wzorów spiralnych
+/// </summary>
+class EnemyPatternSpiral: public EPattern
+{
+protected:
+	/// Sk³adowe potrzebne do generowania pocisków
+	float _radiusA;
+	float _radiusB;
 
-		/// Wspólna trasa dla wszystkich pocisków
-		std::shared_ptr<Trajectory> _traj;
+	/// Wspólna trasa dla wszystkich pocisków
+	std::shared_ptr<Trajectory> _traj;
 
-	public:
-		EnemyPatternSpiral(float const radiusA, float const radiusB, float const number, float const activationTime);
-		~EnemyPatternSpiral();
-		void Initialize(D3DXVECTOR2 const & position) override;
-		void Update(float const time, D3DXVECTOR2 const & position) override;
+public:
+	EnemyPatternSpiral(float const radiusA, float const radiusB, float const number, float const activationTime);
+	~EnemyPatternSpiral();
 
-		void Scale();
-		void Rotate();
+	void CreateBullets() override;
+	void Update(float const time) override;
 
-		void AddBullet();
+	void Scale();
+	void Rotate();
 
-		void StartBullets(D3DXVECTOR2 const & position) override;
+	void AddBullet() override;
 
-		void SetScale(float const scale) override;
-		void SetRotation(float const rotate) override;
-	};
+	void StartBullets() override;
+
+	void SetScale(float const scale) override;
+	void SetRotation(float const rotate) override;
+};
 

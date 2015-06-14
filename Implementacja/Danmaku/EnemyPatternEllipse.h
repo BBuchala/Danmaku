@@ -5,6 +5,9 @@
 
 namespace
 {
+	/// <summary>
+	/// Wzór dla pocisków poruszaj¹cych siê po elipsie
+	/// </summary>
 	class EnemyPatternEllipse: public EPattern
 	{
 		// Sk³adowe potrzebne do generowania pocisków
@@ -18,32 +21,36 @@ namespace
 		EnemyPatternEllipse(float const radiusA, float const radiusB, float const number, float const activationTime);
 		EnemyPatternEllipse(EnemyPatternEllipse const & other);
 		~EnemyPatternEllipse();
-		void Initialize(D3DXVECTOR2 const & position) override;
-		void Update(float const time, D3DXVECTOR2 const & position) override;
+		void CreateBullets() override;
+		void Update(float const time) override;
 
 		void Scale();
 		void Rotate();
 		void Rotate(float const theta) override;
+		void AddBullet() override;
+		void StartBullets() override;
 
-		void AddBullet();
-
-		void StartBullets(D3DXVECTOR2 const & position) override
-		{
-			_traj->SetCenterPoint(position);
-		}
-
-		EPattern * Clone() const override
-		{
-			return new EnemyPatternEllipse(*this);
-		}
+		EPattern * Clone() const override;
 	};
 
-	// zarejestrowanie patternu w Fabryce
+	/// <summary>
+	/// Tworzy wzór pocisków na elipsie
+	/// </summary>
+	/// <param name="radiusA">Pierwsza pó³oœ.</param>
+	/// <param name="radiusB">Druga pó³oœ.</param>
+	/// <param name="number">Liczba pocisków.</param>
+	/// <param name="activationTime">Czas aktywacji.</param>
+	/// <returns>Nowa instancja</returns>
 	EPattern * CreateEnemyPatternEllipse( float const radiusA, float const radiusB, float const number, float const activationTime )
 	{
 		return new EnemyPatternEllipse( radiusA, radiusB, number, activationTime );
 	}
+	/// <summary>
+	/// Identyfikator wzoru.
+	/// </summary>
 	Pattern const patternId = Pattern::ELLIPSE;
+	/// <summary>
+	/// Czy wzór zosta³ zarejestrowany w fabryce
+	/// </summary>
 	bool const registrered = EPatternFactory::Instance().Register( patternId, CreateEnemyPatternEllipse );
 }
-

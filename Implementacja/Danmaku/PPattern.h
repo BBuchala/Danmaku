@@ -2,7 +2,11 @@
 #include "IPattern.h"
 #include "PlayerBullet.h"
 #include "PlayerBulletSpriteResource.h"
+#include "PlayerBulletInitializationFailedException.h"
 
+/// <summary>
+/// Klasa nadrzêdna dla wzorów gracza
+/// </summary>
 class PPattern : public IPattern
 {
 protected:
@@ -18,8 +22,8 @@ protected:
 	// Kontrola czasowa
 	float elapsedTime;
 
-	// pozycja wzoru
-	D3DXVECTOR2 position;
+	// wskaŸnik pozycjê wzoru
+	D3DXVECTOR2 * position;
 
 	// Informuje czy gracz aktualnie strzela, czy te¿ nie.
 	bool isKeyPressed;
@@ -33,31 +37,37 @@ public:
 	virtual ~PPattern();
 	
 	// przekazanie uchwytu
-	virtual void Initialize(D3DXVECTOR2 const & position );
-
-	//virtual void SetPosition(D3DXVECTOR2 const & pos);
+	void SetPositionPtr(D3DXVECTOR2 * const position) override;
 
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
 	
-	// Musowa implementacja z IPattern, nie u¿ywana.
-	// Jak nie jak TAK XD
 	// W³aœciwa metoda aktualizuj¹ca pociski dla patternów gracza.
-	void Update(float const time, D3DXVECTOR2 const & position) override;
+	void Update(float const time) override;
 
 	void SetKeyPressed(bool isKeyPressed);
 
 	void virtual LoadSprite(PlayerBulletSpriteResource & pbsResource) = 0;
 
+	/// <summary>
+	/// Zwrócenie wszystkich przycisków.
+	/// </summary>
+	/// <returns></returns>
 	inline PBulletQue & GetBullets()
 	{
 		return bullet;
 	};
 	
+	/// <summary>
+	/// Czy klawisz strza³u zosta³ wciœniêty.
+	/// </summary>
+	/// <returns></returns>
 	inline bool const IsKeyPressed()
 	{
 		return this->isKeyPressed;
 	};
 
+protected:
+	void LoadBulletType(SpritePtr & sprite, std::string const & file, PlayerBulletSpriteResource & pbsResource);
 };
 

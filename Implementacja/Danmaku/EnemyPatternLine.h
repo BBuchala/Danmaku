@@ -5,6 +5,9 @@
 
 namespace
 {
+	/// <summary>
+	/// Wzór dla pocisków poruszaj¹cych siê po linii
+	/// </summary>
 	class EnemyPatternLine: public EPattern
 	{
 		// Sk³adowe potrzebne do generowania pocisków
@@ -16,29 +19,30 @@ namespace
 	public:
 		EnemyPatternLine(float const angle, float const length, float const number, float const activationTime);
 		~EnemyPatternLine();
-		void Initialize(D3DXVECTOR2 const & position) override;
-		void Update(float const time, D3DXVECTOR2 const & position) override;
-
-		void AddBullet();
-
-		void StartBullets(D3DXVECTOR2 const & position) override
-		{
-			for (EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); ++it)
-			{
-				(*it)->GetTrajectory()->SetStartPoint(position);
-			}
-		}
-
-		EPattern * Clone() const override
-		{
-			return new EnemyPatternLine(*this);
-		}
+		void CreateBullets() override;
+		void Update(float const time) override;
+		void AddBullet() override;
+		void StartBullets() override;
+		EPattern * Clone() const override;
 	};
-	// zarejestrowanie patternu w Fabryce
+	/// <summary>
+	/// Tworzy wzór pocisków w linii
+	/// </summary>
+	/// <param name="radiusA">Pierwsza pó³oœ.</param>
+	/// <param name="radiusB">Druga pó³oœ.</param>
+	/// <param name="number">Liczba pocisków.</param>
+	/// <param name="activationTime">Czas aktywacji.</param>
+	/// <returns>Nowa instancja</returns>
 	EPattern * CreateEnemyPatternLine( float const angle, float const length, float const number, float const activationTime )
 	{
 		return new EnemyPatternLine( angle, length, number, activationTime );
 	}
+	/// <summary>
+	/// Identyfikator wzoru.
+	/// </summary>
 	Pattern const patternId = Pattern::LINE;
+	/// <summary>
+	/// Czy wzór zosta³ zarejestrowany w fabryce
+	/// </summary>
 	bool const registrered = EPatternFactory::Instance().Register( patternId, CreateEnemyPatternLine );
 }

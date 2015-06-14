@@ -3,6 +3,9 @@
 #include "PlayerBullet.h"
 #include "PPattern.h"
 
+/// <summary>
+/// Trzeci wzór z jakiego korzysta gracz
+/// </summary>
 class PlayerPattern03 : public PPattern
 {
 private:
@@ -14,10 +17,8 @@ public:
 	PlayerPattern03(void);
 	~PlayerPattern03(void);
 
-	void Initialize(D3DXVECTOR2 const & position) override;
-	void Update(float const time, D3DXVECTOR2 const & position) override;
-
-	void Add(D3DXVECTOR2 const & position);
+	void Update(float const time) override;
+	void AddBullet() override;
 
 	void LoadSprite(PlayerBulletSpriteResource & pbsResource) override;
 };

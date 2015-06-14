@@ -1,28 +1,31 @@
 #include "PlayerPattern03.h"
 
-
+/// <summary>
+/// Tworzy nowπ instacjÍ klasy <see cref="PlayerPattern03"/>.
+/// </summary>
 PlayerPattern03::PlayerPattern03(void)
 {
-}
-
-
-PlayerPattern03::~PlayerPattern03(void)
-{
-}
-
-void PlayerPattern03::Initialize(D3DXVECTOR2 const & position)
-{
-	PPattern::Initialize(position);
 	leftShift = D3DXVECTOR2(20,15);
 	rightShift = D3DXVECTOR2(-20,15);
 }
 
-void PlayerPattern03::Update(float const time, D3DXVECTOR2 const & playerPos)
+/// <summary>
+/// Niszczy instancjÍ klasy <see cref="PlayerPattern03"/>.
+/// </summary>
+PlayerPattern03::~PlayerPattern03(void)
+{
+}
+
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">PrÛbka czasu.</param>
+void PlayerPattern03::Update(float const time)
 {
 	if (this->elapsedTime >= 0.08000f)
 		{
 			if (this->isKeyPressed)
-				Add(playerPos);
+				AddBullet();
 			this->elapsedTime = 0;
 		}
 		this->elapsedTime += time;
@@ -34,7 +37,10 @@ void PlayerPattern03::Update(float const time, D3DXVECTOR2 const & playerPos)
 	}
 }
 
-void PlayerPattern03::Add(D3DXVECTOR2 const & playerPos)
+/// <summary>
+/// Dodanie nowego pocisku.
+/// </summary>
+void PlayerPattern03::AddBullet()
 {
 	for (int i = 0; i < 2; i++ )
 	{
@@ -49,10 +55,10 @@ void PlayerPattern03::Add(D3DXVECTOR2 const & playerPos)
 		switch (i % 2)
 		{
 			case 0:
-				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - leftShift, D3DXToRadian(90) ) ) );
+				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - leftShift, D3DXToRadian(90) ) ) );
 				break;
 			case 1:
-				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos - rightShift, D3DXToRadian(90) ) ) );
+				newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position - rightShift, D3DXToRadian(90) ) ) );
 				break;
 			default:
 				break;
@@ -61,7 +67,11 @@ void PlayerPattern03::Add(D3DXVECTOR2 const & playerPos)
 	}
 }
 
+/// <summary>
+/// Za≥adowanie sprajtÛw dla pociskÛw.
+/// </summary>
+/// <param name="pbsResource">èrÛd≥o sprajtÛw pociskÛw.</param>
 void PlayerPattern03::LoadSprite(PlayerBulletSpriteResource & pbsResource)
 {
-	templateSprite = pbsResource["PlayerBullet2"];
+	this->LoadBulletType(templateSprite, "PlayerBullet2", pbsResource);
 };

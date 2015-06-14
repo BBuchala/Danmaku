@@ -1,5 +1,9 @@
 #include "EPattern.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="EPattern"/>.
+/// </summary>
+/// <param name="activationTime">Czas po którym wzór zostaje aktywowany.</param>
 EPattern::EPattern(float const activationTime) : _activationTime(activationTime), _activated(false),
 	 _bulletScale(1.0f), _bulletRotate(0.0f), _scaleStep(1.0f), _rotateStep(0.0f)
 {
@@ -8,7 +12,11 @@ EPattern::EPattern(float const activationTime) : _activationTime(activationTime)
 	_scale = 1.0f;
 };
 
-
+/// <summary>
+/// <summary>
+/// Tworzy kopiê instacji klasy <see cref="EPattern"/>.
+/// </summary>
+/// <param name="pattern">Obiekt do skopiowania</param>
 EPattern::EPattern(EPattern const & pattern)
 {
 	_translate = pattern._translate;
@@ -36,6 +44,9 @@ EPattern::EPattern(EPattern const & pattern)
 	_interval = pattern._interval;
 };
 
+/// <summary>
+/// Niszczy instancjê klasy <see cref="EPattern"/>.
+/// </summary>
 EPattern::~EPattern()
 {
 	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
@@ -44,13 +55,27 @@ EPattern::~EPattern()
 	}
 };
 
-
-void EPattern::Initialize(D3DXVECTOR2 const & position )
+/// <summary>
+/// Przekazuj¹c wzorowi wskaŸnik do pozycji, z której zawsze ma strzelaæ.
+/// </summary>
+/// <param name="position">Pozycja strzelania.</param>
+void EPattern::SetPositionPtr(D3DXVECTOR2 * const position)
 {
-	this->_position = position;
+	_position = position;
 };
 
-
+/// <summary>
+/// Inicjalizuje pociski odpowiednimi wartoœciami.
+/// </summary>
+/// <param name="bulletSprite">Sprajt dla pocisków.</param>
+/// <param name="bulletSpeed">Prêdkoœæ pocisków.</param>
+/// <param name="bulletAcc">Przyspieszenie pocisków.</param>
+/// <param name="bulletWidth">Szerokoœæ sprajtu pocisków.</param>
+/// <param name="bulletHeight">Wysokoœæ sprajtu pocisków.</param>
+/// <param name="hitboxShape">Kszta³t hitboxa.</param>
+/// <param name="hitboxSize">Rozmiar hitboxa.</param>
+/// <param name="bulletScale">Skala dla pociskóws.</param>
+/// <param name="bulletRotate">Pocz¹tkowy obrót pocisków.</param>
 void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, float bulletAcc,
 								 BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape,
 								 Hitbox::Size hitboxSize, float bulletScale, float bulletRotate)
@@ -66,8 +91,11 @@ void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bul
 	_bulletRotate = bulletRotate;
 };
 
-
-void EPattern::Update(float const time, D3DXVECTOR2 const & position)
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
+void EPattern::Update(float const time)
 {
 	this->_scale += _scaleStep;
 	this->_rotate += _rotateStep;
@@ -79,7 +107,10 @@ void EPattern::Update(float const time, D3DXVECTOR2 const & position)
 	}
 };
 
-
+/// <summary>
+/// Narysowanie
+/// </summary>
+/// <param name="rect">Protok¹t w którym sprajt mo¿e byæ rysowany.</param>
 void EPattern::Draw( RECT const & rect )
 {
 	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
@@ -89,65 +120,88 @@ void EPattern::Draw( RECT const & rect )
 };
 
 
-void EPattern::SetPosition(D3DXVECTOR2 const & pos)
-{
-	this->_position = pos;
-};
-
-// ----- Translate ------------------------------------------------------------------------------
+/// <summary>
+/// Przesuwa obiekt.
+/// </summary>
+/// <param name="dv">Przesuniêcie.</param>
 void EPattern::Translate(D3DXVECTOR2 const & translate)
 {
 	_translate += translate;
 };
 
-// ----- Scale ----------------------------------------------------------------------------------
+/// <summary>
+/// Zmienia rozmiar wg skali.
+/// </summary>
+/// <param name="scale">Skala.</param>
 void EPattern::Scale(float const scale)
 {
 	_scale *= scale;
 };
 
-// ----- Rotate ----------------------------------------------------------------------------------
+/// <summary>
+/// Obraca obiekt o wskazany k¹t.
+/// </summary>
+/// <param name="angle">K¹t.</param>
 void EPattern::Rotate(float const rotate)
 {
 	_rotate += rotate;
 };
 
-// ----- Set Translation --------------------------------------------------------------------------
+/// <summary>
+/// Ustawia nowe przesuniêcie dla wzoru.
+/// </summary>
+/// <param name="dv">Przesuniêcie.</param>
 void EPattern::SetTranslation(D3DXVECTOR2 const & translate)
 {
 	_translate = translate;
 };
 
-// ----- Set Scale --------------------------------------------------------------------------------
+/// <summary>
+/// Ustawia now¹ skalê dla wzoru.
+/// </summary>
+/// <param name="dv">Skala.</param>
 void EPattern::SetScale(float const scale)
 {
 	_scale = scale;
 };
 
-// ----- Set Rotation------------------------------------------------------------------------------
+/// <summary>
+/// Ustawia nowy obrót dla wzoru.
+/// </summary>
+/// <param name="angle">K¹t.</param>
 void EPattern::SetRotation(float const rotate)
 {
 	_rotate = rotate;
 };
 
-
+/// <summary>
+/// Ustawia now¹ skalê dla pocisków.
+/// </summary>
+/// <param name="dv">Pozycja.</param>
 void EPattern::SetBulletScale(float scale)
 {
 	_bulletScale = scale;
 };
 
-
+/// <summary>
+/// Ustawia nowy obrót dla pocisków.
+/// </summary>
+/// <param name="angle">K¹t.</param>
 void EPattern::SetBulletRotation(float rotate)
 {
 	_bulletRotate = rotate;
 };
 
 
-void EPattern::Activate(float const actTime, D3DXVECTOR2 const & position)
+/// <summary>
+/// Aktywacja wzoru jeœli przekazany czas jest wiêkszy od czasu aktywacji.
+/// </summary>
+/// <param name="actTime">Aktualny czas aktywacji.</param>
+void EPattern::Activate(float const actTime)
 {
 	if (!_activated && actTime >= _activationTime)
 	{
-		this->StartBullets(position);
+		this->StartBullets();
 		_activated = true;
 	}
 };

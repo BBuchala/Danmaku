@@ -1,26 +1,29 @@
 #include "PlayerPattern02.h"
 
-
+/// <summary>
+/// Tworzy nowπ instacjÍ klasy <see cref="PlayerPattern02"/>.
+/// </summary>
 PlayerPattern02::PlayerPattern02(void)
 {
 }
 
-
+/// <summary>
+/// Niszczy instancjÍ klasy <see cref="PlayerPattern02"/>.
+/// </summary>
 PlayerPattern02::~PlayerPattern02(void)
 {
 }
 
-void PlayerPattern02::Initialize(D3DXVECTOR2 const & position)
-{
-	PPattern::Initialize(position);
-}
-
-void PlayerPattern02::Update(float const time, D3DXVECTOR2 const & playerPos)
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">PrÛbka czasu.</param>
+void PlayerPattern02::Update(float const time)
 {
 	if (this->elapsedTime >= 0.08000f)
 		{
 			if (this->isKeyPressed)
-				Add(playerPos);
+				AddBullet();
 			this->elapsedTime = 0;
 		}
 		this->elapsedTime += time;
@@ -32,22 +35,25 @@ void PlayerPattern02::Update(float const time, D3DXVECTOR2 const & playerPos)
 	}
 }
 
-void PlayerPattern02::Add(D3DXVECTOR2 const & playerPos)
+/// <summary>
+/// Dodanie nowego pocisku.
+/// </summary>
+void PlayerPattern02::AddBullet()
 {
 	PlayerBullet * newBullet;
 	newBullet = new PlayerBullet( 1000.0f, 100 );
-	
 	newBullet->SetSprite ( templateSprite );
-
 	newBullet->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::HALF_LENGTH );
-	//newBullet->InitializeHitbox( Hitbox::Shape::ELLIPSE, Hitbox::Size::HALF_LENGTH, Sprite::GetFilePath("hitbox", "png"), device );
-
 	newBullet->SetDistance( D3DXToRadian( 45.0f ) );
-	newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, playerPos, D3DXToRadian(90) ) ) );
+	newBullet->SetTrajectory( TrajectoryPtr(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, *position, D3DXToRadian(90) ) ) );
 	this->bullet.push_back( newBullet );
 }
 
+/// <summary>
+/// Za≥adowanie sprajtÛw dla pociskÛw.
+/// </summary>
+/// <param name="pbsResource">èrÛd≥o sprajtÛw pociskÛw.</param>
 void PlayerPattern02::LoadSprite(PlayerBulletSpriteResource & pbsResource)
 {
-	templateSprite = pbsResource["PlayerBullet2"];
+	this->LoadBulletType(templateSprite, "PlayerBullet2", pbsResource);
 };

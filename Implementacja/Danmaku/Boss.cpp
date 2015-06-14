@@ -82,7 +82,6 @@ void Boss::SetIsShooting(bool const isShooting)
 void Boss::AddSpellcard(Spellcard * const spellcard)
 {
 	_spellcard[scId] = spellcard;
-	_spellcard[scId]->Activate(this->GetCenterPoint());
 	scId++;
 }
 
@@ -94,7 +93,9 @@ bool Boss::InitializePatterns()
 {
 	for (SpellcardMap::const_iterator it = _spellcard.begin(); it != _spellcard.end(); ++it)
 	{
-		(*it).second->Initialize(this->GetCenterPoint());
+		(*it).second->SetPositionPtr(&centerPoint);
+		(*it).second->SetPatternsPosition();
+		(*it).second->Activate();
 	}
 	return true;
 };

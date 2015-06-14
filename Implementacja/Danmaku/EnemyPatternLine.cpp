@@ -1,5 +1,12 @@
 #include "EnemyPatternLine.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="EnemyPatternLine"/>.
+/// </summary>
+/// <param name="radiusA">Pierwsza pó³oœ.</param>
+/// <param name="radiusB">Druga pó³oœ.</param>
+/// <param name="number">Liczba pocisków.</param>
+/// <param name="activationTime">Czas aktywacji.</param>
 EnemyPatternLine::EnemyPatternLine(float const angle, float const length, float const number, float const activationTime)
 								   : EPattern(activationTime)
 {
@@ -8,16 +15,20 @@ EnemyPatternLine::EnemyPatternLine(float const angle, float const length, float 
 	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::LINE, D3DXVECTOR2(0.0f, 0.0f), D3DXToRadian(_angle) ) );
 };
 
-
+/// <summary>
+/// Niszczy instancjê klasy <see cref="EnemyPatternLine"/>.
+/// </summary>
 EnemyPatternLine::~EnemyPatternLine()
 {
 	_traj.reset();
 }
 
-
-void EnemyPatternLine::Initialize(D3DXVECTOR2 const & position)
+/// <summary>
+/// Utworzenie pocisków i ustalenie ich pocz¹tkowych paarmetrów.
+/// </summary>
+/// <returns></returns>
+void EnemyPatternLine::CreateBullets()
 {
-	EPattern::Initialize(position);
 	for (int i = 0; i < _number; i++)
 	{
 		AddBullet();
@@ -25,16 +36,21 @@ void EnemyPatternLine::Initialize(D3DXVECTOR2 const & position)
 	}
 };
 
-
-void EnemyPatternLine::Update(float const time, D3DXVECTOR2 const & position)
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
+void EnemyPatternLine::Update(float const time)
 {
 	if (_activated)
 	{
-		EPattern::Update(time, position);
+		EPattern::Update(time);
 	}
 };
 
-
+/// <summary>
+/// Dodanie nowego pocisku.
+/// </summary>
 void EnemyPatternLine::AddBullet()
 {
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed, _bulletAcc);
@@ -44,3 +60,22 @@ void EnemyPatternLine::AddBullet()
 	_bullet.push_back(newBullet);
 };
 
+/// <summary>
+/// Rozpoczêcie poruszania pocisków.
+/// </summary>
+void EnemyPatternLine::StartBullets()
+{
+	for (EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); ++it)
+	{
+		(*it)->GetTrajectory()->SetStartPoint(*_position);
+	}
+}
+
+/// <summary>
+/// Skopiowanie instancji wzoru.
+/// </summary>
+/// <returns></returns>
+EPattern * EnemyPatternLine::Clone() const
+{
+	return new EnemyPatternLine(*this);
+}

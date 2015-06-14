@@ -145,6 +145,12 @@
     <Filter Include="Source Files\Hitboxes">
       <UniqueIdentifier>{ed3bbda5-b7a1-4fa5-8945-c5582c346dba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Exceptions\Game Initialization Exceptions">
+      <UniqueIdentifier>{282a5d27-9102-4052-b74d-af65ca34057a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Exceptions\Game Initialization Exceptions">
+      <UniqueIdentifier>{1900b3a9-e2df-4ff9-97e7-4e839a2189a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameWindow.cpp">
@@ -362,6 +368,21 @@
     </ClCompile>
     <ClCompile Include="StageCreationFailedException.cpp">
       <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="BombInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPatternBezier.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -643,6 +664,18 @@
     </ClInclude>
     <ClInclude Include="StageCreationFailedException.h">
       <Filter>Header Files\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="BombInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

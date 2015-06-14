@@ -1,5 +1,12 @@
 #include "EnemyPatternEllipse.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="EnemyPatternEllipse"/>.
+/// </summary>
+/// <param name="radiusA">Pierwsza pó³oœ.</param>
+/// <param name="radiusB">Druga pó³oœ.</param>
+/// <param name="number">Liczba pocisków.</param>
+/// <param name="activationTime">Czas aktywacji.</param>
 EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radiusB, float const number,
 										 float const activationTime)
 										 : EPattern(activationTime)
@@ -11,25 +18,33 @@ EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radius
 };
 
 
+/// <summary>
+/// Tworzy kopiê instacji klasy <see cref="EnemyPatternEllipse"/>.
+/// </summary>
+/// <param name="other">Obiekt do skopiowania.</param>
 EnemyPatternEllipse::EnemyPatternEllipse(EnemyPatternEllipse const & other) : EPattern(other)
 {
 	_radiusA = other._radiusA;
 	_radiusB = other._radiusB;
 	_number = other._number;
 	_traj = std::shared_ptr<Trajectory>(TrajectoryFactory::Instance().CreateTrajectory( Road::ELIPSE, D3DXVECTOR2(0.0f, 0.0f), _radiusA, _radiusB ) );
-	this->Initialize(_position);
+	this->SetPositionPtr(new D3DXVECTOR2(*other._position));
 }
 
-
+/// <summary>
+/// Niszczy instancjê klasy <see cref="EnemyPatternEllipse"/>.
+/// </summary>
 EnemyPatternEllipse::~EnemyPatternEllipse()
 {
 	_traj.reset();
 }
 
-
-void EnemyPatternEllipse::Initialize(D3DXVECTOR2 const & position)
+/// <summary>
+/// Utworzenie pocisków i ustalenie ich pocz¹tkowych paarmetrów.
+/// </summary>
+/// <returns></returns>
+void EnemyPatternEllipse::CreateBullets()
 {
-	EPattern::Initialize(position);
 	for (int i = 0; i < _number; i++)
 	{
 		AddBullet();
@@ -37,8 +52,11 @@ void EnemyPatternEllipse::Initialize(D3DXVECTOR2 const & position)
 	}
 };
 
-
-void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
+void EnemyPatternEllipse::Update(float const time)
 {
 	if (_activated)
 	{
@@ -46,11 +64,13 @@ void EnemyPatternEllipse::Update(float const time, D3DXVECTOR2 const & position)
 		this->Scale();
 		this->Rotate();
 		// Procedurta nadrzêdna
-		EPattern::Update(time, position);
+		EPattern::Update(time);
 	}
 };
 
-
+/// <summary>
+/// Dodanie nowego pocisku.
+/// </summary>
 void EnemyPatternEllipse::AddBullet()
 {
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed, _bulletAcc);
@@ -60,18 +80,46 @@ void EnemyPatternEllipse::AddBullet()
 	_bullet.push_back(newBullet);
 };
 
-// ----- Scale ----------------------------------------------------------------------------------
+/// <summary>
+/// Zeskalowanie wzoru o krok.
+/// </summary>
 void EnemyPatternEllipse::Scale()
 {
 	_traj->Scale(_scaleStep);
 };
 
+
+/// <summary>
+/// Obrócenie wzoru o krok.
+/// </summary>
 void EnemyPatternEllipse::Rotate()
 {
 	_traj->Rotate(_rotateStep);
 };
 
+
+/// <summary>
+/// Obrócenie wzoru o wybrany k¹t.
+/// </summary>
+/// <param name="theta">K¹t.</param>
 void EnemyPatternEllipse::Rotate(float const theta)
 {
 	_traj->Rotate(theta);
+};
+
+/// <summary>
+/// Rozpoczêcie poruszania pocisków.
+/// </summary>
+void EnemyPatternEllipse::StartBullets()
+{
+	_traj->SetCenterPoint(*_position);
+};
+
+/// <summary>
+/// Skopiowanie instancji wzoru.
+/// </summary>
+/// <returns></returns>
+EPattern * EnemyPatternEllipse::Clone() const
+{
+	return new EnemyPatternEllipse(*this);
 };

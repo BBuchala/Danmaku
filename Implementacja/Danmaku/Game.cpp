@@ -76,6 +76,7 @@ Game::~Game()
 	if (gameScreen) delete gameScreen;
 	if (player) delete player;
 	if (_scores) delete _scores;
+	if (stage) delete stage;
 
 	// usuniêcie danych liczbowych
 	if (hiScoreText) delete hiScoreText;
@@ -103,62 +104,72 @@ Game::~Game()
 /* ---- Initialize ---------------------------------------------------------------------------- */
 bool Game::Initialize()
 {
-	// ustawienie aktualnego high score'a
-	_scores->Start();
-	this->hiScore = _scores->GetHighestScore();
+	try
+	{
+		// ustawienie aktualnego high score'a
+		_scores->Start();
+		this->hiScore = _scores->GetHighestScore();
 
-	bonusSprite_.Add(BonusType::POWER);
-	bonusSprite_.Add(BonusType::LIFE);
-	bonusSprite_.Add(BonusType::SCORE);
-	bonusSprite_.Add(BonusType::BOMB);
-	bonusSprite_.Create(gDevice);
+		bonusSprite_.Add(BonusType::POWER);
+		bonusSprite_.Add(BonusType::LIFE);
+		bonusSprite_.Add(BonusType::SCORE);
+		bonusSprite_.Add(BonusType::BOMB);
+		bonusSprite_.Create(gDevice);
 
-	playerBulletSprite_.Add("PlayerBullet1");
-	playerBulletSprite_.Add("PlayerBullet2");
-	playerBulletSprite_.Add("PlayerBullet3");
-	playerBulletSprite_.Add("PlayerBullet4");
-	playerBulletSprite_.Create(gDevice);
+		playerBulletSprite_.Add("PlayerBullet1");
+		playerBulletSprite_.Add("PlayerBullet2");
+		playerBulletSprite_.Add("PlayerBullet3");
+		playerBulletSprite_.Add("PlayerBullet4");
+		playerBulletSprite_.Create(gDevice);
 
-	// Poszczególne obiekty
-	this->player->InitializeSprite( SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("ship"))) );
-	this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::ONE_THIRDS_LENGTH );
-	this->player->InitializeHitboxSprite(gDevice->device, Sprite::GetFilePath("hitbox", "png"));
-	this->player->InitializeBomb();
+		// Inicjalizacja playera
+		bool playerSuccess = true;
+		playerSuccess &= this->player->InitializeSprite( SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("ship"))) );
+		playerSuccess &= this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::ONE_THIRDS_LENGTH );
+		playerSuccess &= this->player->InitializeHitboxSprite(gDevice->device, Sprite::GetFilePath("hitbox", "png"));
+		playerSuccess &= this->player->InitializeBomb(gDevice->device);
+		if (!playerSuccess)
+			throw PlayerInitializationFailedException();
 
-	//////// INICJALIZACJA DANYCH LICZBOWYCH
-	this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	bossName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	spellcardName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	spellcardtime->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-	spellcardBonus->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		//////// INICJALIZACJA DANYCH LICZBOWYCH
+		this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		bossName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		spellcardName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		spellcardtime->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		spellcardBonus->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
 
-	/////// Inicjalizacja pasków ¿ycia i bomby
-	this->lifeBar->Initialize( gDevice->device, Sprite::GetFilePath("life") );
-	this->bombBar->Initialize( gDevice->device, Sprite::GetFilePath("bomb") );
+		/////// Inicjalizacja pasków ¿ycia i bomby
+		this->lifeBar->Initialize( gDevice->device, Sprite::GetFilePath("life") );
+		this->bombBar->Initialize( gDevice->device, Sprite::GetFilePath("bomb") );
 	 
-	/////// Inicjalizacja sk³adowych Playera
-	this->player->InitializePattern( gDevice->device, player->GetCenterPoint());
-	this->player->Initialize(playerBulletSprite_);
+		/////// Inicjalizacja sk³adowych Playera
+		this->player->InitializePattern( gDevice->device );
+		this->player->Initialize(playerBulletSprite_);
 
-	/////// Inicjalizacja bonusów
-	for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
-	{
-		(*it)->SetSprite( bonusSprite_[(*it)->GetBonusId()] );
-		(*it)->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+		/////// Inicjalizacja bonusów
+		for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
+		{
+			(*it)->SetSprite( bonusSprite_[(*it)->GetBonusId()] );
+			(*it)->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+		}
+
+		////// Avatary
+		for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
+		{
+			avatar_[i]->InitializeSprite(SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("Av", 0, i + 1, "png"))));
+		}
+
+		this->stageBackgroundPos.y -= this->stageBackground->GetHeight() - StageConsts::STAGE_HEIGHT;
+		return true;
 	}
-
-	////// Avatary
-	for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
+	catch (GameInitializationFailedException & ex)
 	{
-		avatar_[i]->InitializeSprite(SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("Av", 0, i + 1, "png"))));
+		ex.ToMessageBox();
+		return false;
 	}
-
-	this->stageBackgroundPos.y -= this->stageBackground->GetHeight() - StageConsts::STAGE_HEIGHT;
-
-	return true;
 };
 
 
@@ -221,7 +232,7 @@ void Game::Update(float const time)
 		boss->Update(time);
 		this->currentSpellcard = boss->GetSpellcard();
 		if (this->currentSpellcard)
-			this->currentSpellcard->Update(time, boss->GetCenterPoint());
+			this->currentSpellcard->Update(time);
 	}
 
 	//// Obs³uga wrogów i ich pocisków
@@ -294,7 +305,7 @@ void Game::Update(float const time)
 	//// Obs³uga reszty pocisków
 	for (PatternQue::const_iterator s_it = _savedPatterns.begin(); s_it != _savedPatterns.end(); s_it++)
 	{
-		(*s_it)->Update(time, D3DXVECTOR2(0.0f, 0.0f));
+		(*s_it)->Update(time);
 	}
 };
 
@@ -650,7 +661,7 @@ void Game::CheckBonusCollisions()
 				this->player->AddToPower(bonus_[i]->Realize());
 				if (this->player->HasPatternChanged())
 				{
-					this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+					this->player->InitializePattern( gDevice->device );
 					this->player->SetHasPatternChanged(false);
 				}
 				break;
@@ -690,7 +701,7 @@ void Game::MakePlayerLoseLife()
 	this->player->SubFromPower(1.0f);
 	if (this->player->HasPatternChanged())
 	{
-		this->player->InitializePattern( gDevice->device, this->player->GetCenterPoint());
+		this->player->InitializePattern( gDevice->device );
 		this->player->SetHasPatternChanged(false);
 	}
 	this->player->SetPosition(D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2,

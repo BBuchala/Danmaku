@@ -4,7 +4,9 @@
 #include "EnemyBullet.h"
 #include "Pattern.h"
 
-// konkretna klasa ka¿dego Patternu
+/// <summary>
+/// Klasa nadrzêdna dla ka¿dego wrogiego wzoru
+/// </summary>
 class EPattern : public IPattern
 {
 protected:
@@ -42,8 +44,8 @@ protected:
 	Hitbox::Shape _hitboxShape;
 	Hitbox::Size _hitboxSize;
 
-	// pozycja wzoru
-	D3DXVECTOR2 _position;
+	// wskaŸnik na pozycjê wzoru
+	D3DXVECTOR2 * _position;
 
 	float _activationTime;
 	bool _activated;
@@ -54,42 +56,58 @@ public:
 	virtual ~EPattern();
 	
 	// przekazanie uchwytu
-	virtual void Initialize(D3DXVECTOR2 const & position);
+	void SetPositionPtr(D3DXVECTOR2 * const position) override;
 	void InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, float bulletAcc, BYTE bulletWidth,
 		BYTE bulletHeight, Hitbox::Shape hitboxShape, Hitbox::Size hitboxSize, float bulletScale, float bulletRotate);
 
+	// inicjalizacja
+	virtual void CreateBullets() = 0;
+
 	// aktualizacja
-	virtual void Update(float const time, D3DXVECTOR2 const & position);
+	virtual void Update(float const time) override;
 
 	// narysowanie wszystkich pocisków
 	void Draw(RECT const & rect) override;
 
-
-	virtual void StartBullets(D3DXVECTOR2 const & position) = 0;
-	void Activate(float const actTime, D3DXVECTOR2 const & position);
+	virtual void StartBullets() = 0;
+	void Activate(float const actTime);
 
 
 	/// SETTERY
-	virtual void SetPosition(D3DXVECTOR2 const & pos);
 	void SetBulletScale(float scale);
 	void SetBulletRotation(float rotate);
 
-	/// GETTERY
+	/// <summary>
+	/// Zwrócenie wszystkich pocisków.
+	/// </summary>
+	/// <returns></returns>
 	inline EBulletQue * GetBullets()
 	{
 		return &_bullet;
 	};
 
-	inline D3DXVECTOR2 & GetPosition()
+	/// <summary>
+	/// Zwrócenie pozycji.
+	/// </summary>
+	/// <returns></returns>
+	inline D3DXVECTOR2 * GetPosition()
 	{
 		return _position;
 	}
 
+	/// <summary>
+	/// Czy wzór jest zainicjalizowany prawid³owo.
+	/// </summary>
+	/// <returns></returns>
 	inline bool IsInitialized() const
 	{
 		return _activated;
 	}
 
+	/// <summary>
+	/// Czy ze wzorze pozosta³y jeszcze jakieœ pociski.
+	/// </summary>
+	/// <returns></returns>
 	inline bool HasBulles() const
 	{
 		return _bullet.size() == 0 ? false : true;
@@ -117,9 +135,9 @@ public:
 	{
 		this->_activated = act;
 	}
-	void ForceActivate(D3DXVECTOR2 const & position)
+	void ForceActivate()
 	{
-		this->StartBullets(position);
+		this->StartBullets();
 		_activated = true;
 	};
 

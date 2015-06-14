@@ -19,7 +19,7 @@ protected:
 	float _interval;
 	float _elapsedTime;
 
-	D3DXVECTOR2 const * position_;
+	D3DXVECTOR2 * position_;
 
 	bool wasBombUsed;
 
@@ -27,17 +27,17 @@ public:
 	Spellcard(std::string const & name, float time, UINT startBonus);
 	~Spellcard();
 
-	void Update(float time, D3DXVECTOR2 const & position);
-	void Initialize(D3DXVECTOR2 const & position);
+	void Update(float time);
+	void SetPatternsPosition();
 	void Draw(RECT const & rect);
 	
 	void AddPattern(std::string const & key, EPattern * const epattern);
+	void SetPositionPtr(D3DXVECTOR2 * const pos);
 
 	EPattern * GetPattern(std::string const & key);
 	PatternMap * GetPatterns();
 
-	void Activate(D3DXVECTOR2 const & position);
-	void SetPosition(D3DXVECTOR2 const * position);
+	void Activate();
 	void BombUsed();
 
 	/// <summary>

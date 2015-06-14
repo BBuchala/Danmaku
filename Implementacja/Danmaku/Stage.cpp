@@ -10,6 +10,10 @@ Stage::Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DD
 	this->ClearDocument();
 };
 
+Stage::~Stage()
+{
+};
+
 
 char * Stage::XML2Char ( std::string const & stageFile )
 {
@@ -388,7 +392,6 @@ void Stage::CreatePatternsForSpellcard(Spellcard * const spellcard, xml_node <> 
 		}
 	}
 	patternId++;
-	spellcard->Initialize(position);
 };
 
 
@@ -764,11 +767,11 @@ void Stage::CreateBoss(xml_node <> * time, std::string const & timeValue)
 						{
 							this->CreatePatternsForSpellcard(spellcard, patternNode, position);
 						}
-						spellcard->SetPosition(boss->GetCenter());
 						this->boss->AddSpellcard(spellcard);
 					}
 				}
 			}
+			boss->InitializePatterns();
 		}
 	}
 	this->bossPair.first = std::stoi(timeValue);

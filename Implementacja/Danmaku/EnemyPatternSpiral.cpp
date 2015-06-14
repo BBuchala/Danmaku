@@ -1,5 +1,12 @@
 #include "EnemyPatternSpiral.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="EnemyPatternSpiral"/>.
+/// </summary>
+/// <param name="radiusA">Obrót spirali.</param>
+/// <param name="radiusB">Odleg³oœæ miêdzy kolejnymi obrotami spirali.</param>
+/// <param name="number">Liczba pocisków.</param>
+/// <param name="activationTime">Czas aktywacji.</param>
 EnemyPatternSpiral::EnemyPatternSpiral(float const radiusA, float const radiusB, float const number,
 										 float const activationTime)
 										 : EPattern(activationTime)
@@ -9,16 +16,20 @@ EnemyPatternSpiral::EnemyPatternSpiral(float const radiusA, float const radiusB,
 	_number = number;
 };
 
-
+/// <summary>
+/// Niszczy instancjê klasy <see cref="EnemyPatternSpiral"/>.
+/// </summary>
 EnemyPatternSpiral::~EnemyPatternSpiral()
 {
 	_traj.reset();
 }
 
-
-void EnemyPatternSpiral::Initialize(D3DXVECTOR2 const & position)
+/// <summary>
+/// Utworzenie pocisków i ustalenie ich pocz¹tkowych paarmetrów.
+/// </summary>
+/// <returns></returns>
+void EnemyPatternSpiral::CreateBullets()
 {
-	EPattern::Initialize(position);
 	for (int i = 0; i < _number; i++)
 	{
 		AddBullet();
@@ -26,8 +37,11 @@ void EnemyPatternSpiral::Initialize(D3DXVECTOR2 const & position)
 	}
 };
 
-
-void EnemyPatternSpiral::Update(float const time, D3DXVECTOR2 const & position)
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
+void EnemyPatternSpiral::Update(float const time)
 {
 	if (_activated)
 	{
@@ -35,11 +49,13 @@ void EnemyPatternSpiral::Update(float const time, D3DXVECTOR2 const & position)
 		this->Scale();
 		this->Rotate();
 		// Procedurta nadrzêdna
-		EPattern::Update(time, position);
+		EPattern::Update(time);
 	}
 };
 
-
+/// <summary>
+/// Dodanie nowego pocisku.
+/// </summary>
 void EnemyPatternSpiral::AddBullet()
 {
 	EnemyBullet * newBullet = new EnemyBullet(_bulletSpeed, _bulletAcc);
@@ -49,27 +65,45 @@ void EnemyPatternSpiral::AddBullet()
 	_bullet.push_back(newBullet);
 };
 
-// ----- Scale ----------------------------------------------------------------------------------
+/// <summary>
+/// Zeskalowanie wzoru o krok.
+/// </summary>
 void EnemyPatternSpiral::Scale()
 {
 	_traj->Scale(_scaleStep);
 };
 
+/// <summary>
+/// Obrócenie wzoru o krok.
+/// </summary>
 void EnemyPatternSpiral::Rotate()
 {
 	_traj->Rotate(_rotateStep);
 };
 
-
-void EnemyPatternSpiral::StartBullets(D3DXVECTOR2 const & position)
+/// <summary>
+/// Rozpoczêcie poruszania pocisków.
+/// </summary>
+void EnemyPatternSpiral::StartBullets()
 {
-	_traj->SetStartPoint(position);
+	_traj->SetStartPoint(*_position);
 }
 
+
+/// <summary>
+/// Ustawienie skali wzoru.
+/// </summary>
+/// <param name="scale">Skala.</param>
 void EnemyPatternSpiral::SetScale(float const scale)
 {
 	_traj->Scale(scale);
 }
+
+
+/// <summary>
+/// ustawienie obrotu wzoru.
+/// </summary>
+/// <param name="rotate">Obrót.</param>
 void EnemyPatternSpiral::SetRotation(float const rotate)
 {
 	_traj->Rotate(rotate);

@@ -74,12 +74,12 @@ bool GameObject::InitializeHitbox( Hitbox::Shape const shape, Hitbox::Size const
 	{
 	case Hitbox::Shape::CIRCLE: default:
 		hitbox = HitboxPtr(new HitboxCircle(size, static_cast<float>( min(sprite->GetWidth(), sprite->GetHeight()) ), &centerPoint));
-		break;
+		return true;
 	case Hitbox::Shape::ELIPSE:
 		hitbox = HitboxPtr(new HitboxElipse(size, static_cast<float>(sprite->GetWidth()) / 2.0f, static_cast<float>(sprite->GetHeight()) / 2.0f, &centerPoint));
-		break;
+		return true;
 	}
-	return true;
+	return false;
 };
 
 /// <summary>

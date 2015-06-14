@@ -1,7 +1,9 @@
 #pragma once
 #include "ppattern.h"
 
-
+/// <summary>
+/// Czwarty wzór z jakiego korzysta gracz
+/// </summary>
 class PlayerPattern04 : public PPattern
 {
 private:
@@ -16,11 +18,8 @@ public:
 	PlayerPattern04(void);
 	~PlayerPattern04(void);
 
-	void Initialize(D3DXVECTOR2 const & position) override;
-
-	void Update(float const time, D3DXVECTOR2 const & position) override;
-
-	void Add(D3DXVECTOR2 const & position);
+	void Update(float const time) override;
+	void AddBullet() override;
 
 	void LoadSprite(PlayerBulletSpriteResource & pbsResource) override;
 };

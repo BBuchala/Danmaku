@@ -43,10 +43,9 @@ Player::Player( D3DXVECTOR2 const & pos, float power, BYTE lc, BYTE bc ) : GameO
 /// <param name="device">Wskaünik do urzπdzenia direct3d.</param>
 /// <param name="position">Pozycja.</param>
 /// <returns></returns>
-bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & position)
+bool Player::InitializePattern(LPDIRECT3DDEVICE9 device)
 {
-	_playerPattern->Initialize(this->GetCenterPoint());
-	_bomb->Initialize(device);
+	_playerPattern->SetPositionPtr(&centerPoint);
 	return true;
 };
 
@@ -54,9 +53,10 @@ bool Player::InitializePattern(LPDIRECT3DDEVICE9 device, D3DXVECTOR2 const & pos
 /// <summary>
 /// Inicjalizacja bomby.
 /// </summary>
-void Player::InitializeBomb()
+bool Player::InitializeBomb(LPDIRECT3DDEVICE9 device)
 {
 	_bomb = BombPtr(new Bomb(&centerPoint, this->GetSpeed()));
+	return _bomb->Initialize(device);
 };
 
 
@@ -64,10 +64,19 @@ void Player::InitializeBomb()
 /// Inicjalizacja gracza.
 /// </summary>
 /// <param name="pbsResource">èrÛd≥o sprajtÛw dla pociskÛw gracza.</param>
-void Player::Initialize(PlayerBulletSpriteResource const & pbsResource)
+bool Player::Initialize(PlayerBulletSpriteResource const & pbsResource)
 {
-	_pbsResource = const_cast<PlayerBulletSpriteResource*>(&pbsResource);
-	_playerPattern->LoadSprite(*_pbsResource);
+	try
+	{
+		_pbsResource = const_cast<PlayerBulletSpriteResource*>(&pbsResource);
+		_playerPattern->LoadSprite(*_pbsResource);
+		return true;
+	}
+	catch(PlayerBulletInitializationFailedException ex)
+	{
+		ex.ToMessageBox();
+		return false;
+	}
 };
 
 /// <summary>
@@ -279,11 +288,14 @@ void Player::IncrementBombCount()
 /// </summary>
 void Player::DecrementBombCount()
 {
-	if (_bombCount > 0)							// to powinno siÍ sprawdzaÊ przy metodzie UseBomb()
+	if (_bombCount > 0)
 		_bombCount--;
 }
 
-// MetodÍ wywo≥ujemy tylko przy zebraniu bonusu/utracie øycia (zmianie stanu pola power)
+/// <summary>
+/// Obliczenie mocy. MetodÍ naleøy wywo≥ywaÊ tylko przy zebraniu bonusu lub utracie øycia
+/// (zmianie stanu pola power)
+/// </summary>
 void Player::CalculatePowerLevel()
 {
 	BYTE tmp = _powerLevel;
@@ -295,6 +307,10 @@ void Player::CalculatePowerLevel()
 	}
 }
 
+/// <summary>
+/// ZwiÍkszenie mocy wzoru.
+/// </summary>
+/// <param name="value">WartoúÊ do dodania.</param>
 void Player::AddToPower(const float value)
 {
 	if((_power += value) > 4)
@@ -302,6 +318,10 @@ void Player::AddToPower(const float value)
 	CalculatePowerLevel();
 }
 
+/// <summary>
+/// UsuniÍcie czÍúci mocy wzoru.
+/// </summary>
+/// <param name="value">WartoúÊ do odjÍcia.</param>
 void Player::SubFromPower(const float value)
 {
 	if((_power -= value) < 0)
@@ -309,6 +329,9 @@ void Player::SubFromPower(const float value)
 	CalculatePowerLevel();
 }
 
+/// <summary>
+/// Zmiana rodzaju wzoru, ktÛrym sprzela gracz.
+/// </summary>
 void Player::ChangePlayerPattern()
 {
 	if (_playerPattern)
@@ -336,6 +359,7 @@ void Player::ChangePlayerPattern()
 			_playerPattern = PPatternPtr(new PlayerPattern05());
 			break;
 	}
+	_playerPattern->SetPositionPtr(&centerPoint);
 	_playerPattern->LoadSprite(*_pbsResource);
 	_hasPatternChanged = true;
 }
@@ -346,7 +370,7 @@ void Player::ChangePlayerPattern()
 /// <param name="time">PrÛbka czasu.</param>
 void Player::Shoot( float const time )
 {
-	_playerPattern->Update( time, this->GetCenterPoint());
+	_playerPattern->Update(time);
 }
 
 /// <summary>
