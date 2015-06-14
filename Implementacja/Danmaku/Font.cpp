@@ -43,7 +43,7 @@ bool Font::Initialize( GraphicsDevice * const gDevice, short unsigned const font
 	this->SetColor(color);
 	if (D3DXCreateFont( gDevice->device, fontHeight, fontWidth, bold ? FW_BOLD : FW_NORMAL, 1, italic,
 		DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
-		font.c_str(), &text ))
+		font.c_str(), &text ) == S_OK)
 	{
 		return true;
 	}

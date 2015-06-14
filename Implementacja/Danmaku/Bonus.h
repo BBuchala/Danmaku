@@ -3,6 +3,7 @@
 #include "BonusType.h"
 #include "GameObject.h"
 #include "TrajectoryFactory.h"
+#include "BonusInitializationFailedException.h"
 
 /// <summary>
 /// Bonus jaki gracz mo¿e zebraæ w trakcie gry

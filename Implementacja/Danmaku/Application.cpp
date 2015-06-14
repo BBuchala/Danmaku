@@ -152,7 +152,6 @@ void Application::CreateNewField(ScreenMode fieldType)
 		catch(StageCreationFailedException ex)
 		{
 			ex.ToMessageBox();
-			// Rekurencja, nioch nioch XD
 			this->CreateNewField(endStageInfo->nextMode);
 		}
 		break;

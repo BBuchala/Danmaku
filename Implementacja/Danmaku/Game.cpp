@@ -1,5 +1,8 @@
 #include "Game.h"
 
+/// <summary>
+/// Sta³e okreœlaj¹ce granice pola planszy
+/// </summary>
 const RECT Game::STAGE_FIELD = {
 	StageConsts::STAGE_POS_X,
 	StageConsts::STAGE_POS_Y,
@@ -7,6 +10,9 @@ const RECT Game::STAGE_FIELD = {
 	StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT
 };
 
+/// <summary>
+/// Sta³e okreœlaj¹ce granice pola gry (okna)
+/// </summary>
 const RECT Game::GAME_FIELD = {
 	StageConsts::GAME_POS_X,
 	StageConsts::GAME_POS_Y, 
@@ -14,7 +20,12 @@ const RECT Game::GAME_FIELD = {
 	StageConsts::GAME_POS_Y + StageConsts::GAME_HEIGHT
 };
 
-/* ---- KONSTRUKTOR --------------------------------------------------------------------------- */
+
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Game"/>.
+/// </summary>
+/// <param name="gDevice">Urz¹dzenie graficzne do tworzenia sprajtów.</param>
+/// <param name="previousStageInfo">Informacje z poprzedniej planszy.</param>
 Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) : Playfield( gDevice ), boss(nullptr), bossActivated(false)
 {
 	// Przygotowanie do obs³ugi b³êdów
@@ -70,7 +81,9 @@ Game::Game( GraphicsDevice * const gDevice, EndStageInfo * previousStageInfo ) :
 	_scores = new ScoreParser("scores/scores.xml");
 };
 
-/* ---- DESTRUKTOR ---------------------------------------------------------------------------- */
+/// <summary>
+/// Niszczy instancjê klasy <see cref="Game"/>.
+/// </summary>
 Game::~Game()
 {
 	if (gameScreen) delete gameScreen;
@@ -101,7 +114,10 @@ Game::~Game()
 	bonus_.clear();
 };
 
-/* ---- Initialize ---------------------------------------------------------------------------- */
+/// <summary>
+/// Inicjalizuje ca³¹ grê.
+/// </summary>
+/// <returns></returns>
 bool Game::Initialize()
 {
 	try
@@ -110,58 +126,32 @@ bool Game::Initialize()
 		_scores->Start();
 		this->hiScore = _scores->GetHighestScore();
 
-		bonusSprite_.Add(BonusType::POWER);
-		bonusSprite_.Add(BonusType::LIFE);
-		bonusSprite_.Add(BonusType::SCORE);
-		bonusSprite_.Add(BonusType::BOMB);
-		bonusSprite_.Create(gDevice);
-
-		playerBulletSprite_.Add("PlayerBullet1");
-		playerBulletSprite_.Add("PlayerBullet2");
-		playerBulletSprite_.Add("PlayerBullet3");
-		playerBulletSprite_.Add("PlayerBullet4");
-		playerBulletSprite_.Create(gDevice);
-
 		// Inicjalizacja playera
-		bool playerSuccess = true;
-		playerSuccess &= this->player->InitializeSprite( SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("ship"))) );
-		playerSuccess &= this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::ONE_THIRDS_LENGTH );
-		playerSuccess &= this->player->InitializeHitboxSprite(gDevice->device, Sprite::GetFilePath("hitbox", "png"));
-		playerSuccess &= this->player->InitializeBomb(gDevice->device);
-		if (!playerSuccess)
+		if (!this->CreatePlayer())
 			throw PlayerInitializationFailedException();
 
-		//////// INICJALIZACJA DANYCH LICZBOWYCH
-		this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		bossName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		spellcardName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		spellcardtime->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
-		spellcardBonus->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+		// Inicjalizacja bonusów
+		if (!this->CreateBonuses())
+			throw BonusInitializationFailedException();
 
-		/////// Inicjalizacja pasków ¿ycia i bomby
-		this->lifeBar->Initialize( gDevice->device, Sprite::GetFilePath("life") );
-		this->bombBar->Initialize( gDevice->device, Sprite::GetFilePath("bomb") );
-	 
-		/////// Inicjalizacja sk³adowych Playera
-		this->player->InitializePattern( gDevice->device );
-		this->player->Initialize(playerBulletSprite_);
+		// Inicjalizacja danych liczbowych
+		if (!this->CreateFonts())
+			throw FontInitializationFailedException();
 
-		/////// Inicjalizacja bonusów
-		for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
-		{
-			(*it)->SetSprite( bonusSprite_[(*it)->GetBonusId()] );
-			(*it)->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
-		}
+		// Inicjalizacja pasków z elementami
+		if (!this->CreateBars())
+			throw BarInitializationFailedException();
 
-		////// Avatary
+		// Inicjalizacja miejsc na dane o bossie
+		if (!this->CreateBossData())
+			throw BossDataInitializationFailedException();
+
+		// Utworzenie awatarów
 		for (int i = 0; i < StageConsts::AVATAR_NUMBER; i++)
 		{
 			avatar_[i]->InitializeSprite(SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("Av", 0, i + 1, "png"))));
 		}
-
+		// umiejscowienie t³a
 		this->stageBackgroundPos.y -= this->stageBackground->GetHeight() - StageConsts::STAGE_HEIGHT;
 		return true;
 	}
@@ -173,6 +163,94 @@ bool Game::Initialize()
 };
 
 
+/// <summary>
+/// Utworzenie gracza.
+/// </summary>
+/// <returns>Prawda, jeœli siê uda³o.</returns>
+bool Game::CreatePlayer()
+{
+	playerBulletSprite_.Add("PlayerBullet1");
+	playerBulletSprite_.Add("PlayerBullet2");
+	playerBulletSprite_.Add("PlayerBullet3");
+	playerBulletSprite_.Add("PlayerBullet4");
+	playerBulletSprite_.Create(gDevice);
+	bool success = true;
+	success &= this->player->Initialize(playerBulletSprite_);
+	success &= this->player->InitializePattern( gDevice->device );
+	success &= this->player->InitializeSprite( SpritePtr(new Sprite(gDevice->device, Sprite::GetFilePath("ship"))) );
+	success &= this->player->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::ONE_THIRDS_LENGTH );
+	success &= this->player->InitializeHitboxSprite(gDevice->device, Sprite::GetFilePath("hitbox", "png"));
+	success &= this->player->InitializeBomb(gDevice->device);
+	return success;
+};
+
+
+/// <summary>
+/// Utworzenie wszystkich czcionek.
+/// </summary>
+/// <returns>Prawda, jeœli siê uda³o.</returns>
+bool Game::CreateFonts()
+{
+	bool success = true;
+	success &= this->hiScoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	success &= this->scoreText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	success &= this->powerText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	success &= this->grazeText->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	return success;
+};
+
+
+/// <summary>
+/// Utworzenie wszystkich rodzajów bonusów.
+/// </summary>
+/// <returns></returns>
+bool Game::CreateBonuses()
+{
+	bonusSprite_.Add(BonusType::POWER);
+	bonusSprite_.Add(BonusType::LIFE);
+	bonusSprite_.Add(BonusType::SCORE);
+	bonusSprite_.Add(BonusType::BOMB);
+	bonusSprite_.Create(gDevice);
+	bool success = true;
+	for (BonusQue::const_iterator it = bonus_.begin(); it != bonus_.end(); ++it)
+	{
+		(*it)->SetSprite( bonusSprite_[(*it)->GetBonusId()] );
+		success &= (*it)->InitializeHitbox( Hitbox::Shape::CIRCLE, Hitbox::Size::FULL_LENGTH );
+	}
+	return success;
+};
+
+
+/// <summary>
+/// Utworzenie pasków z elementami.
+/// </summary>
+/// <returns></returns>
+bool Game::CreateBars()
+{
+	bool success = true;
+	success &= this->lifeBar->Initialize( gDevice->device, Sprite::GetFilePath("life") );
+	success &= this->bombBar->Initialize( gDevice->device, Sprite::GetFilePath("bomb") );
+	return success;
+};
+
+/// <summary>
+/// Utworzenie pasków z danymi o bossie i jego atakach.
+/// </summary>
+/// <returns></returns>
+bool Game::CreateBossData()
+{
+	bool success = true;
+	success &= bossName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	success &= spellcardName->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	success &= spellcardtime->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	success &= spellcardBonus->Initialize( this->gDevice, 25, 0, "Arial", true, false, D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f) );
+	return success;
+};
+
+/// <summary>
+/// Aktualizuje stan.
+/// </summary>
+/// <param name="time">Próbka czasu.</param>
 void Game::Update(float const time)
 {
 	this->elapsedTime += time;
@@ -310,6 +388,9 @@ void Game::Update(float const time)
 };
 
 
+/// <summary>
+/// Narysowanie sceny gry.
+/// </summary>
 void Game::DrawScene()
 {
 	this->stageBackground->Draw(stageBackgroundPos);
@@ -376,12 +457,17 @@ void Game::DrawScene()
 	this->bombBar->Draw();
 };
 
-// wyczyszczenie ca³ej planszy
+/// <summary>
+/// Wyczyszczenie ca³ej planszy.
+/// </summary>
 void Game::Clear()
 {
 	this->gDevice->Clear( MYCOLOR ( 0.0f, 0.0f, 0.0f ) );
 };
 
+/// <summary>
+/// Usuniêcie obiektów, które znajduj¹ siê poza plansz¹.
+/// </summary>
 void Game::clearOutOfBoundsObjects()
 {
 	/// Wykasowanie bonusów
@@ -409,15 +495,19 @@ void Game::clearOutOfBoundsObjects()
 				++pb_it;
 		}
 	}
-	/// Wykasowanie wrogów
-	/// Gdy wróg przeby³ okreœlony dystans i nie zosta³ zestrzelony, znika sam
+	// Wykasowanie wrogów
+	// Gdy wróg przeby³ okreœlony dystans i nie zosta³ zestrzelony, znika sam
 	this->DeleteEnemies();
 
-	//// Wykasowanie pocisków
+	// Wykasowanie pocisków
 	this->DeleteBullets();
 }
 
-// Move - kierunek z Enuma, który sprawdzamy. Zwraca fa³sz, je¿eli gracz nie mo¿e siê poruszaæ dalej.
+/// <summary>
+/// Sprawdzenie, czy gracz znajduje siê w granicach planszy.
+/// </summary>
+/// <param name="direction">Kierunek, który sprawdzamy. Zwraca fa³sz, je¿eli gracz nie mo¿e siê poruszaæ dalej.</param>
+/// <returns></returns>
 bool Game::IsPlayerWithinBounds(Move const direction)
 {
 	D3DXVECTOR2 actualPosition = this->player->GetCenterPoint();
@@ -449,6 +539,9 @@ bool Game::IsPlayerWithinBounds(Move const direction)
 };
 
 
+/// <summary>
+/// Sprawdzenie wszystkich kolizji w grze.
+/// </summary>
 void Game::CheckCollisions()
 {
 	this->CheckBonusVacuum();			// przyci¹gniêcie bonusów do siebie
@@ -464,7 +557,7 @@ void Game::CheckCollisions()
 	else
 	{
 		this->player->IsUsingBomb() ?		// i zabijamy wrogów,
-			this->CheckBombCollisions() :	// albo z bomby, albo za pomoc¹ pocisków,
+			this->CheckEnemyBombCollisions() :	// albo z bomby, albo za pomoc¹ pocisków,
 			this->CheckEnemyCollisions();	
 	}
 	this->CheckPlayerGraze();			// oraz siê ocieramy o pociski
@@ -484,6 +577,9 @@ void Game::CheckCollisions()
 };
 
 
+/// <summary>
+/// Sprawdzenie kolizji na linii gracz - wróg oraz gracz - pociski wroga.
+/// </summary>
 void Game::CheckPlayerEnemyCollisions()
 {
 	// Czy Gracz zderzy³ siê z którymœ z wrogów
@@ -521,7 +617,9 @@ void Game::CheckPlayerEnemyCollisions()
 	}
 };
 
-
+/// <summary>
+/// Sprawdzenie kolizji na linii gracz - boss oraz gracz - pociski boss.
+/// </summary>
 void Game::CheckPlayerBossCollisions()
 {
 	// Czy Gracz zderzy³ siê z bossem, jak tak, to traci ¿ycie
@@ -557,7 +655,9 @@ void Game::CheckPlayerBossCollisions()
 	}
 };
 
-
+/// <summary>
+/// Sprawdzenie "otaræ" dla gracza.
+/// </summary>
 void Game::CheckPlayerGraze()
 {
 	if (boss == nullptr)
@@ -605,7 +705,9 @@ void Game::CheckPlayerGraze()
 	}
 };
 
-
+/// <summary>
+/// Sprawdzenie kolizji na linii wróg - pociski gracza.
+/// </summary>
 void Game::CheckEnemyCollisions()
 {
 	// Pociski pobieramy raz
@@ -639,7 +741,9 @@ void Game::CheckEnemyCollisions()
 	}
 };
 
-
+/// <summary>
+/// Sprawdzenie kolizji na linii gracz - bonus.
+/// </summary>
 void Game::CheckBonusCollisions()
 {
 	// sprawdzenie czy bonus nie zosta³ ju¿ "zasyœniêty" nawet gdy gracz jest poza wyznaczonym polem
@@ -687,7 +791,9 @@ void Game::CheckBonusCollisions()
 	}
 };
 
-
+/// <summary>
+/// Obs³uga utracenia ¿ycia przez gracza.
+/// </summary>
 void Game::MakePlayerLoseLife()
 {
 	this->player->DecrementLifeCount();
@@ -712,6 +818,10 @@ void Game::MakePlayerLoseLife()
 };
 
 
+/// <summary>
+/// Utworzenie i zwrócenie dodatkowych bonusów utworzonych po stracie ¿ycia gracza.
+/// </summary>
+/// <returns></returns>
 std::deque<Bonus*>* Game::CreateLeftoverBonus()
 {
 	std::deque<Bonus*> * bonus = new std::deque<Bonus*>();
@@ -728,6 +838,9 @@ std::deque<Bonus*>* Game::CreateLeftoverBonus()
 };
 
 
+/// <summary>
+/// Sprawdzenie, czy gracz mo¿e "zassaæ" bonusy - przyci¹gn¹æ je ku sobie.
+/// </summary>
 void Game::CheckBonusVacuum()
 {
 	if (player->GetPosition().y <= StageConsts::BONUS_VACUUM_Y)
@@ -739,9 +852,12 @@ void Game::CheckBonusVacuum()
 	}
 };
 
-void Game::CheckBombCollisions()
+/// <summary>
+/// Sprawdzenie kolizji na linii wróg - bomba.
+/// </summary>
+void Game::CheckEnemyBombCollisions()
 {
-	/// Fragment odpowiedzialny za obrywanie wrogów
+	// Fragment odpowiedzialny za obrywanie wrogów
 	EnemyQue::const_iterator e_it = enemy_.begin();
 	while (e_it != enemy_.end())
 	{
@@ -761,8 +877,7 @@ void Game::CheckBombCollisions()
 		if (e_it != enemy_.end())
 			++e_it;
 	}
-
-	/// Fragment odpowiedzialny za usuwanie pocisków
+	// Fragment odpowiedzialny za usuwanie pocisków
 	for (PatternQue::const_iterator p_it = _savedPatterns.begin(); p_it != _savedPatterns.end(); ++p_it)
 	{
 		std::deque<EnemyBullet*> * ep = (*p_it)->GetBullets();
@@ -781,7 +896,9 @@ void Game::CheckBombCollisions()
 	}
 };
 
-
+/// <summary>
+/// Usuniêcie wrogów.
+/// </summary>
 void Game::DeleteEnemies()
 {
 	EnemyQue::const_iterator e_it = enemy_.begin();
@@ -797,7 +914,9 @@ void Game::DeleteEnemies()
 	}
 };
 
-
+/// <summary>
+/// Usuniêcie pocisków.
+/// </summary>
 void Game::DeleteBullets()
 {
 	if (!bossActivated)
@@ -861,6 +980,9 @@ void Game::DeleteBullets()
 	}
 };
 
+/// <summary>
+/// Sprawdzenie kolizji na linii boss - pociski gracza.
+/// </summary>
 void Game::CheckBossCollisions()
 {
 	// Pociski pobieramy raz
@@ -884,6 +1006,9 @@ void Game::CheckBossCollisions()
 	}
 };
 
+/// <summary>
+/// Sprawdzenie kolizji na linii boss - bomba.
+/// </summary>
 void Game::CheckBossBombCollisions()
 {
 	/// obrywanie bossa
@@ -920,6 +1045,10 @@ void Game::CheckBossBombCollisions()
 	currentSpellcard->BombUsed();
 };
 
+/// <summary>
+/// Zwrócenie informacji o planszy.
+/// </summary>
+/// <returns></returns>
 EndStageInfo * Game::ReturnInformation()
 {
 	previousStageInfo->bombs = player == nullptr ? 0 : this->player->GetBombCount();

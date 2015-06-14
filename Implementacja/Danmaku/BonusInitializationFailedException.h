@@ -2,9 +2,9 @@
 #include "GameInitializationFailedException.h"
 
 /// <summary>
-/// Wyj¹tek zwi¹zany z nieprawid³owym utworzeniem pocisków gracza
+/// Wyj¹tek zwi¹zany z nieprawid³owym utworzenie bonusu
 /// </summary>
-class PlayerBulletInitializationFailedException: public GameInitializationFailedException
+class BonusInitializationFailedException: public GameInitializationFailedException
 {
 public:
 	// zwrócenie komunikatu

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include "GraphicsDevice.h"
+#include "FontInitializationFailedException.h"
 
 /// <summary>
 /// Klasa s³u¿¹ca do generacji i wyœwietlania napisów zrozumia³ych dla DirectXa

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Sprite.h"
-
+#include "BarInitializationFailedException.h"
 
 /// <summary>
 /// Klasa odpowiadaj¹ca za tworznie pasków z ikonami

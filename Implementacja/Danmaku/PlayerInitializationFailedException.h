@@ -2,7 +2,7 @@
 #include "GameInitializationFailedException.h"
 
 /// <summary>
-/// Wyj¹tek zwi¹zany z nieprawid³owym uruchomieniem gry
+/// Wyj¹tek zwi¹zany z nieprawid³owym utworzeniem gracza
 /// </summary>
 class PlayerInitializationFailedException: public GameInitializationFailedException
 {

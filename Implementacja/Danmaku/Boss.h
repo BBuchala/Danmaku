@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "Spellcard.h"
+#include "BossDataInitializationFailedException.h"
 
 /// <summary>
 /// Ostatni wróg do pokonania

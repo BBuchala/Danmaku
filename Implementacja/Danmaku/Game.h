@@ -113,7 +113,7 @@ public:
 	void CheckPlayerEnemyCollisions();
 	void CheckPlayerBossCollisions();
 	void CheckPlayerGraze();
-	void CheckBombCollisions();
+	void CheckEnemyBombCollisions();
 	void MakePlayerLoseLife();
 	std::deque<Bonus*>* CreateLeftoverBonus();
 
@@ -122,6 +122,12 @@ public:
 
 	/////// FUNKCJE PLAYFIELD
 	bool Initialize() override;
+	bool CreatePlayer();
+	bool CreateFonts();
+	bool CreateBonuses();
+	bool CreateBars();
+	bool CreateBossData();
+
 	void Update(float const time) override;
 	void Clear() override;
 	void DrawScene() override;

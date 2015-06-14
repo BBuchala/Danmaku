@@ -384,6 +384,18 @@
     <ClCompile Include="EnemyPatternBezier.cpp">
       <Filter>Source Files\Patterns\EnemyPatterns</Filter>
     </ClCompile>
+    <ClCompile Include="FontInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="BonusInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="BarInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="BossDataInitializationFailedException.cpp">
+      <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -675,6 +687,18 @@
       <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="PlayerBulletInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="FontInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="BarInitializationFailedException.h">
+      <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="BossDataInitializationFailedException.h">
       <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
