@@ -165,7 +165,7 @@
 						return false;
 					}
 				\end{lstlisting}
-				W funkcji sprawdzana jest dostępność bomby - licznik musi być mieć wartość większą zera oraz bomba nie może być w użyciu (jednocześnie może być uruchomiona tylko jedna). Jeżeli warunek jest spełniony, bomba zostaje uruchomiona, jeśli nie, nic się nie dzieje.
+				W funkcji sprawdzana jest dostępność bomby - licznik musi mieć wartość większą od zera oraz bomba nie może być w użyciu (jednocześnie może być uruchomiona tylko jedna). Jeżeli warunek jest spełniony, bomba zostaje uruchomiona. W przeciwnym wypadku nic się nie dzieje.
 				\subsubsection{Wystrzelenie bomby (funkcja Launch())}
 					W funkcji \textit{Launch}() klasy Bomb następuje zaznaczenie, że bomba jest już aktywowana.
 					\begin{lstlisting}[language=C++]
@@ -204,7 +204,7 @@
 						return _bomb->Initialize(device);
 					};
 					\end{lstlisting}
-					\item Jeżeli utworzenie bomby się nie powiodło, w klasie gry zostaje wyrzucony wyjątek i inicjalizacja gry kończy się niepowodzeniem
+					\item Jeżeli utworzenie bomby się nie powiodło, w klasie gry zostaje wyrzucony wyjątek i inicjalizacja gry kończy się niepowodzeniem:
 					\begin{lstlisting}[language=C++]
 					bool Game::Initialize()
 					{
@@ -228,7 +228,7 @@
 						return success;
 					}
 					\end{lstlisting}
-					\item Jeżeli inicjalizacja bomby zakończy się niepowodzeniem, gra zwraca informację, że nie została poprawnie utworzona, a jej instancja - wraz z jej wszystkimi elementami, w tym bombą - zostaje usunięta.
+					\item W przypadku niepowodzenia, gra zwraca informację, że nie została poprawnie utworzona, a jej instancja - wraz z jej wszystkimi elementami, w tym bombą - zostaje usunięta.
 				\end{enumerate}
 			\section{Odwołania do interfejsów}
 				\subsection{IDrawable}
@@ -238,13 +238,10 @@
 						\begin{itemize}
 							\item Sprite
 						\end{itemize}
-					\subsubsection{Metody interfejsu}
-						\begin{enumerate}
-							\item Wyświetlenie elementu na ekranie. Funkcja przyjmuje pozycję, gdzie sprajt ma zostać wyświetlony, oraz jego skalę i obrót. Implementacja funkcji musi zapewnić, że sprajt zostanie prawidłowo wyświetlony zgodnie z przekazanymi parametrami.
+					\subsubsection{Metody interfejsu} Wyświetlenie elementu na ekranie. Funkcja przyjmuje pozycję, gdzie sprajt ma zostać wyświetlony, oraz jego skalę i obrót. Implementacja funkcji musi zapewnić, że sprajt zostanie prawidłowo wyświetlony zgodnie z przekazanymi parametrami.
 							\begin{lstlisting}[language=C++]
 								virtual void Draw(D3DXVECTOR2 const & position, float scale, float rotation) = 0;
 							\end{lstlisting}
-						\end{enumerate}
 					\subsubsection{Fragmenty implementacji}
 						\begin{lstlisting}[language=C++]
 							class Sprite : public IDrawable
@@ -435,14 +432,14 @@
 			\begin{center}
 				\includegraphics[width=0.70\textwidth]{./images/sz1}
 			\end{center}
-			Powyższy rysunek prezentuje interfejs gry po jej uruchomieniu. Bomba zostaje uruchomiona, gdy gracz wciśnie przycisk wystrzelenia bomby, domyślnie jest to klawisz X.
+			Powyższy rysunek prezentuje interfejs gry po jej uruchomieniu. Bomba zostaje uruchomiona, gdy gracz naciśnie przycisk wystrzelenia bomby, domyślnie jest to klawisz X.
 			\begin{center}
 				\includegraphics[width=0.70\textwidth]{./images/sz2}
 			\end{center}
 			Widoczne efekty uruchomienia bomby:
 			\begin{itemize}
 				\item Narysowanie sprajtu bomby
-				\item Dekrementacja licznika, którą widać poprzez odjęcie jednej gwiazdki w polu Bombs.
+				\item Dekrementacja licznika, którą można zaobserwować poprzez odjęcie jednej gwiazdki w polu Bombs.
 				\item Zmniejszenie paska życia Bossa.
 				\item Utrata bonusu za walkę z Bossem.
 			\end{itemize}
