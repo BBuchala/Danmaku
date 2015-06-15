@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EPattern.h"
+#include "EnemyPattern.h"
 #include "EPatternFactory.h"
 
 namespace
@@ -8,7 +8,7 @@ namespace
 	/// <summary>
 	/// Wzór dla pocisków poruszaj¹cych siê po linii
 	/// </summary>
-	class EnemyPatternLine: public EPattern
+	class EnemyPatternLine: public EnemyPattern
 	{
 		// Sk³adowe potrzebne do generowania pocisków
 		float _angle;
@@ -23,7 +23,7 @@ namespace
 		void Update(float const time) override;
 		void AddBullet() override;
 		void StartBullets() override;
-		EPattern * Clone() const override;
+		EnemyPattern * Clone() const override;
 	};
 	/// <summary>
 	/// Tworzy wzór pocisków w linii
@@ -33,7 +33,7 @@ namespace
 	/// <param name="number">Liczba pocisków.</param>
 	/// <param name="activationTime">Czas aktywacji.</param>
 	/// <returns>Nowa instancja</returns>
-	EPattern * CreateEnemyPatternLine( float const angle, float const length, float const number, float const activationTime )
+	EnemyPattern * CreateEnemyPatternLine( float const angle, float const length, float const number, float const activationTime )
 	{
 		return new EnemyPatternLine( angle, length, number, activationTime );
 	}

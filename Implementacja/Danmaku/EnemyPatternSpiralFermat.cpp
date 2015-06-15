@@ -17,7 +17,7 @@ EnemyPatternSpiralFermat::EnemyPatternSpiralFermat( float const radiusA, float c
 /// Kopiuje wzór.
 /// </summary>
 /// <returns></returns>
-EPattern * EnemyPatternSpiralFermat::Clone() const
+EnemyPattern * EnemyPatternSpiralFermat::Clone() const
 {
 	return new EnemyPatternSpiralFermat(*this);
 };

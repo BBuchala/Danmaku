@@ -147,6 +147,11 @@ void Application::CreateNewField(ScreenMode fieldType)
 	case(ScreenMode::GAME):
 		try
 		{
+			_config->Start();
+			endStageInfo->bombs = _config->GetBombNumber();
+			endStageInfo->lives = _config->GetLifeNumber();
+			keybInput->SetGameControls(_config->GameControls());
+			_config->ClearDocument();
 			field = new Game(gDevice, endStageInfo);
 		}
 		catch(StageCreationFailedException ex)

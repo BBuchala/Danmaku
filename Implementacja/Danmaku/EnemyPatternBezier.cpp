@@ -6,7 +6,7 @@
 /// <param name="traj">Trajektoria Beziera dla wzoru.</param>
 /// <param name="number">Liczba pocisków.</param>
 /// <param name="actTime">Czas aktywacji.</param>
-EnemyPatternBezier::EnemyPatternBezier(TrajectoryBezier * const traj, int number, float actTime) : EPattern(actTime),
+EnemyPatternBezier::EnemyPatternBezier(TrajectoryBezier * const traj, int number, float actTime) : EnemyPattern(actTime),
 			_number(number)
 {
 	this->_traj = TrajectoryPtr(traj);
@@ -41,7 +41,7 @@ void EnemyPatternBezier::Update(float const time)
 {
 	if (_activated)
 	{
-		EPattern::Update(time);
+		EnemyPattern::Update(time);
 	}
 };
 
@@ -69,7 +69,7 @@ void EnemyPatternBezier::StartBullets()
 /// Skopiowanie instancji wzoru.
 /// </summary>
 /// <returns></returns>
-EPattern * EnemyPatternBezier::Clone() const
+EnemyPattern * EnemyPatternBezier::Clone() const
 {
 	return new EnemyPatternBezier(*this);
 };

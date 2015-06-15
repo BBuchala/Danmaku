@@ -17,7 +17,7 @@ EnemyPatternSpiralArchimedean::EnemyPatternSpiralArchimedean( float const radius
 /// Kopiuje wzór.
 /// </summary>
 /// <returns></returns>
-EPattern * EnemyPatternSpiralArchimedean::Clone() const
+EnemyPattern * EnemyPatternSpiralArchimedean::Clone() const
 {
 	return new EnemyPatternSpiralArchimedean(*this);
 };

@@ -1,10 +1,10 @@
-#include "EPattern.h"
+#include "EnemyPattern.h"
 
 /// <summary>
-/// Tworzy now¹ instacjê klasy <see cref="EPattern"/>.
+/// Tworzy now¹ instacjê klasy <see cref="EnemyPattern"/>.
 /// </summary>
 /// <param name="activationTime">Czas po którym wzór zostaje aktywowany.</param>
-EPattern::EPattern(float const activationTime) : _activationTime(activationTime), _activated(false),
+EnemyPattern::EnemyPattern(float const activationTime) : _activationTime(activationTime), _activated(false),
 	 _bulletScale(1.0f), _bulletRotate(0.0f), _scaleStep(1.0f), _rotateStep(0.0f)
 {
 	_translate = D3DXVECTOR2(0.0f, 0.0f);
@@ -14,10 +14,10 @@ EPattern::EPattern(float const activationTime) : _activationTime(activationTime)
 
 /// <summary>
 /// <summary>
-/// Tworzy kopiê instacji klasy <see cref="EPattern"/>.
+/// Tworzy kopiê instacji klasy <see cref="EnemyPattern"/>.
 /// </summary>
 /// <param name="pattern">Obiekt do skopiowania</param>
-EPattern::EPattern(EPattern const & pattern)
+EnemyPattern::EnemyPattern(EnemyPattern const & pattern)
 {
 	_translate = pattern._translate;
 	_rotate = pattern._rotate;
@@ -45,9 +45,9 @@ EPattern::EPattern(EPattern const & pattern)
 };
 
 /// <summary>
-/// Niszczy instancjê klasy <see cref="EPattern"/>.
+/// Niszczy instancjê klasy <see cref="EnemyPattern"/>.
 /// </summary>
-EPattern::~EPattern()
+EnemyPattern::~EnemyPattern()
 {
 	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
 	{
@@ -59,7 +59,7 @@ EPattern::~EPattern()
 /// Przekazuj¹c wzorowi wskaŸnik do pozycji, z której zawsze ma strzelaæ.
 /// </summary>
 /// <param name="position">Pozycja strzelania.</param>
-void EPattern::SetPositionPtr(D3DXVECTOR2 * const position)
+void EnemyPattern::SetPositionPtr(D3DXVECTOR2 * const position)
 {
 	_position = position;
 };
@@ -76,7 +76,7 @@ void EPattern::SetPositionPtr(D3DXVECTOR2 * const position)
 /// <param name="hitboxSize">Rozmiar hitboxa.</param>
 /// <param name="bulletScale">Skala dla pociskóws.</param>
 /// <param name="bulletRotate">Pocz¹tkowy obrót pocisków.</param>
-void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, float bulletAcc,
+void EnemyPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bulletSpeed, float bulletAcc,
 								 BYTE bulletWidth, BYTE bulletHeight, Hitbox::Shape hitboxShape,
 								 Hitbox::Size hitboxSize, float bulletScale, float bulletRotate)
 {
@@ -95,7 +95,7 @@ void EPattern::InitializeBullets(std::shared_ptr<Sprite> bulletSprite, float bul
 /// Aktualizuje stan.
 /// </summary>
 /// <param name="time">Próbka czasu.</param>
-void EPattern::Update(float const time)
+void EnemyPattern::Update(float const time)
 {
 	this->_scale += _scaleStep;
 	this->_rotate += _rotateStep;
@@ -111,7 +111,7 @@ void EPattern::Update(float const time)
 /// Narysowanie
 /// </summary>
 /// <param name="rect">Protok¹t w którym sprajt mo¿e byæ rysowany.</param>
-void EPattern::Draw( RECT const & rect )
+void EnemyPattern::Draw( RECT const & rect )
 {
 	for ( EBulletQue::const_iterator it = _bullet.begin(); it != _bullet.end(); it++ )
 	{
@@ -124,7 +124,7 @@ void EPattern::Draw( RECT const & rect )
 /// Przesuwa obiekt.
 /// </summary>
 /// <param name="dv">Przesuniêcie.</param>
-void EPattern::Translate(D3DXVECTOR2 const & translate)
+void EnemyPattern::Translate(D3DXVECTOR2 const & translate)
 {
 	_translate += translate;
 };
@@ -133,7 +133,7 @@ void EPattern::Translate(D3DXVECTOR2 const & translate)
 /// Zmienia rozmiar wg skali.
 /// </summary>
 /// <param name="scale">Skala.</param>
-void EPattern::Scale(float const scale)
+void EnemyPattern::Scale(float const scale)
 {
 	_scale *= scale;
 };
@@ -142,7 +142,7 @@ void EPattern::Scale(float const scale)
 /// Obraca obiekt o wskazany k¹t.
 /// </summary>
 /// <param name="angle">K¹t.</param>
-void EPattern::Rotate(float const rotate)
+void EnemyPattern::Rotate(float const rotate)
 {
 	_rotate += rotate;
 };
@@ -151,7 +151,7 @@ void EPattern::Rotate(float const rotate)
 /// Ustawia nowe przesuniêcie dla wzoru.
 /// </summary>
 /// <param name="dv">Przesuniêcie.</param>
-void EPattern::SetTranslation(D3DXVECTOR2 const & translate)
+void EnemyPattern::SetTranslation(D3DXVECTOR2 const & translate)
 {
 	_translate = translate;
 };
@@ -160,7 +160,7 @@ void EPattern::SetTranslation(D3DXVECTOR2 const & translate)
 /// Ustawia now¹ skalê dla wzoru.
 /// </summary>
 /// <param name="dv">Skala.</param>
-void EPattern::SetScale(float const scale)
+void EnemyPattern::SetScale(float const scale)
 {
 	_scale = scale;
 };
@@ -169,7 +169,7 @@ void EPattern::SetScale(float const scale)
 /// Ustawia nowy obrót dla wzoru.
 /// </summary>
 /// <param name="angle">K¹t.</param>
-void EPattern::SetRotation(float const rotate)
+void EnemyPattern::SetRotation(float const rotate)
 {
 	_rotate = rotate;
 };
@@ -178,7 +178,7 @@ void EPattern::SetRotation(float const rotate)
 /// Ustawia now¹ skalê dla pocisków.
 /// </summary>
 /// <param name="dv">Pozycja.</param>
-void EPattern::SetBulletScale(float scale)
+void EnemyPattern::SetBulletScale(float scale)
 {
 	_bulletScale = scale;
 };
@@ -187,7 +187,7 @@ void EPattern::SetBulletScale(float scale)
 /// Ustawia nowy obrót dla pocisków.
 /// </summary>
 /// <param name="angle">K¹t.</param>
-void EPattern::SetBulletRotation(float rotate)
+void EnemyPattern::SetBulletRotation(float rotate)
 {
 	_bulletRotate = rotate;
 };
@@ -197,7 +197,7 @@ void EPattern::SetBulletRotation(float rotate)
 /// Aktywacja wzoru jeœli przekazany czas jest wiêkszy od czasu aktywacji.
 /// </summary>
 /// <param name="actTime">Aktualny czas aktywacji.</param>
-void EPattern::Activate(float const actTime)
+void EnemyPattern::Activate(float const actTime)
 {
 	if (!_activated && actTime >= _activationTime)
 	{

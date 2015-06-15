@@ -213,12 +213,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="EPattern.cpp">
-      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
-    </ClCompile>
-    <ClCompile Include="PPattern.cpp">
-      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerPattern01.cpp">
       <Filter>Source Files\Patterns\PlayerPatterns</Filter>
     </ClCompile>
@@ -396,6 +390,12 @@
     <ClCompile Include="BossDataInitializationFailedException.cpp">
       <Filter>Source Files\Exceptions\Game Initialization Exceptions</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyPattern.cpp">
+      <Filter>Source Files\Patterns\EnemyPatterns</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPattern.cpp">
+      <Filter>Source Files\Patterns\PlayerPatterns</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -479,13 +479,7 @@
     <ClInclude Include="Pattern.h">
       <Filter>Header Files\Enumerations</Filter>
     </ClInclude>
-    <ClInclude Include="EPattern.h">
-      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerPattern01.h">
-      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
-    </ClInclude>
-    <ClInclude Include="PPattern.h">
       <Filter>Header Files\Patterns\PlayerPatterns</Filter>
     </ClInclude>
     <ClInclude Include="PlayerPattern02.h">
@@ -700,6 +694,12 @@
     </ClInclude>
     <ClInclude Include="BossDataInitializationFailedException.h">
       <Filter>Header Files\Exceptions\Game Initialization Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPattern.h">
+      <Filter>Header Files\Patterns\PlayerPatterns</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPattern.h">
+      <Filter>Header Files\Patterns\EnemyPatterns</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

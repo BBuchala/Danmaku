@@ -1,5 +1,11 @@
 #include "Stage.h"
 
+/// <summary>
+/// Tworzy now¹ instacjê klasy <see cref="Stage"/>.
+/// </summary>
+/// <param name="file">Plik do wczytania.</param>
+/// <param name="gameField">Rozmiar pola gry.</param>
+/// <param name="device">Urz¹dzenie Direct3D.</param>
 Stage::Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DDEVICE9 device)
 	: _gameField(gameField), boss(nullptr)
 {
@@ -10,11 +16,11 @@ Stage::Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DD
 	this->ClearDocument();
 };
 
-Stage::~Stage()
-{
-};
-
-
+/// <summary>
+/// Konwersja pliku XML na char*.
+/// </summary>
+/// <param name="stageFile">The stage file.</param>
+/// <returns></returns>
 char * Stage::XML2Char ( std::string const & stageFile )
 {
 	std::ifstream file( stageFile );
@@ -31,6 +37,9 @@ char * Stage::XML2Char ( std::string const & stageFile )
 };
 
 
+/// <summary>
+/// Wczytanie pliku XML.
+/// </summary>
 void Stage::ReadXMLFile()
 {
 	try
@@ -46,6 +55,11 @@ void Stage::ReadXMLFile()
 };
 
 
+/// <summary>
+/// Zwybór kszta³tu dla hitboxa.
+/// </summary>
+/// <param name="shape">Wybrany kszta³t.</param>
+/// <param name="hShape">Kszta³t, który zostanie zmieniony.</param>
 void Stage::ChooseHitboxShape(std::string const & shape, Hitbox::Shape & hShape)
 {
 	if (shape.compare("CIRCLE") == 0)
@@ -84,7 +98,7 @@ void Stage::ChooseHitboxSize(std::string const & size, Hitbox::Size & hSize)
 };
 
 
-void Stage::CreateBullets(EPattern * const epattern, xml_node <> * bulletNode, std::string const & patternId, Pattern const pattern)
+void Stage::CreateBullets(EnemyPattern * const epattern, xml_node <> * bulletNode, std::string const & patternId, Pattern const pattern)
 {
 	float bulletSpeed, bulletAcc = 0.0f;
 	BYTE bulletWidth, bulletHeight;
@@ -304,7 +318,7 @@ Road Stage::CreateTrajectory(Enemy * const enemyObj, xml_node <> * trajectory)
 };
 
 
-void Stage::CreateAffineParameters(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId)
+void Stage::CreateAffineParameters(EnemyPattern * const epattern, xml_node <> * patternNode, std::string const & patternId)
 {
 	D3DXVECTOR2 translate = D3DXVECTOR2(0.0f, 0.0f);
 	float rotate = 0.0f, scale = 1.0f; 
@@ -442,7 +456,7 @@ void Stage::CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemyNo
 	{
 		std::string patternIdStr = std::to_string(patternId);
 		float activationTime = i * interval;
-		EPattern * newPattern;
+		EnemyPattern * newPattern;
 		if (pattern != Pattern::BEZIER)
 		{
 			newPattern = EPatternFactory::Instance().Create(pattern, par1, par2, bulletNumber, activationTime);
@@ -779,6 +793,9 @@ void Stage::CreateBoss(xml_node <> * time, std::string const & timeValue)
 };
 
 
+/// <summary>
+/// Utworzenie ga³êzi z wrogami.
+/// </summary>
 void Stage::CreateStageElements()
 {
 	// Pocz¹tek Stejd¿a
@@ -812,12 +829,20 @@ void Stage::CreateStageElements()
 };
 
 
+/// <summary>
+/// Zwolnienie pamiêci po zakoñczeniu pracy z plikiem.
+/// </summary>
 void Stage::ClearDocument()
 {
 	_stageDoc.clear();
 };
 
 
+/// <summary>
+/// Zwrócenie wrogów z ga³êzi czasu.
+/// </summary>
+/// <param name="time">Czas.</param>
+/// <returns></returns>
 std::deque<Enemy*> * const Stage::GetEnemies(short const time)
 {
 	EnemyMap::const_iterator it = _enemyMap.find( time );
@@ -832,6 +857,10 @@ std::deque<Enemy*> * const Stage::GetEnemies(short const time)
 	return nullptr;
 };
 
+/// <summary>
+/// Usuniêcie wrogów.
+/// </summary>
+/// <param name="key">Klucz do mapy wrogów.</param>
 void Stage::RemoveEnemies(short const key)
 {
 	EnemyMap::const_iterator it = _enemyMap.find(key);

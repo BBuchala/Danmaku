@@ -1,10 +1,10 @@
 #pragma once
-#include "ppattern.h"
+#include "PlayerPattern.h"
 
 /// <summary>
 /// Czwarty wzór z jakiego korzysta gracz
 /// </summary>
-class PlayerPattern04 : public PPattern
+class PlayerPattern04 : public PlayerPattern
 {
 private:
 

@@ -12,11 +12,11 @@ class Bomb: public GameObject
 	{	
 	private:
 		const float maxTime;
-		float elapsedTime;
+		float _elapsedTime;
 
-		const unsigned short damage;
+		const unsigned short _damage;
 
-		bool inUse;
+		bool _activated;
 		// przesuniêcie wzglêdem œrodka gracza
 		D3DXVECTOR2 shift;
 		D3DXVECTOR2 * _playerPosition;	// wskaŸnik na pozycjê gracza
@@ -24,7 +24,7 @@ class Bomb: public GameObject
 		Sprite * tmp;
 #endif
 	public:
-		Bomb (D3DXVECTOR2 * const playerPosition, float const speed);
+		Bomb (D3DXVECTOR2 * const playerPosition);
 		Bomb ( Bomb const & bomb );
 		~Bomb();
 
@@ -33,6 +33,7 @@ class Bomb: public GameObject
 		void Draw( RECT const & rect ) override;
 
 		void Launch();
+		void SetBombActivation(bool activated);
 
 		/// <summary>
 		/// Czy bomba jest wykorzystywana.
@@ -40,7 +41,7 @@ class Bomb: public GameObject
 		/// <returns></returns>
 		inline bool InUse()
 		{
-			return inUse;
+			return _activated;
 		}
 
 		/// <summary>
@@ -49,7 +50,6 @@ class Bomb: public GameObject
 		/// <returns></returns>
 		inline unsigned short GetDamage() const
 		{
-			return this->damage;
+			return _damage;
 		}
-
 	};

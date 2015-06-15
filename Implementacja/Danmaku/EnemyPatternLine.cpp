@@ -8,7 +8,7 @@
 /// <param name="number">Liczba pocisków.</param>
 /// <param name="activationTime">Czas aktywacji.</param>
 EnemyPatternLine::EnemyPatternLine(float const angle, float const length, float const number, float const activationTime)
-								   : EPattern(activationTime)
+								   : EnemyPattern(activationTime)
 {
 	_angle = angle;
 	_number = number;
@@ -44,7 +44,7 @@ void EnemyPatternLine::Update(float const time)
 {
 	if (_activated)
 	{
-		EPattern::Update(time);
+		EnemyPattern::Update(time);
 	}
 };
 
@@ -75,7 +75,7 @@ void EnemyPatternLine::StartBullets()
 /// Skopiowanie instancji wzoru.
 /// </summary>
 /// <returns></returns>
-EPattern * EnemyPatternLine::Clone() const
+EnemyPattern * EnemyPatternLine::Clone() const
 {
 	return new EnemyPatternLine(*this);
 }

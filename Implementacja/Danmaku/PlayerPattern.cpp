@@ -1,17 +1,17 @@
-#include "PPattern.h"
+#include "PlayerPattern.h"
 
 
 /// <summary>
-/// Tworzy nowπ instacjÍ klasy <see cref="PPattern"/>.
+/// Tworzy nowπ instacjÍ klasy <see cref="PlayerPattern"/>.
 /// </summary>
-PPattern::PPattern(): elapsedTime(0.0f)
+PlayerPattern::PlayerPattern(): elapsedTime(0.0f)
 {
 }
 
 /// <summary>
-/// Niszczy instancjÍ klasy <see cref="PPattern"/>.
+/// Niszczy instancjÍ klasy <see cref="PlayerPattern"/>.
 /// </summary>
-PPattern::~PPattern(void)
+PlayerPattern::~PlayerPattern(void)
 {
 	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
@@ -23,7 +23,7 @@ PPattern::~PPattern(void)
 /// Przekazujπc wzorowi wskaünik do pozycji, z ktÛrej zawsze ma strzelaÊ.
 /// </summary>
 /// <param name="position">Pozycja strzelania.</param>
-void PPattern::SetPositionPtr(D3DXVECTOR2 * const position)
+void PlayerPattern::SetPositionPtr(D3DXVECTOR2 * const position)
 {
 	this->position = position;
 };
@@ -32,7 +32,7 @@ void PPattern::SetPositionPtr(D3DXVECTOR2 * const position)
 /// Narysowanie
 /// </summary>
 /// <param name="rect">Protokπt w ktÛrym sprajt moøe byÊ rysowany.</param>
-void PPattern::Draw( RECT const & rect )
+void PlayerPattern::Draw( RECT const & rect )
 {
 	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
@@ -44,7 +44,7 @@ void PPattern::Draw( RECT const & rect )
 /// Aktualizuje stan.
 /// </summary>
 /// <param name="time">PrÛbka czasu.</param>
-void PPattern::Update(float const time)
+void PlayerPattern::Update(float const time)
 {
 	for ( PBulletQue::const_iterator it = bullet.begin(); it != bullet.end(); it++ )
 	{
@@ -57,7 +57,7 @@ void PPattern::Update(float const time)
 /// Ustaw czy przycisk strza≥u zosta≥ wciúniÍty lub nie.
 /// </summary>
 /// <param name="isKeyPressed">Jeúli tak, to zosta≥ wciúniÍty.</param>
-void PPattern::SetKeyPressed(bool isKeyPressed)
+void PlayerPattern::SetKeyPressed(bool isKeyPressed)
 {
 	this->isKeyPressed = isKeyPressed;
 };
@@ -68,7 +68,7 @@ void PPattern::SetKeyPressed(bool isKeyPressed)
 /// <param name="sprite">Sprajt.</param>
 /// <param name="name">Nazwa sprajtu.</param>
 /// <param name="pbsResource">èrÛd≥o sprajtÛw.</param>
-void PPattern::LoadBulletType(SpritePtr & sprite, std::string const & name, PlayerBulletSpriteResource & pbsResource)
+void PlayerPattern::LoadBulletType(SpritePtr & sprite, std::string const & name, PlayerBulletSpriteResource & pbsResource)
 {
 	SpritePtr spt = pbsResource[name];
 	if (spt != nullptr)

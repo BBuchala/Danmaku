@@ -65,7 +65,6 @@ class Stage
 
 public:
 	Stage(std::string const & file, RECT const * const gameField, LPDIRECT3DDEVICE9 device);
-	~Stage();
 
 	std::deque<Enemy*> * const GetEnemies(short const time);
 	void RemoveEnemies(short const key);
@@ -82,10 +81,10 @@ private:
 	void CreatePatternsForEnemy(Enemy * const enemyObj, xml_node <> * enemy);
 	void CreatePatternsForSpellcard(Spellcard * const spellcard, xml_node <> * patternNode, D3DXVECTOR2 const & position);
 
-	void CreateBullets(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern);
+	void CreateBullets(EnemyPattern * const epattern, xml_node <> * patternNode, std::string const & patternId, Pattern const pattern);
 	void CreateBonus(Enemy * const enemyObj, xml_node <> * bonus, D3DXVECTOR2 const & position);
 	Road CreateTrajectory(Enemy * const enemyObj, xml_node <> * enemy);
-	void CreateAffineParameters(EPattern * const epattern, xml_node <> * patternNode, std::string const & patternId);
+	void CreateAffineParameters(EnemyPattern * const epattern, xml_node <> * patternNode, std::string const & patternId);
 	void CreatePointsForTMP(TrajectoryManyPoints * const traj, xml_node <> * trajectory);
 
 	void ChoosePattern(std::string const & patternType, Pattern & pattern );

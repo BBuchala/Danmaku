@@ -9,7 +9,7 @@
 /// <param name="activationTime">Czas aktywacji.</param>
 EnemyPatternSpiral::EnemyPatternSpiral(float const radiusA, float const radiusB, float const number,
 										 float const activationTime)
-										 : EPattern(activationTime)
+										 : EnemyPattern(activationTime)
 {
 	_radiusA = radiusA;
 	_radiusB = radiusB;
@@ -49,7 +49,7 @@ void EnemyPatternSpiral::Update(float const time)
 		this->Scale();
 		this->Rotate();
 		// Procedurta nadrzêdna
-		EPattern::Update(time);
+		EnemyPattern::Update(time);
 	}
 };
 

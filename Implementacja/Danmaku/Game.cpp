@@ -631,7 +631,7 @@ void Game::CheckPlayerBossCollisions()
 	// Czy Gracz zderzy³ siê z którymœ z pocisków
 	if (this->currentSpellcard)
 	{
-		typedef std::map<std::string, EPattern*> PatternMap;
+		typedef std::map<std::string, EnemyPattern*> PatternMap;
 		PatternMap * pMap = currentSpellcard->GetPatterns();
 		if (pMap != nullptr)
 		{
@@ -682,7 +682,7 @@ void Game::CheckPlayerGraze()
 	{
 		if (this->currentSpellcard)
 		{
-			typedef std::map<std::string, EPattern*> PatternMap;
+			typedef std::map<std::string, EnemyPattern*> PatternMap;
 			PatternMap * pMap = currentSpellcard->GetPatterns();
 			if (pMap != nullptr)
 			{
@@ -776,12 +776,12 @@ void Game::CheckBonusCollisions()
 
 			case BonusType::LIFE:
 				(*lifeBar)++;
-				this->player->IncrementLifeCount();
+				this->player->IncrementLifeNumber();
 				break;
 
 			case BonusType::BOMB:
 				(*bombBar)++;
-				this->player->IncrementBombCount();
+				this->player->IncrementBombNumber();
 				break;
 			}
 		
@@ -796,7 +796,7 @@ void Game::CheckBonusCollisions()
 /// </summary>
 void Game::MakePlayerLoseLife()
 {
-	this->player->DecrementLifeCount();
+	this->player->DecrementLifeNumber();
 	this->lifeBar->DecrementCount();
 	if (player->GetPower() > 0.25f)
 	{
@@ -813,7 +813,7 @@ void Game::MakePlayerLoseLife()
 	this->player->SetPosition(D3DXVECTOR2( StageConsts::STAGE_POS_X + StageConsts::STAGE_WIDTH / 2,
 			StageConsts::STAGE_POS_Y + StageConsts::STAGE_HEIGHT - 50.0f ));
 	this->player->SetIsInvulnerable();
-	this->player->SetBombCount(2);
+	this->player->SetBombNumber(2);
 	this->bombBar->SetCount(2);
 };
 
@@ -951,7 +951,7 @@ void Game::DeleteBullets()
 	{
 		if (currentSpellcard)
 		{
-			typedef std::map<std::string, EPattern*> PatternMap;
+			typedef std::map<std::string, EnemyPattern*> PatternMap;
 			PatternMap * pMap = currentSpellcard->GetPatterns();
 			if (pMap != nullptr)
 			{
@@ -1022,7 +1022,7 @@ void Game::CheckBossBombCollisions()
 		}
 	}
 	// usuniecie jego pociskow
-	typedef std::map<std::string, EPattern*> PatternMap;
+	typedef std::map<std::string, EnemyPattern*> PatternMap;
 	PatternMap * pMap = currentSpellcard->GetPatterns();
 	if (pMap != nullptr)
 	{

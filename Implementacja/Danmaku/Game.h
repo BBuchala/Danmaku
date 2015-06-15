@@ -3,7 +3,7 @@
 #include <d3d9.h>
 #include <Windows.h>
 
-#include "PPattern.h"
+#include "PlayerPattern.h"
 #include "GraphicsDevice.h"
 #include "Player.h"
 #include "Playfield.h"
@@ -57,7 +57,7 @@ class Game : public Playfield
 
 	// miejsce na pociski wyemitowane przez zabitych wrogów
 	// ¿eby nie zniknê³y wraz z jego œmierci¹
-	typedef std::shared_ptr<EPattern>			EPatternPtr;
+	typedef std::shared_ptr<EnemyPattern>			EPatternPtr;
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
 	typedef std::deque<EPatternPtr>				PatternQue;
 	PatternQue _savedPatterns;

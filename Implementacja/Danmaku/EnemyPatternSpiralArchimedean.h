@@ -12,7 +12,7 @@ namespace
 	{
 	public:
 		EnemyPatternSpiralArchimedean( float const radiusA, float const radiusB, float const number, float const activationTime );
-		EPattern * Clone() const override;
+		EnemyPattern * Clone() const override;
 	};
 	/// <summary>
 	/// Tworzy wzór pocisków na spirali Archimedesa
@@ -21,7 +21,7 @@ namespace
 	/// <param name="radiusB">Odleg³oœæ miêdzy kolejnymi obrotami spirali.</param>
 	/// <param name="number">Liczba pocisków.</param>
 	/// <param name="activationTime">Czas aktywacji.</param>
-	EPattern * CreateEnemyPatternSpiralArchimedean( float const radiusA, float const radiusB, float const number, float const activationTime )
+	EnemyPattern * CreateEnemyPatternSpiralArchimedean( float const radiusA, float const radiusB, float const number, float const activationTime )
 	{
 		return new EnemyPatternSpiralArchimedean( radiusA, radiusB, number, activationTime );
 	}

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "PlayerBullet.h"
-#include "PPattern.h"
+#include "PlayerPattern.h"
 
 /// <summary>
 /// Drugi wzór z jakiego korzysta gracz
 /// </summary>
-class PlayerPattern02 : public PPattern
+class PlayerPattern02 : public PlayerPattern
 {
 public:
 	PlayerPattern02(void);

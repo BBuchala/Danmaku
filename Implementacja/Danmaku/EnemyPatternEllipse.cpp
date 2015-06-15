@@ -9,7 +9,7 @@
 /// <param name="activationTime">Czas aktywacji.</param>
 EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radiusB, float const number,
 										 float const activationTime)
-										 : EPattern(activationTime)
+										 : EnemyPattern(activationTime)
 {
 	_radiusA = radiusA;
 	_radiusB = radiusB;
@@ -22,7 +22,7 @@ EnemyPatternEllipse::EnemyPatternEllipse(float const radiusA, float const radius
 /// Tworzy kopiê instacji klasy <see cref="EnemyPatternEllipse"/>.
 /// </summary>
 /// <param name="other">Obiekt do skopiowania.</param>
-EnemyPatternEllipse::EnemyPatternEllipse(EnemyPatternEllipse const & other) : EPattern(other)
+EnemyPatternEllipse::EnemyPatternEllipse(EnemyPatternEllipse const & other) : EnemyPattern(other)
 {
 	_radiusA = other._radiusA;
 	_radiusB = other._radiusB;
@@ -64,7 +64,7 @@ void EnemyPatternEllipse::Update(float const time)
 		this->Scale();
 		this->Rotate();
 		// Procedurta nadrzêdna
-		EPattern::Update(time);
+		EnemyPattern::Update(time);
 	}
 };
 
@@ -119,7 +119,7 @@ void EnemyPatternEllipse::StartBullets()
 /// Skopiowanie instancji wzoru.
 /// </summary>
 /// <returns></returns>
-EPattern * EnemyPatternEllipse::Clone() const
+EnemyPattern * EnemyPatternEllipse::Clone() const
 {
 	return new EnemyPatternEllipse(*this);
 };

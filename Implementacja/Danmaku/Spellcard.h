@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EPattern.h"
+#include "EnemyPattern.h"
 
 /// <summary>
 /// Klasa odpowiadaj¹ca za obs³ugê ataków bossa
@@ -12,7 +12,7 @@ protected:
 	UINT	startBonus_;
 	std::string name_;
 
-	typedef std::map<std::string, EPattern*> PatternMap;
+	typedef std::map<std::string, EnemyPattern*> PatternMap;
 	PatternMap sourcePattern_;
 	PatternMap pattern_;
 
@@ -31,10 +31,10 @@ public:
 	void SetPatternsPosition();
 	void Draw(RECT const & rect);
 	
-	void AddPattern(std::string const & key, EPattern * const epattern);
+	void AddPattern(std::string const & key, EnemyPattern * const epattern);
 	void SetPositionPtr(D3DXVECTOR2 * const pos);
 
-	EPattern * GetPattern(std::string const & key);
+	EnemyPattern * GetPattern(std::string const & key);
 	PatternMap * GetPatterns();
 
 	void Activate();

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EPattern.h"
+#include "EnemyPattern.h"
 #include "EPatternFactory.h"
 
 namespace
@@ -8,7 +8,7 @@ namespace
 	/// <summary>
 	/// Wzór dla pocisków poruszaj¹cych siê po elipsie
 	/// </summary>
-	class EnemyPatternEllipse: public EPattern
+	class EnemyPatternEllipse: public EnemyPattern
 	{
 		// Sk³adowe potrzebne do generowania pocisków
 		float _radiusA;
@@ -30,7 +30,7 @@ namespace
 		void AddBullet() override;
 		void StartBullets() override;
 
-		EPattern * Clone() const override;
+		EnemyPattern * Clone() const override;
 	};
 
 	/// <summary>
@@ -41,7 +41,7 @@ namespace
 	/// <param name="number">Liczba pocisków.</param>
 	/// <param name="activationTime">Czas aktywacji.</param>
 	/// <returns>Nowa instancja</returns>
-	EPattern * CreateEnemyPatternEllipse( float const radiusA, float const radiusB, float const number, float const activationTime )
+	EnemyPattern * CreateEnemyPatternEllipse( float const radiusA, float const radiusB, float const number, float const activationTime )
 	{
 		return new EnemyPatternEllipse( radiusA, radiusB, number, activationTime );
 	}

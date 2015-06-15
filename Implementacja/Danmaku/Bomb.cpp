@@ -4,8 +4,7 @@
 /// Tworzy now¹ instacjê klasy <see cref="Bomb"/>.
 /// </summary>
 /// <param name="playerPosition">Pozycja gracza.</param>
-/// <param name="speed">Szybkoœæ.</param>
-Bomb::Bomb(D3DXVECTOR2 * const playerPosition, float const speed) : GameObject(position, speed), maxTime(3.0f), damage(30)
+Bomb::Bomb(D3DXVECTOR2 * const playerPosition) : GameObject(position), maxTime(3.0f), _damage(30)
 {
 	_playerPosition = playerPosition;
 };
@@ -14,7 +13,7 @@ Bomb::Bomb(D3DXVECTOR2 * const playerPosition, float const speed) : GameObject(p
 /// Tworzy kopiê instacji klasy <see cref="Bomb"/>.
 /// </summary>
 /// <param name="bomb">The bomb.</param>
-Bomb::Bomb(Bomb const & bomb) : GameObject(bomb), maxTime(3.0f), damage(30)
+Bomb::Bomb(Bomb const & bomb) : GameObject(bomb), maxTime(3.0f), _damage(30)
 {
 };
 
@@ -37,7 +36,7 @@ bool Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 	this->shift = D3DXVECTOR2(static_cast<float>(this->GetSprite()->GetWidth()) / 2.0f, static_cast<float>(this->GetSprite()->GetHeight()));
 	this->SetPosition(*_playerPosition - shift);
 	this->SetCenterPoint();
-	this->inUse = false;
+	_activated = false;
 	success &= this->InitializeHitbox(Hitbox::Shape::ELIPSE, Hitbox::Size::EXTENDED_LENGTH);
 
 #ifdef DEBUG
@@ -53,17 +52,17 @@ bool Bomb::Initialize(LPDIRECT3DDEVICE9 device)
 /// <param name="time">Próbka czasu.</param>
 void Bomb::Update(float const time)
 {
-	if (inUse)
+	if (_activated)
 	{
-		this->elapsedTime += time;
-		if (elapsedTime < maxTime)
+		_elapsedTime += time;
+		if (_elapsedTime < maxTime)
 		{
 			this->SetPosition(*_playerPosition - shift);
 			this->SetCenterPoint();
 			GameObject::Update( time );
 		}
 		else
-			inUse = false;
+			SetBombActivation(false);
 	}
 };
 
@@ -92,6 +91,15 @@ void Bomb::Draw( RECT const & rect )
 /// </summary>
 void Bomb::Launch()
 {
-	elapsedTime = 0;
-	inUse = true;
+	_elapsedTime = 0;
+	SetBombActivation(true);
+};
+
+/// <summary>
+/// Zaznaczenie, czy bomba zosta³¹ ju¿ uruchomiona b¹dŸ nie.
+/// </summary>
+/// <param name="activated">Jeœli <c>true</c> [uruchomiona].</param>
+void Bomb::SetBombActivation(bool activated)
+{
+	_activated = activated;
 };

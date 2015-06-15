@@ -55,7 +55,7 @@ bool Player::InitializePattern(LPDIRECT3DDEVICE9 device)
 /// </summary>
 bool Player::InitializeBomb(LPDIRECT3DDEVICE9 device)
 {
-	_bomb = BombPtr(new Bomb(&centerPoint, this->GetSpeed()));
+	_bomb = BombPtr(new Bomb(&centerPoint));
 	return _bomb->Initialize(device);
 };
 
@@ -206,7 +206,7 @@ void Player::SetFocus(bool const focus)
 /// Ustawia liczbê ¿yæ.
 /// </summary>
 /// <param name="bombcount">Liczba ¿yæ.</param>
-void Player::SetLifeCount(BYTE const lifecount)
+void Player::SetLifeNumber(BYTE const lifecount)
 {
 	_lifeCount = lifecount;
 }
@@ -215,7 +215,7 @@ void Player::SetLifeCount(BYTE const lifecount)
 /// Ustawia liczbê bomb.
 /// </summary>
 /// <param name="bombcount">Liczba bomb.</param>
-void Player::SetBombCount(BYTE const bombcount)
+void Player::SetBombNumber(BYTE const bombcount)
 {
 	_bombCount = bombcount;
 }
@@ -259,7 +259,7 @@ void Player::SetHasPatternChanged(bool hasPatterChanged)
 /// <summary>
 /// Inkrementuje liczbê ¿yæ.
 /// </summary>
-void Player::IncrementLifeCount()
+void Player::IncrementLifeNumber()
 {
 	if (_lifeCount < 8)
 		_lifeCount++;
@@ -268,7 +268,7 @@ void Player::IncrementLifeCount()
 /// <summary>
 /// Dekrementuje liczbê ¿yæ.
 /// </summary>
-void Player::DecrementLifeCount()
+void Player::DecrementLifeNumber()
 {
 	if (_lifeCount > 0)
 		_lifeCount--;
@@ -277,7 +277,7 @@ void Player::DecrementLifeCount()
 /// <summary>
 /// Inkrementuje liczbê bomb.
 /// </summary>
-void Player::IncrementBombCount()
+void Player::IncrementBombNumber()
 {
 	if (_bombCount < 8)
 		_bombCount++;
@@ -286,7 +286,7 @@ void Player::IncrementBombCount()
 /// <summary>
 /// Dekrementuje liczbê bomb.
 /// </summary>
-void Player::DecrementBombCount()
+void Player::DecrementBombNumber()
 {
 	if (_bombCount > 0)
 		_bombCount--;
@@ -391,7 +391,7 @@ bool Player::UseBomb()
 	if (!IsUsingBomb() && _bombCount > 0)	
 	{
 		_bomb->Launch();
-		DecrementBombCount();
+		DecrementBombNumber();
 		return true;
 	}
 	return false;

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "EPattern.h"
+#include "EnemyPattern.h"
 #include "EPatternFactory.h"
 
 /// <summary>
 /// Klasa nadrzêdna dla wzorów spiralnych
 /// </summary>
-class EnemyPatternSpiral: public EPattern
+class EnemyPatternSpiral: public EnemyPattern
 {
 protected:
 	/// Sk³adowe potrzebne do generowania pocisków

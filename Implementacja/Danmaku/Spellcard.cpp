@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Spellcard.h"
-typedef std::map<std::string, EPattern*> PatternMap;
+typedef std::map<std::string, EnemyPattern*> PatternMap;
 
 /// <summary>
 /// Tworzy now¹ instacjê klasy <see cref="Spellcard"/>.
@@ -105,7 +105,7 @@ void Spellcard::Update(float time)
 /// </summary>
 /// <param name="key">Klucz.</param>
 /// <param name="epattern">WskaŸnik do wzoru.</param>
-void Spellcard::AddPattern(std::string const & key, EPattern * const epattern)
+void Spellcard::AddPattern(std::string const & key, EnemyPattern * const epattern)
 {
 	sourcePattern_[key] = epattern;
 }
@@ -115,7 +115,7 @@ void Spellcard::AddPattern(std::string const & key, EPattern * const epattern)
 /// </summary>
 /// <param name="key">Klucz.</param>
 /// <returns></returns>
-EPattern * Spellcard::GetPattern(std::string const & key)
+EnemyPattern * Spellcard::GetPattern(std::string const & key)
 {
 	return sourcePattern_[key];
 }

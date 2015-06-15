@@ -24,7 +24,7 @@ EPatternFactory & EPatternFactory::Instance()
 /// <param name="number">Liczba wzorów.</param>
 /// <param name="activationTime">Czas aktywacji.</param>
 /// <returns></returns>
-EPattern * const EPatternFactory::Create( Pattern const pattern, float const par1, float const par2, float const number, float const activationTime )
+EnemyPattern * const EPatternFactory::Create( Pattern const pattern, float const par1, float const par2, float const number, float const activationTime )
 {
 	CallbackMap::const_iterator it = callbacks_.find( pattern );
 	if ( it == callbacks_.end())

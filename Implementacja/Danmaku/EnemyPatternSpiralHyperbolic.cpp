@@ -17,7 +17,7 @@ EnemyPatternSpiralHyperbolic::EnemyPatternSpiralHyperbolic( float const radiusA,
 /// Kopiuje wzór.
 /// </summary>
 /// <returns></returns>
-EPattern * EnemyPatternSpiralHyperbolic::Clone() const
+EnemyPattern * EnemyPatternSpiralHyperbolic::Clone() const
 {
 	return new EnemyPatternSpiralHyperbolic(*this);
 };

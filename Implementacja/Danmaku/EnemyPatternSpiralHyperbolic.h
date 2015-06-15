@@ -11,7 +11,7 @@ namespace
 	{
 	public:
 		EnemyPatternSpiralHyperbolic( float const radiusA, float const radiusB, float const number, float const activationTime );
-		EPattern * Clone() const override;
+		EnemyPattern * Clone() const override;
 	};
 	/// <summary>
 	/// Tworzy wzór pocisków na spirali hipebolicznej
@@ -20,7 +20,7 @@ namespace
 	/// <param name="radiusB">Odleg³oœæ miêdzy kolejnymi obrotami spirali.</param>
 	/// <param name="number">Liczba pocisków.</param>
 	/// <param name="activationTime">Czas aktywacji.</param>
-	EPattern * CreateEnemyPatternSpiralHyperbolic( float const radiusA, float const radiusB, float const number, float const activationTime )
+	EnemyPattern * CreateEnemyPatternSpiralHyperbolic( float const radiusA, float const radiusB, float const number, float const activationTime )
 	{
 		return new EnemyPatternSpiralHyperbolic( radiusA, radiusB, number, activationTime );
 	}

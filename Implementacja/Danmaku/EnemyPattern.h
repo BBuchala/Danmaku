@@ -7,7 +7,7 @@
 /// <summary>
 /// Klasa nadrzêdna dla ka¿dego wrogiego wzoru
 /// </summary>
-class EPattern : public IPattern
+class EnemyPattern : public IPattern
 {
 protected:
 	// Definicja kolejki wrogich pocisków
@@ -51,9 +51,9 @@ protected:
 	bool _activated;
 
 public:
-	EPattern(float const activationTime);
-	EPattern(EPattern const & pattern);
-	virtual ~EPattern();
+	EnemyPattern(float const activationTime);
+	EnemyPattern(EnemyPattern const & pattern);
+	virtual ~EnemyPattern();
 	
 	// przekazanie uchwytu
 	void SetPositionPtr(D3DXVECTOR2 * const position) override;
@@ -141,6 +141,6 @@ public:
 		_activated = true;
 	};
 
-	virtual EPattern * Clone() const = 0;
+	virtual EnemyPattern * Clone() const = 0;
 };
 

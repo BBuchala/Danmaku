@@ -101,7 +101,7 @@
     <ClCompile Include="EnemyPatternSpiralArchimedean.cpp" />
     <ClCompile Include="EnemyPatternSpiralFermat.cpp" />
     <ClCompile Include="EnemyPatternSpiralHyperbolic.cpp" />
-    <ClCompile Include="EPattern.cpp" />
+    <ClCompile Include="EnemyPattern.cpp" />
     <ClCompile Include="Direct3DInitializationFailedException.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
@@ -131,7 +131,7 @@
     <ClCompile Include="PlayerPattern03.cpp" />
     <ClCompile Include="PlayerPattern04.cpp" />
     <ClCompile Include="PlayerPattern05.cpp" />
-    <ClCompile Include="PPattern.cpp" />
+    <ClCompile Include="PlayerPattern.cpp" />
     <ClCompile Include="Playfield.cpp" />
     <ClCompile Include="PowerBonus.cpp" />
     <ClCompile Include="ScoreBonus.cpp" />
@@ -189,7 +189,7 @@
     <ClInclude Include="EnemyPatternSpiralFermat.h" />
     <ClInclude Include="EnemyPatternSpiralHyperbolic.h" />
     <ClInclude Include="EnemySpriteResource.h" />
-    <ClInclude Include="EPattern.h" />
+    <ClInclude Include="EnemyPattern.h" />
     <ClInclude Include="Direct3DInitializationFailedException.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EPatternFactory.h" />
@@ -227,7 +227,7 @@
     <ClInclude Include="PlayerPattern03.h" />
     <ClInclude Include="PlayerPattern04.h" />
     <ClInclude Include="PlayerPattern05.h" />
-    <ClInclude Include="PPattern.h" />
+    <ClInclude Include="PlayerPattern.h" />
     <ClInclude Include="Playfield.h" />
     <ClInclude Include="PowerBonus.h" />
     <ClInclude Include="Resource.h" />

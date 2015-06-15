@@ -6,7 +6,7 @@
 /// <summary>
 /// Wzór dla pocisków poruszaj¹cych siê po krzywej Beziera
 /// </summary>
-class EnemyPatternBezier: public EPattern
+class EnemyPatternBezier: public EnemyPattern
 {
 	// liczba pocisków na trasie
 	int _number;
@@ -22,5 +22,5 @@ public:
 	void Update(float const time) override;
 	void AddBullet() override;
 	void StartBullets() override;
-	EPattern * Clone() const override;
+	EnemyPattern * Clone() const override;
 };

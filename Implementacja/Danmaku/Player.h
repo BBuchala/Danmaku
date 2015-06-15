@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "Move.h"
-#include "PPattern.h"
+#include "PlayerPattern.h"
 #include "PlayerPattern01.h"
 #include "PlayerPattern02.h"
 #include "PlayerPattern03.h"
@@ -22,7 +22,7 @@ protected:
 	/* ==== DEFINICJE ===================================== */
 	/// Definicja kolejki pocisków
 	typedef std::deque<PlayerBullet*> PBulletQue;
-	typedef std::unique_ptr<PPattern> PPatternPtr;
+	typedef std::unique_ptr<PlayerPattern> PPatternPtr;
 	typedef std::shared_ptr<Bomb> BombPtr;
 
 	/* ==== STA£E ========================================= */
@@ -77,17 +77,17 @@ public:
 	
 	// Settery
 	void SetFocus(bool const focus);
-	void SetLifeCount(const BYTE lifeCount);
-	void SetBombCount(const BYTE bombCount);
+	void SetLifeNumber(const BYTE lifeCount);
+	void SetBombNumber(const BYTE bombCount);
 	void SetIsShooting(const bool isShooting);
 	void SetHasPatternChanged(const bool hasPatternChanged);
 	void SetIsInvulnerable();
 	
 	// Incrementy i Decrementy
-	void IncrementLifeCount();
-	void IncrementBombCount();
-	void DecrementLifeCount();					
-	void DecrementBombCount();
+	void IncrementLifeNumber();
+	void IncrementBombNumber();
+	void DecrementLifeNumber();					
+	void DecrementBombNumber();
 	
 	// Strzelanie
 	void CalculatePowerLevel();

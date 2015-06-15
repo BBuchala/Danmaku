@@ -7,7 +7,7 @@
 /// <summary>
 /// Klasa nadrzêdna dla wzorów gracza
 /// </summary>
-class PPattern : public IPattern
+class PlayerPattern : public IPattern
 {
 protected:
 	/// Definicja kolejki wrogich pocisków
@@ -33,8 +33,8 @@ protected:
 	SpritePtr templateSprite;
 
 public:
-	PPattern();
-	virtual ~PPattern();
+	PlayerPattern();
+	virtual ~PlayerPattern();
 	
 	// przekazanie uchwytu
 	void SetPositionPtr(D3DXVECTOR2 * const position) override;

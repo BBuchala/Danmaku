@@ -4,7 +4,7 @@
 
 #include "GameObject.h"
 #include "BonusFactory.h"
-#include "EPattern.h"
+#include "EnemyPattern.h"
 #include "TrajectoryPolygon.h"
 #include "TrajectoryBezier.h"
 
@@ -26,7 +26,7 @@ class Enemy: public GameObject
 	BonusMap _bonusMap;
 
 	/// Mapa patternów
-	typedef std::shared_ptr<EPattern>			EPatternPtr;
+	typedef std::shared_ptr<EnemyPattern>			EPatternPtr;
 	typedef std::map<std::string, EPatternPtr>	PatternMap;
 	typedef std::pair<std::string, EPatternPtr>	PatternPair;
 	PatternMap _pattern;
@@ -49,7 +49,7 @@ public:
 	Enemy(Enemy const & enemy);
 	~Enemy();
 
-	void AddPattern(std::string const & patternId, EPattern * epattern );
+	void AddPattern(std::string const & patternId, EnemyPattern * epattern );
 	bool InitializePatterns();
 
 	void Draw(RECT const & rect);
@@ -99,7 +99,7 @@ public:
 	/// </summary>
 	/// <param name="id">Identyfikator wzoru.</param>
 	/// <returns></returns>
-	inline EPattern & GetPattern(std::string const & id)
+	inline EnemyPattern & GetPattern(std::string const & id)
 	{
 		return *_pattern[id].get();
 	}

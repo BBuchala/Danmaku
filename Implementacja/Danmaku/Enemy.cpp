@@ -76,7 +76,7 @@ void Enemy::Update( float const time )
 /// </summary>
 /// <param name="patternId">The pattern identifier.</param>
 /// <param name="epattern">The epattern.</param>
-void Enemy::AddPattern(std::string const & patternId, EPattern * epattern )
+void Enemy::AddPattern(std::string const & patternId, EnemyPattern * epattern )
 {
 	_pattern.insert(PatternPair(patternId, EPatternPtr(epattern)));
 };
