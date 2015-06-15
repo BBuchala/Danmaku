@@ -6,5 +6,5 @@
 /// <returns></returns>
 std::string BonusInitializationFailedException::ToString() const
 {
-	return "Bar initialization failed.";
+	return "Bonus initialization failed.";
 };
